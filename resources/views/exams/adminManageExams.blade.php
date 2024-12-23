@@ -544,6 +544,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             // Clear and repopulate the table
             $('tbody').html("");
             $.each(response.users, function(key, item) {
+                const baseUrl = "{{ route('adminManageQuestions') }}";
+
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
@@ -567,7 +569,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                         data-update_clas_id="' + item.clas.id + '">Update</a></li>\
                                     <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
                                     <li><a  class="dropdown-item publishedBtn" href="#" value="' + item.id + '">Published</a></li>\
-                                    <li><a class="dropdown-item viewQuestionsBtn" href="/questions/adminManageQuestions?exam_id=' + item.id + '" target="_blank">View Questions</a></li>\
+                                   <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">View Questions</a></li>\
                                 </ul>\
                             </div>\
                         </td>\
