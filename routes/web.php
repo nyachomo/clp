@@ -9,6 +9,7 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\LeedController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\QuestionController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -111,4 +112,9 @@ Route::prefix('exams')->group(function () {
     Route::post('/update', [ExamController::class, 'updateExams'])->name('updateExams');
     Route::post('/delete', [ExamController::class, 'deleteExams'])->name('deleteExams');
     Route::post('/published', [ExamController::class, 'publishedExams'])->name('publishedExams');
+});
+
+
+Route::prefix('questions')->group(function () {
+    Route::get('/adminManageQuestions', [QuestionController::class, 'adminManageQuestions'])->name('adminManageQuestions');
 });

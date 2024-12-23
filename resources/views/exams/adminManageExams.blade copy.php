@@ -290,8 +290,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <label>Id</label>
-                    <input type="text" class="form-control" name="exam_id" id="exam_id">
+                    <input type="text" class="form-control" name="exam_id" id="exam_id" hidden="true">
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -553,23 +552,19 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.exam_end_date + '</td>\
                         <td>' + item.exam_duration + '</td>\
                         <td>' + item.exam_status + '</td>\
-                       <td>\
-                            <div class="dropdown">\
-                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                <ul class="dropdown-menu">\
-                                    <li><a class="dropdown-item updateBtn" href="#" \
-                                        data-id="' + item.id + '" \
-                                        data-exam_name="' + item.exam_name + '" \
-                                        data-exam_start_date="' + item.exam_start_date + '" \
-                                        data-exam_end_date="' + item.exam_end_date + '" \
-                                        data-exam_duration="' + item.exam_duration + '" \
-                                        data-exam_instruction="' + item.exam_instruction + '" \
-                                        data-update_clas_id="' + item.clas.id + '">Update</a></li>\
-                                    <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
-                                    <li><a  class="dropdown-item publishedBtn" href="#" value="' + item.id + '">Published</a></li>\
-                                    <li><a class="dropdown-item viewQuestionsBtn" href="/questions/adminManageQuestions?exam_id=' + item.id + '" target="_blank">View Questions</a></li>\
-                                </ul>\
-                            </div>\
+                        <td>\
+                            <button type="button" value="' + item.id + '" \
+                                data-exam_name="' + item.exam_name + '" \
+                                data-exam_start_date="' + item.exam_start_date + '" \
+                                data-exam_end_date="' + item.exam_end_date + '" \
+                                data-exam_duration="' + item.exam_duration + '" \
+                                data-exam_duration="' + item.exam_status + '" \
+                                data-update_clas_id="' + item.clas.id + '" \
+                                class="updateBtn btn btn-success btn-sm">Update</button>\
+                                <button type="button" value="' + item.id + '" \
+                                class="publishedBtn btn btn-secondary btn-sm">Suspend</button>\
+                                <button type="button" value="' + item.id + '" \
+                                class="deleteBtn btn btn-danger btn-sm">Delete</button>\
                         </td>\
                     </tr>'
                 );
@@ -580,8 +575,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.updateBtn').on('click', function() {
-                //const exam_id = $(this).val();
-                const exam_id = $(this).data('id');
+                const exam_id = $(this).val();
                 const exam_name = $(this).data('exam_name');
                 const exam_start_date = $(this).data('exam_start_date');
                 const exam_end_date = $(this).data('exam_end_date');
@@ -604,7 +598,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.deleteBtn').on('click', function() {
-                const delete_exam_id = $(this).attr('value');
+                const delete_exam_id = $(this).val();
                 // Populate modal fields
                 $('#delete_exam_id').val(delete_exam_id);
                 // Show the modal
@@ -614,7 +608,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.publishedBtn').on('click', function() {
-                const published_exam_id = $(this).attr('value');
+                const published_exam_id = $(this).val();
                 // Populate modal fields
                 $('#published_exam_id').val(published_exam_id);
                 // Show the modal
