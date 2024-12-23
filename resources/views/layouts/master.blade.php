@@ -66,23 +66,23 @@
                     <ul class="side-nav">
 
                         <li class="side-nav-title side-nav-item">Institutional Data</li>
-
-
                         <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span>Users</span>
+                            <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                                <i class="uil-home-alt"></i>
+                                <span> Users </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarEcommerce">
+                            <div class="collapse" id="sidebarDashboards">
                                 <ul class="side-nav-second-level">
                                     <li>
                                         <a href="{{route('showAdministrator')}}">Users</a>
                                     </li>
-                                   
                                 </ul>
                             </div>
                         </li>
+
+
+
 
 
                         <li class="side-nav-item">
@@ -96,31 +96,28 @@
                                     <li>
                                         <a href="{{route('showCourses')}}">Courses</a>
                                     </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                                <i class="uil uil-tachometer-fast"></i>
+                                <span> Clases </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarCrm">
+                                <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                          <a href="{{route('showClases')}}">Clases</a>
                                     </li>
                                    
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                <i class="uil-envelope"></i>
-                                <span> Clases</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarEmail">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="{{route('showClases')}}">Clases</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-email-read.html">Read Email</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+
 
 
                         <li class="side-nav-item">
@@ -142,17 +139,16 @@
                         </li>
 
 
-
                         <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                <i class="uil-envelope"></i>
-                                <span> Schools</span>
+                            <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
+                                <i class="uil-briefcase"></i>
+                                <span> Schools </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarEmail">
+                            <div class="collapse" id="sidebarProjects">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="{{route('showSchools')}}">Schools</a>
+                                         <a href="{{route('showSchools')}}">Schools</a>
                                     </li>
                                    
                                 </ul>
@@ -161,36 +157,38 @@
 
 
                         <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                <i class="uil-envelope"></i>
+                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
+                                <i class="uil-clipboard-alt"></i>
                                 <span> Leeds</span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarEmail">
+                            <div class="collapse" id="sidebarTasks">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="{{route('showLeeds')}}">Leeds</a>
+                                          <a href="{{route('showLeeds')}}">Leeds</a>
                                     </li>
-                                   
+                                    
                                 </ul>
                             </div>
                         </li>
 
+                      
+
                         <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                <i class="uil-envelope"></i>
-                                <span>Exams</span>
+                            <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                                <i class="uil-copy-alt"></i>
+                                <span> Exam</span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarEmail">
+                            <div class="collapse" id="sidebarPages">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="{{route('showExams')}}">Exams</a>
+                                         <a href="{{route('showExams')}}">Exams</a>
                                     </li>
-                                   
                                 </ul>
                             </div>
                         </li>
+
 
 
 
