@@ -29,17 +29,21 @@
     background-color: #28a745; /* Green for active page */
   }
 </style>
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                  <h4 class="page-title">Manage Users</h4>
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{route('showExams')}}">Assignments</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
+                </ol>
             </div>
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">Questions</h4>
         </div>
     </div>
 </div>
-
+<!-- end page title --> 
 
 
 <div id="response"></div>
@@ -69,8 +73,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Clases: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addTopicModal"> <i class="uil-user-plus"></i>Add</a>
+                Total Schools: <span id="total-users">0</span>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Question</a>
             </div>
             <div class="card-body">
 
@@ -111,8 +115,9 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
+                                    <th>Question </th>
+                                    <th>Answer</th>
+                                    <th>Mark</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -144,129 +149,52 @@
 
 
 <!-- Add User modal -->
-<div id="addTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="addExamModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addTopics')}}">
+            <form method="POST" action="{{route('addQuestion')}}">
                 @csrf
                
 
                 <!-- /.card-header -->
                 <div class="card-body">
+                   <label>Exam Id</label>
+                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}">
 
                     <div class="row">
-
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Topic Name<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_name" required>
+                                <label> Question <sup>*</sup></label>
+                                <input type="text" class="form-control" name="question_name">
                             </div>
                         </div>
-
                     </div>
 
-
                     <div class="row">
-
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Topic Content<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_content" required>
+                                <label> Answer <sup>*</sup></label>
+                                <input type="text" class="form-control" name="question_answer">
                             </div>
                         </div>
-
                     </div>
 
-
                     <div class="row">
-
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Topic Video Link<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_video_link">
+                                <label> Marks <sup>*</sup></label>
+                                <input type="text" class="form-control" name="question_mark">
                             </div>
                         </div>
-
                     </div>
 
-                </div>
-                 <!-- /.card-body -->
-
-
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
-            </div>
-        </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!--end of modal-->
-
-
-
-<!-- Add User modal -->
-<div id="updateTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Class</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <form method="POST" id="updateTopicForm">
-                @csrf
-               
-
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <input type="text" class="form-control" name="topic_id" id="topic_id" >
-                   
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Topic Name<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_name" id="topic_name" required>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Topic Content<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_content" id="topic_content" required>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Topic Video Link<sup>*</sup></label>
-                                <input type="text" class="form-control" name="topic_video_link" id="topic_video_link">
-                            </div>
-                        </div>
-
-                    </div>
 
 
 
@@ -286,19 +214,21 @@
 
 
 
+
+
 <!-- Add User modal -->
-<div id="deleteTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="deleteQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to delete this record ?</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" id="deleteTopicForm">
+            <form method="POST" id="deleteQuestionForm">
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="delete_topic_id" id="delete_topic_id">
+                    <input type="text" class="form-control" name="delete_question_id" id="delete_question_id" hidden="true">
                 </div>
 
 
@@ -316,25 +246,58 @@
 
 
 <!-- Add User modal -->
-<div id="suspendTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="updateQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to suspend this topic ?</h4>
+                <h4 class="modal-title" id="standard-modalLabel">Update Question</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" id="suspendTopicForm">
+            <form method="POST" id="updateQuestionForm">
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="suspend_topic_id" id="suspend_topic_id">
+                        <input type="text" class="form-control" name="update_question_id" id="update_question_id" hidden="true">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label> Question <sup>*</sup></label>
+                                    <input type="text" class="form-control" name="update_question_name" id="update_question_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label> Answer <sup>*</sup></label>
+                                    <input type="text" class="form-control" name="update_question_answer" id="update_question_answer">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label> Marks <sup>*</sup></label>
+                                    <input type="text" class="form-control" name="update_question_mark" id="update_question_mark">
+                                </div>
+                            </div>
+                        </div>
+
+
+
                    
                 </div>
 
 
             <div class="modal-footer justify-content-between" style="border:1px solid white">
                 <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Suspend</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Update</button>
             </div>
         </form>
         </div><!-- /.modal-content -->
@@ -360,16 +323,6 @@
     $(document).ready(function(){
 
 
-        // Get the exam_id from the URL query parameters
-        const urlParams = new URLSearchParams(window.location.search);
-            const module_id = urlParams.get('module_id');
-
-            // Fetch questions for this exam
-            if (module_id) {
-                fetchUsers(module_id);
-            }
-
-
 
 
 // Automatically hide success and error messages after 5 seconds
@@ -393,6 +346,9 @@ setTimeout(() => {
 
 
 
+    fetchUsers();
+
+
     function displaySuccessMessage(message) {
         let successMessage = `
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -411,17 +367,18 @@ setTimeout(() => {
     }
 
 
+    // Initial call to fetch users
+    fetchUsers();
 
 
 
 
 
 
-    function fetchUsers(module_id,page = 1, search = '', perPage = 10) {
+function fetchUsers(page = 1, search = '', perPage = 10) {
     $.ajax({
         type: 'GET',
-        //url: "{{route('fetchTopics')}}",
-        url: "{{ route('fetchTopics', ['module_id' => '__module_id__']) }}".replace('__module_id__', module_id),  // Use named route
+        url: "{{route('adminManageQuestions')}}",
         data: { page: page, search: search, per_page: perPage },
         dataType: "json",
         success: function(response) {
@@ -431,22 +388,26 @@ setTimeout(() => {
             // Clear and repopulate the table
             $('tbody').html("");
             $.each(response.users, function(key, item) {
+                const baseUrl = "{{ route('adminManageQuestions') }}";
+
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
-                        <td>' + item.topic_name + '</td>\
-                        <td>' + item.topic_status + '</td>\
-                        <td>\
-                            <button type="button" value="' + item.id + '" \
-                                data-topic_name="' + item.topic_name + '" \
-                                data-topic_content="' + item.topic_content + '" \
-                                data-topic_status="' + item.topic_status + '" \
-                                 data-topic_video_link="' + item.topic_video_link + '" \
-                                class="updateBtn btn btn-success btn-sm">Update</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="suspendBtn btn btn-secondary btn-sm">Suspend</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="deleteBtn btn btn-danger btn-sm">Delete</button>\
+                        <td>' + item.question_name + '</td>\
+                        <td>' + item.question_answer + '</td>\
+                        <td>' + item.question_mark + '</td>\
+                       <td>\
+                            <div class="dropdown">\
+                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                <ul class="dropdown-menu">\
+                                    <li><a class="dropdown-item updateBtn" href="#" \
+                                        data-id="' + item.id + '" \
+                                        data-question_name="' + item.question_name + '" \
+                                        data-question_answer="' + item.question_answer + '" \
+                                        data-question_mark="' + item.question_mark + '">Update</a></li>\
+                                    <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
+                                </ul>\
+                            </div>\
                         </td>\
                     </tr>'
                 );
@@ -454,42 +415,29 @@ setTimeout(() => {
 
             // Render pagination
             renderPagination(response.pagination, search, perPage);
+            // Attach event listener to Update button
+            $('.deleteBtn').on('click', function() {
+                const delete_question_id = $(this).attr('value');
+                // Populate modal fields
+                $('#delete_question_id').val(delete_question_id);
+                // Show the modal
+                $('#deleteQuestionModal').modal('show');
+            });
+
 
             // Attach event listener to Update button
             $('.updateBtn').on('click', function() {
-                const topic_id = $(this).val();
-                const topic_name = $(this).data('topic_name');
-                const topic_content = $(this).data('topic_content');
-                const topic_video_link = $(this).data('topic_video_link');
+                const update_question_id = $(this).data('id');
+                const update_question_name = $(this).data('question_name');
+                const update_question_answer = $(this).data('question_answer');
+                const update_question_mark = $(this).data('question_mark');
                 // Populate modal fields
-                $('#topic_id').val(topic_id);
-                $('#topic_name').val(topic_name);
-                $('#topic_content').val(topic_content);
-                $('#topic_video_link').val(topic_video_link);
-
+                $('#update_question_id').val(update_question_id);
+                $('#update_question_name').val(update_question_name);
+                $('#update_question_answer').val(update_question_answer);
+                $('#update_question_mark').val(update_question_mark);
                 // Show the modal
-                $('#updateTopicModal').modal('show');
-            });
-
-
-
-            // Attach event listener to Update button
-            $('.deleteBtn').on('click', function() {
-                const delete_topic_id = $(this).val();
-                // Populate modal fields
-                $('#delete_topic_id').val(delete_topic_id);
-                // Show the modal
-                $('#deleteTopicModal').modal('show');
-            });
-
-
-            // Attach event listener to Update button
-            $('.suspendBtn').on('click', function() {
-                const suspend_topic_id = $(this).val();
-                // Populate modal fields
-                $('#suspend_topic_id').val(suspend_topic_id);
-                // Show the modal
-                $('#suspendTopicModal').modal('show');
+                $('#updateQuestionModal').modal('show');
             });
 
 
@@ -499,14 +447,14 @@ setTimeout(() => {
 
 
 
-$('#updateTopicForm').on('submit', function(e) {
+$('#updateQuestionForm').on('submit', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
     const formData = {
-        topic_id: $('#topic_id').val(),
-        topic_name: $('#topic_name').val(),
-        topic_content: $('#topic_content').val(),
-        topic_video_link: $('#topic_video_link').val(),
+        update_question_id: $('#update_question_id').val(),
+        update_question_name: $('#update_question_name').val(),
+        update_question_mark: $('#update_question_mark').val(),
+        update_question_answer: $('#update_question_answer').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
     };
 
@@ -514,17 +462,17 @@ $('#updateTopicForm').on('submit', function(e) {
 
     $.ajax({
         type: 'POST',
-        url: "{{ route('updateTopics') }}",
+        url: "{{ route('updateQuestion') }}",
         data: formData,
         dataType: 'json',
         success: function(response) {
             if (response.success) {
                 alert(response.message); // Notify user of success
-                $('#updateTopicModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Topic Updated Successfully');
+                $('#updateQuestionModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('Exam Updated Successfully');
                 fetchUsers(); // Refresh the users table
             } else {
-                alert('Failed to update user.');
+                alert('Failed to update exam.');
             }
         },
         error: function(xhr) {
@@ -549,24 +497,24 @@ $('#updateTopicForm').on('submit', function(e) {
 
 
 
-$('#deleteTopicForm').on('submit', function(e) {
+$('#deleteQuestionForm').on('submit', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
     const formData = {
-        delete_topic_id: $('#delete_topic_id').val(),
+        delete_question_id: $('#delete_question_id').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
     };
 
     $.ajax({
         type: 'POST',
-        url: "{{ route('deleteTopics') }}",
+        url: "{{ route('deleteQuestion') }}",
         data: formData,
         dataType: 'json',
         success: function(response) {
             if (response.success) {
                 alert(response.message); // Notify user of success
-                $('#deleteTopicModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Topic Deleted Successfully');
+                $('#deleteQuestionModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('Question Deleted Successfully');
                 fetchUsers(); // Refresh the users table
             } else {
                 alert('Failed to update user.');
@@ -589,46 +537,6 @@ $('#deleteTopicForm').on('submit', function(e) {
 
 });
 
-
-$('#suspendTopicForm').on('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    const formData = {
-        suspend_topic_id: $('#suspend_topic_id').val(),
-        _token: "{{ csrf_token() }}" // Include CSRF token for security
-    };
-
-    $.ajax({
-        type: 'POST',
-        url: "{{ route('suspendTopics') }}",
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert(response.message); // Notify user of success
-                $('#suspendTopicModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Topic Suspended Successfully');
-                fetchUsers(); // Refresh the users table
-            } else {
-                alert('Failed to update user.');
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                const errors = xhr.responseJSON.errors;
-                let errorMessages = '';
-                $.each(errors, function(key, value) {
-                    errorMessages += value[0] + '\n';
-                });
-                alert(errorMessages); // Display validation errors
-            } else {
-                alert('An error occurred.');
-            }
-        }
-    });
-
-
-});
 
 
 

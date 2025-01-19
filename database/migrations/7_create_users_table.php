@@ -13,12 +13,31 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->text('firstname')->nullable();
-            $table->text('secondname')->nullable();
-            $table->text('lastname')->nullable();
-            $table->text('email')->nullable();
+            $table->longText('firstname')->nullable();
+            $table->longText('secondname')->nullable();
+            $table->longText('lastname')->nullable();
+            $table->longText('phonenumber')->nullable();
+            $table->longText('email')->nullable();
+            $table->longText('gender')->nullable();
+            $table->longText('role')->nullable();
+            $table->longText('is_admin')->nullable();
+            $table->longText('is_principal')->nullable();
+            $table->longText('is_deputy_principal')->nullable();
+            $table->longText('is_registrar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->text('password')->nullable();
+            $table->longText('password')->nullable();
+            $table->longText('status')->default('Active');
+            
+            $table->longText('has_paid_reg_fee')->nullable();
+            $table->longText('date_paid_reg_fee')->nullable();
+            $table->longText('reg_fee_ref_no')->nullable();
+
+            $table->unsignedBigInteger('course_id')->nullable(); // Add the course_id column
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('set null'); // Set foreign key constraint
+
+            $table->unsignedBigInteger('clas_id')->nullable(); // Add the course_id column
+            $table->foreign('clas_id')->references('id')->on('clas')->onDelete('set null'); // Set foreign key constraint
+
             $table->rememberToken();
             $table->timestamps();
         });

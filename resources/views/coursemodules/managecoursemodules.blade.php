@@ -74,7 +74,7 @@
         <div class="card">
             <div class="card-header">
                 Total Schools: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Question</a>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addModule"> <i class="uil-user-plus"></i>Add New Module</a>
             </div>
             <div class="card-body">
 
@@ -117,7 +117,6 @@
                                     <th>#</th>
                                     <th>Question </th>
                                     <th>Answer</th>
-                                    <th>Mark</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -148,56 +147,53 @@
 
 
 
+
+
+
+
 <!-- Add User modal -->
-<div id="addExamModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="addModule" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addQuestion')}}">
+            <form method="post" action="{{route('addModule')}}">
                 @csrf
                
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                   <label>Exam Id</label>
-                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}">
-
+                <input type="text" name="course_id" class="form-control" value="{{$course_id}}">
                     <div class="row">
+
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label> Question <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_name">
-                                <textarea id="mytextarea">Hello, World!</textarea>
+                                <label>Module Name<sup>*</sup></label>
+                                <input type="text" class="form-control" name="module_name" required>
                             </div>
                         </div>
+
                     </div>
 
+
                     <div class="row">
+
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label> Answer <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_answer">
+                                <label>Topic Content<sup>*</sup></label>
+                                <textarea name="module_content"></textarea>
+                                
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label> Marks <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_mark">
-                            </div>
-                        </div>
                     </div>
 
 
-
+                   
 
                 </div>
                  <!-- /.card-body -->
@@ -217,6 +213,8 @@
 
 
 
+
+
 <!-- Add User modal -->
 <div id="deleteQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -229,7 +227,7 @@
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="delete_question_id" id="delete_question_id" hidden="true">
+                    <input type="text" class="form-control" name="delete_question_id" id="delete_question_id">
                 </div>
 
 
@@ -247,58 +245,60 @@
 
 
 <!-- Add User modal -->
-<div id="updateQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div id="updateCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel">Update Question</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Module</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" id="updateQuestionForm">
+            <form method="POST" id="updateCourseForm">
                 @csrf
+               
 
-                <div class="card-body" style="border:1px solid white">
-                        <input type="text" class="form-control" name="update_question_id" id="update_question_id" hidden="true">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <input type="text" class="form-control" name="module_id" id="module_id" hidden="true">
+                    <div class="row">
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Question <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_name" id="update_question_name">
-                                </div>
+                       <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Module Name<sup>*</sup></label>
+                                <input type="text" class="form-control" name="module_name" id="module_name" required>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Answer <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_answer" id="update_question_answer">
-                                </div>
-                            </div>
+                        
+
+                    </div>
+
+
+                    
+                         
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Module Content</label>
+                            <textarea name="module_content" id="module_content"> </textarea> 
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Marks <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_mark" id="update_question_mark">
-                                </div>
-                            </div>
-                        </div>
+                    
 
 
 
-                   
+                    
+
+
+
+
                 </div>
+                 <!-- /.card-body -->
 
 
-            <div class="modal-footer justify-content-between" style="border:1px solid white">
+            <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Update</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
             </div>
         </form>
         </div><!-- /.modal-content -->
@@ -323,13 +323,13 @@
 
     $(document).ready(function(){
 
-           // Get the exam_id from the URL query parameters
-           const urlParams = new URLSearchParams(window.location.search);
-            const exam_id = urlParams.get('exam_id');
+        // Get the exam_id from the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+            const course_id = urlParams.get('course_id');
 
             // Fetch questions for this exam
-            if (exam_id) {
-                fetchUsers(exam_id);
+            if (course_id) {
+                fetchUsers(course_id);
             }
 
 
@@ -375,12 +375,12 @@
 
 
 
-            function fetchUsers(exam_id,page = 1, search = '', perPage = 10) {
+            function fetchUsers(course_id,page = 1, search = '', perPage = 10) {
                 $.ajax({
                     type: 'GET',
                     //url: "{{route('adminManageQuestions')}}",
                     //url: "{{ url('questions/questions') }}/" + exam_id, 
-                    url: "{{ route('fetchQuestions', ['exam_id' => '__exam_id__']) }}".replace('__exam_id__', exam_id),  // Use named route
+                    url: "{{ route('fetchModules', ['course_id' => '__course_id__']) }}".replace('__course_id__', course_id),  // Use named route
                     data: { page: page, search: search, per_page: perPage },
                     dataType: "json",
                     success: function(response) {
@@ -390,24 +390,23 @@
                         // Clear and repopulate the table
                         $('tbody').html("");
                         $.each(response.users, function(key, item) {
-                            const baseUrl = "{{ route('adminManageQuestions') }}";
+                            const baseUrl = "{{ route('adminManageNotes') }}";
 
                             $('#table1').append(
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
-                                    <td>' + item.question_name + '</td>\
-                                    <td>' + item.question_answer + '</td>\
-                                    <td>' + item.question_mark + '</td>\
+                                    <td>' + item.module_name + '</td>\
+                                    <td>' + item.module_content + '</td>\
                                 <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
                                             <ul class="dropdown-menu">\
                                                 <li><a class="dropdown-item updateBtn" href="#" \
                                                     data-id="' + item.id + '" \
-                                                    data-question_name="' + item.question_name + '" \
-                                                    data-question_answer="' + item.question_answer + '" \
-                                                    data-question_mark="' + item.question_mark + '">Update</a></li>\
-                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
+                                                    data-module_name="' + item.module_name + '" \
+                                                    data-module_content="' + item.module_content + '" ><i class="fa fa-edit text-success"></i> Update</a></li>\
+                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash text-danger"></i> Delete</a></li>\
+                                                <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?module_id=' + item.id + '" target="_blank">View Modules</a></li>\
                                             </ul>\
                                         </div>\
                                     </td>\
@@ -429,18 +428,29 @@
 
                         // Attach event listener to Update button
                         $('.updateBtn').on('click', function() {
-                            const update_question_id = $(this).data('id');
-                            const update_question_name = $(this).data('question_name');
-                            const update_question_answer = $(this).data('question_answer');
-                            const update_question_mark = $(this).data('question_mark');
+                            const module_id = $(this).data('id');
+                            const module_name = $(this).data('module_name');
+                            const module_content = $(this).data('module_content');
+
                             // Populate modal fields
-                            $('#update_question_id').val(update_question_id);
-                            $('#update_question_name').val(update_question_name);
-                            $('#update_question_answer').val(update_question_answer);
-                            $('#update_question_mark').val(update_question_mark);
+                            $('#module_id').val(module_id);
+                            $('#module_name').val(module_name);
+                            $('#module_content').val(module_content);
+
+
+                            // Set TinyMCE content for #what_to_learn
+                            if (tinymce.get('module_content')) {
+                                tinymce.get('module_content').setContent(module_content || '');
+                            }
+
+                        
+
                             // Show the modal
-                            $('#updateQuestionModal').modal('show');
+                            $('#updateCourseModal').modal('show');
                         });
+
+
+                        
 
 
                     }
@@ -449,14 +459,17 @@
 
 
 
-            $('#updateQuestionForm').on('submit', function(e) {
+            $('#updateCourseForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
+                if (tinymce.get('module_content')) {
+                    tinymce.get('module_content').save();
+                }
+                
                 const formData = {
-                    update_question_id: $('#update_question_id').val(),
-                    update_question_name: $('#update_question_name').val(),
-                    update_question_mark: $('#update_question_mark').val(),
-                    update_question_answer: $('#update_question_answer').val(),
+                    module_id: $('#module_id').val(),
+                    module_name: $('#module_name').val(),
+                    module_content: $('#module_content').val(),
                     _token: "{{ csrf_token() }}" // Include CSRF token for security
                 };
 
@@ -464,17 +477,17 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('updateQuestion') }}",
+                    url: "{{ route('updateModule') }}",
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
                         if (response.success) {
                             alert(response.message); // Notify user of success
-                            $('#updateQuestionModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Exam Updated Successfully');
-                            fetchUsers(); // Refresh the users table
+                            $('#updateCourseModal').modal('hide'); // Hide the modal
+                            displaySuccessMessage('Course Updated Successfully');
+                            fetchUsers(course_id); // Refresh the users table
                         } else {
-                            alert('Failed to update exam.');
+                            alert('Failed to update user.');
                         }
                     },
                     error: function(xhr) {
@@ -499,6 +512,7 @@
 
 
 
+
             $('#deleteQuestionForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
@@ -509,7 +523,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('deleteQuestion') }}",
+                    url: "{{ route('deleteModule') }}",
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
@@ -517,7 +531,7 @@
                             alert(response.message); // Notify user of success
                             $('#deleteQuestionModal').modal('hide'); // Hide the modal
                             displaySuccessMessage('Question Deleted Successfully');
-                            fetchUsers(); // Refresh the users table
+                            fetchUsers(course_id); // Refresh the users table
                         } else {
                             alert('Failed to update user.');
                         }

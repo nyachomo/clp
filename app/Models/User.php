@@ -21,7 +21,22 @@ class User extends Authenticatable
         'firstname',
         'secondname',
         'lastname',
+        'phonenumber',
         'email',
+        'gender',
+        'status',
+        'role',
+
+        'has_paid_reg_fee',
+        'date_paid_reg_fee',
+        'reg_fee_ref_no',
+
+        'course_id',
+        'clas_id',
+        'is_admin',
+        'is_principal',
+        'is_deputy_principal',
+        'is_registrar',
         'password',
     ];
 
@@ -47,5 +62,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function clas()
+    {
+        return $this->belongsTo(Clas::class);
     }
 }

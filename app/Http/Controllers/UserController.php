@@ -22,13 +22,15 @@ class UserController extends Controller
         return view('users.showAdministrators');
     }
 
+   
+
     /**
      * Show the form for creating a new resource.
      */
 
 
     public function adminFetchUsers(Request $request) {
-        $query = DB::table('users')->select('id', 'firstname','secondname','lastname','email')->orderBy('created_at', 'desc');
+        $query = DB::table('users')->select('id', 'firstname','secondname','lastname','email','phonenumber','role','status','gender')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -63,7 +65,14 @@ class UserController extends Controller
         $user->firstname=$request->firstname;
         $user->secondname=$request->secondname;
         $user->lastname=$request->lastname;
+        $user->phonenumber=$request->phonenumber;
         $user->email=$request->email;
+        $user->role=$request->role;
+        $user->gender=$request->gender;
+        $user->is_admin=$request->is_admin;
+        $user->is_principal=$request->is_principal;
+        $user->is_deputy_principal=$request->is_deputy_principal;
+        $user->is_registrar=$request->is_registrar;
         $user->password=123456;
         $save=$user->save();
         if ($save) {
@@ -82,7 +91,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
             'email' => 'required|email|max:255' . $request->user_id,
         ]);
 
@@ -94,7 +102,10 @@ class UserController extends Controller
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
             $user->secondname = $request->secondname;
+            $user->phonenumber = $request->phonenumber;
             $user->email = $request->email;
+            $user->role = $request->role;
+            $user->gender = $request->gender;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);
@@ -121,6 +132,28 @@ class UserController extends Controller
             $user->delete();
 
             return response()->json(['success' => true, 'message' => 'User delete successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'User not found!'], 404);
+   
+    }
+
+    public function suspend(Request $request)
+    {
+       
+
+        $validated = $request->validate([
+            'suspend_user_id' => 'required|exists:users,id',
+        ]);
+
+
+        $user = User::find($request->suspend_user_id);
+
+        if ($user) {
+            $user->status = "Suspended";
+            $user->update();
+
+            return response()->json(['success' => true, 'message' => 'User suspended successfully!']);
         }
 
         return response()->json(['success' => false, 'message' => 'User not found!'], 404);
@@ -237,4 +270,10 @@ class UserController extends Controller
         abort(404, 'File not found.');
     }
    
+
+
+
+    public function UserAccount(){
+        return view('users.showUserAccount');
+    }
 }

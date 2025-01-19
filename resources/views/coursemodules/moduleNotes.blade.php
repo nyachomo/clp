@@ -72,10 +72,12 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                Total Schools: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Question</a>
+
+           <div class="card-header">
+                Total Modules: <span id="total-users">0</span>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addTopicModal"> <i class="uil-user-plus"></i>Add</a>
             </div>
+
             <div class="card-body">
 
                 <div class="row">
@@ -115,9 +117,8 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Question </th>
-                                    <th>Answer</th>
-                                    <th>Mark</th>
+                                    <th>Topic Name</th>
+                                    <th>Topic Content</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -148,56 +149,46 @@
 
 
 
+
 <!-- Add User modal -->
-<div id="addExamModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="addTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addQuestion')}}">
+            <form method="POST" action="{{route('addTopics')}}">
                 @csrf
                
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                   <label>Exam Id</label>
-                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}">
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label> Question <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_name">
-                                <textarea id="mytextarea">Hello, World!</textarea>
-                            </div>
-                        </div>
-                    </div>
+                  <input type="text" class="form-control" name="module_id" value="{{$module_id}}" hidden="true">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <label>Topic Name</label>
+                          <input type="text" name="topic_name" class="form-control">
+                      </div>
+                  </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label> Answer <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_answer">
-                            </div>
-                        </div>
-                    </div>
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <label>Topic Content</label>
+                           <textarea name="topic_content"></textarea>
+                      </div>
+                  </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label> Marks <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_mark">
-                            </div>
-                        </div>
-                    </div>
+                  <div class="row">
+                      <div class="col-sm-12">
+                        <label>Topic video content</label>
+                          <input type="text" name="topic_video_link" class="form-control">
+                      </div>
+                  </div>
+                   
 
-
-
+                  
 
                 </div>
                  <!-- /.card-body -->
@@ -216,20 +207,19 @@
 
 
 
-
 <!-- Add User modal -->
-<div id="deleteQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+<div id="deleteTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to delete this record ?</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" id="deleteQuestionForm">
+            <form method="POST" id="deleteTopicForm">
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="delete_question_id" id="delete_question_id" hidden="true">
+                    <input type="text" class="form-control" name="delete_topic_id" id="delete_topic_id">
                 </div>
 
 
@@ -245,10 +235,9 @@
 
 
 
-
 <!-- Add User modal -->
 <div id="updateQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel">Update Question</h4>
@@ -258,14 +247,14 @@
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                        <input type="text" class="form-control" name="update_question_id" id="update_question_id" hidden="true">
+                        <input type="text" class="form-control" name="update_topic_id" id="update_topic_id">
 
                         <div class="row">
                             <div class="col-sm-12">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label> Question <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_name" id="update_question_name">
+                                    <label> Topic name <sup>*</sup></label>
+                                    <input type="text" class="form-control" name="update_topic_name" id="update_topic_name">
                                 </div>
                             </div>
                         </div>
@@ -274,8 +263,8 @@
                             <div class="col-sm-12">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label> Answer <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_answer" id="update_question_answer">
+                                    <label> Topic Content <sup>*</sup></label>
+                                    <textarea name="topic_content" id="topic_content"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -284,8 +273,8 @@
                             <div class="col-sm-12">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label> Marks <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_mark" id="update_question_mark">
+                                    <label> Topic Vide Link <sup>*</sup></label>
+                                    <input type="text" class="form-control" name="update_topic_video_link" id="update_topic_video_link">
                                 </div>
                             </div>
                         </div>
@@ -325,11 +314,11 @@
 
            // Get the exam_id from the URL query parameters
            const urlParams = new URLSearchParams(window.location.search);
-            const exam_id = urlParams.get('exam_id');
+            const module_id = urlParams.get('module_id');
 
             // Fetch questions for this exam
-            if (exam_id) {
-                fetchUsers(exam_id);
+            if (module_id) {
+                fetchUsers(module_id);
             }
 
 
@@ -375,12 +364,12 @@
 
 
 
-            function fetchUsers(exam_id,page = 1, search = '', perPage = 10) {
+            function fetchUsers(module_id,page = 1, search = '', perPage = 10) {
                 $.ajax({
                     type: 'GET',
                     //url: "{{route('adminManageQuestions')}}",
                     //url: "{{ url('questions/questions') }}/" + exam_id, 
-                    url: "{{ route('fetchQuestions', ['exam_id' => '__exam_id__']) }}".replace('__exam_id__', exam_id),  // Use named route
+                    url: "{{ route('fetchTopics', ['module_id' => '__module_id__']) }}".replace('__module_id__', module_id),  // Use named route
                     data: { page: page, search: search, per_page: perPage },
                     dataType: "json",
                     success: function(response) {
@@ -395,19 +384,19 @@
                             $('#table1').append(
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
-                                    <td>' + item.question_name + '</td>\
-                                    <td>' + item.question_answer + '</td>\
-                                    <td>' + item.question_mark + '</td>\
+                                    <td>' + item.topic_name + '</td>\
+                                    <td>' + item.topic_content + '</td>\
                                 <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
                                             <ul class="dropdown-menu">\
                                                 <li><a class="dropdown-item updateBtn" href="#" \
                                                     data-id="' + item.id + '" \
-                                                    data-question_name="' + item.question_name + '" \
-                                                    data-question_answer="' + item.question_answer + '" \
-                                                    data-question_mark="' + item.question_mark + '">Update</a></li>\
-                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
+                                                    data-topic_name="' + item.topic_name + '" \
+                                                    data-topic_content="' + item.topic_content + '" \
+                                                    data-topic_video_link="' + item.topic_video_link + '">\
+                                                    <i class="fa fa-edit text-success"></i> Update</a></li>\
+                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash text-danger"></i> Delete</a></li>\
                                             </ul>\
                                         </div>\
                                     </td>\
@@ -418,26 +407,32 @@
                         // Render pagination
                         renderPagination(response.pagination, search, perPage);
                         // Attach event listener to Update button
-                        $('.deleteBtn').on('click', function() {
-                            const delete_question_id = $(this).attr('value');
-                            // Populate modal fields
-                            $('#delete_question_id').val(delete_question_id);
-                            // Show the modal
-                            $('#deleteQuestionModal').modal('show');
-                        });
+                            $('.deleteBtn').on('click', function() {
+                                const delete_topic_id = $(this).data('id');
+                                // Populate modal fields
+                                $('#delete_topic_id').val(delete_topic_id);
+                                // Show the modal
+                                $('#deleteTopicModal').modal('show');
+                            });
 
 
                         // Attach event listener to Update button
                         $('.updateBtn').on('click', function() {
-                            const update_question_id = $(this).data('id');
-                            const update_question_name = $(this).data('question_name');
-                            const update_question_answer = $(this).data('question_answer');
-                            const update_question_mark = $(this).data('question_mark');
+                            const update_topic_id = $(this).data('id');
+                            const update_topic_name = $(this).data('topic_name');
+                            const topic_content = $(this).data('topic_content');
+                            const update_topic_video_link = $(this).data('topic_video_link');
                             // Populate modal fields
-                            $('#update_question_id').val(update_question_id);
-                            $('#update_question_name').val(update_question_name);
-                            $('#update_question_answer').val(update_question_answer);
-                            $('#update_question_mark').val(update_question_mark);
+                            $('#update_topic_id').val(update_topic_id);
+                            $('#update_topic_name').val(update_topic_name);
+                            $('#topic_content').val(topic_content);
+                            $('#update_topic_video_link').val(update_topic_video_link);
+
+                            // Set TinyMCE content for #what_to_learn
+                            if (tinymce.get('topic_content')) {
+                                tinymce.get('topic_content').setContent(topic_content || '');
+                            }
+
                             // Show the modal
                             $('#updateQuestionModal').modal('show');
                         });
@@ -452,11 +447,15 @@
             $('#updateQuestionForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
+                if (tinymce.get('topic_content')) {
+                    tinymce.get('topic_content').save();
+                }
+
                 const formData = {
-                    update_question_id: $('#update_question_id').val(),
-                    update_question_name: $('#update_question_name').val(),
-                    update_question_mark: $('#update_question_mark').val(),
-                    update_question_answer: $('#update_question_answer').val(),
+                    update_topic_id: $('#update_topic_id').val(),
+                    update_topic_name: $('#update_topic_name').val(),
+                    topic_content: $('#topic_content').val(),
+                    update_topic_video_link: $('#update_topic_video_link').val(),
                     _token: "{{ csrf_token() }}" // Include CSRF token for security
                 };
 
@@ -464,7 +463,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('updateQuestion') }}",
+                    url: "{{ route('updateTopics') }}",
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
@@ -472,7 +471,7 @@
                             alert(response.message); // Notify user of success
                             $('#updateQuestionModal').modal('hide'); // Hide the modal
                             displaySuccessMessage('Exam Updated Successfully');
-                            fetchUsers(); // Refresh the users table
+                            fetchUsers(module_id); // Refresh the users table
                         } else {
                             alert('Failed to update exam.');
                         }
@@ -517,7 +516,7 @@
                             alert(response.message); // Notify user of success
                             $('#deleteQuestionModal').modal('hide'); // Hide the modal
                             displaySuccessMessage('Question Deleted Successfully');
-                            fetchUsers(); // Refresh the users table
+                            fetchUsers(module_id); // Refresh the users table
                         } else {
                             alert('Failed to update user.');
                         }

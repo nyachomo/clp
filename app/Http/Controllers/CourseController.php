@@ -23,8 +23,11 @@ class CourseController extends Controller
 
     
     public function fetchCourses(Request $request) {
-        $query = Course::select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status' )->orderBy('created_at', 'desc');
+        $query = Course::select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
 
+        $suspended_courses = count(Course::where('course_status','Suspended')->get());
+        $active_courses= count(Course::where('course_status','Active')->get());
+      
 
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -49,7 +52,10 @@ class CourseController extends Controller
                 'total' => $users->total(),
                 'per_page' => $users->perPage(),
             ],
-            'total_users' => $users->total(),
+            'all_courses' => $users->total(),
+            'suspended'=> $suspended_courses,
+            'active_courses'=>$active_courses,
+           
         ]);
     }
 
@@ -64,6 +70,7 @@ class CourseController extends Controller
             'course_level' =>'required|string|max:255',
             'course_duration' =>'required|max:255',
             'course_price' =>'required|max:255',
+            'what_to_learn' => 'nullable|string', // Add validation for this field
         ]);
 
 
@@ -75,6 +82,7 @@ class CourseController extends Controller
             $user->course_level = $request->course_level;
             $user->course_duration = $request->course_duration;
             $user->course_price = $request->course_price;
+            $user->what_to_learn = $request->what_to_learn;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'Course updated successfully!']);

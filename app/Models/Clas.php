@@ -17,4 +17,10 @@ class Clas extends Model
     public function exams(){
         return $this->hasMany(Exam::class,'clas_id','id');
     }
+
+    
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

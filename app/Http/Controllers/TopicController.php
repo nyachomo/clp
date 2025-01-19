@@ -22,8 +22,12 @@ class TopicController extends Controller
         }
     }
 
-    public function fetchTopics(Request $request) {
-        $query = Topic::select( 'id', 'topic_name','topic_content','topic_status','topic_video_link' )->orderBy('created_at', 'desc');
+
+
+
+
+    public function fetchTopics(Request $request,$module_id) {
+        $query = Topic::select( 'id', 'topic_name','topic_content','topic_status','topic_video_link' )->where('module_id',$module_id)->orderBy('created_at', 'desc');
 
 
         // Apply search filter if provided
@@ -58,19 +62,19 @@ class TopicController extends Controller
     {
        
         $validated = $request->validate([
-            'topic_id' =>'required|exists:topics,id',
-            'topic_name' =>'required|string|max:255',
-            'topic_content' =>'required|string|max:255',
+            'update_topic_id' =>'required|exists:topics,id',
+            'update_topic_name' =>'required|string|max:255',
+            'topic_content' =>'required|string',
         ]);
 
 
-        $user = Topic::find($request->topic_id);
+        $user = Topic::find($request->update_topic_id);
 
         if ($user) {
             // Update user details
-            $user->topic_name = $request->topic_name;
+            $user->topic_name = $request->update_topic_name;
             $user->topic_content = $request->topic_content;
-            $user->topic_video_link = $request->topic_video_link;
+            $user->topic_video_link = $request->update_topic_video_link;
             $user->update();
             return response()->json(['success' => true, 'message' => 'Topic updated successfully!']);
         }

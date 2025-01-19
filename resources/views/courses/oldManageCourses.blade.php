@@ -155,6 +155,7 @@
                                     <th>Name</th>
                                     <th>Level</th>
                                     <th>Duration</th>
+                                    <th>What to learn</th>
                                     <th>Price</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -189,10 +190,10 @@
 
 <!-- Add User modal -->
 <div id="addCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Course</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('addCourse')}}">
@@ -360,7 +361,7 @@
 
 <!-- Add User modal -->
 <div id="updateCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
@@ -375,7 +376,7 @@
                     <input type="text" class="form-control" name="course_id" id="course_id">
                     <div class="row">
 
-                       <div class="col-sm-12">
+                    <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Course Name<sup>*</sup></label>
@@ -387,27 +388,37 @@
 
                     </div>
 
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Course Introductory Text</label>
+                              <input type="text" name="course_intoduction_text" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>-->
 
-                    
-                         
-                    <div class="row">
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <label>Course Description</label>
+                                  
+                                <textarea  class="form-control" name="course_description" id="course_description" col="6"> </textarea>
+   
+                        </div>
+                    </div>-->
+
+                   <!--<div class="row">
                         <div class="col-sm-12">
                             <label>What to learn</label>
-                            <textarea name="what_to_learn" id="what_to_learn"> </textarea> 
+                            <textarea name="what_to_learn" class="form-control" id="what_to_learn"> </textarea> 
                         
                        
                         </div>
-                    </div>
+                    </div>-->
 
-                    
-
-
-
-                   
 
                     <div class="row">
 
-                       <div class="col-sm-4">
+                    <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Level<sup>*</sup></label>
@@ -444,6 +455,64 @@
 
 
 
+                    <!--<div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Course Two likes</label>
+                                <input type="number" name="course_two_like" class="form-control" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Course one likes</label>
+                                <input type="number" name="course_one_like" class="form-control" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Course Dislike</label>
+                                <input type="number" name="course_not_interested" class="form-control" min="1" required>
+                            </div>
+                        </div>
+                    </div>-->
+
+
+                    <!--<div class="row">
+                        <div class="col-sm-6">
+                        <div class="form-group">
+                                <label>How Many Leaners already enrolled for this course</label>
+                                <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                        <div class="form-group">
+                                <label>Course Publisher Name</label>
+                                <input type="text" name="course_publisher_name" class="form-control" >
+                            </div>
+                        </div>
+
+                    </div>-->
+
+
+                    <!--<div class="row">
+
+                        <div class="col-sm-12">
+                        <div class="form-group">
+                                <label>Course Publisher Description</label>
+                                <textarea name="course_publisher_description" class="form-control" row="6"> </textarea>
+                            </div>
+                        </div>
+
+                    </div>-->
+
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <input type="text" name="course_image" value="course_image.jpg" class="form-control" hidden="true">
+                        </div>
+                    </div>-->
 
                 </div>
                  <!-- /.card-body -->
@@ -616,14 +685,13 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                     statusClass = 'text-danger'; // Red color for suspended
                     statusText = 'Suspended';
                 }
-
-                const baseUrl = "{{ route('manageCourseModule') }}";
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.course_name + '</td>\
                         <td>' + item.course_level + '</td>\
                         <td>' + item.course_duration + '</td>\
+                         <td>' + item.what_to_learn + '</td>\
                         <td>' + item.course_price + '</td>\
                          <td><span class="font-weight-bold ' + statusClass + '">' + statusText + '</span></td>\
                         <td>\
@@ -639,7 +707,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                         data-course_price="' + item.course_price + '" ><i class="uil-edit"></i> Update</a></li>\
                                     <li><a  class="dropdown-item deleteBtn text-danger" href="#" value="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                     <li><a  class="dropdown-item suspendBtn text-warning" href="#" value="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
-                                    <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?course_id=' + item.id + '" target="_blank">View Modules</a></li>\
                                 </ul>\
                             </div>\
                         </td>\
@@ -665,19 +732,12 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#course_level').val(course_level);
                 $('#course_duration').val(course_duration);
                 $('#course_price').val(course_price);
-                $('#what_to_learn').val(what_to_learn);
-
-
-                // Set TinyMCE content for #what_to_learn
-                if (tinymce.get('what_to_learn')) {
-                    tinymce.get('what_to_learn').setContent(what_to_learn || '');
-                }
-
-               
+                //$('#what_to_learn').val(what_to_learn);
 
                 // Show the modal
                 $('#updateCourseModal').modal('show');
             });
+
 
 
             // Attach event listener to Update button
@@ -709,17 +769,12 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 $('#updateCourseForm').on('submit', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
-    if (tinymce.get('what_to_learn')) {
-        tinymce.get('what_to_learn').save();
-    }
-    
     const formData = {
         course_id: $('#course_id').val(),
         course_name: $('#course_name').val(),
         course_level: $('#course_level').val(),
         course_duration: $('#course_duration').val(),
         course_price: $('#course_price').val(),
-        what_to_learn: $('#what_to_learn').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
     };
 

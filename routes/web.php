@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TraineeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ClasController;
@@ -10,8 +11,11 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\LeedController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CourseModuleController;
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
@@ -40,9 +44,22 @@ Route::prefix('admin')->group(function () {
     Route::post('/add-new-user', [UserController::class, 'adminAddNewUser2'])->name('adminAddNewUser2');
     Route::post('/update-user', [UserController::class, 'update'])->name('updateUser');
     Route::post('/delete-user', [UserController::class, 'delete'])->name('deleteUser');
+    Route::post('/suspend-user', [UserController::class, 'suspend'])->name('suspendUser');
     Route::post('/users/upload', [UserController::class, 'upload'])->name('users.upload');
     Route::get('/users/download', [UserController::class, 'download'])->name('users.download');
     Route::get('/download-user-file', [UserController::class, 'downloadUserFile'])->name('downloadUserFile');
+    Route::get('/user-account', [UserController::class, 'UserAccount'])->name('userAccount');
+});
+
+Route::prefix('trainees')->group(function () {
+    Route::get('/show', [TraineeController::class, 'index'])->name('showTrainees');
+    Route::get('/fetch-trainees', [TraineeController::class, 'fetchTrainees'])->name('fetchTrainees');
+    Route::post('/add-trainee', [TraineeController::class, 'addTrainee'])->name('addTrainee');
+    Route::post('/update-trainee', [TraineeController::class, 'updateTrainee'])->name('updateTrainee');
+    Route::get('/view-notes/{id}', [TraineeController::class, 'traineeViewNotes'])->name('traineeViewNotes');
+    //trainee view course
+
+    Route::get('/view-course', [TraineeController::class, 'traineeViewCourse'])->name('traineeViewCourse');
 });
 
 
@@ -53,6 +70,7 @@ Route::prefix('courses')->group(function () {
     Route::post('/update', [CourseController::class, 'updateCourse'])->name('updateCourse');
     Route::post('/delete', [CourseController::class, 'deleteCourse'])->name('deleteCourse');
     Route::post('/suspend', [CourseController::class, 'suspendCourse'])->name('suspendCourse');
+
    
 });
 
@@ -72,7 +90,7 @@ Route::prefix('clases')->group(function () {
 
 Route::prefix('topics')->group(function () {
     Route::get('/show', [TopicController::class, 'index'])->name('showTopics');
-    Route::get('/fetch-topics', [TopicController::class, 'fetchTopics'])->name('fetchTopics');
+    //Route::get('/fetch-topics', [TopicController::class, 'fetchTopics'])->name('fetchTopics');
     Route::post('/add', [TopicController::class, 'addTopics'])->name('addTopics');
     Route::post('/update', [TopicController::class, 'updateTopics'])->name('updateTopics');
     Route::post('/delete', [TopicController::class, 'deleteTopics'])->name('deleteTopics');
@@ -115,6 +133,39 @@ Route::prefix('exams')->group(function () {
 });
 
 
+
+
+
+
+
 Route::prefix('questions')->group(function () {
     Route::get('/adminManageQuestions', [QuestionController::class, 'adminManageQuestions'])->name('adminManageQuestions');
+    Route::post('/add', [QuestionController::class, 'addQuestion'])->name('addQuestion');
+    //Route::get('/fetch-questions', [QuestionController::class, 'fetchQuestions'])->name('fetchQuestions');
+    Route::get('/fetch_questions/{exam_id}', [QuestionController::class, 'fetchQuestions'])->name('fetchQuestions');
+    Route::post('/update', [QuestionController::class, 'updateQuestion'])->name('updateQuestion');
+    Route::post('/delete', [QuestionController::class, 'deleteQuestion'])->name('deleteQuestion');
+});
+
+Route::prefix('course-modules')->group(function () {
+    Route::get('/manageCourseModule', [CourseModuleController::class, 'manageCourseModule'])->name('manageCourseModule');
+    Route::post('/add', [CourseModuleController::class, 'addModule'])->name('addModule');
+    Route::post('/update', [CourseModuleController::class, 'updateModule'])->name('updateModule');
+    Route::post('/delete', [CourseModuleController::class, 'deleteModule'])->name('deleteModule');
+    Route::get('/fetch_module/{course_id}', [CourseModuleController::class, 'fetchModules'])->name('fetchModules');
+
+    Route::get('/manageNotes', [CourseModuleController::class, 'adminManageNotes'])->name('adminManageNotes');
+    Route::get('/fetch-topics/{module_id}', [CourseModuleController::class, 'fetchTopics'])->name('fetchTopics');
+});
+
+Route::prefix('settings')->group(function () {
+    Route::get('/show', [SettingController::class, 'ShowSettings'])->name('ShowSettings');
+    Route::post('/update-logo', [SettingController::class, 'updateCompanyLogo'])->name('updateCompanyLogo');
+    Route::post('/update-company-deatils', [SettingController::class, 'updateCompanyDetails'])->name('updateCompanyDetails');
+    Route::get('/fetch', [SettingController::class, 'fetchCompanyDetails'])->name('fetchCompanyDetails');
+
+    Route::post('/updateComapy-settings', [SettingController::class, 'updatecompanySettings'])->name('updatecompanySettings');
+
+    
+   
 });

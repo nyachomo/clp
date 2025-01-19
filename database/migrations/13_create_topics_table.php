@@ -16,6 +16,8 @@ return new class extends Migration
             $table->longText('topic_name')->nullable();
             $table->longText('topic_content')->nullable();
             $table->longText('topic_video_link')->nullable();
+            $table->unsignedBigInteger('module_id')->nullable();
+            $table->foreign('module_id')->references('id')->on('course_modules')->onDelete('cascade');
             $table->longText('topic_status')->default('Active');
             $table->timestamps();
         });

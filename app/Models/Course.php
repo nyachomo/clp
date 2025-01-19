@@ -29,4 +29,10 @@ class Course extends Model
         'course_outline',
 
     ];
+
+        public function users()
+        {
+            return $this->hasMany(User::class);
+        }
+
 }

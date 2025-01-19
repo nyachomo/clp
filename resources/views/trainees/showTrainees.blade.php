@@ -120,7 +120,8 @@
                                     <th>Name</th>
                                     <th>Phonenumber</th>
                                     <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Course</th>
+                                    <th>Class</th>
                                     <th>Gender</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -158,7 +159,7 @@
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('adminAddNewUser2')}}">
+            <form method="POST" action="{{route('addTrainee')}}">
                 @csrf
                
             <div class="modal-body">
@@ -244,22 +245,41 @@
 
                 </div>
 
-                <div class="row" style="padding-top:20px">
+                <div class="row" style="padding-top:10px">
                    
+                    <div class="col-sm-6">
+                            <label>Course <span class="labelSpan">*</span></label>
+                            <select class="form-control" name="course_id" required>
+                               <option value="">Select Course</option>
+                                @if(!empty($courses))
+                                   @foreach($courses as $key=>$course)
+                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                   @endforeach
+                                @endif
+                                 
+                            </select>
+                    </div>
+
+                    <div class="col-sm-6">
+                            <label>Class <span class="labelSpan">*</span></label>
+                             <select class="form-control" name="clas_id" required>
+                                <option value="">Select Class</option>
+                                @if(!empty($clases))
+                                   @foreach($clases as $key=>$clas)
+                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                   @endforeach
+                                @endif
+
+                            </select>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
                     <div class="col-sm-12">
-                            <label>Role <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="role" required>
-                                 <option value="">Select Role</option>
-                                 <option value="Admin">Admin</option>
-                                 <option value="Principal">Principal</option>
-                                 <option value="Deputy_principal">Deputy Principal</option>
-                                 <option value="Registrar">Registrar</option>
-                                 <option value="Trainer">Trainer</option>
-                                 <option value="Trainee">Trainee</option>
-                                 <option value="High_school_teacher">High School Teacher</option>
-                                 <option value="High_school_student">High School Student</option>
-                                 <option value="Data_clerk">Data Clerk</option>
-                                 <option value="Marketer">Marketer</option>
+                        <label>Has Paid Registration Fee</label>
+                           <select class="form-control" name="has_paid_reg_fee" required>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
                             </select>
                     </div>
                 </div>
@@ -389,40 +409,35 @@
 
                     </div>
 
-                    <div class="row">
+                   
+                    <div class="row" style="padding-top:10px">
+                   
+                   <div class="col-sm-6">
+                           <label>Course <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="course_id" id="update_course_id" required>
+                              <option value="">Select Course</option>
+                               @if(!empty($courses))
+                                  @foreach($courses as $key=>$course)
+                                   <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                  @endforeach
+                               @endif
+                                
+                           </select>
+                   </div>
 
-                        <div class="col-sm-6">
-                                <label>Role <span class="labelSpan">*</span></label>
-                                <select class="form-control" name="role" id="role" required>
-                                    <option value="">Select Role</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Principal">Principal</option>
-                                    <option value="Deputy_principal">Deputy Principal</option>
-                                    <option value="Registrar">Registrar</option>
-                                    <option value="Trainer">Trainer</option>
-                                    <option value="Trainee">Trainee</option>
-                                    <option value="High_school_teacher">High School Teacher</option>
-                                    <option value="High_school_student">High School Student</option>
-                                    <option value="Data_clerk">Data Clerk</option>
-                                    <option value="Marketer">Marketer</option>
-                                </select>
-                        </div>
+                   <div class="col-sm-6">
+                           <label>Class <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="clas_id" id="update_clas_id" required>
+                               <option value="">Select Class</option>
+                               @if(!empty($clases))
+                                  @foreach($clases as $key=>$clas)
+                                       <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                  @endforeach
+                               @endif
 
-
-                        <div class="col-sm-6">
-                                <label>Status<span class="labelSpan">*</span></label>
-                                <select name="status"  class="form-control">
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Admin</option>
-                                    <option value="Suspended">Suspended</option>
-                                </select>
-
-                        </div>
-
-
-                        
-
-                    </div>
+                           </select>
+                   </div>
+               </div>
 
                   
 
@@ -593,7 +608,7 @@
         function fetchUsers(page = 1, search = '', perPage = 10) {
             $.ajax({
                 type: 'GET',
-                url: "{{route('adminFetchUsers')}}",
+                url: "{{route('fetchTrainees')}}",
                 data: { page: page, search: search, per_page: perPage },
                 dataType: "json",
                 success: function(response) {
@@ -603,23 +618,29 @@
                     // Clear and repopulate the table
                     $('tbody').html("");
                     $.each(response.users, function(key, item) {
+                        // Use fallback values for null secondname and lastname
+                        const secondname = item.secondname || ''; // Fallback for null or undefined
+                        const lastname = item.lastname || ''; // Fallback for null or undefined
                         $('#table1').append(
                             '<tr>\
                                 <td>' + (key + 1) + '</td>\
                                 <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
                                 <td>' + item.phonenumber + '</td>\
                                 <td>' + item.email + '</td>\
-                                <td>' + item.role + '</td>\
-                                 <td>' + item.gender + '</td>\
+                                <td>' + item.course.course_name + '</td>\
+                                 <td>' + item.clas.clas_name + '</td>\
+                                <td>' + item.gender + '</td>\
                                 <td>' + item.status + '</td>\
                                 <td>\
-                                    <span type="button"\
+                                    <span type="button" \
                                         data-id="' + item.id + '" \
                                         data-firstname="' + item.firstname + '" \
                                         data-secondname="' + item.secondname + '" \
                                         data-lastname="' + item.lastname + '" \
                                         data-phonenumber="' + item.phonenumber + '" \
                                         data-email="' + item.email + '" \
+                                        data-update_course_id="' + item.course.id + '" \
+                                        data-update_clas_id="' + item.clas.id + '" \
                                         data-role="' + item.role + '" \
                                         data-gender="' + item.gender + '" \
                                         data-status="' + item.status + '" \
@@ -642,6 +663,8 @@
                         const lastname = $(this).data('lastname');
                         const phonenumber = $(this).data('phonenumber');
                         const email = $(this).data('email');
+                        const update_course_id = $(this).data('update_course_id');
+                        const update_clas_id = $(this).data('update_clas_id');
                         const role = $(this).data('role');
                         const gender = $(this).data('gender');
                         const status = $(this).data('status');
@@ -653,6 +676,8 @@
                         $('#updateUserModal #lastname').val(lastname);
                         $('#updateUserModal #phonenumber').val(phonenumber);
                         $('#updateUserModal #email').val(email);
+                        $('#updateUserModal #update_course_id').val(update_course_id);
+                        $('#updateUserModal #update_clas_id').val(update_clas_id);
                         $('#updateUserModal #role').val(role);
                         $('#updateUserModal #gender').val(gender);
                         $('#updateUserModal #status').val(status);
@@ -690,6 +715,8 @@
                 lastname: $('#lastname').val(),
                 phonenumber: $('#phonenumber').val(),
                 email: $('#email').val(),
+                update_course_id: $('#update_course_id').val(),
+                update_clas_id: $('#update_clas_id').val(),
                 role: $('#role').val(),
                 gender: $('#gender').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
@@ -701,7 +728,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{{ route('updateUser') }}",
+                url: "{{ route('updateTrainee') }}",
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
