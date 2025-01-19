@@ -244,7 +244,7 @@
 
 
                      <!--- Sidemenu -->
-                     @if(Auth::check() && Auth::user()->role=='Trainee')
+                    @if(Auth::check() && Auth::user()->role=='Trainee')
                     <ul class="side-nav">
 
                         <li class="side-nav-title side-nav-item"><b>HOME</b></li>
@@ -271,6 +271,25 @@
                                 <i class="uil-comments-alt"></i>
                                 <span class="menu-arrow"></span>
                                 <span> My Course</span>
+                            </a>
+                        </li>
+
+                      
+
+                    </ul> 
+                    @endif
+
+
+                    @if(Auth::check() && Auth::user()->role=='Data_clerk')
+                    <ul class="side-nav">
+
+                        <li class="side-nav-title side-nav-item"><b>HOME</b></li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showLeeds')}}" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Leeds</span>
                             </a>
                         </li>
 
