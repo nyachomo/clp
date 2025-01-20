@@ -153,9 +153,10 @@ Route::prefix('course-modules')->group(function () {
     Route::post('/update', [CourseModuleController::class, 'updateModule'])->name('updateModule');
     Route::post('/delete', [CourseModuleController::class, 'deleteModule'])->name('deleteModule');
     Route::get('/fetch_module/{course_id}', [CourseModuleController::class, 'fetchModules'])->name('fetchModules');
+    Route::post('/topics', [CourseModuleController::class, 'deleteModule'])->name('deleteModule');
 
     Route::get('/manageNotes', [CourseModuleController::class, 'adminManageNotes'])->name('adminManageNotes');
-    Route::get('/fetch-topics/{module_id}', [CourseModuleController::class, 'fetchTopics'])->name('fetchTopics');
+    Route::get('/fetch-topics/{id}', [CourseModuleController::class, 'fetchTopics'])->name('fetchTopics');
 });
 
 Route::prefix('settings')->group(function () {

@@ -62,7 +62,7 @@
           border: none;
           border-radius: 50px;
           cursor: pointer;
-          height:30px;
+          /*height:30px;*/
       }
 
       button:hover {
@@ -80,7 +80,7 @@
             }
 
             .btn{
-                border-radius:50px;
+                border-radius:20px;
             }
 
             .card{

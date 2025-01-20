@@ -122,10 +122,116 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                        
-                            <tbody id="table1"></tbody>
-                     
-                            <tbody id="table2"></tbody>
+                            <tbody>
+                                @if(!empty($topics))
+                                     @foreach($topics as $key=>$topic)
+                                         <tr>
+                                              <td>{{$key+1}}</td>
+                                              <td>{{$topic->topic_name ?? 'NA'}}</td>
+                                              <td><?php echo$topic->topic_content ?? 'NA'?></td>
+
+                                              <td>
+                                                        <!-- Default dropup button -->
+                                                        <div class="btn-group dropdown">
+                                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" href="#"><center><b>More Action</b></center></a>
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateTopic{{$topic->id}}" ><i class="fa fa-edit text-success"></i> Edit</a>
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteTopic{{$topic->id}}" ><i class="fa fa-trash text-danger"></i> Delete</a>
+                                                            </div>
+                                                        </div>
+                                                </td>
+
+                                         </tr>
+
+
+
+                                        <!-- Add User modal -->
+                                        <div id="updateTopic{{$topic->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i>Update Topic</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form method="POST" action="{{route('updateTopics')}}">
+                                                        @csrf
+                                                    
+
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+
+                                                        <input type="text" class="form-control" name="id" value="{{$topic->id}}">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <label>Topic Name</label>
+                                                                <input type="text" name="topic_name" class="form-control" value="{{$topic->topic_name}}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <label>Topic Content</label>
+                                                                <textarea name="topic_content"><?php echo$topic->topic_content;?></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <label>Topic video content</label>
+                                                                <input type="text" name="topic_video_link" class="form-control" value="{{$topic->topic_video_link}}">
+                                                            </div>
+                                                        </div>
+                                                        
+
+                                                        
+
+                                                        </div>
+                                                        <!-- /.card-body -->
+
+
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+                                                    </div>
+                                                </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div>
+                                        <!--end of modal-->
+
+
+
+                                         <!-- Add User modal -->
+                                         <div id="deleteTopic{{$topic->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i>Are you sure you want to delete this record</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form method="POST" action="{{route('deleteTopics')}}">
+                                                        @csrf
+                                                    
+
+                                                        <input type="text" class="form-control" name="id" value="{{$topic->id}}" hidden="true">
+                                                       
+
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
+                                                    </div>
+                                                </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div>
+                                        <!--end of modal-->
+
+
+
+                                     @endforeach
+                                @endif
+                            </tbody>
                             
                         </table>                                           
                     </div> <!-- end preview-->
@@ -133,13 +239,6 @@
                 </div> <!-- end tab-content-->
                 
             </div> <!-- end card body-->
-
-            <!--card-footer-->
-             <div id="pagination-controls" style="float:right"></div>
-
-            
-
-
 
             <!--end of card-footer-->
         </div> <!-- end card -->
@@ -165,7 +264,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
 
-                  <input type="text" class="form-control" name="module_id" value="{{$module_id}}" hidden="true">
+                  <input type="text" class="form-control" name="module_id" value="{{$id}}">
                   <div class="row">
                       <div class="col-sm-12">
                           <label>Topic Name</label>
@@ -235,69 +334,6 @@
 
 
 
-<!-- Add User modal -->
-<div id="updateQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel">Update Question</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <form method="POST" id="updateQuestionForm">
-                @csrf
-
-                <div class="card-body" style="border:1px solid white">
-                        <input type="text" class="form-control" name="update_topic_id" id="update_topic_id">
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Topic name <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_topic_name" id="update_topic_name">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Topic Content <sup>*</sup></label>
-                                    <textarea name="topic_content" id="topic_content"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label> Topic Vide Link <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_topic_video_link" id="update_topic_video_link">
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                   
-                </div>
-
-
-            <div class="modal-footer justify-content-between" style="border:1px solid white">
-                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Update</button>
-            </div>
-        </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!--end of modal-->
-
-
-
-
 
 
 
@@ -312,14 +348,7 @@
 
     $(document).ready(function(){
 
-           // Get the exam_id from the URL query parameters
-           const urlParams = new URLSearchParams(window.location.search);
-            const module_id = urlParams.get('module_id');
-
-            // Fetch questions for this exam
-            if (module_id) {
-                fetchUsers(module_id);
-            }
+          
 
 
             // Automatically hide success and error messages after 5 seconds
@@ -360,232 +389,6 @@
                     $('.alert').alert('close');
                 }, 5000);
             }
-
-
-
-
-            function fetchUsers(module_id,page = 1, search = '', perPage = 10) {
-                $.ajax({
-                    type: 'GET',
-                    //url: "{{route('adminManageQuestions')}}",
-                    //url: "{{ url('questions/questions') }}/" + exam_id, 
-                    url: "{{ route('fetchTopics', ['module_id' => '__module_id__']) }}".replace('__module_id__', module_id),  // Use named route
-                    data: { page: page, search: search, per_page: perPage },
-                    dataType: "json",
-                    success: function(response) {
-                        // Update total users
-                        $('#total-users').text(response.total_users);
-
-                        // Clear and repopulate the table
-                        $('tbody').html("");
-                        $.each(response.users, function(key, item) {
-                            const baseUrl = "{{ route('adminManageQuestions') }}";
-
-                            $('#table1').append(
-                                '<tr>\
-                                    <td>' + (key + 1) + '</td>\
-                                    <td>' + item.topic_name + '</td>\
-                                    <td>' + item.topic_content + '</td>\
-                                <td>\
-                                        <div class="dropdown">\
-                                            <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                            <ul class="dropdown-menu">\
-                                                <li><a class="dropdown-item updateBtn" href="#" \
-                                                    data-id="' + item.id + '" \
-                                                    data-topic_name="' + item.topic_name + '" \
-                                                    data-topic_content="' + item.topic_content + '" \
-                                                    data-topic_video_link="' + item.topic_video_link + '">\
-                                                    <i class="fa fa-edit text-success"></i> Update</a></li>\
-                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash text-danger"></i> Delete</a></li>\
-                                            </ul>\
-                                        </div>\
-                                    </td>\
-                                </tr>'
-                            );
-                        });
-
-                        // Render pagination
-                        renderPagination(response.pagination, search, perPage);
-                        // Attach event listener to Update button
-                            $('.deleteBtn').on('click', function() {
-                                const delete_topic_id = $(this).data('id');
-                                // Populate modal fields
-                                $('#delete_topic_id').val(delete_topic_id);
-                                // Show the modal
-                                $('#deleteTopicModal').modal('show');
-                            });
-
-
-                        // Attach event listener to Update button
-                        $('.updateBtn').on('click', function() {
-                            const update_topic_id = $(this).data('id');
-                            const update_topic_name = $(this).data('topic_name');
-                            const topic_content = $(this).data('topic_content');
-                            const update_topic_video_link = $(this).data('topic_video_link');
-                            // Populate modal fields
-                            $('#update_topic_id').val(update_topic_id);
-                            $('#update_topic_name').val(update_topic_name);
-                            $('#topic_content').val(topic_content);
-                            $('#update_topic_video_link').val(update_topic_video_link);
-
-                            // Set TinyMCE content for #what_to_learn
-                            if (tinymce.get('topic_content')) {
-                                tinymce.get('topic_content').setContent(topic_content || '');
-                            }
-
-                            // Show the modal
-                            $('#updateQuestionModal').modal('show');
-                        });
-
-
-                    }
-                });
-            }
-
-
-
-            $('#updateQuestionForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
-
-                if (tinymce.get('topic_content')) {
-                    tinymce.get('topic_content').save();
-                }
-
-                const formData = {
-                    update_topic_id: $('#update_topic_id').val(),
-                    update_topic_name: $('#update_topic_name').val(),
-                    topic_content: $('#topic_content').val(),
-                    update_topic_video_link: $('#update_topic_video_link').val(),
-                    _token: "{{ csrf_token() }}" // Include CSRF token for security
-                };
-
-                
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('updateTopics') }}",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message); // Notify user of success
-                            $('#updateQuestionModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Exam Updated Successfully');
-                            fetchUsers(module_id); // Refresh the users table
-                        } else {
-                            alert('Failed to update exam.');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, value) {
-                                errorMessages += value[0] + '\n';
-                            });
-                            alert(errorMessages); // Display validation errors
-                        } else {
-                            alert('An error occurred.');
-                        }
-                    }
-                });
-
-
-            });
-
-
-
-
-
-
-            $('#deleteQuestionForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
-
-                const formData = {
-                    delete_question_id: $('#delete_question_id').val(),
-                    _token: "{{ csrf_token() }}" // Include CSRF token for security
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('deleteQuestion') }}",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message); // Notify user of success
-                            $('#deleteQuestionModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Question Deleted Successfully');
-                            fetchUsers(module_id); // Refresh the users table
-                        } else {
-                            alert('Failed to update user.');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, value) {
-                                errorMessages += value[0] + '\n';
-                            });
-                            alert(errorMessages); // Display validation errors
-                        } else {
-                            alert('An error occurred.');
-                        }
-                    }
-                });
-
-
-            });
-
-
-
-
-
-            function renderPagination(pagination, search, perPage) {
-                let paginationHTML = "";
-
-                if (pagination.current_page > 1) {
-                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
-                }
-
-                for (let i = 1; i <= pagination.last_page; i++) {
-                    const activeClass = pagination.current_page === i ? 'active' : '';
-                    paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
-                }
-
-                if (pagination.current_page < pagination.last_page) {
-                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
-                }
-
-                $('#pagination-controls').html(paginationHTML);
-            }
-
-
-        // Live search functionality
-        $('#search').on('input', function() {
-            const search = $(this).val();
-            fetchUsers(1, search); // Always reset to page 1 when searching
-        });
-
-
-        $('#select').on('change', function() {
-            const perPage = $(this).val();
-            const search = $('#search').val(); // Get current search term, if any
-            fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
-        });
-
-        // Handle pagination button click with updated perPage
-        $(document).on('click', '.pagination-btn', function() {
-            const page = $(this).data('page');
-            const search = $(this).data('search');
-            const perPage = $(this).data('per-page');
-            fetchUsers(page, search, perPage);
-        });
-
-
-
-
 });
 
 

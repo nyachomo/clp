@@ -61,26 +61,23 @@ class TopicController extends Controller
     public function updateTopics(Request $request)
     {
        
-        $validated = $request->validate([
-            'update_topic_id' =>'required|exists:topics,id',
-            'update_topic_name' =>'required|string|max:255',
-            'topic_content' =>'required|string',
-        ]);
+       
 
-
-        $user = Topic::find($request->update_topic_id);
+        $user = Topic::find($request->id);
 
         if ($user) {
             // Update user details
-            $user->topic_name = $request->update_topic_name;
-            $user->topic_content = $request->topic_content;
-            $user->topic_video_link = $request->update_topic_video_link;
-            $user->update();
-            return response()->json(['success' => true, 'message' => 'Topic updated successfully!']);
+            $user->topic_name = $request->topic_name;
+            $user->topic_content =$request->topic_content;
+            $user->topic_video_link =$request->update_topic_video_link;
+            $update=$user->update();
+            if($update){
+                return redirect()->back()->with('success','Data updated succesfully');
+                }else{
+                    return redirect()->back()->with('Failed','Could not  update');
+                }
         }
 
-        return response()->json(['success' => false, 'message' => 'Clas not found!'], 404);
-   
     }
 
 
@@ -94,13 +91,16 @@ class TopicController extends Controller
     public function deleteTopics(Request $request)
     {
        
-        $user = Topic::find($request->delete_topic_id);
+        $user = Topic::find($request->id);
         if ($user) {
-            $user->delete();
-            return response()->json(['success' => true, 'message' => 'Notes deleted successfully!']);
+            $delete=$user->delete();
+            if($delete){
+                return redirect()->back()->with('success','Data deleted succesfully');
+                }else{
+                    return redirect()->back()->with('Failed','Could not  delete');
+                }
         }
-        return response()->json(['success' => false, 'message' => 'Class not found!'], 404);
-   
+       
     }
 
 

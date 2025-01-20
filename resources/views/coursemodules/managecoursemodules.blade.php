@@ -73,7 +73,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Schools: <span id="total-users">0</span>
+                Total Modules: <span id="total-users">0</span>
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addModule"> <i class="uil-user-plus"></i>Add New Module</a>
             </div>
             <div class="card-body">
@@ -115,15 +115,122 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Question </th>
-                                    <th>Answer</th>
+                                    <th>Name</th>
+                                    <th>Content</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                         
-                            <tbody id="table1"></tbody>
-                     
-                            <tbody id="table2"></tbody>
+                             <tbody>
+                                @if(!empty($modules))
+                                   @foreach($modules as $key=>$module)
+                                       <tr>
+                                           <td>{{$key+1}}</td>
+                                           <td>{{$module->module_name}}</td>
+                                           <td><?php echo$module->module_content?></td>
+                                           <td>
+
+                                                <!-- Default dropup button -->
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#"><center><b>More Action</b></center></a>
+                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateModule{{$module->id}}" ><i class="fa fa-edit text-success"></i> Edit</a>
+                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModule{{$module->id}}" ><i class="fa fa-trash text-danger"></i> Delete</a>
+                                                        <a class="dropdown-item" href="{{ url('/course-modules/fetch-topics/' . $module->id) }}"><i class="fa fa-eye text-warning"></i>Notes</a>
+                                                    </div>
+                                                </div>
+                                           </td>
+                                       </tr>
+
+                                        <!-- Add User modal -->
+                                        <div id="updateModule{{$module->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form method="post" action="{{route('updateModule')}}">
+                                                        @csrf
+                                                    
+
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                        <input type="text" name="id" class="form-control" value="{{$module->id}}" hidden="true">
+                                                            <div class="row">
+
+                                                                <div class="col-sm-12">
+                                                                    <!-- text input -->
+                                                                    <div class="form-group">
+                                                                        <label>Module Name<sup>*</sup></label>
+                                                                        <input type="text" class="form-control" name="module_name" value="{{$module->module_name}}" required>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <div class="row">
+
+                                                                <div class="col-sm-12">
+                                                                    <!-- text input -->
+                                                                    <div class="form-group">
+                                                                        <label>Topic Content<sup>*</sup></label>
+                                                                        <textarea name="module_content"><?php echo$module->module_content?></textarea>
+                                                                        
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        
+
+                                                        </div>
+                                                        <!-- /.card-body -->
+
+
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+                                                    </div>
+                                                </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div>
+                                        <!--end of modal-->
+
+
+                                        <!-- Add User modal -->
+                                        <div id="deleteModule{{$module->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Are you sure you want to delete this record</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form method="post" action="{{route('deleteModule')}}">
+                                                        @csrf
+                                                    
+                                                        <input type="text" name="id" class="form-control" value="{{$module->id}}" hidden="true">
+                                                        
+
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
+                                                    </div>
+                                                </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div>
+                                        <!--end of modal-->
+
+
+
+                                   @endforeach
+                                @endif
+                             </tbody>
                             
                         </table>                                           
                     </div> <!-- end preview-->
@@ -131,13 +238,6 @@
                 </div> <!-- end tab-content-->
                 
             </div> <!-- end card body-->
-
-            <!--card-footer-->
-             <div id="pagination-controls" style="float:right"></div>
-
-            
-
-
 
             <!--end of card-footer-->
         </div> <!-- end card -->
@@ -213,111 +313,9 @@
 
 
 
-
-
-<!-- Add User modal -->
-<div id="deleteQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to delete this record ?</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <form method="POST" id="deleteQuestionForm">
-                @csrf
-
-                <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="delete_question_id" id="delete_question_id">
-                </div>
-
-
-            <div class="modal-footer justify-content-between" style="border:1px solid white">
-                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
-            </div>
-        </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!--end of modal-->
-
-
-
-
-<!-- Add User modal -->
-<div id="updateCourseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Module</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <form method="POST" id="updateCourseForm">
-                @csrf
-               
-
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <input type="text" class="form-control" name="module_id" id="module_id" hidden="true">
-                    <div class="row">
-
-                       <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Module Name<sup>*</sup></label>
-                                <input type="text" class="form-control" name="module_name" id="module_name" required>
-                            </div>
-                        </div>
-
-                        
-
-                    </div>
-
-
-                    
-                         
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <label>Module Content</label>
-                            <textarea name="module_content" id="module_content"> </textarea> 
-                        </div>
-                    </div>
-
-                    
-
-
-
-                    
-
-
-
-
-                </div>
-                 <!-- /.card-body -->
-
-
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
-            </div>
-        </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!--end of modal-->
-
-
-
-
-
-
-
-
-
-
-
 @endsection
 @section('scripts')
+
 <script>
     
 
@@ -371,235 +369,6 @@
                     $('.alert').alert('close');
                 }, 5000);
             }
-
-
-
-
-            function fetchUsers(course_id,page = 1, search = '', perPage = 10) {
-                $.ajax({
-                    type: 'GET',
-                    //url: "{{route('adminManageQuestions')}}",
-                    //url: "{{ url('questions/questions') }}/" + exam_id, 
-                    url: "{{ route('fetchModules', ['course_id' => '__course_id__']) }}".replace('__course_id__', course_id),  // Use named route
-                    data: { page: page, search: search, per_page: perPage },
-                    dataType: "json",
-                    success: function(response) {
-                        // Update total users
-                        $('#total-users').text(response.total_users);
-
-                        // Clear and repopulate the table
-                        $('tbody').html("");
-                        $.each(response.users, function(key, item) {
-                            const baseUrl = "{{ route('adminManageNotes') }}";
-
-                            $('#table1').append(
-                                '<tr>\
-                                    <td>' + (key + 1) + '</td>\
-                                    <td>' + item.module_name + '</td>\
-                                    <td>' + item.module_content + '</td>\
-                                <td>\
-                                        <div class="dropdown">\
-                                            <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                            <ul class="dropdown-menu">\
-                                                <li><a class="dropdown-item updateBtn" href="#" \
-                                                    data-id="' + item.id + '" \
-                                                    data-module_name="' + item.module_name + '" \
-                                                    data-module_content="' + item.module_content + '" ><i class="fa fa-edit text-success"></i> Update</a></li>\
-                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash text-danger"></i> Delete</a></li>\
-                                                <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?module_id=' + item.id + '" target="_blank">View Modules</a></li>\
-                                            </ul>\
-                                        </div>\
-                                    </td>\
-                                </tr>'
-                            );
-                        });
-
-                        // Render pagination
-                        renderPagination(response.pagination, search, perPage);
-                        // Attach event listener to Update button
-                        $('.deleteBtn').on('click', function() {
-                            const delete_question_id = $(this).attr('value');
-                            // Populate modal fields
-                            $('#delete_question_id').val(delete_question_id);
-                            // Show the modal
-                            $('#deleteQuestionModal').modal('show');
-                        });
-
-
-                        // Attach event listener to Update button
-                        $('.updateBtn').on('click', function() {
-                            const module_id = $(this).data('id');
-                            const module_name = $(this).data('module_name');
-                            const module_content = $(this).data('module_content');
-
-                            // Populate modal fields
-                            $('#module_id').val(module_id);
-                            $('#module_name').val(module_name);
-                            $('#module_content').val(module_content);
-
-
-                            // Set TinyMCE content for #what_to_learn
-                            if (tinymce.get('module_content')) {
-                                tinymce.get('module_content').setContent(module_content || '');
-                            }
-
-                        
-
-                            // Show the modal
-                            $('#updateCourseModal').modal('show');
-                        });
-
-
-                        
-
-
-                    }
-                });
-            }
-
-
-
-            $('#updateCourseForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
-
-                if (tinymce.get('module_content')) {
-                    tinymce.get('module_content').save();
-                }
-                
-                const formData = {
-                    module_id: $('#module_id').val(),
-                    module_name: $('#module_name').val(),
-                    module_content: $('#module_content').val(),
-                    _token: "{{ csrf_token() }}" // Include CSRF token for security
-                };
-
-                
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('updateModule') }}",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message); // Notify user of success
-                            $('#updateCourseModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Course Updated Successfully');
-                            fetchUsers(course_id); // Refresh the users table
-                        } else {
-                            alert('Failed to update user.');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, value) {
-                                errorMessages += value[0] + '\n';
-                            });
-                            alert(errorMessages); // Display validation errors
-                        } else {
-                            alert('An error occurred.');
-                        }
-                    }
-                });
-
-
-            });
-
-
-
-
-
-
-
-            $('#deleteQuestionForm').on('submit', function(e) {
-                e.preventDefault(); // Prevent the default form submission
-
-                const formData = {
-                    delete_question_id: $('#delete_question_id').val(),
-                    _token: "{{ csrf_token() }}" // Include CSRF token for security
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('deleteModule') }}",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message); // Notify user of success
-                            $('#deleteQuestionModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Question Deleted Successfully');
-                            fetchUsers(course_id); // Refresh the users table
-                        } else {
-                            alert('Failed to update user.');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, value) {
-                                errorMessages += value[0] + '\n';
-                            });
-                            alert(errorMessages); // Display validation errors
-                        } else {
-                            alert('An error occurred.');
-                        }
-                    }
-                });
-
-
-            });
-
-
-
-
-
-            function renderPagination(pagination, search, perPage) {
-                let paginationHTML = "";
-
-                if (pagination.current_page > 1) {
-                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
-                }
-
-                for (let i = 1; i <= pagination.last_page; i++) {
-                    const activeClass = pagination.current_page === i ? 'active' : '';
-                    paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
-                }
-
-                if (pagination.current_page < pagination.last_page) {
-                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
-                }
-
-                $('#pagination-controls').html(paginationHTML);
-            }
-
-
-        // Live search functionality
-        $('#search').on('input', function() {
-            const search = $(this).val();
-            fetchUsers(1, search); // Always reset to page 1 when searching
-        });
-
-
-        $('#select').on('change', function() {
-            const perPage = $(this).val();
-            const search = $('#search').val(); // Get current search term, if any
-            fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
-        });
-
-        // Handle pagination button click with updated perPage
-        $(document).on('click', '.pagination-btn', function() {
-            const page = $(this).data('page');
-            const search = $(this).data('search');
-            const perPage = $(this).data('per-page');
-            fetchUsers(page, search, perPage);
-        });
-
-
-
 
 });
 
