@@ -135,9 +135,9 @@
                                                     <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="#"><center><b>More Action</b></center></a>
-                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateModule{{$module->id}}" ><i class="fa fa-edit text-success"></i> Edit</a>
-                                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModule{{$module->id}}" ><i class="fa fa-trash text-danger"></i> Delete</a>
-                                                        <a class="dropdown-item" href="{{ url('/course-modules/fetch-topics/' . $module->id) }}"><i class="fa fa-eye text-warning"></i>Notes</a>
+                                                        <a class="dropdown-item text-success" href="#" data-bs-toggle="modal" data-bs-target="#updateModule{{$module->id}}" ><i class="fa fa-edit"></i> Edit</a>
+                                                        <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteModule{{$module->id}}" ><i class="fa fa-trash"></i> Delete</a>
+                                                        <a class="dropdown-item text-info" href="{{ url('/course-modules/fetch-topics/' . $module->id) }}"><i class="fa fa-bars" aria-hidden="true"></i>Manage Notes</a>
                                                     </div>
                                                 </div>
                                            </td>

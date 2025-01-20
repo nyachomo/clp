@@ -639,7 +639,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                         data-course_price="' + item.course_price + '" ><i class="uil-edit"></i> Update</a></li>\
                                     <li><a  class="dropdown-item deleteBtn text-danger" href="#" value="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                     <li><a  class="dropdown-item suspendBtn text-warning" href="#" value="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
-                                    <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?course_id=' + item.id + '" target="_blank">View Modules</a></li>\
+                                    <li><a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?course_id=' + item.id + '" target="_blank"><i class="fa fa-bars" aria-hidden="true"></i> Manage Modules</a></li>\
                                 </ul>\
                             </div>\
                         </td>\
