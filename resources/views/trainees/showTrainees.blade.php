@@ -621,6 +621,7 @@
                         // Use fallback values for null secondname and lastname
                         const secondname = item.secondname || ''; // Fallback for null or undefined
                         const lastname = item.lastname || ''; // Fallback for null or undefined
+                        const baseUrl = "{{ route('showFees') }}";
                         $('#table1').append(
                             '<tr>\
                                 <td>' + (key + 1) + '</td>\
@@ -644,9 +645,10 @@
                                         data-role="' + item.role + '" \
                                         data-gender="' + item.gender + '" \
                                         data-status="' + item.status + '" \
-                                        class="jobDesBtn badge badge-outline-success rounded-pill"><i class="fa fa-edit"></i> Update</span>\
+                                        class="jobDesBtn badge badge-outline-success rounded-pill"><i class="fa fa-edit"></i></span>\
                                         <span type="button" value="' + item.id + '" \
-                                        class="deleteBtn badge badge-outline-danger rounded-pill""><i class="fa fa-trash"></i> Delete</span>\
+                                        class="deleteBtn badge badge-outline-danger rounded-pill""><i class="fa fa-trash"></i></span>\
+                                        <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank"><i class="fa fa-bars" aria-hidden="true"></i> Manage Fee</a>\
                                 </td>\
                             </tr>'
                         );

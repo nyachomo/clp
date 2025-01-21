@@ -12,6 +12,7 @@ use App\Http\Controllers\LeedController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\FeeController;
 use App\Http\Controllers\CourseModuleController;
 Route::get('/', function () {
     //return view('welcome');
@@ -169,4 +170,13 @@ Route::prefix('settings')->group(function () {
 
     
    
+});
+
+
+Route::prefix('fees')->group(function () {
+    Route::get('/showFees', [FeeController::class, 'showFees'])->name('showFees');
+    Route::post('/add', [FeeController::class, 'addFees'])->name('addFees');
+    Route::post('/update', [FeeController::class, 'updateFees'])->name('updateFees');
+    Route::post('/delete', [FeeController::class, 'deleteFees'])->name('deleteFees');
+    Route::get('/downloadReceipt', [FeeController::class, 'downloadReceipt'])->name('downloadReceipt');
 });

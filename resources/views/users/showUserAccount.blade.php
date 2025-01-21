@@ -7,12 +7,11 @@
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                    <li class="breadcrumb-item active">Profile 2</li>
+                    <li class="breadcrumb-item active"><a href="{{route('home')}}">Dashborad</a></li>
+                    <li class="breadcrumb-item active">Manage Account</li>
                 </ol>
             </div>
-            <h4 class="page-title">Profile 2</h4>
+            <h4 class="page-title">My Account</h4>
         </div>
     </div>
 </div>

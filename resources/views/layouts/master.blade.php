@@ -42,12 +42,8 @@
        <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
        
 
-       
-
-
        <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
+      <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 
 
@@ -498,6 +494,10 @@
 <!-- init js -->
 <script src="{{asset('assets/js/ui/component.fileupload.js')}}"></script>
 
+
+ <!-- bundle -->
+ <script src="{{asset('assets/js/vendor.min.js')}}"></script>
+<script src="{{asset('assets/js/app.min.js')}}"></script>
 
 
 
