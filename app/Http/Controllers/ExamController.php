@@ -15,6 +15,16 @@ class ExamController extends Controller
         return view('exams.adminManageExams',compact('clas'));
     }
 
+    public function adminManageCats(){
+        $clas=Clas::select('id','clas_name')->get();
+        return view('exams.adminManageCats',compact('clas'));
+    }
+
+    public function adminManageFinalExam(){
+        $clas=Clas::select('id','clas_name')->get();
+        return view('exams.adminManageFinalExam',compact('clas'));
+    }
+
     public function addAssignment(Request $request){
         $save=Exam::create($request->all());
         if($save){
@@ -36,7 +46,96 @@ class ExamController extends Controller
         'exam_instruction',
         'exam_status',
         'course_id',
-        'clas_id')->orderBy('created_at', 'desc');
+        'clas_id')
+        ->where('is_assignment','Yes')
+        ->orderBy('created_at', 'desc');
+
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('exam_name', 'like', '%' . $request->search . '%')
+                ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+
+    public function fetchCats(Request $request) {
+        $query = Exam::with('clas')->select( 'id',  'exam_type',
+        'is_assignment',
+        'is_cat',
+        'is_final_exam',
+        'exam_name',
+        'exam_start_date',
+        'exam_end_date',
+        'exam_duration',
+        'exam_instruction',
+        'exam_status',
+        'course_id',
+        'clas_id')
+        ->where('is_cat','Yes')
+        ->orderBy('created_at', 'desc');
+
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('exam_name', 'like', '%' . $request->search . '%')
+                ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+    public function fetchFinalExam(Request $request) {
+        $query = Exam::with('clas')->select( 'id',  'exam_type',
+        'is_assignment',
+        'is_cat',
+        'is_final_exam',
+        'exam_name',
+        'exam_start_date',
+        'exam_end_date',
+        'exam_duration',
+        'exam_instruction',
+        'exam_status',
+        'course_id',
+        'clas_id')
+        ->where('is_final_exam','Yes')
+        ->orderBy('created_at', 'desc');
 
 
         // Apply search filter if provided

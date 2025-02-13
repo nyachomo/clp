@@ -26,19 +26,25 @@
   }
 
   #pagination-controls .active {
-    background-color: #28a745; /* Green for active page */
+    background-color: #39ac73; /* Green for active page */
   }
 </style>
+
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                  <h4 class="page-title">Manage Users</h4>
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Manage Administrators</li>
+                </ol>
             </div>
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">Administrators</h4>
         </div>
     </div>
 </div>
+<!-- end page title --> 
 
 
 
@@ -70,7 +76,7 @@
         <div class="card">
             <div class="card-header">
                 
-                Total Users: <span id="total-users">0</span>
+                Total Administrators: <span id="total-users">0</span>
                  <a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>
                  <a type="button" style="float:right" class="btn btn-sm btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <i class="uil-export"></i>Upload</a>
                 <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUser-modal"> <i class="uil-user-plus"></i>Add</a>-->
@@ -302,7 +308,7 @@
                 <form id="updateUserForm">
 
 
-                   <input type="text" id="user_id" name="user_id" value="" hidden="true">
+                   <input type="text" id="user_id" name="user_id" value="" >
 
                     <div class="row">
                         <div class="col-sm-12">
@@ -413,7 +419,7 @@
                                 <label>Status<span class="labelSpan">*</span></label>
                                 <select name="status"  class="form-control">
                                     <option value="">Select Status</option>
-                                    <option value="Active">Admin</option>
+                                    <option value="Active">Active</option>
                                     <option value="Suspended">Suspended</option>
                                 </select>
 
@@ -613,19 +619,23 @@
                                  <td>' + item.gender + '</td>\
                                 <td>' + item.status + '</td>\
                                 <td>\
-                                    <span type="button"\
-                                        data-id="' + item.id + '" \
-                                        data-firstname="' + item.firstname + '" \
-                                        data-secondname="' + item.secondname + '" \
-                                        data-lastname="' + item.lastname + '" \
-                                        data-phonenumber="' + item.phonenumber + '" \
-                                        data-email="' + item.email + '" \
-                                        data-role="' + item.role + '" \
-                                        data-gender="' + item.gender + '" \
-                                        data-status="' + item.status + '" \
-                                        class="jobDesBtn badge badge-outline-success rounded-pill"><i class="fa fa-edit"></i> Update</span>\
-                                        <span type="button" value="' + item.id + '" \
-                                        class="deleteBtn badge badge-outline-danger rounded-pill""><i class="fa fa-trash"></i> Delete</span>\
+                                <div class="dropdown">\
+                                        <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                        <ul class="dropdown-menu">\
+                                            <li><a class="dropdown-item jobDesBtn text-success" href="#" \
+                                                data-id="' + item.id + '" \
+                                                data-firstname="' + item.firstname + '" \
+                                                data-secondname="' + item.secondname + '" \
+                                                data-lastname="' + item.lastname + '" \
+                                                data-phonenumber="' + item.phonenumber + '" \
+                                                data-email="' + item.email + '" \
+                                                data-role="' + item.role + '" \
+                                                data-gender="' + item.gender + '" \
+                                                data-status="' + item.status + '" \
+                                                ><i class="uil-edit"></i> Update</a></li>\
+                                            <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
+                                        </ul>\
+                                    </div>\
                                 </td>\
                             </tr>'
                         );
@@ -665,7 +675,7 @@
 
                     // Attach event listener to Update button
                     $('.deleteBtn').on('click', function() {
-                        const delete_user_id = $(this).val();
+                        const delete_user_id = $(this).data('id');
                         // Populate modal fields
                         $('#delete_user_id').val(delete_user_id);
                         // Show the modal

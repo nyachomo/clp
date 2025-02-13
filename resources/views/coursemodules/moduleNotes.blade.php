@@ -2,7 +2,6 @@
 @section('content')
 
 <style>
-
 #pagination-controls {
     display: flex;
     justify-content: right;
@@ -248,7 +247,6 @@
 
 
 
-
 <!-- Add User modal -->
 <div id="addTopicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -264,7 +262,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
 
-                  <input type="text" class="form-control" name="module_id" value="{{$id}}">
+                  <input type="text" class="form-control" name="module_id" value="{{$id}}" hidden="true">
                   <div class="row">
                       <div class="col-sm-12">
                           <label>Topic Name</label>

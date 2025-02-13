@@ -368,7 +368,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas_name + '</td>\
-                        <td>' + item.clas_status + '</td>\
                         <td>\
                             <button type="button" value="' + item.id + '" \
                                 data-clas_name="' + item.clas_name + '" \

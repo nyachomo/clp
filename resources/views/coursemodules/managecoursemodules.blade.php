@@ -145,10 +145,10 @@
 
                                         <!-- Add User modal -->
                                         <div id="updateModule{{$module->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl">
+                                            <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
+                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Module</h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                     </div>
                                                     <form method="post" action="{{route('updateModule')}}">
@@ -176,7 +176,7 @@
                                                                 <div class="col-sm-12">
                                                                     <!-- text input -->
                                                                     <div class="form-group">
-                                                                        <label>Topic Content<sup>*</sup></label>
+                                                                        <label>What to Learn<sup>*</sup></label>
                                                                         <textarea name="module_content"><?php echo$module->module_content?></textarea>
                                                                         
                                                                     </div>
@@ -253,10 +253,10 @@
 
 <!-- Add User modal -->
 <div id="addModule" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Module</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="post" action="{{route('addModule')}}">
@@ -265,7 +265,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                <input type="text" name="course_id" class="form-control" value="{{$course_id}}">
+                <input type="text" name="course_id" class="form-control" value="{{$course_id}}" hidden="true">
                     <div class="row">
 
                         <div class="col-sm-12">
@@ -284,7 +284,7 @@
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Topic Content<sup>*</sup></label>
+                                <label>What to Learn<sup>*</sup></label>
                                 <textarea name="module_content"></textarea>
                                 
                             </div>

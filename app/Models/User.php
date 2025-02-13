@@ -26,6 +26,7 @@ class User extends Authenticatable
         'gender',
         'status',
         'role',
+        'profile_image',
 
         'has_paid_reg_fee',
         'date_paid_reg_fee',
@@ -72,5 +73,10 @@ class User extends Authenticatable
     public function clas()
     {
         return $this->belongsTo(Clas::class);
+    }
+
+    public function studentAnswers()
+    {
+        return $this->hasMany(StudentAnswer::class, 'user_id');
     }
 }

@@ -35,20 +35,20 @@ return new class extends Migration
 
         DB::table('settings')->insert([
             [
-                'company_name' => 'Collaboration And Linkages Portal',
-                'company_logo' => 'logo.jpeg',
+                'company_name' => 'Parpus',
+                'company_logo' => 'logo.jpg',
                 'company_motto' => 'Empowering Mind, Securing Future',
                 'company_mission' => 'To provide accessible, innovative, and high-quality training in technology and programming, empowering individuals with the skills and knowledge to thrive in the digital age.',
                 'company_vission' => 'To be a leading institution in technological education, fostering innovation, creativity, and excellence to build a skilled and future-ready workforce.',
                 'company_kra_pin' => '',
-                'company_website' => 'https://www.amaniacademy.ac.ke',
+                'company_website' => 'https://plc.co.ke/',
                 'company_address' => 'Po Box 7854329 Nairobi',
-                'company_facebook' =>'https://www.amanifacebook.ac.ke',
-                'company_twitter' => 'https://www.amanitwitter.ac.ke',
-                'company_instagram' => 'https://www.amaniinstagram.ac.ke',
-                'company_linkedin' => 'https://www.amanilinkdn.ac.ke',
-                'company_skype' => 'https://www.amaniskype.ac.ke',
-                'company_github' => 'https://www.amanigithub.ac.ke',
+                'company_facebook' =>'https://www.parpusfacebook.com',
+                'company_twitter' => 'https://www.parpustwitter.com',
+                'company_instagram' => 'https://www.parpusinstagram.com',
+                'company_linkedin' => 'https://www.parpuslinkdn.com',
+                'company_skype' => 'https://www.parpusskype.com',
+                'company_github' => 'https://www.parpusgithub.com',
             ],
         ]);
 

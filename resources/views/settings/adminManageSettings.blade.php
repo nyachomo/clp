@@ -63,7 +63,7 @@
                             @csrf
                            
                             <input type="text" name="id" value="{{$companyDetail->id}}" hidden="true">
-                            <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-office-building me-1"></i> Company Info</h5>
+                            <h5 class="mb-3 text-uppercase bg-light p-2 bodyColor" style="color:white"><i class="mdi mdi-office-building me-1"></i> Company Info</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -491,7 +491,7 @@
 
         // Set an interval to run the check every 5 seconds (5000 milliseconds)
         setInterval(checkCompanySettings, 5000);
-    </script>
+</script>
 
 
 

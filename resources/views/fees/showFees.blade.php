@@ -319,7 +319,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add Fee</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('addFees')}}">
@@ -328,7 +328,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <input type="text" class="form-control" name="user_id" value="{{$user_id}}">
+                    <input type="text" class="form-control" name="user_id" value="{{$user_id}}" hidden="true">
 
                     <div class="row">
 

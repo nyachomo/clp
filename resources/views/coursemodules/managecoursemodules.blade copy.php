@@ -156,7 +156,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Topic</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Module</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="post" action="{{route('addModule')}}">
@@ -165,7 +165,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                <input type="text" name="course_id" class="form-control" value="{{$course_id}}">
+                <input type="text" name="course_id" class="form-control" value="{{$course_id}}" hidden="true">
                     <div class="row">
 
                         <div class="col-sm-12">

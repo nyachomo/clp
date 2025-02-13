@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->longText('password')->nullable();
             $table->longText('status')->default('Active');
+            $table->longText('profile_image')->default('profile.png');
             
             $table->longText('has_paid_reg_fee')->nullable();
             $table->longText('date_paid_reg_fee')->nullable();
@@ -56,6 +57,19 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::table('users')->insert([
+            [
+                'firstname' => 'Parpus',
+                'secondname' => 'Learning',
+                'lastname' => 'Center',
+                'phonenumber' =>'0737666770',
+                'role' => 'Admin',
+                'email' => 'admin@plc.ac.ke',
+                'password' => Hash::make(12345678),
+            ],
+        ]);
+
     }
 
     /**

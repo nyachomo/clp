@@ -29,17 +29,21 @@
     background-color: #28a745; /* Green for active page */
   }
 </style>
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                  <h4 class="page-title">Manage Users</h4>
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Manage Assignment</li>
+                </ol>
             </div>
-            <h4 class="page-title">Dashboard</h4>
+            <h4 class="page-title">Assignment</h4>
         </div>
     </div>
 </div>
-
+<!-- end page title -->
 
 
 <div id="response"></div>
@@ -559,17 +563,17 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
                                 <ul class="dropdown-menu">\
-                                    <li><a class="dropdown-item updateBtn" href="#" \
+                                    <li><a  class="text-success dropdown-item updateBtn" href="#" \
                                         data-id="' + item.id + '" \
                                         data-exam_name="' + item.exam_name + '" \
                                         data-exam_start_date="' + item.exam_start_date + '" \
                                         data-exam_end_date="' + item.exam_end_date + '" \
                                         data-exam_duration="' + item.exam_duration + '" \
                                         data-exam_instruction="' + item.exam_instruction + '" \
-                                        data-update_clas_id="' + item.clas.id + '">Update</a></li>\
-                                    <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
-                                    <li><a  class="dropdown-item publishedBtn" href="#" value="' + item.id + '">Published</a></li>\
-                                   <li><a class="dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">View Questions</a></li>\
+                                        data-update_clas_id="' + item.clas.id + '"> <i class="fa fa-edit"></i> Update</a></li>\
+                                    <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
+                                    <li><a  class="text-info dropdown-item publishedBtn" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
+                                   <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></li>\
                                 </ul>\
                             </div>\
                         </td>\

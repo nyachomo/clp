@@ -6,10 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -30,7 +31,10 @@ class UserController extends Controller
 
 
     public function adminFetchUsers(Request $request) {
-        $query = DB::table('users')->select('id', 'firstname','secondname','lastname','email','phonenumber','role','status','gender')->orderBy('created_at', 'desc');
+        $query = DB::table('users')->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        'email','phonenumber','role','status','gender')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -173,7 +177,7 @@ class UserController extends Controller
             $file = $request->file('file');
 
             // You might want to hash or encrypt the password for security
-            $password = bcrypt('12345678');
+            $password = bcrypt('123456');
 
             try {
                 // Load the spreadsheet
@@ -197,6 +201,9 @@ class UserController extends Controller
                                 'secondname' => $row[1] ?? null,
                                 'lastname' => $row[2] ?? null,
                                 'email' => $row[3],
+                                'phonenumber' => $row[4],
+                                'gender' => $row[5],
+                                'role' => $row[6],
                                 'password' => $password,
                             ]);
                         }
@@ -214,16 +221,6 @@ class UserController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
     public function download()
     {
         $users = User::all();
@@ -237,6 +234,9 @@ class UserController extends Controller
         $sheet->setCellValue('B1', 'Secondname');
         $sheet->setCellValue('C1', 'Lastname');
         $sheet->setCellValue('D1', 'Email');
+        $sheet->setCellValue('E1', 'Phonenumber');
+        $sheet->setCellValue('F1', 'Gender');
+        $sheet->setCellValue('G1', 'Role');
 
         // Fill data from the users table
         $row = 2; // Start from the second row
@@ -245,6 +245,9 @@ class UserController extends Controller
             $sheet->setCellValue('B' . $row, $user->secondname);
             $sheet->setCellValue('C' . $row, $user->lastname);
             $sheet->setCellValue('D' . $row, $user->email);
+            $sheet->setCellValue('E' . $row, $user->phonenumber);
+            $sheet->setCellValue('F' . $row, $user->gender);
+            $sheet->setCellValue('G' . $row, $user->role);
             $row++;
         }
 
@@ -261,7 +264,7 @@ class UserController extends Controller
 
     public function downloadUserFile(){
         $filePath = public_path('downloads/user.xlsx'); // Path to the file
-        $fileName = 'user.xlsx'; // Name of the file to download
+        $fileName = 'user_date.xlsx'; // Name of the file to download
     
         if (file_exists($filePath)) {
             return Response::download($filePath, $fileName);
@@ -276,4 +279,76 @@ class UserController extends Controller
     public function UserAccount(){
         return view('users.showUserAccount');
     }
+
+
+    
+   public function adminUpdateUserPassword(Request $request){
+
+    $oldPassword = $request->old_password;
+    $newPassword = $request->new_password;
+    $confirmPassword = $request->confirm_new_password;
+
+      // Check if the old password matches the hashed password in the database
+      if (!Hash::check($request->old_password, Auth::user()->password)) {
+          return redirect()->back()->with('error', 'The provided password does not match your current password.');
+         //return back()->withErrors(['old_password' => 'The provided password does not match your current password.']);
+      }else{
+        if ($newPassword !== $confirmPassword) {
+          return redirect()->back()->with('error', 'The new password confirmation does not match..');
+          //return back()->withErrors(['confirm_new_password' => 'The new password confirmation does not match.']);
+        }else{
+          // Update the new password
+          Auth::user()->update([
+            'password' => Hash::make($request->new_password),
+          ]);
+
+          return redirect()->back()->with('success', 'Password updated successfully!'); 
+        }
+      } 
+
+   }
+
+
+
+   //STUDENT UPDATE PROFILE IMAGE
+   public function adminUpdateUserPicture(Request $request){
+
+    if($request->hasfile('profile_image')){
+        $file=$request->file('profile_image');
+        $extension=$file->getClientOriginalExtension();
+        $fileName=time().'.'.$extension;
+        $file->move('images/profile/',$fileName);
+        $id=Auth::user()->id;
+        $user=User::find($id);
+        $user->profile_image=$fileName;
+        $user->update();
+        return redirect()->back()->with('success', 'Image updated successfully');
+
+
+    }else{
+      echo"Image id Blank";
+    }
+  }
+
+  public function userUpdateProfile(Request $request){
+     
+    $id=Auth::user()->id;
+    $user = User::find($id);
+
+    if ($user) {
+        // Update user details
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->secondname = $request->secondname;
+        $user->phonenumber = $request->phonenumber;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->update();
+        return redirect()->back()->with('success', 'User updated successfully!');
+
+    }
+
+
+  }
+
 }

@@ -13,11 +13,12 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\CourseModuleController;
 Route::get('/', function () {
-    //return view('welcome');
-    return redirect()->route('login');
-});
+    return view('welcome');
+    //return redirect()->route('login');
+})->name('welcome');
 
 Auth::routes();
 
@@ -50,6 +51,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/users/download', [UserController::class, 'download'])->name('users.download');
     Route::get('/download-user-file', [UserController::class, 'downloadUserFile'])->name('downloadUserFile');
     Route::get('/user-account', [UserController::class, 'UserAccount'])->name('userAccount');
+    Route::post('adminUpdateUserPassword',[UserController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
+    Route::post('adminUpdateUserPicture',[UserController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
+    Route::post('userUpdateProfile',[UserController::class, 'userUpdateProfile'])->name('userUpdateProfile');
+    
 });
 
 Route::prefix('trainees')->group(function () {
@@ -61,6 +66,26 @@ Route::prefix('trainees')->group(function () {
     //trainee view course
 
     Route::get('/view-course', [TraineeController::class, 'traineeViewCourse'])->name('traineeViewCourse');
+    Route::get('/viewFeePayments', [TraineeController::class, 'traineeViewFeePayment'])->name('traineeViewFeePayment');
+    Route::get('/viewAssignment', [TraineeController::class, 'traineeViewAssignment'])->name('traineeViewAssignment');
+    Route::get('/fetch-assignments', [TraineeController::class, 'traineeFetchAssignments'])->name('traineeFetchAssignments');
+    Route::get('/viewQuestions', [TraineeController::class, 'traineeViewQuestions'])->name('traineeViewQuestions');
+    Route::get('/fetch_questions/{exam_id}', [TraineeController::class, 'fetchQuestionsForTrainee'])->name('fetchQuestionsForTrainee');
+
+
+    Route::post('/store-answer', [TraineeController::class, 'storeStudentAnswer'])->name('storeStudentAnswer');
+
+    //CATS
+    Route::get('/viewCats', [TraineeController::class, 'traineeViewCats'])->name('traineeViewCats');
+    Route::get('/fetch-cats', [TraineeController::class, 'traineeFetchCats'])->name('traineeFetchCats');
+
+    //FINAL EXAM
+    Route::get('/viewFinalExam', [TraineeController::class, 'traineeViewFinalExam'])->name('traineeViewFinalExam');
+    Route::get('/fetch-final-exam', [TraineeController::class, 'traineeFetchFinalExam'])->name('traineeFetchFinalExam');
+
+
+    //FETCH FEES
+    Route::get('/fetch-fees', [TraineeController::class, 'fetchFeeBalance'])->name('fetchFeeBalance');
 });
 
 
@@ -123,9 +148,16 @@ Route::prefix('Leeds')->group(function () {
 
 
 Route::prefix('exams')->group(function () {
-    Route::get('/show', [ExamController::class, 'index'])->name('showExams');
+    Route::get('/show/assignment', [ExamController::class, 'index'])->name('showExams');
     Route::get('/fetch-assignments', [ExamController::class, 'fetchAssignments'])->name('fetchAssignments');
     Route::post('/add/assignment', [ExamController::class, 'addAssignment'])->name('addAssignment');
+
+    Route::get('/show/cats', [ExamController::class, 'adminManageCats'])->name('adminManageCats');
+    Route::get('/fetch-cats', [ExamController::class, 'fetchCats'])->name('fetchCats');
+
+
+    Route::get('/show/finalExam', [ExamController::class, 'adminManageFinalExam'])->name('adminManageFinalExam');
+    Route::get('/fetch-final-exam', [ExamController::class, 'fetchFinalExam'])->name('fetchFinalExam');
 
 
     Route::post('/update', [ExamController::class, 'updateExams'])->name('updateExams');
@@ -178,5 +210,40 @@ Route::prefix('fees')->group(function () {
     Route::post('/add', [FeeController::class, 'addFees'])->name('addFees');
     Route::post('/update', [FeeController::class, 'updateFees'])->name('updateFees');
     Route::post('/delete', [FeeController::class, 'deleteFees'])->name('deleteFees');
-    Route::get('/downloadReceipt', [FeeController::class, 'downloadReceipt'])->name('downloadReceipt');
+    Route::get('/downloadReceipt/{id}', [FeeController::class, 'downloadReceipt'])->name('downloadReceipt');
+    Route::get('/traineePrintingReceiptForRegistration', [FeeController::class, 'traineePrintingReceiptForRegistration'])->name('traineePrintingReceiptForRegistration');
 });
+
+Route::prefix('Applicants')->group(function () {
+    Route::get('/show', [ApplicantController::class, 'index'])->name('showApplicants');
+    Route::get('/fetch-applicants', [ApplicantController::class, 'fetchApplicants'])->name('fetchApplicants');
+    Route::post('/markedAsPaidRegFee', [ApplicantController::class, 'markedAsPaidRegFee'])->name('markedAsPaidRegFee');
+    
+});
+
+
+
+//WEBSITE CONTROLLER
+Route::get('/about_us',[App\Http\Controllers\WebsiteController::class, 'about_us'])->name('about_us');
+Route::get('/all_courses',[App\Http\Controllers\WebsiteController::class, 'all_courses'])->name('all_courses');
+Route::get('/apply',[App\Http\Controllers\WebsiteController::class, 'apply'])->name('apply');
+
+Route::get('/data-science',[App\Http\Controllers\WebsiteController::class, 'dataScience'])->name('dataScience');
+Route::get('/android-application',[App\Http\Controllers\WebsiteController::class, 'androidApplication'])->name('androidApplication');
+Route::get('/web-application',[App\Http\Controllers\WebsiteController::class, 'webApplication'])->name('webApplication');
+Route::get('/digital-marketing',[App\Http\Controllers\WebsiteController::class, 'digitalMarketing'])->name('digitalMarketing');
+Route::get('/cyber-security',[App\Http\Controllers\WebsiteController::class, 'cyberSecurity'])->name('cyberSecurity');
+Route::get('/graphic-design',[App\Http\Controllers\WebsiteController::class, 'graphicDesign'])->name('graphicDesign');
+Route::get('/software-engineering',[App\Http\Controllers\WebsiteController::class, 'softwareEngineering'])->name('softwareEngineering');
+
+Route::get('/data-analysis',[App\Http\Controllers\WebsiteController::class, 'dataAnalysis'])->name('dataAnalysis');
+
+Route::get('/about',[App\Http\Controllers\WebsiteController::class, 'aboutUs'])->name('aboutUs');
+Route::get('/corporate-training',[App\Http\Controllers\WebsiteController::class, 'corporateTraining'])->name('corporateTraining');
+Route::get('/indistrial-attachment',[App\Http\Controllers\WebsiteController::class, 'industrialAttachment'])->name('industrialAttachment');
+Route::get('/ict-hub',[App\Http\Controllers\WebsiteController::class, 'ictHub'])->name('ictHub');
+
+Route::get('/contact-us',[App\Http\Controllers\WebsiteController::class, 'contactUs'])->name('contactUs');
+Route::get('/enrol',[App\Http\Controllers\WebsiteController::class, 'enrol'])->name('enrol');
+
+Route::post('/contact-us/create',[App\Http\Controllers\ContactController::class, 'create'])->name('contact.create');

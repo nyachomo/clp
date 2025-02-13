@@ -4,8 +4,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-    
+  
 <!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jun 2022 10:54:41 GMT -->
 <head>
         <meta charset="utf-8" />
@@ -14,7 +13,7 @@
         @if(!empty($setting->company_name))
          {{$setting->company_name}}
         @else
-         Collaboration And Linkages Portal
+         Parpus Academy
         @endif
 
         </title>
@@ -45,44 +44,119 @@
        <!-- Place the first <script> tag in your HTML's <head> -->
       <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
+     <!--Google fonts-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 
-
-
-    <!--Watch-->
+        <!--Google fonts-->
+        <!-- Smartsupp Live Chat script 
+        <script type="text/javascript">
+            var _smartsupp = _smartsupp || {};
+            _smartsupp.key = '9db76d1ce9b5947687c2cab0e8342dbb106a55c8';
+            window.smartsupp||(function(d) {
+            var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+            s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+            c.type='text/javascript';c.charset='utf-8';c.async=true;
+            c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+            })(document);
+        </script>
+        <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>-->
     <style>
-      button {
-          font-size: 15px;
-          /*padding: 10px 20px;*/
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 50px;
-          cursor: pointer;
-          /*height:30px;*/
-      }
 
-      button:hover {
-          background-color: #45a049;
-      }
+
+
+#pagination-controls {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin-top: -2px;
+    padding-right:50px;
+    padding-top:-500px;
+    padding-bottom:10px;
+    gap: 10px; /* Spacing between buttons */
+  }
+
+    #pagination-controls button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  }
+
+  #pagination-controls .active {
+    background-color: #39ac73; /* Green for active page */
+  }
+
+
+        .linkHead{
+            color:white !important;
+            font-size:16px !important;
+        }
+
+        thead{
+            background-color:#000033;
+            color:white;
+        }
+
+        .darkMode{
+            background-color:#39ac73;
+            color:white;
+        }
+
+        .bodyColor{
+            background-color:#000033 !important; 
+        }
+
+        .time-button {
+            font-size: 15px;
+            /*padding: 10px 20px;*/
+            background-color: #fe730c;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            height:30px;
+        }
+
+        .time-button:hover {
+            background-color: #66e0ff;
+        }
+
+        body{
+            font-family: "Afacad Flux", sans-serif !important;
+            font-optical-sizing: auto;
+            font-weight: weight;
+            font-style: normal;
+            font-variation-settings:
+            "slnt" 0;
+            font-size:15px;
+        }
+
+
+        .labelSpan{
+            color:red;
+        }
+
+        .btn{
+            border-radius:20px;
+        }
+
+        .card{
+        
+        }
+
+        ul li a{
+            color:white !important;
+            font-size:18px !important;
+        }
+
     </style>
 
-  <!--End of watch-->
-
-       
-       <style>
-
-            .labelSpan{
-                color:red;
-            }
-
-            .btn{
-                border-radius:20px;
-            }
-
-            .card{
-            
-            }
-       </style>
 
     </head>
     <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -94,30 +168,52 @@
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
                     <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/logo.jpeg')}}" alt="" height="100">
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="60">
                     </span>
                    
                 </a>
 
     
-                <div class="h-100" id="leftside-menu-container" data-simplebar style="padding-top:30px">
+                <div class="h-100 bodyColor" id="leftside-menu-container" data-simplebar style="padding-top:30px;">
 
                     <!--- Sidemenu -->
                     @if(Auth::check() && Auth::user()->role=='Admin')
                         <ul class="side-nav">
-
-                            <li class="side-nav-title side-nav-item"><b>INSTITUTIONAL DATA</b></li>
+                            <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
 
                             <li class="side-nav-item">
-                                <a href="{{route('ShowSettings')}}" class="side-nav-link">
-                                    <i class="uil-comments-alt"></i>
-                                    <span> Settings </span>
+                                <a href="{{route('home')}}" class="side-nav-link">
+                                    <i class="uil-comments-alt text-warning"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span> Dasshboard </span>
                                 </a>
                             </li>
 
                             <li class="side-nav-item">
+                                <a href="{{route('userAccount')}}" class="side-nav-link">
+                                    <i class="uil-comments-alt text-danger"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span> My Account</span>
+                                </a>
+                            </li>
+
+                            <li class="side-nav-item">
+                                <a href="{{route('ShowSettings')}}" class="side-nav-link">
+                                    <i class="uil-comments-alt text-warning"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span> Settings </span>
+                                </a>
+                            </li>
+
+
+
+
+                            <li class="side-nav-title side-nav-item linkHead"><b>INSTITUTIONAL DATA</b></li>
+
+                           
+                            <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                                    <i class="uil-home-alt"></i>
+                                    <i class="uil-home-alt text-danger"></i>
                                     <span> Users </span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -126,14 +222,16 @@
                                         <li>
                                             <a href="{{route('showAdministrator')}}">Aministrators</a>
                                         </li>
+                                        
                                         <li><a href="{{route('showTrainees')}}">Trainees</a></li>
+                                        <li><a href="{{route('showApplicants')}}">Applicants</a></li>
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
-                                    <i class="uil-store"></i>
+                                    <i class="uil-store text-info"></i>
                                     <span> Courses </span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -149,7 +247,7 @@
 
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                                    <i class="uil uil-tachometer-fast"></i>
+                                    <i class="uil uil-tachometer-fast text-secondary"></i>
                                     <span> Clases </span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -163,9 +261,9 @@
                                 </div>
                             </li>
 
-                            <li class="side-nav-item">
+                           <!-- <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
-                                    <i class="uil-envelope"></i>
+                                    <i class="uil-envelope text-danger"></i>
                                     <span> Notes</span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -179,12 +277,12 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li>-->
 
 
-                            <li class="side-nav-item">
+                           <!-- <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
-                                    <i class="uil-briefcase"></i>
+                                    <i class="uil-briefcase text-info"></i>
                                     <span> Schools </span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -196,12 +294,12 @@
                                     
                                     </ul>
                                 </div>
-                            </li>
+                            </li>-->
 
 
-                            <li class="side-nav-item">
+                            <!--<li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
-                                    <i class="uil-clipboard-alt"></i>
+                                    <i class="uil-clipboard-alt text-warning"></i>
                                     <span> Leeds</span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -213,7 +311,7 @@
                                         
                                     </ul>
                                 </div>
-                            </li>
+                            </li>-->
 
                         
 
@@ -226,8 +324,20 @@
                                 <div class="collapse" id="sidebarPages">
                                     <ul class="side-nav-second-level">
                                         <li>
-                                            <a href="{{route('showExams')}}">Exams</a>
+                                            <a href="{{route('showExams')}}">Assignment</a>
                                         </li>
+
+                                        <li>
+                                            <a href="{{route('adminManageCats')}}">Cats</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{route('adminManageFinalExam')}}">Final Exam</a>
+                                        </li>
+
+                                        
+
+                                        
                                     </ul>
                                 </div>
                             </li>
@@ -243,19 +353,19 @@
                     @if(Auth::check() && Auth::user()->role=='Trainee')
                     <ul class="side-nav">
 
-                        <li class="side-nav-title side-nav-item"><b>HOME</b></li>
+                       <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
 
                         <li class="side-nav-item">
                             <a href="{{route('home')}}" class="side-nav-link">
-                                <i class="uil-comments-alt"></i>
+                                <i class="uil-comments-alt text-warning"></i>
                                 <span class="menu-arrow"></span>
-                                <span> Dasshboard </span>
+                                <span> Dashboard </span>
                             </a>
                         </li>
 
                         <li class="side-nav-item">
                             <a href="{{route('userAccount')}}" class="side-nav-link">
-                                <i class="uil-comments-alt"></i>
+                                <i class="uil-comments-alt text-danger"></i>
                                 <span class="menu-arrow"></span>
                                 <span> My Account</span>
                             </a>
@@ -264,13 +374,46 @@
 
                         <li class="side-nav-item">
                             <a href="{{route('traineeViewCourse')}}" class="side-nav-link">
-                                <i class="uil-comments-alt"></i>
+                                <i class="uil-home-alt text-info"></i>
                                 <span class="menu-arrow"></span>
                                 <span> My Course</span>
                             </a>
                         </li>
 
-                      
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
+                                <i class="uil-clipboard-alt"></i>
+                                <span> Assesment</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarTasks">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="{{route('traineeViewAssignment')}}">Assignment</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('traineeViewCats')}}">Cats</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('traineeViewFinalExam')}}">Final Exam</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+
+                        <li class="side-nav-item">
+                            <a href="{{route('traineeViewFeePayment')}}" class="side-nav-link">
+                                <i class="uil uil-tachometer-fast text-danger"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Fee Payment</span>
+                            </a>
+                        </li>
+
+
+                       
 
                     </ul> 
                     @endif
@@ -326,21 +469,18 @@
                             <!--NOTIFICATION-->
                            
                             
-                               
                            
-
-
                             
 
                             <li class="dropdown notification-list">
-                                <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                                <a class="bodyColor nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                     aria-expanded="false">
                                     <span class="account-user-avatar"> 
                                         <img src="{{asset('images/profile/profile.png')}}" alt="user-image" class="rounded-circle">
                                     </span>
                                     <span>
                                         @if(Auth::check())
-                                        <span class="account-user-name"><b>{{Auth::user()->firstname}} {{Auth::user()->secondname}}  {{Auth::user()->lastname}}</b></span>
+                                        <span class="account-user-name"><b>{{Auth::user()->firstname}} {{Auth::user()->secondname}}</b></span>
                                         <span class="account-position">{{Auth::user()->role}}</span>
                                         @else
 
@@ -352,11 +492,17 @@
                                         
                                     </span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                                <div class="bodyColor dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                                     <!-- item-->
                                     <div class=" dropdown-header noti-title">
-                                        <h6 class="text-overflow m-0">Welcome !</h6>
+                                        <h6 class="text-overflow m-0" style="color:white">Welcome !</h6>
                                     </div>
+
+                                    <!-- item-->
+                                    <a href="{{route('userAccount')}}" class="dropdown-item notify-item">
+                                        <i class="mdi mdi-lock-outline me-1"></i>
+                                        <span>Dashboard</span>
+                                    </a>
 
                                     <!-- item-->
                                     <a href="{{route('userAccount')}}" class="dropdown-item notify-item">
@@ -364,24 +510,12 @@
                                         <span>My Account</span>
                                     </a>
 
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-account-edit me-1"></i>
+                                     <a href="{{route('ShowSettings')}}" class="dropdown-item notify-item">
+                                        <i class="mdi mdi-account-circle me-1"></i>
                                         <span>Settings</span>
                                     </a>
 
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-lifebuoy me-1"></i>
-                                        <span>Support</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-lock-outline me-1"></i>
-                                        <span>Lock Screen</span>
-                                    </a>
-
+                                  
 
                                     <a class="dropdown-item notify-item" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <i class="mdi mdi-logout me-1"></i>
@@ -488,16 +622,10 @@
         <script src="{{asset('assets/js/pages/demo.simplemde.js')}}"></script>
 
 
-
-<!-- plugin js -->
-<script src="{{asset('assets/js/vendor/dropzone.min.js')}}"></script>
-<!-- init js -->
-<script src="{{asset('assets/js/ui/component.fileupload.js')}}"></script>
-
-
- <!-- bundle -->
- <script src="{{asset('assets/js/vendor.min.js')}}"></script>
-<script src="{{asset('assets/js/app.min.js')}}"></script>
+        <!-- plugin js -->
+        <script src="{{asset('assets/js/vendor/dropzone.min.js')}}"></script>
+        <!-- init js -->
+        <script src="{{asset('assets/js/ui/component.fileupload.js')}}"></script>
 
 
 
@@ -530,14 +658,14 @@
 
 
 
-<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
-<script>
-  tinymce.init({
-    selector: 'textarea',
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-  });
-</script>
+    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    <script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    });
+    </script>
 
         
         

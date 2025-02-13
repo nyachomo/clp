@@ -108,6 +108,7 @@
                     </div>
 
                 </div>
+                <br>
                 <div class="tab-content">
                     <div class="tab-pane show active">
                         <table id="datatable-buttons" >
@@ -162,16 +163,16 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                   <label>Exam Id</label>
-                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}">
+                   <!--<label>Exam Id</label>-->
+                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}" hidden="true">
 
                     <div class="row">
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
                                 <label> Question <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_name">
-                                <textarea id="mytextarea">Hello, World!</textarea>
+                                <!--<input type="text" class="form-control" name="question_name">-->
+                                <textarea id="mytextarea"  name="question_name"></textarea>
                             </div>
                         </div>
                     </div>
@@ -265,7 +266,9 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label> Question <sup>*</sup></label>
-                                    <input type="text" class="form-control" name="update_question_name" id="update_question_name">
+                
+                                    <textarea id="mytextarea"  name="update_question_name" id="update_question_name"></textarea>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -402,12 +405,12 @@
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
                                             <ul class="dropdown-menu">\
-                                                <li><a class="dropdown-item updateBtn" href="#" \
+                                                <li><a class="text-success dropdown-item updateBtn" href="#" \
                                                     data-id="' + item.id + '" \
                                                     data-question_name="' + item.question_name + '" \
                                                     data-question_answer="' + item.question_answer + '" \
-                                                    data-question_mark="' + item.question_mark + '">Update</a></li>\
-                                                <li><a  class="dropdown-item deleteBtn" href="#" value="' + item.id + '">Delete</a></li>\
+                                                    data-question_mark="' + item.question_mark + '"><i class="fa fa-edit"></i> Update</a></li>\
+                                                <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i> Delete</a></li>\
                                             </ul>\
                                         </div>\
                                     </td>\
@@ -438,6 +441,20 @@
                             $('#update_question_name').val(update_question_name);
                             $('#update_question_answer').val(update_question_answer);
                             $('#update_question_mark').val(update_question_mark);
+
+                            // Set TinyMCE content for #what_to_learn
+                            if (tinymce.get('update_question_name')) {
+                                    tinymce.get('update_question_name').setContent(update_question_name || '');
+                                } else {
+                                    tinymce.init({
+                                        selector: '#update_question_name',
+                                        setup: function (editor) {
+                                            editor.on('init', function () {
+                                                editor.setContent(update_question_name || '');
+                                            });
+                                        }
+                                    });
+                                }
                             // Show the modal
                             $('#updateQuestionModal').modal('show');
                         });
@@ -472,7 +489,7 @@
                             alert(response.message); // Notify user of success
                             $('#updateQuestionModal').modal('hide'); // Hide the modal
                             displaySuccessMessage('Exam Updated Successfully');
-                            fetchUsers(); // Refresh the users table
+                            fetchUsers(exam_id); // Refresh the users table
                         } else {
                             alert('Failed to update exam.');
                         }
@@ -517,7 +534,7 @@
                             alert(response.message); // Notify user of success
                             $('#deleteQuestionModal').modal('hide'); // Hide the modal
                             displaySuccessMessage('Question Deleted Successfully');
-                            fetchUsers(); // Refresh the users table
+                            fetchUsers(exam_id); // Refresh the users table
                         } else {
                             alert('Failed to update user.');
                         }

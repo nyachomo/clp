@@ -605,105 +605,116 @@
 
 
 
-        function fetchUsers(page = 1, search = '', perPage = 10) {
-            $.ajax({
-                type: 'GET',
-                url: "{{route('fetchTrainees')}}",
-                data: { page: page, search: search, per_page: perPage },
-                dataType: "json",
-                success: function(response) {
-                    // Update total users
-                    $('#total-users').text(response.total_users);
+            function fetchUsers(page = 1, search = '', perPage = 10) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('fetchTrainees')}}",
+                    data: { page: page, search: search, per_page: perPage },
+                    dataType: "json",
+                    success: function(response) {
+                        // Update total users
+                        $('#total-users').text(response.total_users);
 
-                    // Clear and repopulate the table
-                    $('tbody').html("");
-                    $.each(response.users, function(key, item) {
-                        // Use fallback values for null secondname and lastname
-                        const secondname = item.secondname || ''; // Fallback for null or undefined
-                        const lastname = item.lastname || ''; // Fallback for null or undefined
-                        const baseUrl = "{{ route('showFees') }}";
-                        $('#table1').append(
-                            '<tr>\
-                                <td>' + (key + 1) + '</td>\
-                                <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
-                                <td>' + item.phonenumber + '</td>\
-                                <td>' + item.email + '</td>\
-                                <td>' + item.course.course_name + '</td>\
-                                 <td>' + item.clas.clas_name + '</td>\
-                                <td>' + item.gender + '</td>\
-                                <td>' + item.status + '</td>\
-                                <td>\
-                                    <span type="button" \
-                                        data-id="' + item.id + '" \
-                                        data-firstname="' + item.firstname + '" \
-                                        data-secondname="' + item.secondname + '" \
-                                        data-lastname="' + item.lastname + '" \
-                                        data-phonenumber="' + item.phonenumber + '" \
-                                        data-email="' + item.email + '" \
-                                        data-update_course_id="' + item.course.id + '" \
-                                        data-update_clas_id="' + item.clas.id + '" \
-                                        data-role="' + item.role + '" \
-                                        data-gender="' + item.gender + '" \
-                                        data-status="' + item.status + '" \
-                                        class="jobDesBtn badge badge-outline-success rounded-pill"><i class="fa fa-edit"></i></span>\
-                                        <span type="button" value="' + item.id + '" \
-                                        class="deleteBtn badge badge-outline-danger rounded-pill""><i class="fa fa-trash"></i></span>\
-                                        <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank"><i class="fa fa-bars" aria-hidden="true"></i> Manage Fee</a>\
-                                </td>\
-                            </tr>'
-                        );
-                    });
+                        // Clear and repopulate the table
+                        $('tbody').html("");
+                        $.each(response.users, function(key, item) {
+                            // Use fallback values for null secondname and lastname
+                            const secondname = item.secondname || ''; // Fallback for null or undefined
+                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            const baseUrl = "{{ route('showFees') }}";
 
-                    // Render pagination
-                    renderPagination(response.pagination, search, perPage);
+                            $('#table1').append(
+                                '<tr>\
+                                    <td>' + (key + 1) + '</td>\
+                                    <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
+                                    <td>' + item.phonenumber + '</td>\
+                                    <td>' + item.email + '</td>\
+                                    <td>' + item.course.course_name + '</td>\
+                                    <td>' + item.clas.clas_name + '</td>\
+                                    <td>' + item.gender + '</td>\
+                                    <td>' + item.status + '</td>\
+                                    <td>\
+                                        <div class="dropdown">\
+                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
+                                                Actions\
+                                            </button>\
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
+                                                <li>\
+                                                    <span type="button" \
+                                                        data-id="' + item.id + '" \
+                                                        data-firstname="' + item.firstname + '" \
+                                                        data-secondname="' + secondname + '" \
+                                                        data-lastname="' + lastname + '" \
+                                                        data-phonenumber="' + item.phonenumber + '" \
+                                                        data-email="' + item.email + '" \
+                                                        data-update_course_id="' + item.course.id + '" \
+                                                        data-update_clas_id="' + item.clas.id + '" \
+                                                        data-role="' + item.role + '" \
+                                                        data-gender="' + item.gender + '" \
+                                                        data-status="' + item.status + '" \
+                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Edit</span>\
+                                                </li>\
+                                                <li>\
+                                                    <span type="button" value="' + item.id + '" \
+                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete</span>\
+                                                </li>\
+                                                <li>\
+                                                    <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
+                                                        <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee\
+                                                    </a>\
+                                                </li>\
+                                            </ul>\
+                                        </div>\
+                                    </td>\
+                                </tr>'
+                            );
+                        });
 
-                    // Attach event listener to Update button
-                    $('.jobDesBtn').on('click', function() {
-                        const userId = $(this).data('id');
-                        const firstname = $(this).data('firstname');
-                        const secondname = $(this).data('secondname');
-                        const lastname = $(this).data('lastname');
-                        const phonenumber = $(this).data('phonenumber');
-                        const email = $(this).data('email');
-                        const update_course_id = $(this).data('update_course_id');
-                        const update_clas_id = $(this).data('update_clas_id');
-                        const role = $(this).data('role');
-                        const gender = $(this).data('gender');
-                        const status = $(this).data('status');
+                        // Render pagination
+                        renderPagination(response.pagination, search, perPage);
 
-                        // Populate modal fields
-                        $('#user_id').val(userId);
-                        $('#updateUserModal #firstname').val(firstname);
-                        $('#updateUserModal #secondname').val(secondname);
-                        $('#updateUserModal #lastname').val(lastname);
-                        $('#updateUserModal #phonenumber').val(phonenumber);
-                        $('#updateUserModal #email').val(email);
-                        $('#updateUserModal #update_course_id').val(update_course_id);
-                        $('#updateUserModal #update_clas_id').val(update_clas_id);
-                        $('#updateUserModal #role').val(role);
-                        $('#updateUserModal #gender').val(gender);
-                        $('#updateUserModal #status').val(status);
+                        // Attach event listeners for the dropdown actions
+                        $('.jobDesBtn').on('click', function() {
+                            const userId = $(this).data('id');
+                            const firstname = $(this).data('firstname');
+                            const secondname = $(this).data('secondname');
+                            const lastname = $(this).data('lastname');
+                            const phonenumber = $(this).data('phonenumber');
+                            const email = $(this).data('email');
+                            const update_course_id = $(this).data('update_course_id');
+                            const update_clas_id = $(this).data('update_clas_id');
+                            const role = $(this).data('role');
+                            const gender = $(this).data('gender');
+                            const status = $(this).data('status');
 
-                        // Show the modal
-                        $('#updateUserModal').modal('show');
-                    });
+                            // Populate modal fields
+                            $('#user_id').val(userId);
+                            $('#updateUserModal #firstname').val(firstname);
+                            $('#updateUserModal #secondname').val(secondname);
+                            $('#updateUserModal #lastname').val(lastname);
+                            $('#updateUserModal #phonenumber').val(phonenumber);
+                            $('#updateUserModal #email').val(email);
+                            $('#updateUserModal #update_course_id').val(update_course_id);
+                            $('#updateUserModal #update_clas_id').val(update_clas_id);
+                            $('#updateUserModal #role').val(role);
+                            $('#updateUserModal #gender').val(gender);
+                            $('#updateUserModal #status').val(status);
 
+                            // Show the modal
+                            $('#updateUserModal').modal('show');
+                        });
 
+                        $('.deleteBtn').on('click', function() {
+                            const delete_user_id = $(this).val();
+                            // Populate modal fields
+                            $('#delete_user_id').val(delete_user_id);
+                            // Show the modal
+                            $('#deleteUserModal').modal('show');
+                        });
+                    }
+                });
+            }
 
-                    // Attach event listener to Update button
-                    $('.deleteBtn').on('click', function() {
-                        const delete_user_id = $(this).val();
-                        // Populate modal fields
-                        $('#delete_user_id').val(delete_user_id);
-                        // Show the modal
-                        $('#deleteUserModal').modal('show');
-                    });
-
-
-
-                }
-            });
-        }
 
 
 
