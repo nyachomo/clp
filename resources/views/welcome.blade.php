@@ -6,7 +6,7 @@
           <div class="row" style="border-bottom: 1px solid white;padding-bottom: 20px;">
 
             <marquee class="marquee" behavior="scroll" direction="left">
-              <h1 style="color:red"><b>ENROL TODAY ! FEBRUARY INTAKE ONGOING</b></h1>
+              <h1 style="color:red"><b>ENROL TODAY ! MARCH INTAKE ONGOING</b></h1>
             </marquee>
 
                  <div class="col-sm-12">
