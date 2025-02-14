@@ -73,8 +73,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Schools: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>
+                Total Assignment: <span id="total-users">0</span>
+                <!--<a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
             </div>
             <div class="card-body">
 
