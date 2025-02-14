@@ -110,8 +110,8 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane show active">
-                        <table id="datatable-buttons" >
-                        <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
+                        
+                          <table id="scroll-horizontal-datatable" class="table w-100 nowrap">
                             <thead>
                                 <tr>
                                     <th>#</th>
