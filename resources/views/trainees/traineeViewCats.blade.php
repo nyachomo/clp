@@ -111,7 +111,7 @@
                 <div class="tab-content">
                     <div class="tab-pane show active">
                         
-                          <table id="scroll-horizontal-datatable" class="table w-100 nowrap">
+                          <table id="" class="table table-sm table-striped  nowrap w-100 table-responsive ">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -119,8 +119,8 @@
                                     <th>Exam Name</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
+                                    <!--<th>Duration</th>-->
+                                    <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -557,8 +557,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.exam_name + '</td>\
                         <td>' + item.exam_start_date + '</td>\
                         <td>' + item.exam_end_date + '</td>\
-                        <td>' + item.exam_duration + '</td>\
-                        <td>' + item.exam_status + '</td>\
                        <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\

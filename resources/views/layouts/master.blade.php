@@ -49,6 +49,24 @@
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 
+
+
+
+     <!-- third party css -->
+     <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/vendor/responsive.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/vendor/buttons.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/vendor/select.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/vendor/fixedHeader.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/vendor/fixedColumns.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <!-- third party css end -->
+
+        <!-- App css -->
+        <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
+
+
+
         <!--Google fonts-->
         <!-- Smartsupp Live Chat script 
         <script type="text/javascript">
@@ -626,6 +644,12 @@
         <script src="{{asset('assets/js/vendor/dropzone.min.js')}}"></script>
         <!-- init js -->
         <script src="{{asset('assets/js/ui/component.fileupload.js')}}"></script>
+
+
+
+
+
+
 
 
 
