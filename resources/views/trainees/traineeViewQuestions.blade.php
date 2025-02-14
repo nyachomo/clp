@@ -152,7 +152,7 @@
 
 
 
-
+                                    <div class="table-responsive">
                                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                                             <!--<thead>
                                                 <tr>
@@ -167,7 +167,8 @@
 
 
                                             <div id="pagination-controls" style="float:right"></div>
-
+                                    </div>
+                                    
                                 </div>
 
                             </div>
@@ -185,7 +186,7 @@
                         <div class="tab-pane" id="shipping-information">
                             
 
-                            <div class="container">
+                            <div class="table-responsive">
                                 
                                 <table class="table table-bordered mt-3">
                                     <thead>
