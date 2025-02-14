@@ -42,7 +42,7 @@ $courses=Course::where('course_status','Active')->get();
                                 <input type="password" name="password"  class="form-control" value="12345678" hidden="true">                  
                                 <div class="mb-1">
                                     <label class="card-title">Firstname <span class="spanLabel">*<span> </label>
-                                    <input type="text" name="firstname" placeholder="John" class="form-control" required="">       
+                                    <input type="text" name="firstname" placeholder="John" class="form-control" required>       
                                 </div>
 
                                 <div class="mb-1">
@@ -59,13 +59,13 @@ $courses=Course::where('course_status','Active')->get();
 
                                 <div class="mb-1">
                                     <label class="card-title">Email <span class="spanLabel">*<span> </label>
-                                    <input type="email" name="email"  placeholder="johndoe@gmail.com" class="form-control" required="">    
+                                    <input type="email" name="email"  placeholder="johndoe@gmail.com" class="form-control" required>    
                                 </div>
 
 
                                 <div class="mb-1">
                                     <label class="card-title">Phonenumber <span class="spanLabel">*<span> </label>
-                                    <input type="text" name="phonenumber"  placeholder="07xxxxxxxx" class="form-control" required="">   
+                                    <input type="text" name="phonenumber"  placeholder="07xxxxxxxx" class="form-control" required>   
                                 </div>
 
 
@@ -79,15 +79,10 @@ $courses=Course::where('course_status','Active')->get();
                                     </select>     
                                 </div>
 
-                                <div class="mb-1">
-                                    <label class="card-title">Has Paid Reg Fee <span class="spanLabel">*<span> </label>
-                                    <input type="text" name="has_paid_reg_fee"   class="form-control" value="No">   
-                                </div>
-
-                                <div class="mb-1">
-                                    <label class="card-title">Role <span class="spanLabel">*<span> </label>
-                                    <input type="text" name="role"   class="form-control" value="Trainee">   
-                                </div>
+                               
+                                    <input type="text" name="has_paid_reg_fee"   class="form-control" value="No" hidden="true">   
+                                    <input type="text" name="role"   class="form-control" value="Trainee" hidden="true">   
+                             
 
                                 
 
