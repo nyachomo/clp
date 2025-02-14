@@ -413,7 +413,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
 <script>
-        // Function to check company settings and show modal if necessary
+        /*Function to check company settings and show modal if necessary
         function fetchFeeBalance() {
             $.ajax({
                 url: "{{ route('fetchFeeBalance') }}",
@@ -439,6 +439,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
         // Set an interval to run the check every 5 seconds (5000 milliseconds)
         setInterval(fetchFeeBalance, 5000);
+        */
 </script>
 
 

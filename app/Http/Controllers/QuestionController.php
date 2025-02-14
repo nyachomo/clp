@@ -28,7 +28,7 @@ class QuestionController extends Controller
 
 
     public function fetchQuestions(Request $request,$exam_id) {
-        $query = Question::select('id','question_name','question_mark','question_answer','exam_id')->where('exam_id',$exam_id)->orderBy('created_at', 'desc');
+        $query = Question::select('id','question_name','question_mark','question_answer','exam_id')->where('exam_id',$exam_id)->orderBy('created_at', 'asc');
 
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
