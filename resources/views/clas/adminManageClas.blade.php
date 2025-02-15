@@ -105,8 +105,8 @@
 
                 </div>
                 <div class="tab-content">
-                    <div class="tab-pane show active">
-                        <table id="datatable-buttons" >
+                    <div class="table-responsive">
+                        
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
