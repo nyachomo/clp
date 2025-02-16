@@ -28,7 +28,7 @@
                <tr style="border:0px solid white">
                    <td  style="border:0px solid white">
                         <img src="{{ $imageSrc }}" alt="Company Logo" style="max-width: 200px; height: auto;">
-                         <h2>RECEIPT NO: <span style="color:#00cc99">TTI/{{$user->id}}</span></h2>
+                         <h2>RECEIPT NO: <span style="color:#00cc99">{{$payment->payment_ref_no ?? 'NA'}}</span></h2>
                          <p style="font-size:px">
                             <b style="font-size:20px">STUDENT DETAILS : </b> <br>
                             <b>Student Name:</b> {{$user->firstname ?? ''}} {{$user->secondname ?? ''}}  {{$user->lastname ?? ''}}<br>
@@ -38,16 +38,12 @@
                    </td>
                    <td  style="border:0px solid white">
                       <p style="font-size:30px;text-align: right;color:#000033;"><b style="text-align: right;">PAID </b>(Course Fee)</p>
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      <img src="{{ $imageSrc2 }}" alt="Company Logo" style="max-width: 200px; height: auto;">
                       
+                      
+                      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<img src="{{ $imageSrc2 }}" alt="Company Logo" style="max-width: 200px; height: auto;"><br>
+                      &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <span style="font-size:20px">Date Paid:</span> <span style="color:red;font-size:20px">{{$payment->date_paid ?? 'NA'}}</span>
 
-                      <p style="font-size:20px">
-                       &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        Date Paid: <span style="color:red">{{ $user->date_paid_reg_fee ?? 'NA' }}</span>
-                     </p>
+                     
 
                       <p style="font-size:px;text-align: right;">
                         <b style="font-size:20px">PAID TO:</b><br>
@@ -68,14 +64,14 @@
     </p>
    
    
-    <center><h1>PREVIOUS PAYMENT DETAILS</h1></center>
+    <center><h4>PAYMENT DETAILS (THIS INCLUDE DETAILS OF THE CURRENT PAYMENTS)</h4></center>
        
     <table>
         <thead>
             <tr>
                 
                 <th><h4>#</h4></th>
-                <th><h3>Amount Paid</h3></th>
+                <th><h3>Amount Paid (Ksh)</h3></th>
                 <th><h3>Date Paid</h3></th>
                 <th><h3>Payment Method</h3></th>
                 <th><h3>Payment Ref No</h3></th>

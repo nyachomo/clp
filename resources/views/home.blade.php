@@ -36,6 +36,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     ->sum('question_mark');
 
     $total_student_score=StudentAnswer::whereIn('exam_id', $assignmentExamIds)
+    ->where('user_id',$user_id)
     ->sum('score');
 
     $avgAssignment = ($total_question_mark > 0) 
@@ -52,6 +53,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     ->sum('question_mark');
 
     $total_student_cat_score=StudentAnswer::whereIn('exam_id', $assignmentCatIds)
+    ->where('user_id',$user_id)
     ->sum('score');
 
     $avgCat = ($total_cat_question_mark > 0) 
@@ -70,6 +72,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     ->sum('question_mark');
 
     $total_student_final_exam_score=StudentAnswer::whereIn('exam_id', $assignmentFinalExamIds)
+    ->where('user_id',$user_id)
     ->sum('score');
 
     $avgFinalExam = ($total_final_exam_question_mark > 0) 

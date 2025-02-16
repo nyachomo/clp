@@ -28,7 +28,7 @@
                <tr style="border:0px solid white">
                    <td  style="border:0px solid white">
                         <img src="{{ $imageSrc }}" alt="Company Logo" style="max-width: 200px; height: auto;">
-                         <h2>RECEIPT NO: <span style="color:#00cc99">TTI/Reg/{{$user->id}}</span></h2>
+                         <h2>RECEIPT NO: <span style="color:#00cc99">{{ $user->reg_fee_ref_no ?? 'NA' }}</span></h2>
                          <p style="font-size:px">
                             <b style="font-size:20px">STUDENT DETAILS : </b> <br>
                             <b>Student Name:</b> {{$user->firstname ?? ''}} {{$user->secondname ?? ''}}  {{$user->lastname ?? ''}}<br>
@@ -38,13 +38,13 @@
                    </td>
                    <td  style="border:0px solid white">
                       <p style="font-size:30px;text-align: right;color:#000033;"><b style="text-align: right;">PAID </b>(Registration Fee)</p>
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                      <img src="{{ $imageSrc2 }}" alt="Company Logo" style="max-width: 200px; height: auto;">
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img src="{{ $imageSrc2 }}" alt="Company Logo" style="max-width: 200px; height: auto;">
+                     
+                      
                      
                       <p style="font-size:20px">
                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
-                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         Date Paid: <span style="color:red">{{ $user->date_paid_reg_fee ?? 'NA' }}</span>
                      </p>
                       
@@ -69,7 +69,7 @@
         <thead>
             <tr>
                 
-                <th><h3>Amount Paid</h3></th>
+                <th><h3>Amount Paid (Ksh)</h3></th>
                 <th><h3>Date Paid</h3></th>
                 <th><h3>Payment Method</h3></th>
                 <th><h3>Payment Ref No</h3></th>

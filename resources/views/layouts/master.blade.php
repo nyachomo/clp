@@ -13,7 +13,7 @@
         @if(!empty($setting->company_name))
          {{$setting->company_name}}
         @else
-         Parpus Academy
+         Techsphere Training Institute
         @endif
 
         </title>
@@ -52,8 +52,8 @@
 
 
 
-     <!-- third party css -->
-     <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+        <!-- third party css -->
+        <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/vendor/responsive.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/vendor/buttons.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/vendor/select.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
@@ -582,13 +582,13 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
-                                <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com
+                                <script>document.write(new Date().getFullYear())</script> © TECHSPHERE TRAINING INSTITUTE
                             </div>
                             <div class="col-md-6">
                                 <div class="text-md-end footer-links d-none d-md-block">
-                                    <a href="javascript: void(0);">About</a>
-                                    <a href="javascript: void(0);">Support</a>
-                                    <a href="javascript: void(0);">Contact Us</a>
+                                    <a href="">About</a>
+                                    <a href="">Support</a>
+                                    <a href="">Contact Us</a>
                                 </div>
                             </div>
                         </div>
