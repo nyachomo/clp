@@ -210,7 +210,13 @@ Route::prefix('fees')->group(function () {
     Route::post('/add', [FeeController::class, 'addFees'])->name('addFees');
     Route::post('/update', [FeeController::class, 'updateFees'])->name('updateFees');
     Route::post('/delete', [FeeController::class, 'deleteFees'])->name('deleteFees');
+    
+    //TRAINEE DOWNLOADING RECEIPT FOR HERSELF/HIMESELF
     Route::get('/downloadReceipt/{id}', [FeeController::class, 'downloadReceipt'])->name('downloadReceipt');
+
+    //ADMIN DOWNLOAD RECEIPT FOR TRAINEE
+    Route::get('/admindownloadReceipt/{id}', [FeeController::class, 'admindownloadReceipt'])->name('admindownloadReceipt');
+
     Route::get('/traineePrintingReceiptForRegistration', [FeeController::class, 'traineePrintingReceiptForRegistration'])->name('traineePrintingReceiptForRegistration');
 });
 

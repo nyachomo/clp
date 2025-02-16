@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->belongsTo(Clas::class);
     }
 
+    public function fees()
+    {
+        return $this->hasMany(Fee::class); 
+    }
+
     public function studentAnswers()
     {
         return $this->hasMany(StudentAnswer::class, 'user_id');

@@ -15,4 +15,9 @@ class Fee extends Model
        'payment_method',
        'payment_ref_no',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); // A fee belongs to a user
+    }
 }

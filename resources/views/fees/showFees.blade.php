@@ -177,7 +177,11 @@
 
                                                 <button class="btn btn-sm btn-success" href="#" data-bs-toggle="modal" data-bs-target="#updateFeeModal{{$fee->id}}" ><i class="fa fa-edit"></i> Edit</button>
                                                 <button class="btn btn-sm btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteFeeModal{{$fee->id}}" ><i class="fa fa-trash"></i> Delete</button>
-                                                <a href="{{ route('downloadReceipt') }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download Receipt</a>
+                                                                         
+                                                <a href="{{ route('admindownloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-download"></i> Download Receipt
+                                                </a>
+                                                           
 
                                            </td>
                                            
