@@ -163,6 +163,11 @@ Route::prefix('exams')->group(function () {
     Route::post('/update', [ExamController::class, 'updateExams'])->name('updateExams');
     Route::post('/delete', [ExamController::class, 'deleteExams'])->name('deleteExams');
     Route::post('/published', [ExamController::class, 'publishedExams'])->name('publishedExams');
+
+    Route::get('/showExamAttempts', [ExamController::class, 'showExamAttempts'])->name('showExamAttempts');
+    Route::get('/fetchExamAttempts/{exam_id}', [ExamController::class, 'fetchExamAttempts'])->name('fetchExamAttempts');
+
+
 });
 
 

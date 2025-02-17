@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Exam;
 use App\Models\Clas;
+use App\Models\StudentAnswer;
+use App\Models\Question;
 
 class ExamController extends Controller
 {
@@ -108,6 +110,13 @@ class ExamController extends Controller
         $perPage = $request->input('per_page', 10); // Default is 10
     
         $users = $query->paginate($perPage);
+
+        // Append the number of students who attempted each exam
+        foreach ($users as $exam) {
+            $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                ->distinct('user_id')
+                ->count();
+        }
     
         return response()->json([
             'users' => $users->items(),
@@ -120,6 +129,63 @@ class ExamController extends Controller
             'total_users' => $users->total(),
         ]);
     }
+
+
+    public function showExamAttempts(Request $request){
+
+        $exam_id = $request->query('exam_id'); // Get the exam ID from query parameters
+
+        return view('exams.showExamAttempts',compact('exam_id'));
+    }
+
+    public function fetchExamAttempts(Request $request,$exam_id){
+
+        $exam=Exam::with(['clas','course'])->where('id',$exam_id)->first();
+        $ovaral_score=Question::where('exam_id',$exam_id)->sum('question_mark');
+        $query = StudentAnswer::where('exam_id', $exam_id)
+        ->select('user_id', 'exam_id', \DB::raw('SUM(score) as total_score')) // Get total score per user
+        ->with('user:id,firstname,secondname,lastname') // Ensure user details are fetched
+        ->groupBy('user_id', 'exam_id') // Group by user_id and exam_id to remove duplicates
+        ->orderBy('created_at', 'asc');
+   
+
+
+
+        //$query = Question::select('id','question_name','question_mark','question_answer','exam_id')->where('exam_id',$exam_id)->orderBy('created_at', 'asc');
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('user.firstname', 'like', '%' . $request->search . '%')
+                ->orWhere('user.secondname', 'like', '%' . $request->search . '%')
+                ->orWhere('user.lastname', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'ovaral_score'=> $ovaral_score,
+            'exam_name'=>$exam->exam_name,
+            'clas_name'=>$exam->clas->clas_name,
+            'course_name'=>$exam->course->course_name?? 'NA',
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+            
+        ]);
+
+
+    }
+
 
     public function fetchFinalExam(Request $request) {
         $query = Exam::with('clas')->select( 'id',  'exam_type',

@@ -29,6 +29,10 @@ class Exam extends Model
         return $this->belongsTo(Clas::class,'clas_id');
     }
 
+    public function course(){
+        return $this->belongsTo(Course::class,'course_id');
+    }
+
     public function studentAnswers()
     {
         return $this->hasMany(StudentAnswer::class, 'exam_id');

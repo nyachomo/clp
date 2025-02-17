@@ -35,4 +35,8 @@ class Course extends Model
             return $this->hasMany(User::class);
         }
 
+        public function exams(){
+            return $this->hasMany(Exam::class,'course_id','id');
+        }
+
 }

@@ -483,22 +483,22 @@
 
 
 
-// Automatically hide success and error messages after 5 seconds
-setTimeout(() => {
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        successAlert.style.transition = "opacity 0.5s";
-        successAlert.style.opacity = "0";
-        setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
-    }
-    
-    const errorAlert = document.getElementById('error-alert');
-    if (errorAlert) {
-        errorAlert.style.transition = "opacity 0.5s";
-        errorAlert.style.opacity = "0";
-        setTimeout(() => errorAlert.remove(), 500);
-    }
-}, 5000); // 5000 milliseconds = 5 seconds
+    // Automatically hide success and error messages after 5 seconds
+    setTimeout(() => {
+        const successAlert = document.getElementById('success-alert');
+        if (successAlert) {
+            successAlert.style.transition = "opacity 0.5s";
+            successAlert.style.opacity = "0";
+            setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
+        }
+        
+        const errorAlert = document.getElementById('error-alert');
+        if (errorAlert) {
+            errorAlert.style.transition = "opacity 0.5s";
+            errorAlert.style.opacity = "0";
+            setTimeout(() => errorAlert.remove(), 500);
+        }
+    }, 5000); // 5000 milliseconds = 5 seconds
 
 
 
@@ -533,293 +533,291 @@ setTimeout(() => {
 
 
 
-function fetchUsers(page = 1, search = '', perPage = 10) {
-    $.ajax({
-        type: 'GET',
-        url: "{{route('fetchCats')}}",
-        data: { page: page, search: search, per_page: perPage },
-        dataType: "json",
-        success: function(response) {
-            // Update total users
-            $('#total-users').text(response.total_users);
+    function fetchUsers(page = 1, search = '', perPage = 10) {
+        $.ajax({
+            type: 'GET',
+            url: "{{route('fetchCats')}}",
+            data: { page: page, search: search, per_page: perPage },
+            dataType: "json",
+            success: function(response) {
+                // Update total users
+                $('#total-users').text(response.total_users);
 
-            // Clear and repopulate the table
-            $('tbody').html("");
-            $.each(response.users, function(key, item) {
-                const baseUrl = "{{ route('adminManageQuestions') }}";
-                const attemptsUrl = "{{ route('showExamAttempts') }}";
+                // Clear and repopulate the table
+                $('tbody').html("");
+                $.each(response.users, function(key, item) {
+                    const baseUrl = "{{ route('adminManageQuestions') }}";
 
-                $('#table1').append(
-                    '<tr>\
-                        <td>' + (key + 1) + '</td>\
-                        <td>' + item.clas.clas_name + '</td>\
-                        <td>' + item.exam_name + '</td>\
-                        <td>' + item.exam_start_date + '</td>\
-                        <td>' + item.exam_end_date + '</td>\
-                        <td>' + item.exam_duration + '</td>\
-                        <td>' + item.exam_status + '</td>\
-                        <td>' + item.attempted_students + '</td>\
-                       <td>\
-                            <div class="dropdown">\
-                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                <ul class="dropdown-menu">\
-                                    <li><a  class="text-success dropdown-item updateBtn" href="#" \
-                                        data-id="' + item.id + '" \
-                                        data-exam_name="' + item.exam_name + '" \
-                                        data-exam_start_date="' + item.exam_start_date + '" \
-                                        data-exam_end_date="' + item.exam_end_date + '" \
-                                        data-exam_duration="' + item.exam_duration + '" \
-                                        data-exam_instruction="' + item.exam_instruction + '" \
-                                        data-update_clas_id="' + item.clas.id + '"> <i class="fa fa-edit"></i> Update</a></li>\
-                                    <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
-                                    <li><a  class="text-info dropdown-item publishedBtn" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
-                                   <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></li>\
-                                   <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + attemptsUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Attempts</a></li>\
-                                </ul>\
-                            </div>\
-                        </td>\
-                    </tr>'
-                );
-            });
-
-            // Render pagination
-            renderPagination(response.pagination, search, perPage);
-
-            // Attach event listener to Update button
-            $('.updateBtn').on('click', function() {
-                //const exam_id = $(this).val();
-                const exam_id = $(this).data('id');
-                const exam_name = $(this).data('exam_name');
-                const exam_start_date = $(this).data('exam_start_date');
-                const exam_end_date = $(this).data('exam_end_date');
-                const exam_duration = $(this).data('exam_duration');
-                const exam_instruction = $(this).data('exam_instruction');
-                const update_clas_id = $(this).data('update_clas_id');
-                // Populate modal fields
-                $('#exam_id').val(exam_id);
-                $('#exam_name').val(exam_name);
-                $('#exam_start_date').val(exam_start_date);
-                $('#exam_end_date').val(exam_end_date);
-                $('#exam_duration').val(exam_duration);
-                $('#exam_instruction').val(exam_instruction);
-                $('#update_clas_id').val(update_clas_id);
-                // Show the modal
-                $('#updateExamModal').modal('show');
-            });
-
-
-
-            // Attach event listener to Update button
-            $('.deleteBtn').on('click', function() {
-                const delete_exam_id = $(this).attr('value');
-                // Populate modal fields
-                $('#delete_exam_id').val(delete_exam_id);
-                // Show the modal
-                $('#deleteExamModal').modal('show');
-            });
-
-
-            // Attach event listener to Update button
-            $('.publishedBtn').on('click', function() {
-                const published_exam_id = $(this).attr('value');
-                // Populate modal fields
-                $('#published_exam_id').val(published_exam_id);
-                // Show the modal
-                $('#publishedExamModal').modal('show');
-            });
-
-
-            //ONCLICK FOR VIEW STUDENTS ATTEMPTS
-
-
-
-
-
-
-
-
-        }
-    });
-}
-
-
-
-$('#updateExamForm').on('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    const formData = {
-        exam_id: $('#exam_id').val(),
-        exam_name: $('#exam_name').val(),
-        exam_start_date: $('#exam_start_date').val(),
-        exam_end_date: $('#exam_end_date').val(),
-        exam_duration: $('#exam_duration').val(),
-        update_clas_id: $('#update_clas_id').val(),
-        _token: "{{ csrf_token() }}" // Include CSRF token for security
-    };
-
-    
-
-    $.ajax({
-        type: 'POST',
-        url: "{{ route('updateExams') }}",
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert(response.message); // Notify user of success
-                $('#updateExamModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Exam Updated Successfully');
-                fetchUsers(); // Refresh the users table
-            } else {
-                alert('Failed to update exam.');
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                const errors = xhr.responseJSON.errors;
-                let errorMessages = '';
-                $.each(errors, function(key, value) {
-                    errorMessages += value[0] + '\n';
+                    $('#table1').append(
+                        '<tr>\
+                            <td>' + (key + 1) + '</td>\
+                            <td>' + item.clas.clas_name + '</td>\
+                            <td>' + item.exam_name + '</td>\
+                            <td>' + item.exam_start_date + '</td>\
+                            <td>' + item.exam_end_date + '</td>\
+                            <td>' + item.exam_duration + '</td>\
+                            <td>' + item.exam_status + '</td>\
+                            <td>' + item.attempted_students + '</td>\
+                        <td>\
+                                <div class="dropdown">\
+                                    <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                    <ul class="dropdown-menu">\
+                                        <li><a  class="text-success dropdown-item updateBtn" href="#" \
+                                            data-id="' + item.id + '" \
+                                            data-exam_name="' + item.exam_name + '" \
+                                            data-exam_start_date="' + item.exam_start_date + '" \
+                                            data-exam_end_date="' + item.exam_end_date + '" \
+                                            data-exam_duration="' + item.exam_duration + '" \
+                                            data-exam_instruction="' + item.exam_instruction + '" \
+                                            data-update_clas_id="' + item.clas.id + '"> <i class="fa fa-edit"></i> Update</a></li>\
+                                        <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
+                                        <li><a  class="text-info dropdown-item publishedBtn" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
+                                    <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></li>\
+                                    </ul>\
+                                </div>\
+                            </td>\
+                        </tr>'
+                    );
                 });
-                alert(errorMessages); // Display validation errors
-            } else {
-                alert('An error occurred.');
-            }
-        }
-    });
 
+                // Render pagination
+                renderPagination(response.pagination, search, perPage);
 
-});
-
-
-
-
-
-
-$('#deleteExamForm').on('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    const formData = {
-        delete_exam_id: $('#delete_exam_id').val(),
-        _token: "{{ csrf_token() }}" // Include CSRF token for security
-    };
-
-    $.ajax({
-        type: 'POST',
-        url: "{{ route('deleteExams') }}",
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert(response.message); // Notify user of success
-                $('#deleteExamModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Exam Deleted Successfully');
-                fetchUsers(); // Refresh the users table
-            } else {
-                alert('Failed to update user.');
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                const errors = xhr.responseJSON.errors;
-                let errorMessages = '';
-                $.each(errors, function(key, value) {
-                    errorMessages += value[0] + '\n';
+                // Attach event listener to Update button
+                $('.updateBtn').on('click', function() {
+                    //const exam_id = $(this).val();
+                    const exam_id = $(this).data('id');
+                    const exam_name = $(this).data('exam_name');
+                    const exam_start_date = $(this).data('exam_start_date');
+                    const exam_end_date = $(this).data('exam_end_date');
+                    const exam_duration = $(this).data('exam_duration');
+                    const exam_instruction = $(this).data('exam_instruction');
+                    const update_clas_id = $(this).data('update_clas_id');
+                    // Populate modal fields
+                    $('#exam_id').val(exam_id);
+                    $('#exam_name').val(exam_name);
+                    $('#exam_start_date').val(exam_start_date);
+                    $('#exam_end_date').val(exam_end_date);
+                    $('#exam_duration').val(exam_duration);
+                    $('#exam_instruction').val(exam_instruction);
+                    $('#update_clas_id').val(update_clas_id);
+                    // Show the modal
+                    $('#updateExamModal').modal('show');
                 });
-                alert(errorMessages); // Display validation errors
-            } else {
-                alert('An error occurred.');
-            }
-        }
-    });
 
 
-});
 
-
-$('#publishedExamForm').on('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    const formData = {
-        published_exam_id: $('#published_exam_id').val(),
-        _token: "{{ csrf_token() }}" // Include CSRF token for security
-    };
-
-    $.ajax({
-        type: 'POST',
-        url: "{{ route('publishedExams') }}",
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                alert(response.message); // Notify user of success
-                $('#publishedExamModal').modal('hide'); // Hide the modal
-                displaySuccessMessage('Exam Published Successfully');
-                fetchUsers(); // Refresh the users table
-            } else {
-                alert('Failed to published Exam.');
-            }
-        },
-        error: function(xhr) {
-            if (xhr.status === 422) {
-                const errors = xhr.responseJSON.errors;
-                let errorMessages = '';
-                $.each(errors, function(key, value) {
-                    errorMessages += value[0] + '\n';
+                // Attach event listener to Update button
+                $('.deleteBtn').on('click', function() {
+                    const delete_exam_id = $(this).attr('value');
+                    // Populate modal fields
+                    $('#delete_exam_id').val(delete_exam_id);
+                    // Show the modal
+                    $('#deleteExamModal').modal('show');
                 });
-                alert(errorMessages); // Display validation errors
-            } else {
-                alert('An error occurred.');
+
+
+                // Attach event listener to Update button
+                $('.publishedBtn').on('click', function() {
+                    const published_exam_id = $(this).attr('value');
+                    // Populate modal fields
+                    $('#published_exam_id').val(published_exam_id);
+                    // Show the modal
+                    $('#publishedExamModal').modal('show');
+                });
+
+
+                //ONCLICK FOR VIEW STUDENTS ATTEMPTS
+
+
+
+
+
+
+
+
             }
-        }
-    });
-
-
-});
-
-
-
-
-function renderPagination(pagination, search, perPage) {
-    let paginationHTML = "";
-
-    if (pagination.current_page > 1) {
-        paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
+        });
     }
 
-    for (let i = 1; i <= pagination.last_page; i++) {
-        const activeClass = pagination.current_page === i ? 'active' : '';
-        paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
+
+
+    $('#updateExamForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        const formData = {
+            exam_id: $('#exam_id').val(),
+            exam_name: $('#exam_name').val(),
+            exam_start_date: $('#exam_start_date').val(),
+            exam_end_date: $('#exam_end_date').val(),
+            exam_duration: $('#exam_duration').val(),
+            update_clas_id: $('#update_clas_id').val(),
+            _token: "{{ csrf_token() }}" // Include CSRF token for security
+        };
+
+        
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('updateExams') }}",
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message); // Notify user of success
+                    $('#updateExamModal').modal('hide'); // Hide the modal
+                    displaySuccessMessage('Exam Updated Successfully');
+                    fetchUsers(); // Refresh the users table
+                } else {
+                    alert('Failed to update exam.');
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+                    let errorMessages = '';
+                    $.each(errors, function(key, value) {
+                        errorMessages += value[0] + '\n';
+                    });
+                    alert(errorMessages); // Display validation errors
+                } else {
+                    alert('An error occurred.');
+                }
+            }
+        });
+
+
+    });
+
+
+
+
+
+
+    $('#deleteExamForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        const formData = {
+            delete_exam_id: $('#delete_exam_id').val(),
+            _token: "{{ csrf_token() }}" // Include CSRF token for security
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('deleteExams') }}",
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message); // Notify user of success
+                    $('#deleteExamModal').modal('hide'); // Hide the modal
+                    displaySuccessMessage('Exam Deleted Successfully');
+                    fetchUsers(); // Refresh the users table
+                } else {
+                    alert('Failed to update user.');
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+                    let errorMessages = '';
+                    $.each(errors, function(key, value) {
+                        errorMessages += value[0] + '\n';
+                    });
+                    alert(errorMessages); // Display validation errors
+                } else {
+                    alert('An error occurred.');
+                }
+            }
+        });
+
+
+    });
+
+
+    $('#publishedExamForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        const formData = {
+            published_exam_id: $('#published_exam_id').val(),
+            _token: "{{ csrf_token() }}" // Include CSRF token for security
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('publishedExams') }}",
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message); // Notify user of success
+                    $('#publishedExamModal').modal('hide'); // Hide the modal
+                    displaySuccessMessage('Exam Published Successfully');
+                    fetchUsers(); // Refresh the users table
+                } else {
+                    alert('Failed to published Exam.');
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+                    let errorMessages = '';
+                    $.each(errors, function(key, value) {
+                        errorMessages += value[0] + '\n';
+                    });
+                    alert(errorMessages); // Display validation errors
+                } else {
+                    alert('An error occurred.');
+                }
+            }
+        });
+
+
+    });
+
+
+
+
+    function renderPagination(pagination, search, perPage) {
+        let paginationHTML = "";
+
+        if (pagination.current_page > 1) {
+            paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
+        }
+
+        for (let i = 1; i <= pagination.last_page; i++) {
+            const activeClass = pagination.current_page === i ? 'active' : '';
+            paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
+        }
+
+        if (pagination.current_page < pagination.last_page) {
+            paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
+        }
+
+        $('#pagination-controls').html(paginationHTML);
     }
 
-    if (pagination.current_page < pagination.last_page) {
-        paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
-    }
 
-    $('#pagination-controls').html(paginationHTML);
-}
-
-
-// Live search functionality
-$('#search').on('input', function() {
-    const search = $(this).val();
-    fetchUsers(1, search); // Always reset to page 1 when searching
-});
+    // Live search functionality
+    $('#search').on('input', function() {
+        const search = $(this).val();
+        fetchUsers(1, search); // Always reset to page 1 when searching
+    });
 
 
-$('#select').on('change', function() {
-    const perPage = $(this).val();
-    const search = $('#search').val(); // Get current search term, if any
-    fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
-});
+    $('#select').on('change', function() {
+        const perPage = $(this).val();
+        const search = $('#search').val(); // Get current search term, if any
+        fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
+    });
 
-// Handle pagination button click with updated perPage
-$(document).on('click', '.pagination-btn', function() {
-    const page = $(this).data('page');
-    const search = $(this).data('search');
-    const perPage = $(this).data('per-page');
-    fetchUsers(page, search, perPage);
-});
+    // Handle pagination button click with updated perPage
+    $(document).on('click', '.pagination-btn', function() {
+        const page = $(this).data('page');
+        const search = $(this).data('search');
+        const perPage = $(this).data('per-page');
+        fetchUsers(page, search, perPage);
+    });
 
 
 
