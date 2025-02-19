@@ -402,6 +402,8 @@
 
                         </div>
 
+
+                       
                         
 
                     </div>
@@ -448,6 +450,25 @@
 
 
                     </div> 
+
+                    <div class="row">
+                      
+                             
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Status<sup>*</sup></label>
+                                    <select name="course_status" id="course_status" class="form-control" required>
+                                        <option value="">Select ..</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Suspended">Suspended</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        
+                    </div>
 
 
 
@@ -640,6 +661,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a class="dropdown-item updateBtn text-success" href="#" \
                                         data-id="' + item.id + '" \
                                         data-course_name="' + item.course_name + '" \
+                                         data-course_status="' + item.course_status + '" \
                                         data-course_level="' + item.course_level + '" \
                                         data-course_duration="' + item.course_duration + '" \
                                         data-what_to_learn="' + item.what_to_learn + '" \
@@ -665,6 +687,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const course_duration = $(this).data('course_duration');
                 const course_price = $(this).data('course_price');
                 const what_to_learn = $(this).data('what_to_learn');
+                const course_status = $(this).data('course_status');
 
                 // Populate modal fields
                 $('#course_id').val(course_id);
@@ -673,6 +696,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#course_duration').val(course_duration);
                 $('#course_price').val(course_price);
                 $('#what_to_learn').val(what_to_learn);
+                $('#course_status').val(course_status);
 
 
                 // Set TinyMCE content for #what_to_learn
@@ -723,6 +747,7 @@ $('#updateCourseForm').on('submit', function(e) {
     const formData = {
         course_id: $('#course_id').val(),
         course_name: $('#course_name').val(),
+        course_status: $('#course_status').val(),
         course_level: $('#course_level').val(),
         course_duration: $('#course_duration').val(),
         course_price: $('#course_price').val(),

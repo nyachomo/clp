@@ -22,6 +22,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('website/css/rotating-card.css')}}">
     <script src="https://use.fontawesome.com/d79a9c14ef.js"></script>
 
+    <link rel="icon" type="image/jpeg" href="{{asset('website/logo/logo.jpeg')}}" >
+
      <!--Google fonts-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,7 +83,7 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container">
           <a class="navbar-brand2" href="{{route('welcome')}}" style="color:#000033">
-            <img src="{{asset('website/logo/logo.jpeg')}}" height="90px"> <span style="font-size:25px">TECHSPHERE  INSTITUTE</span>
+            <img src="{{asset('website/logo/logo.jpeg')}}" height="90px"> <span style="font-size:25px;color:#fe730c">TECHSPHERE  INSTITUTE</span>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -202,6 +204,7 @@
                       <li><a href="{{route('corporateTraining')}}" style="color:white">Corporate Training</a></li>
                       <li><a href="{{route('industrialAttachment')}}" style="color:white">Online Industrial Attachment</a></li>
                   </ul>
+                  <img src="{{asset('website/logo/logo.jpeg')}}" height="50%" width="30%" class="img-fluid rounded-circle">
                 </div>
 
                 <div class="col-sm-4">
@@ -216,7 +219,7 @@
 
                     <div class="row" style="padding-bottom: 5px;">
                       <div class="col-sm-12">
-                          <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +2547768919307</b>
+                          <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
                       </div>
                     </div>
 
@@ -229,7 +232,7 @@
 
                   <div class="row" >
                     <div class="col-sm-12">
-                        <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-whatsapp" aria-hidden="true"></i></button>  <b style="color:white"> +2547768919307</b>
+                        <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-whatsapp" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
                     </div>
                   </div>
 

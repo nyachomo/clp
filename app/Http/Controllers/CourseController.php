@@ -83,6 +83,7 @@ class CourseController extends Controller
             $user->course_duration = $request->course_duration;
             $user->course_price = $request->course_price;
             $user->what_to_learn = $request->what_to_learn;
+            $user->course_status = $request->course_status;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'Course updated successfully!']);
