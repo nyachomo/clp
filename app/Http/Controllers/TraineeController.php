@@ -532,4 +532,13 @@ class TraineeController extends Controller
 
 
 
+    public function showClassLink(){
+        return view('trainees.showClassLink');
+    }
+
+    public function showClassNotes(){
+        return view('trainees.showClassNotes');
+    }
+
+
 }

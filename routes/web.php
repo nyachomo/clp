@@ -13,8 +13,10 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\TimeTableController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\CourseModuleController;
+use App\Http\Controllers\ClassNotesController;
 Route::get('/', function () {
     return view('welcome');
     //return redirect()->route('login');
@@ -54,6 +56,18 @@ Route::prefix('admin')->group(function () {
     Route::post('adminUpdateUserPassword',[UserController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
     Route::post('adminUpdateUserPicture',[UserController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
     Route::post('userUpdateProfile',[UserController::class, 'userUpdateProfile'])->name('userUpdateProfile');
+
+    //admin manage timetable
+    Route::get('manageTimeTable',[TimeTableController::class, 'showTimeTable'])->name('showTimeTable');
+    Route::post('create-timetable',[TimeTableController::class, 'addTimeTable'])->name('addTimeTable');
+    Route::post('update-timetable',[TimeTableController::class, 'updateTimeTable'])->name('updateTimeTable');
+    Route::post('delete-timetable',[TimeTableController::class, 'deleteTimeTable'])->name('deleteTimeTable');
+
+    //MANAGE CLASS NOTES
+    Route::get('ShowClassNotes',[ClassNotesController::class, 'showClassNotes'])->name('showClassNotes');
+    Route::post('create-class-notes',[ClassNotesController::class, 'addClassNotes'])->name('addClassNotes');
+    Route::post('update-class-notes',[ClassNotesController::class, 'updateClassNotes'])->name('updateClassNotes');
+    Route::post('delete-class-notes',[ClassNotesController::class, 'deleteClassNotes'])->name('deleteClassNotes');
     
 });
 
@@ -86,6 +100,9 @@ Route::prefix('trainees')->group(function () {
 
     //FETCH FEES
     Route::get('/fetch-fees', [TraineeController::class, 'fetchFeeBalance'])->name('fetchFeeBalance');
+
+    Route::get('/show-class-link', [TraineeController::class, 'showClassLink'])->name('showClassLink');
+    Route::get('/show-class-notes', [TraineeController::class, 'showClassNotes'])->name('showClassNotes');
 });
 
 
@@ -166,6 +183,8 @@ Route::prefix('exams')->group(function () {
 
     Route::get('/showExamAttempts', [ExamController::class, 'showExamAttempts'])->name('showExamAttempts');
     Route::get('/fetchExamAttempts/{exam_id}', [ExamController::class, 'fetchExamAttempts'])->name('fetchExamAttempts');
+
+
 
 
 });

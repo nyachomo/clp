@@ -279,6 +279,43 @@
                                 </div>
                             </li>
 
+                            <li class="side-nav-item">
+                                <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                                    <i class="uil uil-tachometer-fast text-secondary"></i>
+                                    <span> Timetable </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarCrm">
+                                    <ul class="side-nav-second-level">
+                                        <li>
+                                            <a href="{{route('showTimeTable')}}">Timetable</a>
+                                        </li>
+                                    
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                            <li class="side-nav-item">
+                                <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                                    <i class="uil uil-tachometer-fast text-secondary"></i>
+                                    <span> Class Notes </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarCrm">
+                                    <ul class="side-nav-second-level">
+                                        <li>
+                                            <a href="{{route('showClassNotes')}}">Class Notes</a>
+                                        </li>
+                                    
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                           
+                           
+
                            <!-- <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
                                     <i class="uil-envelope text-danger"></i>
@@ -397,6 +434,26 @@
                                 <span> My Course</span>
                             </a>
                         </li>
+
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showClassLink')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Class Link</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showClassNotes')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Class Notes</span>
+                            </a>
+                        </li>
+
+                        
+                       
 
 
                         <li class="side-nav-item">

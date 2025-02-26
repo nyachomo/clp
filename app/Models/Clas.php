@@ -23,4 +23,14 @@ class Clas extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function notes()
+    {
+        return $this->hasMany(ClassNotes::class, 'clas_id'); // Foreign key in 'class_notes' table
+    }
+
+    public function timetables()
+    {
+        return $this->hasMany(TimeTable::class, 'clas_id'); // Foreign key in 'class_notes' table
+    }
 }
