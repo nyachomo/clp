@@ -255,94 +255,96 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 <!-- end row-->
 
 <div class="row">
-                           <div class="col-xl-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                         <h4 class="header-title mb-4">Fee Payments</h4>
-                                         @if(Auth::user()->has_paid_reg_fee=='Yes')
-                                         <a style="float:right" href="{{ route('traineePrintingReceiptForRegistration') }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download Receipt For Registraion</a>
-                                         @endif
-                                    </div>
-                                    <div class="card-body">
+
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-header">
+                        <h4 class="header-title mb-4">Fee Payments</h4>
+                        @if(Auth::user()->has_paid_reg_fee=='Yes')
+                        <a style="float:right" href="{{ route('traineePrintingReceiptForRegistration') }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download Receipt For Registraion</a>
+                        @endif
+                </div>
+                <div class="card-body">
+                    
+                    
+
+                    <table class="table table-sm table-centered mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Amount (Ksh)</th>
+                                    <th>Date Paid</th>
+                                    <th>Menthod</th>
+                                    <th>Payment Ref No</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(!empty($fees))
+                                    @foreach($fees as $key=>$fee)
+                                        <tr>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$fee->amount_paid}}</td>
+                                        <td>{{$fee->date_paid}}</td>
+                                        <td>{{$fee->payment_method}}</td>
+                                        <td>{{$fee->payment_ref_no}}</td>
                                         
+                                        <td>
+                                            <a href="{{ route('downloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
+                                                <i class="fa fa-download"></i> Download Receipt
+                                            </a>
+                                        </td>
+                                    </tr>
                                         
-
-                                        <table class="table table-sm table-centered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Amount (Ksh)</th>
-                                                        <th>Date Paid</th>
-                                                        <th>Menthod</th>
-                                                        <th>Payment Ref No</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                   @if(!empty($fees))
-                                                      @foreach($fees as $key=>$fee)
-                                                         <tr>
-                                                            <td>{{$key+1}}</td>
-                                                            <td>{{$fee->amount_paid}}</td>
-                                                            <td>{{$fee->date_paid}}</td>
-                                                            <td>{{$fee->payment_method}}</td>
-                                                            <td>{{$fee->payment_ref_no}}</td>
-                                                            
-                                                            <td>
-                                                                <a href="{{ route('downloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
-                                                                    <i class="fa fa-download"></i> Download Receipt
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                         
-                                                      @endforeach
-                                                   @endif
-                                                   
-                                                </tbody>
-                                        </table>
+                                    @endforeach
+                                @endif
+                                
+                            </tbody>
+                    </table>
 
 
 
 
 
-                                    </div>
-                                    <!-- end card body-->
-                                </div>
-                                <!-- end card -->
-                            </div>
-                            <!-- end col-->
+                </div>
+                <!-- end card body-->
+            </div>
+            <!-- end card -->
+        </div>
+        <!-- end col-->
 
 
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                        <h4 class="header-title mb-4">Assesment Analysis</h4>
+                        <p>This is your Avarage Assesment</p>
+                </div>
 
-                            <div class="col-sm-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                          <h4 class="header-title mb-4">Assesment Analysis</h4>
-                                    </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Assignemt</td>
+                                <td>{{$avgAssignment ?? 'NA'}}  ( <a href="{{route('traineeViewAssignment')}}"> View </a>)</td>
+                            </tr>
 
-                                    <div class="card-body">
-                                        <table class="table table-bordered">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Assignemt</td>
-                                                    <td>{{$avgAssignment ?? 'NA'}}</td>
-                                                </tr>
+                            <tr>
+                                <td>Cats</td>
+                                <td>{{$avgCat}} (<a href="{{route('traineeViewCats')}}">View</a>) </td>
+                            </tr>
 
-                                                <tr>
-                                                    <td>Cats</td>
-                                                    <td>{{$avgCat}}</td>
-                                                </tr>
+                            <tr>
+                                <td>Final Exam</td>
+                                <td>{{$avgFinalExam}} ( <a href="{{route('traineeViewFinalExam')}}"> View</a>)</td>
+                            </tr>
+                        </tbody>
 
-                                                <tr>
-                                                    <td>Final Exam</td>
-                                                    <td>{{$avgFinalExam}}</td>
-                                                </tr>
-                                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
 </div>
 
 

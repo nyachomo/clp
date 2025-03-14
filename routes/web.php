@@ -181,6 +181,8 @@ Route::prefix('exams')->group(function () {
     Route::post('/delete', [ExamController::class, 'deleteExams'])->name('deleteExams');
     Route::post('/published', [ExamController::class, 'publishedExams'])->name('publishedExams');
 
+    Route::post('/notpublished', [ExamController::class, 'notpublishedExams'])->name('notpublishedExams');
+
     Route::get('/showExamAttempts', [ExamController::class, 'showExamAttempts'])->name('showExamAttempts');
     Route::get('/fetchExamAttempts/{exam_id}', [ExamController::class, 'fetchExamAttempts'])->name('fetchExamAttempts');
 

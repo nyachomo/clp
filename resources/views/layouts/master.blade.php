@@ -66,20 +66,20 @@
         <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
 
 
-
-        <!--Google fonts-->
-        <!-- Smartsupp Live Chat script 
-        <script type="text/javascript">
+            <!-- Smartsupp Live Chat script -->
+            <script type="text/javascript">
             var _smartsupp = _smartsupp || {};
-            _smartsupp.key = '9db76d1ce9b5947687c2cab0e8342dbb106a55c8';
+            _smartsupp.key = 'b7f9e59215dfeb4a10a833748dc3307a58941cfa';
             window.smartsupp||(function(d) {
             var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
             s=d.getElementsByTagName('script')[0];c=d.createElement('script');
             c.type='text/javascript';c.charset='utf-8';c.async=true;
             c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
             })(document);
-        </script>
-        <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>-->
+            </script>
+            <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
+
     <style>
 
 
@@ -147,12 +147,9 @@
 
         body{
             font-family: "Afacad Flux", sans-serif !important;
-            font-optical-sizing: auto;
-            font-weight: weight;
-            font-style: normal;
-            font-variation-settings:
-            "slnt" 0;
-            font-size:15px;
+           
+            font-size:14px;
+            text-transform: uppercase;
         }
 
 
@@ -170,8 +167,11 @@
 
         ul li a{
             color:white !important;
-            font-size:18px !important;
+           
         }
+
+       
+      
 
     </style>
 
@@ -186,24 +186,24 @@
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
                     <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="60">
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="100">
                     </span>
                    
                 </a>
-
+                <br>
     
                 <div class="h-100 bodyColor" id="leftside-menu-container" data-simplebar style="padding-top:30px;">
 
                     <!--- Sidemenu -->
                     @if(Auth::check() && Auth::user()->role=='Admin')
                         <ul class="side-nav">
-                            <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
+                            <!--<li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>-->
 
                             <li class="side-nav-item">
                                 <a href="{{route('home')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-warning"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> Dasshboard </span>
+                                    <span> SHOW Dasshboard </span>
                                 </a>
                             </li>
 
@@ -211,7 +211,7 @@
                                 <a href="{{route('userAccount')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-danger"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> My Account</span>
+                                    <span> MANAGE Account</span>
                                 </a>
                             </li>
 
@@ -219,20 +219,16 @@
                                 <a href="{{route('ShowSettings')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-warning"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> Settings </span>
+                                    <span> MANAGE Settings </span>
                                 </a>
                             </li>
 
 
 
-
-                            <li class="side-nav-title side-nav-item linkHead"><b>INSTITUTIONAL DATA</b></li>
-
-                           
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                     <i class="uil-home-alt text-danger"></i>
-                                    <span> Users </span>
+                                    <span> Manage All Users </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarDashboards">
@@ -250,7 +246,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                                     <i class="uil-store text-info"></i>
-                                    <span> Courses </span>
+                                    <span> Manage Courses </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarEcommerce">
@@ -266,7 +262,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                                     <i class="uil uil-tachometer-fast text-secondary"></i>
-                                    <span> Clases </span>
+                                    <span> Manage Classes </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarCrm">
@@ -279,7 +275,7 @@
                                 </div>
                             </li>
 
-                            <li class="side-nav-item">
+                            <!--<li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                                     <i class="uil uil-tachometer-fast text-secondary"></i>
                                     <span> Timetable </span>
@@ -310,7 +306,7 @@
                                     
                                     </ul>
                                 </div>
-                            </li>
+                            </li>-->
 
 
                            
@@ -373,7 +369,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                                     <i class="uil-copy-alt"></i>
-                                    <span> Exam</span>
+                                    <span> MANAGE ASSESMENT</span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarPages">
@@ -537,7 +533,7 @@
                             </li>
 
                             <!--WATCH-->
-                                 <li class="dropdown notification-list" style="padding-top:20px;margin-right:100px"><button id="timeButton">00:00:00</button> </li>
+                                 <li class="dropdown notification-list" style="padding-top:20px;margin-right:100px"><button class="btn btn-success btn-sm rounded-pill"id="timeButton">00:00:00</button> </li>
                             <!--END OF WATCH-->
                         
                             <!--NOTIFICATION-->
@@ -585,10 +581,12 @@
                                         <span>My Account</span>
                                     </a>
 
+                                    @if(Auth::check() && Auth::user()->role=='Admin')
                                      <a href="{{route('ShowSettings')}}" class="dropdown-item notify-item">
                                         <i class="mdi mdi-account-circle me-1"></i>
                                         <span>Settings</span>
                                     </a>
+                                    @endif
 
                                   
 

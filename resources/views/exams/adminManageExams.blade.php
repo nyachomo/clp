@@ -1,49 +1,20 @@
 @extends('layouts.master')
 @section('content')
-
-<style>
-
-#pagination-controls {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-top: -2px;
-    padding-right:50px;
-    padding-top:-500px;
-    padding-bottom:10px;
-    gap: 10px; /* Spacing between buttons */
-  }
-
-     #pagination-controls button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  }
-
-  #pagination-controls .active {
-    background-color: #28a745; /* Green for active page */
-  }
-</style>
-<!-- start page title -->
+<!-- end page title
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Manage Assignment</li>
+                    <li class="breadcrumb-item active">Manage Student Assignment</li>
                 </ol>
             </div>
-            <h4 class="page-title">Assignment</h4>
+            <h4 class="page-title">Student Assesment (Assignments)</h4>
         </div>
     </div>
 </div>
-<!-- end page title -->
+ -->
 
 
 <div id="response"></div>
@@ -73,8 +44,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Schools: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>
+                Total Assignment: <span id="total-users">0</span>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="fa fa-plus"></i> Add New Assignmet</a>
             </div>
             <div class="card-body">
 
@@ -108,18 +79,22 @@
                     </div>
 
                 </div>
+
+                <br>
+               
+
+
                 <div class="tab-content">
                     <div class="table-responsive">
+                        
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                   <th>#</th>
                                     <th>Class</th>
                                     <th>Exam Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Duration</th>
                                     <th>Status</th>
+                                    <th>Attempts</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -132,6 +107,8 @@
                     </div> <!-- end preview-->
                 
                 </div> <!-- end tab-content-->
+
+
                 
             </div> <!-- end card body-->
 
@@ -155,7 +132,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel">Add New Assignment</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('addAssignment')}}">
@@ -209,57 +186,75 @@
                     </div>
 
 
-
                     <div class="row">
 
                         <div class="col-sm-12">
                             <!-- text input -->
+                            <div class="form-group">
+                                <label>Exam Status<sup>*</sup></label>
+                                <select name="exam_status" class="form-control" id="update_exam_status">
+                                    <option value="Not Published">Not Published</option>
+                                     <option value="Published">Published</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <!--<div class="row">
+
+                        <div class="col-sm-12">
+                           
                             <div class="form-group">
                                 <label>Exam Start Date<sup>*</sup></label>
-                                <input type="date" class="form-control" name="exam_start_date" required>
+                                <input type="date" class="form-control" name="exam_start_date">
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                            
                             <div class="form-group">
                                 <label>Exam End Date<sup>*</sup></label>
-                                <input type="date" class="form-control" name="exam_end_date" required>
+                                <input type="date" class="form-control" name="exam_end_date" >
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                           
                             <div class="form-group">
                                 <label>Exam Duration<sup>*</sup></label>
-                                <input type="time" class="form-control" name="exam_duration" required>
+                                <input type="time" class="form-control" name="exam_duration" >
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                           
                             <div class="form-group">
                                 <label>Exam Instruction<sup>*</sup></label>
-                                <input type="text" class="form-control" name="'exam_instruction" required>
+                                <input type="text" class="form-control" name="'exam_instruction">
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
 
@@ -284,7 +279,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel">Update Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel">Update Assignment</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" id="updateExamForm">
@@ -293,18 +288,16 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <label>Id</label>
-                    <input type="text" class="form-control" name="exam_id" id="exam_id">
+                    
+                    <input type="text" class="form-control" name="exam_id" id="exam_id" hidden="true">
 
                     <div class="row">
-                        <div class="col-sm-6">
-                              <div class="form-group">
-                                   <label>Is Assignment<sup>*</sup></label>
-                                   <input type="text" class="form-control" name="is_assignment"  value="Yes" Readonly="true">
-                              </div>
-                        </div>
+                        
+                                   <!--<label>Is Assignment<sup>*</sup></label>-->
+                                   <input type="text" class="form-control" name="is_assignment"  value="Yes" Readonly="true" hidden="true">
+                         
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
 
                                <div class="form-group">
                                     <label>Select Class<sup>*</sup></label>
@@ -334,57 +327,58 @@
 
                     </div>
 
+                    
 
-                    <div class="row">
+
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
                             <div class="form-group">
                                 <label>Exam Start Date<sup>*</sup></label>
                                 <input type="date" class="form-control" name="exam_start_date" id="exam_start_date"  required>
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                          
                             <div class="form-group">
                                 <label>Exam End Date<sup>*</sup></label>
                                 <input type="date" class="form-control" name="exam_end_date" id="exam_end_date" required>
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                           
                             <div class="form-group">
                                 <label>Exam Duration<sup>*</sup></label>
                                 <input type="time" class="form-control" name="exam_duration" id="exam_duration">
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
-                    <div class="row">
+                    <!--<div class="row">
 
                         <div class="col-sm-12">
-                            <!-- text input -->
+                           
                             <div class="form-group">
                                 <label>Exam Instruction<sup>*</sup></label>
                                 <input type="text" class="form-control" name="'exam_instruction"  id="'exam_instruction">
                             </div>
                         </div>
 
-                    </div>
+                    </div>-->
 
 
 
@@ -464,17 +458,39 @@
 </div>
 <!--end of modal-->
 
+<!-- Add User modal -->
+<div id="notpublishedExamModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to Un published this exam ?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" id="notpublishedExamForm">
+                @csrf
+
+                <div class="card-body" style="border:1px solid white">
+                    <input type="text" class="form-control" name="notpublished_exam_id" id="notpublished_exam_id">
+                   
+                </div>
 
 
-
-
-
-
+            <div class="modal-footer justify-content-between" style="border:1px solid white">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Un Published</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
 
 
 
 
 @endsection
+
+
 @section('scripts')
 <script>
     
@@ -548,19 +564,44 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             $('tbody').html("");
             $.each(response.users, function(key, item) {
                 const baseUrl = "{{ route('adminManageQuestions') }}";
+                const attemptsUrl = "{{ route('showExamAttempts') }}";
+
+                // Determine the class based on exam_status
+                let statusClass = '';
+                let statusText = item.exam_status;
+
+                if (statusText === "Published") {
+                    statusClass = 'text-success'; // Green
+                } else if (statusText === "Not Published") {
+                    statusClass = 'text-danger'; // Red
+                } else if (statusText === "Suspended") {
+                    statusClass = 'text-warning'; // Yellow
+                }
+
+
+                // Add the row with necessary content
+                let publishedBtn = '';
+                let notPublishedBtn = '';
+                
+                // Conditionally show buttons based on exam status
+                if (statusText === "Published") {
+                    publishedBtn = 'd-none'; // Hide the "Published" button
+                    notPublishedBtn = ''; // Show the "Not Published" button
+                } else if (statusText === "Not Published") {
+                    publishedBtn = ''; // Show the "Published" button
+                    notPublishedBtn = 'd-none'; // Hide the "Not Published" button
+                }
 
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas.clas_name + '</td>\
                         <td>' + item.exam_name + '</td>\
-                        <td>' + item.exam_start_date + '</td>\
-                        <td>' + item.exam_end_date + '</td>\
-                        <td>' + item.exam_duration + '</td>\
-                        <td>' + item.exam_status + '</td>\
+                        <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
+                        <td>' + item.attempted_students + '</td>\
                        <td>\
                             <div class="dropdown">\
-                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">MORE ACTION</button>\
                                 <ul class="dropdown-menu">\
                                     <li><a  class="text-success dropdown-item updateBtn" href="#" \
                                         data-id="' + item.id + '" \
@@ -568,11 +609,14 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                         data-exam_start_date="' + item.exam_start_date + '" \
                                         data-exam_end_date="' + item.exam_end_date + '" \
                                         data-exam_duration="' + item.exam_duration + '" \
+                                        data-update_exam_status="' + item.exam_status + '" \
                                         data-exam_instruction="' + item.exam_instruction + '" \
                                         data-update_clas_id="' + item.clas.id + '"> <i class="fa fa-edit"></i> Update</a></li>\
                                     <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
-                                    <li><a  class="text-info dropdown-item publishedBtn" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
-                                   <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></li>\
+                                    <li><a class="text-info dropdown-item publishedBtn ' + publishedBtn + '" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
+                                    <li><a class="text-success dropdown-item notpublishedBtn ' + notPublishedBtn + '" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Un Published</a></li>\
+                                    <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> Manage Questions</a></li>\
+                                   <li><a class="text-info dropdown-item viewQuestionsBtn" href="' + attemptsUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Attempts</a></li>\
                                 </ul>\
                             </div>\
                         </td>\
@@ -591,6 +635,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const exam_start_date = $(this).data('exam_start_date');
                 const exam_end_date = $(this).data('exam_end_date');
                 const exam_duration = $(this).data('exam_duration');
+                const update_exam_status = $(this).data('update_exam_status');
                 const exam_instruction = $(this).data('exam_instruction');
                 const update_clas_id = $(this).data('update_clas_id');
                 // Populate modal fields
@@ -599,6 +644,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#exam_start_date').val(exam_start_date);
                 $('#exam_end_date').val(exam_end_date);
                 $('#exam_duration').val(exam_duration);
+                $('#update_exam_status').val(update_exam_status);
                 $('#exam_instruction').val(exam_instruction);
                 $('#update_clas_id').val(update_clas_id);
                 // Show the modal
@@ -627,6 +673,24 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             });
 
 
+             // Attach event listener to Update button
+             $('.notpublishedBtn').on('click', function() {
+                const notpublished_exam_id = $(this).attr('value');
+                // Populate modal fields
+                $('#notpublished_exam_id').val(notpublished_exam_id);
+                // Show the modal
+                $('#notpublishedExamModal').modal('show');
+            });
+
+            //ONCLICK FOR VIEW STUDENTS ATTEMPTS
+
+
+
+
+
+
+
+
         }
     });
 }
@@ -641,6 +705,7 @@ $('#updateExamForm').on('submit', function(e) {
         exam_name: $('#exam_name').val(),
         exam_start_date: $('#exam_start_date').val(),
         exam_end_date: $('#exam_end_date').val(),
+        update_exam_status: $('#update_exam_status').val(),
         exam_duration: $('#exam_duration').val(),
         update_clas_id: $('#update_clas_id').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
@@ -766,6 +831,48 @@ $('#publishedExamForm').on('submit', function(e) {
 
 });
 
+
+
+
+$('#notpublishedExamForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const formData = {
+        notpublished_exam_id: $('#notpublished_exam_id').val(),
+        _token: "{{ csrf_token() }}" // Include CSRF token for security
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('notpublishedExams') }}",
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert(response.message); // Notify user of success
+                $('#notpublishedExamModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('Exam UnPublished Successfully');
+                fetchUsers(); // Refresh the users table
+            } else {
+                alert('Failed to Unpublished Exam.');
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                $.each(errors, function(key, value) {
+                    errorMessages += value[0] + '\n';
+                });
+                alert(errorMessages); // Display validation errors
+            } else {
+                alert('An error occurred.');
+            }
+        }
+    });
+
+
+});
 
 
 

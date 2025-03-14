@@ -1,34 +1,6 @@
 @extends('layouts.master')
 @section('content')
 
-<style>
-
-#pagination-controls {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-top: -2px;
-    padding-right:50px;
-    padding-top:-500px;
-    padding-bottom:10px;
-    gap: 10px; /* Spacing between buttons */
-  }
-
-     #pagination-controls button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  }
-
-  #pagination-controls .active {
-    background-color: #39ac73; /* Green for active page */
-  }
-</style>
 
 <!-- start page title -->
 <div class="row">
@@ -634,7 +606,7 @@
                                                 data-gender="' + item.gender + '" \
                                                 data-status="' + item.status + '" \
                                                 ><i class="uil-edit"></i> Update</a></li>\
-                                            <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
+                                                <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                         </ul>\
                                     </div>\
                                 </td>\

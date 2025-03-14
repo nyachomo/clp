@@ -36,6 +36,7 @@ class ExamController extends Controller
         }
     }
 
+    /*
     public function fetchAssignments(Request $request) {
         $query = Exam::with('clas')->select( 'id',  'exam_type',
         'is_assignment',
@@ -66,6 +67,59 @@ class ExamController extends Controller
         $perPage = $request->input('per_page', 10); // Default is 10
     
         $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+    */
+
+
+    public function fetchAssignments(Request $request) {
+        $query = Exam::with('clas')->select( 'id',  'exam_type',
+        'is_assignment',
+        'is_cat',
+        'is_final_exam',
+        'exam_name',
+        'exam_start_date',
+        'exam_end_date',
+        'exam_duration',
+        'exam_instruction',
+        'exam_status',
+        'course_id',
+        'clas_id')
+        ->where('is_assignment','Yes')
+        ->orderBy('created_at', 'desc');
+
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('exam_name', 'like', '%' . $request->search . '%')
+                ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+
+        // Append the number of students who attempted each exam
+        foreach ($users as $exam) {
+            $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                ->distinct('user_id')
+                ->count();
+        }
     
         return response()->json([
             'users' => $users->items(),
@@ -238,6 +292,7 @@ class ExamController extends Controller
         $validated = $request->validate([
             'exam_id' =>'required|exists:exams,id',
             'exam_name' =>'string|max:255',
+            'exam_status' =>'string|max:255',
             'exam_start_date' =>'string|max:255',
             'exam_end_date' =>'string|max:255',
             'exam_duration' =>'string|max:255',
@@ -252,6 +307,7 @@ class ExamController extends Controller
             $user->exam_start_date = $request->exam_start_date;
             $user->exam_end_date = $request->exam_end_date;
             $user->exam_duration = $request->exam_duration;
+            $user->exam_status = $request->update_exam_status;
             $user->clas_id = $request->update_clas_id;
             $user->update();
             return response()->json(['success' => true, 'message' => 'Assignment updated successfully!']);
@@ -293,6 +349,25 @@ class ExamController extends Controller
         return response()->json(['success' => false, 'message' => 'Exam not found!'], 404);
    
     }
+
+
+
+
+
+
+    public function notpublishedExams(Request $request)
+    {
+       
+        $user = Exam::find($request->notpublished_exam_id);
+        if ($user) {
+            $user->update(['exam_status'=>'Not Published']);
+            return response()->json(['success' => true, 'message' => 'Exam Unpublished successfully!']);
+        }
+        return response()->json(['success' => false, 'message' => 'Exam not found!'], 404);
+   
+    }
+
+
 
 
 }
