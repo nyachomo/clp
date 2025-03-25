@@ -161,6 +161,7 @@ Route::prefix('Leeds')->group(function () {
     Route::post('/update', [LeedController::class, 'updateLeeds'])->name('updateLeeds');
     Route::post('/delete', [LeedController::class, 'deleteLeeds'])->name('deleteLeeds');
     Route::post('/suspend', [LeedController::class, 'suspendLeeds'])->name('suspendLeeds'); 
+    Route::get('/{id}/download-pdf', [LeedController::class, 'downloadShortCourseLetter'])->name('leeds.downloadShortCourseLetter');
 });
 
 

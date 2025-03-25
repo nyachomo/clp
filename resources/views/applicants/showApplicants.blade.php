@@ -366,7 +366,7 @@
                                                         class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Edit</span>\
                                                 </li>\
                                                 <li>\
-                                                    <span type="button" value="' + item.id + '" \
+                                                    <span type="button" data-id="' + item.id + '" \
                                                         class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete</span>\
                                                 </li>\
                                             </ul>\
@@ -411,7 +411,7 @@
                         });
 
                         $('.deleteBtn').on('click', function() {
-                            const delete_user_id = $(this).val();
+                            const delete_user_id = $(this).data('id');
                             // Populate modal fields
                             $('#delete_user_id').val(delete_user_id);
                             // Show the modal

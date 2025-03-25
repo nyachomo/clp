@@ -1,35 +1,11 @@
 @extends('layouts.master')
 @section('content')
 
-<style>
+<?php
+     $user = Auth::user();  
+?>
 
-#pagination-controls {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-top: -2px;
-    padding-right:50px;
-    padding-top:-500px;
-    padding-bottom:10px;
-    gap: 10px; /* Spacing between buttons */
-  }
-
-     #pagination-controls button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  }
-
-  #pagination-controls .active {
-    background-color: #28a745; /* Green for active page */
-  }
-</style>
-<div class="row">
+<!--<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -38,7 +14,7 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
-</div>
+</div>-->
 
 
 
@@ -69,7 +45,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Clases: <span id="total-users">0</span>
+                Total Students: <span id="total-users">0</span>
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addLeedModal"> <i class="uil-user-plus"></i>Add</a>
             </div>
             <div class="card-body">
@@ -104,16 +80,17 @@
                     </div>
 
                 </div>
+                <br>
                 <div class="tab-content">
                     <div class="table-responsive">
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Firstname</th>
-                                    <th>Lastname</th>
+                                    <th>Fullname</th>
+                                   <!-- <th>Lastname</th>-->
                                     <th>Student Phone</th>
-                                    <th>Student Gender</th>
+                                   <!-- <th>Student Gender</th>-->
                                     <th>Student Class</th>
                                     <th>Parent name</th>
                                     <th>Parent Phone</th>
@@ -165,7 +142,7 @@
 
                     <div class="row">
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Firstname<sup>*</sup></label>
@@ -173,12 +150,7 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Lastname<sup>*</sup></label>
@@ -189,9 +161,12 @@
                     </div>
 
 
+                  
+
+
                     <div class="row">
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Phonenumber<sup>*</sup></label>
@@ -199,12 +174,7 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Email<sup>*</sup></label>
@@ -215,15 +185,14 @@
                     </div>
 
 
-
                     <div class="row">
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Gender<sup>*</sup></label>
                                
-                                <select class="form-control" name="student_gender" name="student_gender" class="form-control @error('student_gender') is-invalid @enderror"  value="{{ old('student_gender') }}">
+                                <select class="form-control" name="student_gender">
                                     <option value="">Select ..</option>
                                     <option value="Female">Female</option>
                                     <option value="Male">Male</option>
@@ -233,13 +202,8 @@
                             </div>
                         </div>
 
-                    </div>
 
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Class<sup>*</sup></label>
@@ -271,13 +235,15 @@
                             </div>
                         </div>
 
+
                     </div>
+
 
 
 
                     <div class="row">
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Parent name<sup>*</sup></label>
@@ -285,12 +251,7 @@
                             </div>
                         </div>
 
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Parent phonenumber<sup>*</sup></label>
@@ -301,10 +262,58 @@
                     </div>
 
 
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>School<sup>*</sup></label>
+
+                                    <select class="form-control" name="school_id">
+                                        @php
+                                            $user = Auth::user();
+                                        @endphp
+
+                                        @if($user && $user->school_id)
+                                            <!-- If the user has a school, show their assigned school -->
+                                            <option value="{{ $user->school_id }}">{{ $user->school ? $user->school->school_name : 'Your School' }}</option>
+                                        @else
+                                            <!-- If the user has no school, show all available schools -->
+                                            <option value="">Select a School</option>
+                                            @foreach($schools as $school)
+                                                <option value="{{ $school->id }}">{{ $school->school_name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
 
 
 
+                            </div>
+                        </div>
 
+
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Course<sup>*</sup></label>
+                               
+                                <select class="form-control" name="student_gender" name="student_gender" class="form-control @error('student_gender') is-invalid @enderror"  value="{{ old('student_gender') }}">
+                                    <option value="">Select ..</option>
+                                    @foreach($courses as $key=>$course)
+                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                    @endforeach
+                                    
+                                </select>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    
 
                 </div>
                  <!-- /.card-body -->
@@ -648,10 +657,11 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
-                        <td>' + item.student_firstname + '</td>\
-                        <td>' + item.student_lastname + '</td>\
+                        <td>' + item.student_firstname + ' ' + item.student_lastname + '</td>\
+                        <!--<td>' + item.student_firstname + '</td>-->\
+                        <!--<td>' + item.student_lastname + '</td>-->\
                         <td>' + item.student_phone + '</td>\
-                         <td>' + item.student_gender + '</td>\
+                         <!--<td>' + item.student_gender + '</td>-->\
                          <td>' + item.student_form + '</td>\
                         <td>' + item.parent_name + '</td>\
                         <td>' + item.parent_phone + '</td>\
@@ -669,6 +679,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                 class="updateBtn btn btn-success btn-sm"><i class="uil-edit"></i></button>\
                                 <button type="button" value="' + item.id + '" \
                                 class="deleteBtn btn btn-danger btn-sm"><i class=" uil-trash-alt"></i></button>\
+                                <a href="/Leeds/' + item.id + '/download-pdf" class="btn btn-primary btn-sm"><i class="uil-file-download"></i> Download PDF</a>\
                         </td>\
                     </tr>'
                 );

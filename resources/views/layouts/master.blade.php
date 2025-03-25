@@ -331,21 +331,16 @@
                             </li>-->
 
 
-                           <!-- <li class="side-nav-item">
-                                <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
-                                    <i class="uil-briefcase text-info"></i>
-                                    <span> Schools </span>
+
+
+                            <li class="side-nav-item">
+                                <a  href="{{route('showSchools')}}" class="side-nav-link">
+                                    <i class="uil-package"></i>
+                                    <span> MANAGE SCHOOLS </span>
                                     <span class="menu-arrow"></span>
                                 </a>
-                                <div class="collapse" id="sidebarProjects">
-                                    <ul class="side-nav-second-level">
-                                        <li>
-                                            <a href="{{route('showSchools')}}">Schools</a>
-                                        </li>
-                                    
-                                    </ul>
-                                </div>
-                            </li>-->
+                           </li>
+
 
 
                             <!--<li class="side-nav-item">
@@ -395,6 +390,41 @@
 
 
                         </ul> 
+                    @endif
+
+
+
+                    @if(Auth::check() && Auth::user()->role=='High_school_teacher')
+                    <ul class="side-nav">
+
+                       <li class="side-nav-item">
+                            <a href="{{route('home')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-warning"></i>
+                                <span class="menu-arrow"></span>
+                                <span> SHOW DASHBOARD </span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                                <a href="{{route('userAccount')}}" class="side-nav-link">
+                                    <i class="uil-comments-alt text-danger"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span> MANAGE PROFILE</span>
+                                </a>
+                            </li>
+
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showLeeds')}}" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span class="menu-arrow"></span>
+                                <span>SCHOLARSHIP</span>
+                            </a>
+                        </li>
+
+                      
+
+                    </ul> 
                     @endif
 
 

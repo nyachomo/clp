@@ -29,4 +29,9 @@ class Leed extends Model
         'course_register_for',
         'scholarship_letter',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
 }

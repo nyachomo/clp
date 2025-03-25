@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -20,7 +21,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        return view('users.showAdministrators');
+        $schools=School::select("id","school_name")->get();
+        return view('users.showAdministrators',compact('schools'));
     }
 
    
@@ -30,11 +32,11 @@ class UserController extends Controller
      */
 
 
-    public function adminFetchUsers(Request $request) {
-        $query = DB::table('users')->select('id', 'firstname',
+    public function adminFetchUsers1(Request $request) {
+        $query = User::with('school')->select('id', 'firstname',
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
-        'email','phonenumber','role','status','gender')->orderBy('created_at', 'desc');
+        'email','phonenumber','role','status','gender','school_id')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -64,6 +66,46 @@ class UserController extends Controller
     }
     
 
+    public function adminFetchUsers(Request $request) {
+        // Query users with school relationship
+        $query = User::with('school')
+            ->select('users.id', 'users.firstname',
+                DB::raw("COALESCE(users.secondname, '') as secondname"),
+                DB::raw("COALESCE(users.lastname, '') as lastname"),
+                'users.email', 'users.phonenumber', 'users.role', 
+                'users.status', 'users.gender', 'users.school_id'
+            )
+            ->leftJoin('schools', 'users.school_id', '=', 'schools.id') // Join schools table
+            ->orderBy('users.created_at', 'desc');
+    
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.secondname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('schools.school_name', 'like', '%' . $request->search . '%'); // ✅ Search by school name
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
     public function adminAddNewUser2(Request $request){
         $user=new User;
         $user->firstname=$request->firstname;
@@ -77,6 +119,7 @@ class UserController extends Controller
         $user->is_principal=$request->is_principal;
         $user->is_deputy_principal=$request->is_deputy_principal;
         $user->is_registrar=$request->is_registrar;
+        $user->school_id=$request->school_id;
         $user->password=123456;
         $save=$user->save();
         if ($save) {
@@ -110,6 +153,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->role = $request->role;
             $user->gender = $request->gender;
+            $user->school_id = $request->school_id;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);

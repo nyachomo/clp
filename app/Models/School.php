@@ -13,4 +13,15 @@ class School extends Model
        'school_location',
        'school_status',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function leeds()
+    {
+        return $this->hasMany(Leed::class);
+    }
+    
 }

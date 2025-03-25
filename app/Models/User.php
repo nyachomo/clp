@@ -32,6 +32,7 @@ class User extends Authenticatable
         'date_paid_reg_fee',
         'reg_fee_ref_no',
 
+        'school_id',
         'course_id',
         'clas_id',
         'is_admin',
@@ -63,6 +64,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
     }
 
     public function course()
