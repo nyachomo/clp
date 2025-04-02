@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 
+
 class UserController extends Controller
 {
     /**
@@ -143,6 +144,7 @@ class UserController extends Controller
 
 
         $user = User::find($request->user_id);
+        $password=12345678;
 
         if ($user) {
             // Update user details
@@ -154,6 +156,7 @@ class UserController extends Controller
             $user->role = $request->role;
             $user->gender = $request->gender;
             $user->school_id = $request->school_id;
+            $user->password =  Hash::make($password);
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);
