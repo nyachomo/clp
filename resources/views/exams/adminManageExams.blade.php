@@ -289,13 +289,21 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     
-                    <input type="text" class="form-control" name="exam_id" id="exam_id" hidden="true">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Exam Id</label>
+                            <input type="text" class="form-control" name="exam_id" id="exam_id" readonly="true">
+                        </div>
+                        <div class="col-sm-6">
+                             <label>Is Assignment</label>
+                             <input type="text" class="form-control" name="is_assignment"  value="Yes" Readonly="true">
+                        </div>
+                    </div>
 
                     <div class="row">
                         
                                    <!--<label>Is Assignment<sup>*</sup></label>-->
-                                   <input type="text" class="form-control" name="is_assignment"  value="Yes" Readonly="true" hidden="true">
-                         
+                                   
 
                         <div class="col-sm-12">
 
