@@ -165,7 +165,7 @@
     <main>
 
 
-      <section class="iconsSection">
+     <!-- <section class="iconsSection">
         <div class="icons-bar">
           <a href="#"><i class="fa fa-address-book"><br>Enrol</i></a> 
           <a href="#"><i class="fa fa-plus"><br>Apply</i></a>
@@ -177,7 +177,7 @@
           <a href="#" style="background-color:#1DA1F2" title="twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
           <a href="#" style="background-color:#FF0000  " title="youtube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
         </div>
-      </section >
+      </section >-->
 
        @yield('content')
 

@@ -27,6 +27,9 @@ class UserController extends Controller
     }
 
    
+    public function userProfile($id){
+
+    }
 
     /**
      * Show the form for creating a new resource.

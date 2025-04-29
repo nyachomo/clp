@@ -632,4 +632,18 @@ class TraineeController extends Controller
     }
 
 
+
+
+    public function showTraineeProfile($id)
+        {
+            $student = User::with('course')->findOrFail($id); // eager load course relationship
+
+            // If you need fee information, you can also load it:
+            $fees = Fee::where('user_id', $id)->get();
+
+            return view('trainees.traineeProfile', compact('student', 'fees'));
+        }
+
+
+
 }

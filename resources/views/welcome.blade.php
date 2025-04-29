@@ -2,12 +2,12 @@
 @section('content')
 
 <section class="cardSection bg-light bannerSection1">
-        <div class="container">
-          <div class="row" style="border-bottom: 1px solid white;padding-bottom: 20px;">
+        <div class="container-fliud" style="padding-left:30px;padding-right:30px">
+          <div class="row" style="border-bottom: 1px solid white;padding-bottom: 0px;">
 
-            <marquee class="marquee" behavior="scroll" direction="left">
+            <!--<marquee class="marquee" behavior="scroll" direction="left">
               <h1 style="color:red"><b>Enroll Now: Full Scholarship – High School Python Programming Training Program (April Holiday)</b></h1>
-            </marquee>
+            </marquee>-->
 
                  <div class="col-sm-12">
       
@@ -113,11 +113,11 @@
 
     
     <section style="background-color:  #000033; padding:10px">
-        <div class="container">
+        <div class="container-fliud" style="padding-left:30px; padding-right:30px">
              <div class="row">
                    
                 <div class="col-sm-4" style="border:1px dotted white;padding: 20px;">
-                  <a class="btn" href="{{route('enrol')}}" style="width:100%;height:30px;background-color:  #00ccff; border :1px solid  #00ccff;border-radius: 0px; color:#000033"><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> ENROL TODAY</b></a>
+                  <a class="btn" href="{{route('enrol')}}" style="width:100%;height:60px;background-color:  #00ccff !important; border :1px solid  #00ccff;border-radius: 50px; color:white"><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> ENROL TODAY,<br>INTAKE ONGOING</b></a>
                 </div>
 
                 <div class="col-sm-4">
@@ -130,7 +130,7 @@
 
                     <div class="row" style="padding-bottom: 5px;">
                         <div class="col-sm-12">
-                            <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +2547768919307</b>
+                            <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
                         </div>
                         
                     </div>
@@ -145,7 +145,7 @@
 
                 <div class="col-sm-4" style="border:1px dotted white;padding: 20px;">
                   
-                  <a  class="btn" href="{{route('enrol')}}" style="width:100%;height:60px;background-color:  #00ccff; border :1px solid  #00ccff;border-radius: 0px;"><b style="color:white">REGISTER NOW</b><br><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> INTAKE ONGOING</b></a>
+                  <a  class="btn" href="{{route('enrol')}}" style="width:100%;height:60px;background-color:  #00ccff !important; border :1px solid  #00ccff;border-radius: 50px;"><b style="color:white">REGISTER NOW</b><br><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> INTAKE ONGOING</b></a>
                 </div>
 
 

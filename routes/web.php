@@ -17,6 +17,7 @@ use App\Http\Controllers\TimeTableController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ClassNotesController;
+use App\Http\Controllers\HighSchoolTeacherController;
 Route::get('/', function () {
     return view('welcome');
     //return redirect()->route('login');
@@ -56,6 +57,7 @@ Route::prefix('admin')->group(function () {
     Route::post('adminUpdateUserPassword',[UserController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
     Route::post('adminUpdateUserPicture',[UserController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
     Route::post('userUpdateProfile',[UserController::class, 'userUpdateProfile'])->name('userUpdateProfile');
+    
 
     //admin manage timetable
     Route::get('manageTimeTable',[TimeTableController::class, 'showTimeTable'])->name('showTimeTable');
@@ -70,6 +72,17 @@ Route::prefix('admin')->group(function () {
     Route::post('delete-class-notes',[ClassNotesController::class, 'deleteClassNotes'])->name('deleteClassNotes');
     
 });
+
+
+
+
+//HIGH SCHOOL TEACHER
+Route::prefix('h-schl')->group(function () {
+    Route::get('/students', [HighSchoolTeacherController::class, 'fetchHighStudents'])->name('fetchHighStudents');
+    Route::get('/ViewTraineeProfile', [HighSchoolTeacherController::class, 'ViewTraineeProfile'])->name('ViewTraineeProfile');
+});
+
+
 
 Route::prefix('trainees')->group(function () {
     Route::get('/show', [TraineeController::class, 'index'])->name('showTrainees');
@@ -103,6 +116,10 @@ Route::prefix('trainees')->group(function () {
 
     Route::get('/show-class-link', [TraineeController::class, 'showClassLink'])->name('showClassLink');
     Route::get('/show-class-notes', [TraineeController::class, 'showClassNotes'])->name('showClassNotes');
+
+
+    Route::get('/{id}', [TraineeController::class, 'showTraineeProfile'])->name('showTraineeProfile');
+
 });
 
 
