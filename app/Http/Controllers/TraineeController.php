@@ -589,13 +589,6 @@ class TraineeController extends Controller
 
 
 
-
-
-
-
-
-
-
     public function fetchFeeBalance(Request $request) {
         $coursePrice = auth()->user()->course->course_price;
         $feePaid=Fee::where('user_id',Auth::user()->id)->sum('amount_paid');
