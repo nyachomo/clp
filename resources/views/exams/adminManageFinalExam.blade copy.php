@@ -1,6 +1,34 @@
 @extends('layouts.master')
 @section('content')
 
+<style>
+
+#pagination-controls {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin-top: -2px;
+    padding-right:50px;
+    padding-top:-500px;
+    padding-bottom:10px;
+    gap: 10px; /* Spacing between buttons */
+  }
+
+     #pagination-controls button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  }
+
+  #pagination-controls .active {
+    background-color: #28a745; /* Green for active page */
+  }
+</style>
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
@@ -8,10 +36,10 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Manage Cats</li>
+                    <li class="breadcrumb-item active">Manage Final Exam</li>
                 </ol>
             </div>
-            <h4 class="page-title">Continuous Assesment Test (Cats)</h4>
+            <h4 class="page-title">Final Exam</h4>
         </div>
     </div>
 </div>
@@ -45,8 +73,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Cats: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Cat</a>
+                Total Final Exam: <span id="total-users">0</span>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Final Exam</a>
             </div>
             <div class="card-body">
 
@@ -94,7 +122,6 @@
                                     <th>End Date</th>
                                     <th>Duration</th>
                                     <th>Status</th>
-                                    <th>Attempts</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -130,7 +157,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel">Add New Final Exam</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('addAssignment')}}">
@@ -146,8 +173,8 @@
                         <div class="col-sm-12">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Is Cat<sup>*</sup></label>
-                                <input type="text" class="form-control" name="is_cat"  value="Yes" readonly="true">
+                                <label>Is Final Exam<sup>*</sup></label>
+                                <input type="text" class="form-control" name="is_final_exam"  value="Yes" readonly="true">
                             </div>
                         </div>
 
@@ -177,7 +204,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Exam Name<sup>*</sup></label>
-                                <input type="text" class="form-control" name="exam_name" required>
+                                <input type="text" class="form-control" name="exam_name">
                             </div>
                         </div>
 
@@ -191,7 +218,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Exam Start Date<sup>*</sup></label>
-                                <input type="date" class="form-control" name="exam_start_date" required>
+                                <input type="date" class="form-control" name="exam_start_date">
                             </div>
                         </div>
 
@@ -204,7 +231,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Exam End Date<sup>*</sup></label>
-                                <input type="date" class="form-control" name="exam_end_date" required>
+                                <input type="date" class="form-control" name="exam_end_date" >
                             </div>
                         </div>
 
@@ -217,7 +244,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Exam Duration<sup>*</sup></label>
-                                <input type="time" class="form-control" name="exam_duration" required>
+                                <input type="time" class="form-control" name="exam_duration" >
                             </div>
                         </div>
 
@@ -230,7 +257,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Exam Instruction<sup>*</sup></label>
-                                <input type="text" class="form-control" name="'exam_instruction" required>
+                                <input type="text" class="form-control" name="'exam_instruction">
                             </div>
                         </div>
 
@@ -274,8 +301,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                               <div class="form-group">
-                                   <label>Is Assignment<sup>*</sup></label>
-                                   <input type="text" class="form-control" name="is_assignment"  value="Yes" Readonly="true">
+                                   <label>Is Final Exam<sup>*</sup></label>
+                                   <input type="text" class="form-control" name="is_final_exam"  value="Yes" Readonly="true">
                               </div>
                         </div>
 
@@ -445,6 +472,10 @@
 
 
 
+
+
+
+
 @endsection
 @section('scripts')
 <script>
@@ -508,7 +539,7 @@ setTimeout(() => {
 function fetchUsers(page = 1, search = '', perPage = 10) {
     $.ajax({
         type: 'GET',
-        url: "{{route('fetchCats')}}",
+        url: "{{route('fetchFinalExam')}}",
         data: { page: page, search: search, per_page: perPage },
         dataType: "json",
         success: function(response) {
@@ -519,7 +550,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             $('tbody').html("");
             $.each(response.users, function(key, item) {
                 const baseUrl = "{{ route('adminManageQuestions') }}";
-                const attemptsUrl = "{{ route('showExamAttempts') }}";
 
                 $('#table1').append(
                     '<tr>\
@@ -530,7 +560,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.exam_end_date + '</td>\
                         <td>' + item.exam_duration + '</td>\
                         <td>' + item.exam_status + '</td>\
-                        <td>' + item.attempted_students + '</td>\
                        <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
@@ -546,7 +575,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a  class="text-danger dropdown-item deleteBtn" href="#" value="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
                                     <li><a  class="text-info dropdown-item publishedBtn" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
                                    <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></li>\
-                                   <li><a class="text-warning dropdown-item viewQuestionsBtn" href="' + attemptsUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Attempts</a></li>\
                                 </ul>\
                             </div>\
                         </td>\
@@ -599,15 +627,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 // Show the modal
                 $('#publishedExamModal').modal('show');
             });
-
-
-            //ONCLICK FOR VIEW STUDENTS ATTEMPTS
-
-
-
-
-
-
 
 
         }

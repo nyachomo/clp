@@ -1,22 +1,49 @@
 @extends('layouts.master')
 @section('content')
 
+<style>
 
-<!-- 
+#pagination-controls {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin-top: -2px;
+    padding-right:50px;
+    padding-top:-500px;
+    padding-bottom:10px;
+    gap: 10px; /* Spacing between buttons */
+  }
+
+     #pagination-controls button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  }
+
+  #pagination-controls .active {
+    background-color: #28a745; /* Green for active page */
+  }
+</style>
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Manage Cats</li>
+                    <li class="breadcrumb-item active">Manage Assignment</li>
                 </ol>
             </div>
-            <h4 class="page-title">Cats</h4>
+            <h4 class="page-title">Assignment</h4>
         </div>
     </div>
 </div>
- -->
+<!-- end page title -->
 
 
 <div id="response"></div>
@@ -46,8 +73,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Cats: <span id="total-users">0</span>
-               <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
+                Total Assignment: <span id="total-users">0</span>
+                <!--<a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
             </div>
             <div class="card-body">
 
@@ -83,8 +110,8 @@
                 </div>
                 <div class="tab-content">
                     <div class="table-responsive">
-                        
-                         <table class="table table-bordered table-striped table-hover" id="table1">
+                      
+                        <table class="table table-bordered table-striped table-hover" id="table1">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -92,8 +119,8 @@
                                     <th>Exam Name</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <!--<th>Duration</th>-->
-                                    <!--<th>Status</th>-->
+                                    <th>Duration</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -511,7 +538,7 @@ setTimeout(() => {
 function fetchUsers(page = 1, search = '', perPage = 10) {
     $.ajax({
         type: 'GET',
-        url: "{{route('traineeFetchCats')}}",
+        url: "{{route('traineeFetchAssignments')}}",
         data: { page: page, search: search, per_page: perPage },
         dataType: "json",
         success: function(response) {
@@ -530,6 +557,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.exam_name + '</td>\
                         <td>' + item.exam_start_date + '</td>\
                         <td>' + item.exam_end_date + '</td>\
+                        <td>' + item.exam_duration + '</td>\
+                        <td>' + item.exam_status + '</td>\
                        <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\

@@ -182,7 +182,13 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label> Answer <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_answer">
+                                <select class="form-control" name="question_answer" required>
+                                     <option value="">Select ...</option>
+                                     <option value="A">A</option>
+                                     <option value="B">B</option>
+                                     <option value="C">C</option>
+                                     <option value="D">D</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -192,7 +198,20 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label> Marks <sup>*</sup></label>
-                                <input type="text" class="form-control" name="question_mark">
+                                <select class="form-control" name="question_mark" required>
+                                     <option value="">Select ...</option>
+                                     <option value="1">1</option>
+                                     <option value="2">2</option>
+                                     <option value="3">3</option>
+                                     <option value="4">4</option>
+                                     <option value="5">5</option>
+                                     <option value="6">6</option>
+                                     <option value="7">7</option>
+                                     <option value="8">8</option>
+                                     <option value="9">9</option>
+                                     <option value="10">10</option>
+                                </select>
+
                             </div>
                         </div>
                     </div>

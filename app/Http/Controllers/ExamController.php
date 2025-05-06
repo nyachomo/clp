@@ -241,6 +241,7 @@ class ExamController extends Controller
     }
 
 
+
     public function fetchFinalExam(Request $request) {
         $query = Exam::with('clas')->select( 'id',  'exam_type',
         'is_assignment',
@@ -271,6 +272,13 @@ class ExamController extends Controller
         $perPage = $request->input('per_page', 10); // Default is 10
     
         $users = $query->paginate($perPage);
+
+        // Append the number of students who attempted each exam
+        foreach ($users as $exam) {
+            $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                ->distinct('user_id')
+                ->count();
+        }
     
         return response()->json([
             'users' => $users->items(),
@@ -283,6 +291,7 @@ class ExamController extends Controller
             'total_users' => $users->total(),
         ]);
     }
+
 
 
     

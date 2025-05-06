@@ -160,7 +160,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateUserModalLabel">Marked As Paid Registration Fee</h5>
+                <h5 class="modal-title" id="updateUserModalLabel">Marked As Paid Registration Fee And Add Trainee to class</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -204,9 +204,9 @@
                          </div>
 
                          <div class="col-sm-6">
-                              <label  for="lastname">Reg Fee Reference No</label>
+                              <label  for="lastname">Class (Add trainee to class)</label>
                               <select name="clas_id" id="clas_id" class="form-control" required>
-                                  <option value="">Select ...</option>
+                                  <option value="">Select Class ...</option>
                                   @if(!empty($clas))
                                      @foreach($clas as $key=>$cla)
                                        <option value="{{$cla->id}}">{{$cla->clas_name}}</option>

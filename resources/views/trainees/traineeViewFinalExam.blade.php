@@ -1,49 +1,22 @@
 @extends('layouts.master')
 @section('content')
 
-<style>
 
-#pagination-controls {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-top: -2px;
-    padding-right:50px;
-    padding-top:-500px;
-    padding-bottom:10px;
-    gap: 10px; /* Spacing between buttons */
-  }
-
-     #pagination-controls button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  }
-
-  #pagination-controls .active {
-    background-color: #28a745; /* Green for active page */
-  }
-</style>
-<!-- start page title -->
+<!-- 
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Manage Final Exam</li>
+                    <li class="breadcrumb-item active">Manage Cats</li>
                 </ol>
             </div>
-            <h4 class="page-title">Final Exam</h4>
+            <h4 class="page-title">Cats</h4>
         </div>
     </div>
 </div>
-<!-- end page title -->
+ -->
 
 
 <div id="response"></div>
@@ -73,8 +46,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Exams: <span id="total-users">0</span>
-                <!--<a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
+                Final Exam: <span id="total-users">0</span>
+               <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
             </div>
             <div class="card-body">
 
@@ -111,15 +84,18 @@
                 <div class="tab-content">
                     <div class="table-responsive">
                         
-                        <table class="table table-bordered table-striped table-hover" id="table1">
+                         <table class="table table-bordered table-striped table-hover" id="table1">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Class</th>
+                                   <!-- <th>Class</th>-->
                                     <th>Exam Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Duration</th>
+                                    <!--<th>Start Date</th>-->
+                                   <!-- <th>End Date</th>-->
+                                    <th>Total Marks</th>
+                                    <th>Student Score</th>
+                                    <th>Student Score (/30)</th>
+                                    <!--<th>Duration</th>-->
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -549,24 +525,20 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             $('tbody').html("");
             $.each(response.users, function(key, item) {
                 const baseUrl = "{{ route('traineeViewQuestions') }}";
+                // Determine exam status color
+                let statusClass = item.exam_status === "Attempted" ? "text-success" : "text-warning";
 
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
-                        <td>' + item.clas.clas_name + '</td>\
+                         <!--<td>' + item.clas.clas_name + '</td>-->  <!-- Commented out -->\
                         <td>' + item.exam_name + '</td>\
-                        <td>' + item.exam_start_date + '</td>\
-                        <td>' + item.exam_end_date + '</td>\
-                        <td>' + item.exam_duration + '</td>\
-                        <td>' + item.exam_status + '</td>\
-                       <td>\
-                            <div class="dropdown">\
-                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                <ul class="dropdown-menu">\
-                                   <li><a class="text-success dropdown-item viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye"></i>Attempt Questions</a></li>\
-                                </ul>\
-                            </div>\
-                        </td>\
+                       <!-- <td>' + item.exam_start_date+ '</td>-->\
+                        <td>' + item.total_possible_score + '</td>\ <!-- Total Possible Score -->\
+                        <td>' + item.student_score + '</td>\ <!-- Display Student Score -->\
+                        <td>' + item.percentage_score + '</td>\ <!-- Percentage Score -->\
+                        <td class="' + statusClass + '">' + item.exam_status + '</td>\ <!-- Colored Exam Status -->\
+                        <td><a class="btn btn-success btn-sm rounded-pill viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">Questions</a></td>\
                     </tr>'
                 );
             });

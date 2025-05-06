@@ -37,7 +37,7 @@ class TraineeController extends Controller
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee')->orderBy('created_at', 'desc');
+        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee') ->where('has_paid_reg_fee','Yes')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -171,7 +171,96 @@ class TraineeController extends Controller
        
     }
 
+
     public function traineeFetchAssignments(Request $request){
+        $clas_id=Auth::user()->clas_id;
+        $user_id = Auth::user()->id; // Get the logged-in user ID
+        $query = Exam::with('clas')->where('clas_id', $clas_id)->where('is_assignment','Yes')->select( 'id',  'exam_type',
+        'is_assignment',
+        'is_cat',
+        'is_final_exam',
+        'exam_name',
+        'exam_start_date',
+        'exam_end_date',
+        'exam_duration',
+        'exam_instruction',
+        'exam_status',
+        'course_id',
+        'created_at',
+        'clas_id')->orderBy('created_at', 'desc');
+
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('exam_name', 'like', '%' . $request->search . '%')
+                ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+
+      // Fetch student scores for each exam
+      $users->getCollection()->transform(function ($exam) use ($user_id) {
+        // Sum student scores for the logged-in user per exam
+        $studentScore = DB::table('student_answers')
+            ->where('exam_id', $exam->id)
+            ->where('user_id', $user_id)
+            ->sum('score');
+
+            // Sum the total possible marks from the questions table
+            $totalPossibleScore = DB::table('questions')
+                ->where('exam_id', $exam->id)
+                ->sum('question_mark');
+
+
+
+                // Check if the student has answered any question
+                    $hasAnswered = DB::table('student_answers')
+                    ->where('exam_id', $exam->id)
+                    ->where('user_id', $user_id)
+                    ->exists(); // Returns true if the student has at least one answer
+
+                // Set exam status based on whether the student has answered or not
+                if ($hasAnswered) {
+                    $exam->exam_status = "Attempted";
+                    $exam->student_score = $studentScore;
+                } else {
+                    $exam->exam_status = "Pending";
+                    $exam->student_score = "N/A";
+                }
+
+
+                // Calculate percentage score only if the student has attempted the exam
+                $exam->percentage_score = ($hasAnswered && $totalPossibleScore > 0)
+                ? round(($studentScore / $totalPossibleScore) * 30, 0) 
+                : "N/A"; // Set to "N/A" if not attempted
+
+                $exam->total_possible_score = $totalPossibleScore;
+
+                return $exam;
+
+             });
+
+    
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+    }
+
+
+    public function traineeFetchAssignments2(Request $request){
         $clas_id=Auth::user()->clas_id;
         $query = Exam::with('clas')->where('clas_id', $clas_id)->where('is_assignment','Yes')->select( 'id',  'exam_type',
         'is_assignment',
@@ -298,25 +387,44 @@ class TraineeController extends Controller
 
                 return $exam;
 
-    });
+             });
 
     
-        return response()->json([
-            'users' => $users->items(),
-            'pagination' => [
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'total' => $users->total(),
-                'per_page' => $users->perPage(),
-            ],
-            'total_users' => $users->total(),
-        ]);
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
     }
 
 
-    public function traineeFetchCats2(Request $request){
+ 
+
+
+
+    public function traineeViewFinalExam(){
+
+        if(Auth::check() && Auth::user()->role=='Trainee'){
+            return view('trainees.traineeViewFinalExam');
+        }else{
+            return redirect()->back();
+        }
+
+    }
+
+
+
+
+
+    public function traineeFetchFinalExam(Request $request){
         $clas_id=Auth::user()->clas_id;
-        $query = Exam::with('clas')->where('clas_id', $clas_id)->where('is_cat','Yes')->select( 'id',  'exam_type',
+        $user_id = Auth::user()->id; // Get the logged-in user ID
+        $query = Exam::with('clas')->where('clas_id', $clas_id)->where('is_final_exam','Yes')->select( 'id',  'exam_type',
         'is_assignment',
         'is_cat',
         'is_final_exam',
@@ -344,75 +452,61 @@ class TraineeController extends Controller
         $perPage = $request->input('per_page', 10); // Default is 10
     
         $users = $query->paginate($perPage);
+
+      // Fetch student scores for each exam
+      $users->getCollection()->transform(function ($exam) use ($user_id) {
+        // Sum student scores for the logged-in user per exam
+        $studentScore = DB::table('student_answers')
+            ->where('exam_id', $exam->id)
+            ->where('user_id', $user_id)
+            ->sum('score');
+
+            // Sum the total possible marks from the questions table
+            $totalPossibleScore = DB::table('questions')
+                ->where('exam_id', $exam->id)
+                ->sum('question_mark');
+
+
+
+                // Check if the student has answered any question
+                    $hasAnswered = DB::table('student_answers')
+                    ->where('exam_id', $exam->id)
+                    ->where('user_id', $user_id)
+                    ->exists(); // Returns true if the student has at least one answer
+
+                // Set exam status based on whether the student has answered or not
+                if ($hasAnswered) {
+                    $exam->exam_status = "Attempted";
+                    $exam->student_score = $studentScore;
+                } else {
+                    $exam->exam_status = "Pending";
+                    $exam->student_score = "N/A";
+                }
+
+
+                // Calculate percentage score only if the student has attempted the exam
+                $exam->percentage_score = ($hasAnswered && $totalPossibleScore > 0)
+                ? round(($studentScore / $totalPossibleScore) * 30, 0) 
+                : "N/A"; // Set to "N/A" if not attempted
+
+                $exam->total_possible_score = $totalPossibleScore;
+
+                return $exam;
+
+             });
+
     
-        return response()->json([
-            'users' => $users->items(),
-            'pagination' => [
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'total' => $users->total(),
-                'per_page' => $users->perPage(),
-            ],
-            'total_users' => $users->total(),
-        ]);
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
     }
-
-
-
-    public function traineeViewFinalExam(){
-
-        if(Auth::check() && Auth::user()->role=='Trainee'){
-            return view('trainees.traineeViewFinalExam');
-        }else{
-            return redirect()->back();
-        }
-
-    }
-
-
-    public function traineeFetchFinalExam(Request $request){
-        $clas_id=Auth::user()->clas_id;
-        $query = Exam::with('clas')->where('clas_id', $clas_id)->where('is_final_exam','Yes')->select( 'id',  'exam_type',
-        'is_assignment',
-        'is_cat',
-        'is_final_exam',
-        'exam_name',
-        'exam_start_date',
-        'exam_end_date',
-        'exam_duration',
-        'exam_instruction',
-        'exam_status',
-        'course_id',
-        'clas_id')->orderBy('created_at', 'desc');
-
-
-        // Apply search filter if provided
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where(function($q) use ($request) {
-                $q->where('exam_name', 'like', '%' . $request->search . '%')
-                ->orWhere('clas_id', 'like', '%' . $request->search . '%')
-                ->orWhere('exam_status', 'like', '%' . $request->search . '%');
-            });
-        }
-    
-        // Get the number of records per page
-        $perPage = $request->input('per_page', 10); // Default is 10
-    
-        $users = $query->paginate($perPage);
-    
-        return response()->json([
-            'users' => $users->items(),
-            'pagination' => [
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'total' => $users->total(),
-                'per_page' => $users->perPage(),
-            ],
-            'total_users' => $users->total(),
-        ]);
-    }
-
-
 
 
 
