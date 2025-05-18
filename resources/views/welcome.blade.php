@@ -2,7 +2,7 @@
 @section('content')
 
 <section class="cardSection bg-light bannerSection1">
-        <div class="container-fliud" style="padding-left:30px;padding-right:30px">
+        <div class="container-fliud" style="padding-left:30px;padding-right:30px;padding-top:30px">
           <div class="row" style="border-bottom: 1px solid white;padding-bottom: 0px;">
 
             <!--<marquee class="marquee" behavior="scroll" direction="left">

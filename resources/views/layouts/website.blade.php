@@ -83,7 +83,7 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container">
           <a class="navbar-brand2" href="{{route('welcome')}}" style="color:#000033">
-            <img src="{{asset('website/logo/logo.jpeg')}}" height="90px"> <span style="font-size:25px;color:#fe730c">TECHSPHERE  INSTITUTE</span>
+            <img src="{{asset('website/logo/logo.jpeg')}}" height="110px"> <span style="font-size:30px;color:#fe730c">TECHSPHERE</span>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -141,9 +141,9 @@
                 <a class="nav-link" aria-current="page" href="{{route('enrol')}}">Enroll</a>
               </li>
 
-              <!--<li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="{{route('ictHub')}}">Ict Hub</a>
-              </li>-->
+              <li class="nav-item px-2">
+                <a class="nav-link" aria-current="page" href="https://innovation.techsphereinstitute.co.ke">Ict Club</a>
+              </li>
 
               
               <li class="nav-item px-2">
@@ -161,7 +161,12 @@
           </div>
         </div>
       </nav>
+
+
+
     </header>
+
+
     <main>
 
 
