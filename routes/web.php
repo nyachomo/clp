@@ -18,6 +18,7 @@ use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ClassNotesController;
 use App\Http\Controllers\HighSchoolTeacherController;
+use App\Http\Controllers\DashboardUpdatesController;
 Route::get('/', function () {
     return view('welcome');
     //return redirect()->route('login');
@@ -54,6 +55,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/users/download', [UserController::class, 'download'])->name('users.download');
     Route::get('/download-user-file', [UserController::class, 'downloadUserFile'])->name('downloadUserFile');
     Route::get('/user-account', [UserController::class, 'UserAccount'])->name('userAccount');
+    //AJAX REQUEST THAT FETCH USER PROFILE
+    Route::get('/fetch-user-profile', [UserController::class, 'fetchUserProfile'])->name('fetchUserProfile');
+
     Route::post('adminUpdateUserPassword',[UserController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
     Route::post('adminUpdateUserPicture',[UserController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
     Route::post('userUpdateProfile',[UserController::class, 'userUpdateProfile'])->name('userUpdateProfile');
@@ -75,6 +79,12 @@ Route::prefix('admin')->group(function () {
 
 
 
+//ROUTE FOR UPDATING THE DASHBOARD
+Route::prefix('Dashboard-Updates')->group(function (){
+   Route::get('admin',[DashboardUpdatesController::class,'fetchAdminDashboardUpdates'])->name('fetchAdminDashboardUpdates');
+   Route::get('/monthly-enrollments', [DashboardUpdatesController::class, 'getMonthlyEnrollments'])->name('monthly.enrollments');
+
+});
 
 //HIGH SCHOOL TEACHER
 Route::prefix('h-schl')->group(function () {

@@ -2,7 +2,7 @@
 @section('content')
 
 <!-- start page title -->
-<div class="row">
+<!--<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -14,7 +14,10 @@
             <h4 class="page-title">My Account</h4>
         </div>
     </div>
-</div>
+</div>-->
+
+
+
 <!-- end page title --> 
 @if (session('error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -35,7 +38,8 @@
         <div class="card text-center">
             @if(Auth::check())
             <div class="card-body">
-                <img src="{{ asset('images/profile/' . Auth::user()->profile_image) }}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
+            <img id="profile-image" src="{{ asset('images/profile/' . Auth::user()->profile_image) }}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
+
 
                 <div class="text-start mt-3">
                    
@@ -44,38 +48,20 @@
 
 
                 <table class="table table-sm table-centered mb-0 .table-hover table-bordered">
+                   
                     <tbody>
-                        <tr>
-                            <th>Name</th>
-                            <td>{{Auth::user()->firstname}} {{Auth::user()->secondname}} {{Auth::user()->lastname}}</td>
-                        </tr>
+                        <tr><th>Name</th><td id="user-name"></td></tr>
 
-                        <tr>
-                            <th>Course</th>
-                            <td> {{Auth::user()->course->course_name ?? 'NA'}}</td>
-                        </tr>
+                        @if(Auth::user()->role=="Trainee")
+                        <tr><th>Course</th><td id="user-course"></td></tr>
+                        <tr><th>Class</th><td id="user-class"></td></tr>
+                        @endif
 
-                        <tr>
-                            <th>Class</th>
-                            <td> {{Auth::user()->clas->clas_name ?? 'NA'}}</td>
-                        </tr>
-
-
-                        <tr>
-                            <th>Gender</th>
-                            <td> {{Auth::user()->gender ?? 'NA'}}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Phonenumber</th>
-                            <td> {{Auth::user()->phonenumber ?? 'NA'}}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Role</th>
-                            <td> {{Auth::user()->role ?? 'NA'}}</td>
-                        </tr>
+                        <tr><th>Gender</th><td id="user-gender"></td></tr>
+                        <tr><th>Phonenumber</th><td id="user-phone"></td></tr>
+                        <tr><th>Role</th><td id="user-role"></td></tr>
                     </tbody>
+
                 </table>
 
 
@@ -100,7 +86,7 @@
     <div class="col-xl-8 col-lg-7">
         <div class="card">
             <div class="card-body">
-                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor" style="border-radius:50px">
                     <li class="nav-item">
                         <a href="#aboutme" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
                             Personal Information
@@ -119,43 +105,56 @@
                 </ul>
                 <div class="tab-content">
                 <div class="tab-pane show active" id="aboutme">
-                        <form method="POST" action="{{route('userUpdateProfile')}}">
+
+                    <!--Update progess bar-->
+                       <div id="progressBarContainer" class="my-2" style="display: none;">
+                            <div class="progress">
+                                <div id="progressBar"
+                                    class="progress-bar progress-bar-striped bg-info"
+                                    role="progressbar"
+                                    style="width: 0%; transition: width 0.4s;"></div>
+                            </div>
+                        </div>
+
+                        <div id="profileUpdateMsg"></div>
+
+                      
+                        <form method="POST"  id="updateProfileForm">
                             @csrf
                             <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Personal Info</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-2">
-                                        <label for="firstname" class="form-label">Firstname</label>
-                                        <input type="text" class="form-control" name="firstname" placeholder="Enter firstname">
+                                        <label for="firstname" class="form-label">Firstname <span style="color:red">*</span></label>
+                                        <input type="text" class="form-control" name="firstname">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-2">
                                         <label for="lastname" class="form-label">Secondname</label>
-                                        <input type="text" class="form-control" name="secondname" placeholder="Enter secondname">
+                                        <input type="text" class="form-control" name="secondname">
                                     </div>
                                 </div> <!-- end col -->
 
                                 <div class="col-md-6">
                                     <div class="mb-2">
-                                        <label for="lastname" class="form-label">Lastname</label>
-                                        <input type="text" class="form-control" name="lastname" placeholder="Enter lastname">
+                                        <label for="lastname" class="form-label">Lastname <span style="color:red">*</span></label>
+                                        <input type="text" class="form-control" name="lastname">
                                     </div>
                                 </div> <!-- end col -->
 
                                 <div class="col-md-6">
                                     <div class="mb-2">
-                                        <label for="lastname" class="form-label">Phonenumber</label>
-                                        <input type="text" class="form-control" name="phonenumber" placeholder="Enter phonenumber">
+                                        <label for="lastname" class="form-label">Phonenumber <span style="color:red">*</span></label>
+                                        <input type="text" class="form-control" name="phonenumber">
                                     </div>
                                 </div> <!-- end col -->
 
 
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <label for="lastname" class="form-label">Gender</label>
+                                        <label for="lastname" class="form-label">Gender <span style="color:red">*</span></label>
                                          <select class="form-control" name="gender">
-                                            <option value="">{{Auth::user()->gender ?? 'NA'}}</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
@@ -166,7 +165,7 @@
 
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                    <button type="submit" class="btn btn-success" style="width:100%"><i class="mdi mdi-content-save"></i> Save</button>
+                                    <button type="submit" id="submitButton" class="btn btn-success" style="width:100%"><i class="mdi mdi-content-save"></i> Save</button>
                                     </div>
                                 </div> <!-- end col -->
 
@@ -175,44 +174,66 @@
                         </form>
                     </div>
 
+                   
+
+                   <!--end of update progress bar-->
+
                     <div class="tab-pane" id="timeline">
 
+                    <!-- Progress Bar -->
+                        <div id="passwordProgressBarContainer" style="display: none;">
+                            <div class="progress my-2">
+                                <div id="passwordProgressBar"
+                                    class="progress-bar progress-bar-striped bg-info"
+                                    role="progressbar"
+                                    style="width: 0%; transition: width 0.4s;">
+                                </div>
+                            </div>
+                        </div>
+                    <!--end of progress bar-->
+                    <!-- Message Area -->
+                    <div id="passwordUpdateMsg"></div>
 
-                    <form method="POST" action="{{route('adminUpdateUserPassword')}}">
-                        @csrf
+
+                        <form id="passwordUpdateForm" method="POST">
+                            @csrf
                             <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Change Password</h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-2">
-                                        <label for="firstname" class="form-label">Old Password</label>
+                                        <label class="form-label">Old Password</label>
                                         <input type="password" class="form-control" name="old_password" required>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="mb-2">
-                                        <label for="lastname" class="form-label">New Password</label>
+                                        <label class="form-label">New Password</label>
                                         <input type="password" class="form-control" name="new_password" required>
                                     </div>
-                                </div> <!-- end col -->
+                                </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-2">
-                                        <label for="lastname" class="form-label">Confirm New Password</label>
-                                        <input type="password" class="form-control" name="confirm_new_password" required>
+                                        <label class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control"  name="new_password_confirmation" required>
                                     </div>
-                                </div> <!-- end col -->
-
-
+                                </div>
 
                                 <div class="col-md-12" style="padding-top:30px">
                                     <div class="mb-3">
-                                    <button type="submit" class="btn btn-success" style="width:100%"><i class="mdi mdi-content-save"></i> Save</button>
+                                        <button id="updatePasswordButton" type="submit" class="btn btn-success" style="width:100%">
+                                            <i class="mdi mdi-content-save"></i> Save
+                                        </button>
                                     </div>
-                                </div> <!-- end col -->
-
-                            </div> <!-- end row -->
-
+                                </div>
+                            </div>
                         </form>
+
+
+
+
+
                        
                        
 
@@ -221,27 +242,347 @@
 
                     <div class="tab-pane" id="settings">
                        
-                       <!-- File Upload -->
-                        <form action="{{route('adminUpdateUserPicture')}}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            
-                            <div class="fallback">
-                                <input name="profile_image" type="file" class="form-control" accept=".png, .jpeg, .jpg">
+                       <!-- Progress bar -->
+                            <div class="progress mb-3" style="height: 20px; display: none;">
+                                <div id="uploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%">
+                                    0%
+                                </div>
                             </div>
 
-                            <div class="col-md-12" style="padding-top:30px">
-                                <div class="mb-3">
-                                <button type="submit" class="btn btn-success" style="width:100%"><i class="mdi mdi-content-save"></i> Save</button>
-                                </div>
-                            </div> <!-- end col -->
-                        </form>
-                    </div>
-                    <!-- end settings content-->
+                            <!-- Response Message -->
+                            <div id="uploadMessage" class="mt-3"></div>
 
-                </div> <!-- end tab-content -->
-            </div> <!-- end card body -->
-        </div> <!-- end card -->
-    </div> <!-- end col -->
+
+
+                        <!-- Profile Picture Upload -->
+                        <form id="profileImageForm" enctype="multipart/form-data">
+                            @csrf
+
+                            <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Change Profile Image</h5>
+
+                            <input id="profileImageInput" name="profile_image" type="file" class="form-control" accept=".png, .jpeg, .jpg">
+
+                            <br>
+
+                           
+
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="mdi mdi-content-save"></i> Save
+                            </button>
+                        </form>
+
+                       
+
+
+
+
+
+                    </div>
+                   
+
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 </div>
 <!-- end row-->
+@endsection
+@section('scripts')
+<script>
+$(document).ready(function () {
+
+
+
+    function fetchUserProfile() {
+        $.ajax({
+            url: "{{ route('fetchUserProfile') }}",
+            type: "GET",
+            success: function(response) {
+                let user = response.user;
+
+                // Update Table
+                $('#user-name').text(user.firstname + ' ' + user.secondname + ' ' + user.lastname);
+                $('#user-course').text(user.course?.course_name ?? 'NA');
+                $('#user-class').text(user.clas?.clas_name ?? 'NA');
+                $('#user-gender').text(user.gender ?? 'NA');
+                $('#user-phone').text(user.phonenumber ?? 'NA');
+                $('#user-role').text(user.role ?? 'NA');
+
+                // Update Form Inputs
+                $('input[name="firstname"]').val(user.firstname);
+                $('input[name="secondname"]').val(user.secondname);
+                $('input[name="lastname"]').val(user.lastname);
+                $('input[name="phonenumber"]').val(user.phonenumber);
+                $('select[name="gender"]').val(user.gender);
+
+                //UPDATE PROFILE IMAGE
+                $('#profile-image').attr('src', '/images/profile/' + (user.profile_image ?? 'default.png'));
+
+            },
+            error: function(err) {
+                console.error("Error fetching user profile", err);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        fetchUserProfile(); // Call on page load
+    });
+
+
+
+
+   
+    let progressInterval;
+
+    $('#updateProfileForm').submit(function (e) {
+        e.preventDefault();
+
+        const formData = $(this).serialize();
+
+        // Reset progress bar
+        $('#progressBar').css('width', '0%');
+        $('#progressBarContainer').show();
+        $('#profileUpdateMsg').html('');
+
+        // Simulate progress
+        let progress = 0;
+        progressInterval = setInterval(function () {
+            if (progress < 90) {
+                progress += 5;
+                $('#progressBar').css('width', progress + '%');
+            }
+        }, 200); // Adjust speed here
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('userUpdateProfile') }}",
+            data: formData,
+            dataType: 'json',
+
+            success: function (response) {
+               
+                clearInterval(progressInterval);
+                $('#progressBar').css('width', '100%');
+
+                setTimeout(() => {
+                    $('#progressBarContainer').fadeOut();
+                    $('#profileUpdateMsg').html(
+                        `<div class="alert alert-success"> <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> ${response.message}</div>`
+                    );
+                    fetchUserProfile();
+                }, 500);
+                
+            },
+
+            error: function (xhr) {
+                clearInterval(progressInterval);
+                $('#progressBar').addClass('bg-danger').removeClass('bg-info');
+                $('#progressBar').css('width', '100%');
+
+                let errors = xhr.responseJSON?.errors;
+                let errorMessage = 'An error occurred. Please try again.';
+
+                if (errors) {
+                    errorMessage = '<ul>';
+                    $.each(errors, function (key, value) {
+                        errorMessage += `<li>${value[0]}</li>`;
+                    });
+                    errorMessage += '</ul>';
+                }
+
+                $('#profileUpdateMsg').html(
+                    `<div class="alert alert-danger" alert-dismissible fade show" role="alert">
+                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    ${errorMessage}
+                    </div>`
+                );
+
+                // Optional: Fade out after a while and reset bar color
+                setTimeout(() => {
+                    $('#progressBarContainer').fadeOut();
+                    $('#progressBar').removeClass('bg-danger').addClass('bg-info');
+                    $('#progressBar').css('width', '0%');
+                }, 2000);
+            }
+        });
+    });
+
+
+
+
+    $('#submitButton').prop('disabled', true); // before AJAX
+
+    // In both success and error:
+    $('#submitButton').prop('disabled', false);
+
+    setTimeout(() => {
+        $('#progressBarContainer').hide();
+    }, 500);
+
+
+
+
+
+
+    $('#profileImageForm').on('submit', function(e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+        let progressBar = $('#uploadProgressBar');
+        let progressContainer = $('.progress');
+        let message = $('#uploadMessage');
+
+        message.html('');
+        progressContainer.show();
+        progressBar.css('width', '0%').text('0%');
+
+        $.ajax({
+            xhr: function () {
+                let xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        let percent = Math.round((e.loaded / e.total) * 100);
+                        progressBar.css('width', percent + '%').text(percent + '%');
+                    }
+                });
+                return xhr;
+            },
+            type: 'POST',
+            url: "{{ route('adminUpdateUserPicture') }}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(res) {
+                progressBar.css('width', '100%').text('100%');
+                message.html('<div class="alert alert-success"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' + res.message + '</div>');
+                setTimeout(() => progressContainer.fadeOut(), 2000);
+                fetchUserProfile();
+                $('#profileImageInput').val(''); 
+            },
+            error: function(err) {
+                progressContainer.fadeOut();
+                if (err.status === 422) {
+                    let errors = err.responseJSON.errors;
+                    let errorMessages = Object.values(errors).map(msg => `<div class="text-danger">${msg[0]}</div>`).join('');
+                    message.html(errorMessages);
+                } else {
+                    message.html('<div class="alert alert-danger"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> An unexpected error occurred.</div>');
+                }
+            }
+        });
+    });
+
+
+
+
+
+
+
+});
+
+
+$(document).ready(function () {
+    let progressInterval;
+
+    $('#passwordUpdateForm').submit(function (e) {
+        e.preventDefault();
+
+        const formData = $(this).serialize();
+
+        // Reset progress bar
+        $('#passwordProgressBar').css('width', '0%').removeClass('bg-danger').addClass('bg-info');
+        $('#passwordProgressBarContainer').show();
+        $('#passwordUpdateMsg').html('');
+        $('#updatePasswordButton').prop('disabled', true);
+
+        // Simulate progress
+        let progress = 0;
+        progressInterval = setInterval(() => {
+            if (progress < 90) {
+                progress += 5;
+                $('#passwordProgressBar').css('width', progress + '%');
+            }
+        }, 200);
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('adminUpdateUserPassword') }}",
+            data: formData,
+            dataType: 'json',
+
+            success: function (response) {
+                clearInterval(progressInterval);
+                $('#passwordProgressBar').css('width', '100%');
+
+                setTimeout(() => {
+                    $('#passwordProgressBarContainer').fadeOut();
+                    $('#passwordUpdateMsg').html(
+                        `<div class="alert alert-success">
+                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        ${response.message}
+                        </div>`
+                    );
+                    $('#updatePasswordButton').prop('disabled', false);
+                    $('#passwordUpdateForm')[0].reset();
+                }, 500);
+            },
+
+            error: function (xhr) {
+                clearInterval(progressInterval);
+                $('#passwordProgressBar').addClass('bg-danger').removeClass('bg-info');
+                $('#passwordProgressBar').css('width', '100%');
+                $('#updatePasswordButton').prop('disabled', false);
+
+                let errorMessage = 'An error occurred. Please try again.';
+                if (xhr.responseJSON?.errors) {
+                    errorMessage = '<ul>';
+                    $.each(xhr.responseJSON.errors, function (key, value) {
+                        errorMessage += `<li>${value[0]}</li>`;
+                    });
+                    errorMessage += '</ul>';
+                } else if (xhr.responseJSON?.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+
+                $('#passwordUpdateMsg').html(`<div class="alert alert-danger"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>${errorMessage}</div>`);
+
+                setTimeout(() => {
+                    $('#passwordProgressBarContainer').fadeOut();
+                    $('#passwordProgressBar').removeClass('bg-danger').addClass('bg-info').css('width', '0%');
+                }, 2000);
+            }
+        });
+    });
+
+
+
+
+
+
+    //UPDATING PROFILE IMAGE
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+    
+
+
+
+});
+
+
+
+
+</script>
 @endsection

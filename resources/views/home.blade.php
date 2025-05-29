@@ -7,6 +7,8 @@ use App\Models\Fee;
 use App\Models\StudentAnswer;
 use App\Models\Exam;
 use App\Models\Question;
+use Illuminate\Support\Facades\DB;
+
 
 if(Auth::check() && Auth::user()->role=='Trainee'){
 
@@ -83,6 +85,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 }
 
 
+
 //GETTING THE STUDENT OF THE TEACHER WHO LOGINS
 /*
  if(Auth::check() && Auth::user()->role="High_school_teacher"){
@@ -93,7 +96,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 ?>
 
-<!-- 
+<!--
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -106,8 +109,8 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
         </div>
     </div>
 </div>
- --> 
-
+ 
+-->
 <br>
 
 
@@ -115,85 +118,122 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
  <!-- end page title -->
  @if(Auth::check() && Auth::user()->role=='Admin')
 
- <div class="row">
-    <div class="col-xl-12 col-lg-12">
 
-        <div class="row">
-            <div class="col-sm-3">
-                <a href="{{route('showTrainees')}}">
-                <div class="card widget-flat">
-                    <div class="card-body">
-                        <div class="float-end">
-                            <i class="mdi mdi-account-multiple widget-icon"></i>
-                        </div>
-                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">TRAINEES</h5>
-                        <h3 class="mt-3 mb-3">36,254</h3>
-                        
-                    </div>
-                </div>
-                </a>
-            </div> <!-- end col-->
+<div class="row">
+    <div class="col-sm-4">
+            <div class="alert alert-success" role="alert">
+                <strong>Total Debit (Ksh)</strong> 
+                <h1 id="totalExpectedFee">Loading ...</h1>
+            </div>
+    </div>
 
-            <div class="col-sm-3">
-                <div class="card widget-flat">
-                    <div class="card-body">
-                        <div class="float-end">
-                            <i class="mdi mdi-cart-plus widget-icon"></i>
-                        </div>
-                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">TRAINERS</h5>
-                        <h3 class="mt-3 mb-3">5,543</h3>
-                        
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+    <div class="col-sm-4">
+            <div class="alert alert-info" role="alert">
+                <strong>Total Credit  (Ksh)</strong> 
+                <h1 id="totalFeePaid">Loading ..</h1>
+            </div>
+    </div>
 
 
-            <div class="col-sm-3">
-                <a href="{{route('showClases')}}">
-                <div class="card widget-flat">
-                    <div class="card-body">
-                        <div class="float-end">
-                            <i class="mdi mdi-account-multiple widget-icon"></i>
-                        </div>
-                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">CLASES</h5>
-                        <h3 class="mt-3 mb-3">36,254</h3>
-                        
-                    </div> <!-- end card-body-->
-                </a>
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+    <div class="col-sm-4">
+            <div class="alert alert-danger" role="alert">
+                <strong>Balance (Ksh)</strong> 
+                <h1 id="balanceToPay">Loading ....</h1>
+            </div>
+    </div>
 
 
-            <div class="col-sm-3">
-                <a href="{{route('showCourses')}}">
-                <div class="card widget-flat">
-                    <div class="card-body">
-                        <div class="float-end">
-                            <i class="mdi mdi-cart-plus widget-icon"></i>
-                        </div>
-                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">COURSES</h5>
-                        <h3 class="mt-3 mb-3">5,543</h3>
-                        
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-                </a>
-            </div> <!-- end col-->
-
-
-
-
-        </div> <!-- end row -->
-
-
-
-
-
-
-    </div> <!-- end col -->
-
-   
 </div>
-<!-- end row -->
+ <!-- end page title -->
+
+   <div class="row">
+        <div class="col-xl-5 col-lg-6">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Administrators</h5>
+                            <h3 class="mt-3 mb-3" id="total_admin">Loading ...</h3>
+                            <p class="mb-0 text-muted">
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
+                               <span class="text-nowrap">
+                                     <a href="{{route('showAdministrator')}}">More Info </a>
+                               </span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-cart-plus widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Trainees</h5>
+                            <h3 class="mt-3 mb-3" id="total_trainees">Loading ...</h3>
+                            <p class="mb-0 text-muted">
+                                <span class="text-danger me-2" ><i class="mdi mdi-arrow-down-bold"></i> 1.08%</span>
+                                <span class="text-nowrap">
+                                     <a href="{{route('showTrainees')}}">More Info</a>
+                                </span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div> <!-- end row -->
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-currency-usd widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Traineer</h5>
+                            <h3 class="mt-3 mb-3" id="total_trainer">Loading ...</h3>
+                            <p class="mb-0 text-muted">
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 7.00%</span>
+                                <span class="text-nowrap"> <a href="{{route('showTrainees')}}">More Info</a></span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-pulse widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Growth">Courses</h5>
+                            <h3 class="mt-3 mb-3" id="total_courses">Loading ...</h3>
+                            <p class="mb-0 text-muted">
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 4.87%</span>
+                                <span class="text-nowrap">
+                                      <a href="{{route('showCourses')}}">More Info</a>
+                                </span>
+                               
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div> <!-- end row -->
+
+        </div> <!-- end col -->
+
+        <div class="col-xl-7 col-lg-6">
+        <canvas id="enrollmentChart" width="400" height="200"></canvas>
+
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+
  @endif
 
 
@@ -594,92 +634,40 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
         $(document).ready(function(){
 
+            fetchadminDashboardUpdates();
 
 
-        fetchUsers();
+            function fetchadminDashboardUpdates(){
+                    $.ajax({
+                        type:'GET',
+                        url:"{{route('fetchAdminDashboardUpdates')}}",
+                        dataType:'json',
+                        success:function(response){
 
+                            //Update ui with the fee collected
+                            $('#totalExpectedFee').text('Ksh ' + response.totalExpectedFee);
+                            $('#totalFeePaid').text('Ksh ' + response.totalFeePaid);
+                            $('#balanceToPay').text('Ksh '+  response.balanceToPay);
+                            $('#total_trainees').text(response.total_trainees);
+                            $('#total_admin').text(response.total_admin);
+                            $('#total_courses').text(response.total_courses);
+                            $('#total_trainer').text(response.total_trainer);
+                        },
 
-
-
-
-
-        function fetchUsers(page = 1, search = '', perPage = 20) {
-            $.ajax({
-                type: 'GET',
-                url: "{{route('fetchHighStudents')}}",
-                data: { page: page, search: search, per_page: perPage },
-                dataType: "json",
-                success: function(response) {
-                    // Update total users
-                    $('#total-users').text(response.total_users);
-
-                    // Clear and repopulate the table
-                    $('tbody').html("");
-                    $.each(response.users, function(key, item) {
-                        const baseUrl = "{{ route('ViewTraineeProfile') }}";
-                        $('#table1').append(
-                            '<tr>\
-                                <td>' + (key + 1) + '</td>\
-                                <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
-                                <td>' + item.phonenumber + '</td>\
-                                <td>' + item.email + '</td>\
-                                <td>' + item.school_name + '</td>\
-                                <td>' + item.course_name + '</td>\
-                                <td><a class="text-warning dropdown-item viewQuestionsBtn" href="' + baseUrl + '?student_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Questions</a></td>\
-                            </tr>'
-                        );
+                        error:function(err){
+                            console.error('Error fetching total fee:', err);
+                        }
                     });
-
-                    // Render pagination
-                    renderPagination(response.pagination, search, perPage);
-                }
-            });
-        }
-
-
-
-
-
-        function renderPagination(pagination, search, perPage) {
-            let paginationHTML = "";
-
-            if (pagination.current_page > 1) {
-                paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
             }
 
-            for (let i = 1; i <= pagination.last_page; i++) {
-                const activeClass = pagination.current_page === i ? 'active' : '';
-                paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
-            }
-
-            if (pagination.current_page < pagination.last_page) {
-                paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
-            }
-
-            $('#pagination-controls').html(paginationHTML);
-        }
+            setInterval(fetchadminDashboardUpdates, 3000);
+            fetchadminDashboardUpdates();
 
 
-        // Live search functionality
-        $('#search').on('input', function() {
-            const search = $(this).val();
-            fetchUsers(1, search); // Always reset to page 1 when searching
-        });
 
 
-        $('#select').on('change', function() {
-            const perPage = $(this).val();
-            const search = $('#search').val(); // Get current search term, if any
-            fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
-        });
 
-        // Handle pagination button click with updated perPage
-        $(document).on('click', '.pagination-btn', function() {
-            const page = $(this).data('page');
-            const search = $(this).data('search');
-            const perPage = $(this).data('per-page');
-            fetchUsers(page, search, perPage);
-        });
+
 
 
     });

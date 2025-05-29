@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class UserController extends Controller
@@ -30,6 +31,17 @@ class UserController extends Controller
     public function userProfile($id){
 
     }
+
+    
+        public function fetchUserProfile()
+        {
+            $user = Auth::user()->load('course', 'clas'); // Load relationships
+
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+
 
     /**
      * Show the form for creating a new resource.
@@ -332,7 +344,7 @@ class UserController extends Controller
 
 
     
-   public function adminUpdateUserPassword(Request $request){
+   public function adminUpdateUserPassword2(Request $request){
 
     $oldPassword = $request->old_password;
     $newPassword = $request->new_password;
@@ -360,8 +372,41 @@ class UserController extends Controller
 
 
 
+
+public function adminUpdateUserPassword(Request $request)
+{
+    $request->validate([
+        'old_password' => 'required',
+        'new_password' => [
+            'required',
+            'min:8',
+            'confirmed', // Laravel will check new_password === confirm_new_password
+        ],
+    ]);
+
+    $user = Auth::user();
+
+    // Check if old password matches current password
+    if (!Hash::check($request->old_password, $user->password)) {
+        return response()->json([
+            'message' => 'Old password is incorrect.'
+        ], 422);
+    }
+
+    // Update with the new password
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return response()->json([
+        'message' => 'Password updated successfully.'
+    ], 200);
+}
+
+
+
+
    //STUDENT UPDATE PROFILE IMAGE
-   public function adminUpdateUserPicture(Request $request){
+   public function adminUpdateUserPicture2(Request $request){
 
     if($request->hasfile('profile_image')){
         $file=$request->file('profile_image');
@@ -380,7 +425,36 @@ class UserController extends Controller
     }
   }
 
-  public function userUpdateProfile(Request $request){
+
+
+
+  public function adminUpdateUserPicture(Request $request)
+  {
+      $request->validate([
+          'profile_image' => 'required|image|mimes:jpeg,jpg,png|max:2048'
+      ]);
+  
+      if ($request->hasFile('profile_image')) {
+          $file = $request->file('profile_image');
+          $extension = $file->getClientOriginalExtension();
+          $fileName = time() . '.' . $extension;
+          $file->move(public_path('images/profile'), $fileName);
+  
+          $user = Auth::user();
+          $user->profile_image = $fileName;
+          $user->update();
+  
+          return response()->json(['message' => 'Profile image updated successfully']);
+      }
+  
+      return response()->json(['error' => 'No file uploaded'], 422);
+  }
+  
+
+
+
+
+  public function userUpdateProfile2(Request $request){
      
     $id=Auth::user()->id;
     $user = User::find($id);
@@ -400,5 +474,26 @@ class UserController extends Controller
 
 
   }
+
+
+
+
+  public function  userUpdateProfile(Request $request)
+{
+    $validated = $request->validate([
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'secondname' => 'nullable|string|max:255',
+        'phonenumber' => 'required|string|max:20',
+        'gender' => 'required|in:Male,Female,Other'
+    ]);
+
+    $user = auth()->user();
+    $user->update($validated);
+
+    return response()->json(['message' => 'Profile updated successfully!']);
+}
+
+
 
 }

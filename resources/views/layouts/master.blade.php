@@ -4,8 +4,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  
-<!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Jun 2022 10:54:41 GMT -->
+
 <head>
         <meta charset="utf-8" />
        
@@ -13,7 +12,7 @@
         @if(!empty($setting->company_name))
          {{$setting->company_name}}
         @else
-         Techsphere Training Institute
+         <h1>Techsphere</h1>
         @endif
 
         </title>
@@ -148,11 +147,11 @@
         body{
             font-family: "Afacad Flux", sans-serif !important;
            
-            font-size:14px;
-            text-transform: uppercase;
+            /*font-size:12px;*/
+            /*text-transform: uppercase !important;*/
         }
 
-
+          
         .labelSpan{
             color:red;
         }
@@ -186,7 +185,8 @@
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
                     <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="100">
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="68">
+                       
                     </span>
                    
                 </a>
@@ -203,7 +203,7 @@
                                 <a href="{{route('home')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-warning"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> SHOW Dasshboard </span>
+                                    <span>Show Dasshboard </span>
                                 </a>
                             </li>
 
@@ -211,7 +211,7 @@
                                 <a href="{{route('userAccount')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-danger"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> MANAGE Account</span>
+                                    <span> Manage Account</span>
                                 </a>
                             </li>
 
@@ -219,7 +219,7 @@
                                 <a href="{{route('ShowSettings')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-warning"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> MANAGE Settings </span>
+                                    <span>Manage Settings </span>
                                 </a>
                             </li>
 
@@ -228,7 +228,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                                     <i class="uil-home-alt text-danger"></i>
-                                    <span> Manage All Users </span>
+                                    <span>Manage All Users </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarDashboards">
@@ -246,7 +246,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                                     <i class="uil-store text-info"></i>
-                                    <span> Manage Courses </span>
+                                    <span>Manage Courses </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarEcommerce">
@@ -262,7 +262,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                                     <i class="uil uil-tachometer-fast text-secondary"></i>
-                                    <span> Manage Classes </span>
+                                    <span>Manage Classes </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarCrm">
@@ -336,7 +336,7 @@
                             <li class="side-nav-item">
                                 <a  href="{{route('showSchools')}}" class="side-nav-link">
                                     <i class="uil-package"></i>
-                                    <span> MANAGE SCHOOLS </span>
+                                    <span>Manage Schools </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                            </li>
@@ -364,7 +364,7 @@
                             <li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                                     <i class="uil-copy-alt"></i>
-                                    <span> MANAGE ASSESMENT</span>
+                                    <span>Manage Assesment</span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarPages">
@@ -636,7 +636,7 @@
 
 
                         </ul>
-                        <button class="button-menu-mobile open-left">
+                       <button class="button-menu-mobile open-left">
                             <i class="mdi mdi-menu"></i>
                         </button>
                         <div class="app-search dropdown d-none d-lg-block" style="padding-top:15px">
@@ -732,7 +732,10 @@
 
 
 
+        <!--CHAT.JS-->
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 
