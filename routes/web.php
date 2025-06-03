@@ -255,7 +255,11 @@ Route::prefix('settings')->group(function () {
     Route::post('/updateComapy-settings', [SettingController::class, 'updatecompanySettings'])->name('updatecompanySettings');
 
     
-   
+    Route::post('/update-social-links', [SettingController::class, 'updateCompanySocialLinks'])->name('updateCompanySocialLinks');
+    Route::post('/update-mission-vision', [SettingController::class, 'updateCompanyMissionVision'])->name('updateCompanyMissionVision');
+    Route::post('/update-company-details', [SettingController::class, 'updateCompanyDetails'])->name('updateCompanyDetails');
+
+
 });
 
 

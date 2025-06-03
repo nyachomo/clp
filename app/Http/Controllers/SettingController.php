@@ -38,7 +38,7 @@ class SettingController extends Controller
         }
     }
 
-    public function updateCompanyDetails(Request $request){
+    public function updateCompanyDetails2(Request $request){
         $id=$request->id;
         $update=Setting::find($id)->update($request->all());
         if($update){
@@ -114,6 +114,69 @@ class SettingController extends Controller
 
         }
     }
+
+
+
+
+
+
+    public function updateCompanySocialLinks(Request $request)
+    {
+        $validated = $request->validate([
+            'company_facebook' => ['nullable', 'url'],
+            'company_twitter' => ['nullable', 'url'],
+            'company_instagram' => ['nullable', 'url'],
+            'company_linkedn' => ['nullable', 'url'],
+            'company_skype' => ['nullable', 'string', 'max:255'],
+            'company_github' => ['nullable', 'url'],
+        ]);
+
+        $company = Setting::first(); // Or get based on auth if needed
+
+        $company->update($validated);
+
+        return response()->json(['message' => 'Social links updated successfully.']);
+    }
+
+
+
+
+
+
+    public function updateCompanyDetails(Request $request)
+    {
+        $validated = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'company_website' => 'nullable|url|max:255',
+            'company_address' => 'required|string|max:255',
+            'company_motto' => 'required|string|max:255',
+        ]);
+
+        $company = Setting::first(); // or find by ID if needed
+        $company->update($validated);
+
+        return response()->json(['message' => 'Company details updated successfully.']);
+    }
+
+
+
+
+    public function updateCompanyMissionVision(Request $request)
+        {
+            $validated = $request->validate([
+                'company_mission' => ['required', 'string', 'max:1000'],
+                'company_vission' => ['required', 'string', 'max:1000'],
+            ]);
+
+            $company = Setting::first(); // Or fetch based on user/context
+            $company->update($validated);
+
+            return response()->json(['message' => 'Mission and Vision updated successfully.']);
+        }
+
+
+
+
 
 
 
