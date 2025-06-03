@@ -29,6 +29,7 @@
     background-color: #28a745; /* Green for active page */
   }
 </style>
+<!--
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -38,7 +39,7 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
-</div>
+</div>-->
 
 
 
@@ -70,7 +71,7 @@
         <div class="card">
             <div class="card-header">
                 
-                Total Users: <span id="total-users">0</span>
+                Total Trainees: <span id="total-users">0</span>
                  <a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>
                  <a type="button" style="float:right" class="btn btn-sm btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <i class="uil-export"></i>Upload</a>
                 <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUser-modal"> <i class="uil-user-plus"></i>Add</a>-->
@@ -119,12 +120,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Phonenumber</th>
-                                    <th>Email</th>
+                                    <!--<th>Phonenumber</th>-->
+                                    <!--<th>Email</th>-->
                                     <th>Course</th>
                                     <th>Class</th>
-                                    <th>Gender</th>
-                                    <th>Status</th>
+                                    <!--<th>Gender</th>-->
+                                    <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -628,21 +629,13 @@
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
-                                    <td>' + item.phonenumber + '</td>\
-                                    <td>' + item.email + '</td>\
+                                    <!--<td>' + item.phonenumber + '</td>-->\
+                                    <!--<td>' + item.email + '</td>-->\
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.clas.clas_name + '</td>\
-                                    <td>' + item.gender + '</td>\
-                                    <td>' + item.status + '</td>\
-                                    <td>\
-                                        <div class="dropdown">\
-                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
-                                                Actions\
-                                            </button>\
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
-                                                <li>\
-                                                    <span type="button" \
-                                                        data-id="' + item.id + '" \
+                                   <!-- <td>' + item.gender + '</td>-->\
+                                    <!--<td>' + item.status + '</td>-->\
+                                    <td><a href="#"><span class="badge bg-success jobDesBtn" data-id="' + item.id + '" \
                                                         data-firstname="' + item.firstname + '" \
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
@@ -652,20 +645,11 @@
                                                         data-update_clas_id="' + item.clas.id + '" \
                                                         data-role="' + item.role + '" \
                                                         data-gender="' + item.gender + '" \
-                                                        data-status="' + item.status + '" \
-                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Edit</span>\
-                                                </li>\
-                                                <li>\
-                                                    <span type="button" value="' + item.id + '" \
-                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete</span>\
-                                                </li>\
-                                                <li>\
-                                                    <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
-                                                        <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee\
-                                                    </a>\
-                                                </li>\
-                                            </ul>\
-                                        </div>\
+                                                        data-status="' + item.status + '" \> <i class="fa fa-edit"></i> Update</span></a>\
+                                    <a href="#"><span class="badge bg-danger deleteBtn" data-id="' + item.id + '"> <i class="fa fa-trash"></i> Delete</span></a>\
+                                     <a class="viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
+                                        <span class="badge bg-secondary"> <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee<\span>\
+                                    </a>\
                                     </td>\
                                 </tr>'
                             );
@@ -706,7 +690,7 @@
                         });
 
                         $('.deleteBtn').on('click', function() {
-                            const delete_user_id = $(this).val();
+                            const delete_user_id = $(this).data('id');
                             // Populate modal fields
                             $('#delete_user_id').val(delete_user_id);
                             // Show the modal

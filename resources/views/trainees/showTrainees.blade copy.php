@@ -1,22 +1,44 @@
 @extends('layouts.master')
 @section('content')
 
+<style>
 
-<!-- start page title
+#pagination-controls {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin-top: -2px;
+    padding-right:50px;
+    padding-top:-500px;
+    padding-bottom:10px;
+    gap: 10px; /* Spacing between buttons */
+  }
+
+     #pagination-controls button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  }
+
+  #pagination-controls .active {
+    background-color: #28a745; /* Green for active page */
+  }
+</style>
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Manage Administrators</li>
-                </ol>
+                  <h4 class="page-title">Manage Users</h4>
             </div>
-            <h4 class="page-title">Administrators</h4>
+            <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
 </div>
- --> 
 
 
 
@@ -48,14 +70,12 @@
         <div class="card">
             <div class="card-header">
                 
-                Total Administrators: <span id="total-users">0</span>
-                 <a style="float:right;font-size:18px;"  href="{{ route('users.download') }}"><span class="badge bg-secondary" style="height:30px;padding-top:7px;margin-left:2px"><i class=" uil-arrow-down"></i> Download</span></a>
-                 &nbsp; &nbsp; &nbsp;
-                 <!--<a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>-->
-                 <a type="button" style="float:right;font-size:18px;"  data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <span class="badge bg-info" style="height:30px;padding-top:7px;margin-left:2px"> <i class="uil-export"></i>Upload </span></a>
+                Total Users: <span id="total-users">0</span>
+                 <a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>
+                 <a type="button" style="float:right" class="btn btn-sm btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <i class="uil-export"></i>Upload</a>
                 <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUser-modal"> <i class="uil-user-plus"></i>Add</a>-->
 
-                <a type="button" style="float:right;font-size:18px;" data-bs-toggle="modal" data-bs-target="#addUserModal"> <span class="badge bg-success" style="height:30px;padding-top:7px;margin-left:2px"> <i class="uil-user-plus"></i>Add</span></a>
+                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUserModal"> <i class="uil-user-plus"></i>Add</a>
 
             </div>
             <div class="card-body">
@@ -93,17 +113,18 @@
                 <br>
                 <div class="tab-content">
                     <div class="table-responsive">
-                        
+                       
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
                                     <!--<th>Phonenumber</th>-->
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Gender</th>
-                                    <th>Status</th>
+                                    <!--<th>Email</th>-->
+                                    <th>Course</th>
+                                    <th>Class</th>
+                                    <!--<th>Gender</th>-->
+                                    <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -139,7 +160,7 @@
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('adminAddNewUser2')}}">
+            <form method="POST" action="{{route('addTrainee')}}">
                 @csrf
                
             <div class="modal-body">
@@ -225,40 +246,43 @@
 
                 </div>
 
-                <div class="row" style="padding-top:20px">
+                <div class="row" style="padding-top:10px">
                    
                     <div class="col-sm-6">
-                            <label>Role <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="role" required>
-                                 <option value="">Select Role</option>
-                                 <option value="Admin">Admin</option>
-                                 <option value="Principal">Principal</option>
-                                 <option value="Deputy_principal">Deputy Principal</option>
-                                 <option value="Registrar">Registrar</option>
-                                 <option value="Trainer">Trainer</option>
-                                 <option value="Trainee">Trainee</option>
-                                 <option value="High_school_teacher">High School Teacher</option>
-                                 <option value="High_school_student">High School Student</option>
-                                 <option value="Data_clerk">Data Clerk</option>
-                                 <option value="Marketer">Marketer</option>
+                            <label>Course <span class="labelSpan">*</span></label>
+                            <select class="form-control" name="course_id" required>
+                               <option value="">Select Course</option>
+                                @if(!empty($courses))
+                                   @foreach($courses as $key=>$course)
+                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                   @endforeach
+                                @endif
+                                 
                             </select>
                     </div>
-
 
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>School </label>
-                            <select class="form-control" name="school_id" required>
-                                 <option value="">Select School</option>
-                                 @if(!empty($schools))
-                                    @foreach($schools as $key=>$school)
-                                    <option value="{{$school->id}}">{{$school->school_name}}</option>
-                                    @endforeach
-                                 @endif
-                            </select>
-                        </div>
-                    </div>
+                            <label>Class <span class="labelSpan">*</span></label>
+                             <select class="form-control" name="clas_id" required>
+                                <option value="">Select Class</option>
+                                @if(!empty($clases))
+                                   @foreach($clases as $key=>$clas)
+                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                   @endforeach
+                                @endif
 
+                            </select>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="col-sm-12">
+                        <label>Has Paid Registration Fee</label>
+                           <select class="form-control" name="has_paid_reg_fee" required>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                    </div>
                 </div>
 
 
@@ -299,7 +323,7 @@
                 <form id="updateUserForm">
 
 
-                   <input type="text" id="user_id" name="user_id" value="" >
+                   <input type="text" id="user_id" name="user_id" value="" hidden="true">
 
                     <div class="row">
                         <div class="col-sm-12">
@@ -386,59 +410,39 @@
 
                     </div>
 
-                    <div class="row">
+                   
+                    <div class="row" style="padding-top:10px">
+                   
+                   <div class="col-sm-6">
+                           <label>Course <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="course_id" id="update_course_id" required>
+                              <option value="">Select Course</option>
+                               @if(!empty($courses))
+                                  @foreach($courses as $key=>$course)
+                                   <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                  @endforeach
+                               @endif
+                                
+                           </select>
+                   </div>
 
-                        <div class="col-sm-6">
-                                <label>Role <span class="labelSpan">*</span></label>
-                                <select class="form-control" name="role" id="role" required>
-                                    <option value="">Select Role</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Principal">Principal</option>
-                                    <option value="Deputy_principal">Deputy Principal</option>
-                                    <option value="Registrar">Registrar</option>
-                                    <option value="Trainer">Trainer</option>
-                                    <option value="Trainee">Trainee</option>
-                                    <option value="High_school_teacher">High School Teacher</option>
-                                    <option value="High_school_student">High School Student</option>
-                                    <option value="Data_clerk">Data Clerk</option>
-                                    <option value="Marketer">Marketer</option>
-                                </select>
-                        </div>
+                   <div class="col-sm-6">
+                           <label>Class <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="clas_id" id="update_clas_id" required>
+                               <option value="">Select Class</option>
+                               @if(!empty($clases))
+                                  @foreach($clases as $key=>$clas)
+                                       <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                  @endforeach
+                               @endif
 
-
-                        <div class="col-sm-6">
-                                <label>Status<span class="labelSpan">*</span></label>
-                                <select name="status"  class="form-control">
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Suspended">Suspended</option>
-                                </select>
-
-                        </div>
-
-
-                        
-
-                    </div>
+                           </select>
+                   </div>
+               </div>
 
                   
 
-                   <div class="row">
-
-                           <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>School </label>
-                                    <select class="form-control" name="school_id" id="school_id">
-                                        <option value="">Select School</option>
-                                        @if(!empty($schools))
-                                            @foreach($schools as $key=>$school)
-                                            <option value="{{$school->id}}">{{$school->school_name}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
-                   </div>
+                   
                     
                    
                    
@@ -602,112 +606,117 @@
 
 
 
-        function fetchUsers(page = 1, search = '', perPage = 10) {
-            $.ajax({
-                type: 'GET',
-                url: "{{route('adminFetchUsers')}}",
-                data: { page: page, search: search, per_page: perPage },
-                dataType: "json",
-                success: function(response) {
-                    // Update total users
-                    $('#total-users').text(response.total_users);
+            function fetchUsers(page = 1, search = '', perPage = 10) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('fetchTrainees')}}",
+                    data: { page: page, search: search, per_page: perPage },
+                    dataType: "json",
+                    success: function(response) {
+                        // Update total users
+                        $('#total-users').text(response.total_users);
 
-                    // Clear and repopulate the table
-                    $('tbody').html("");
-                  
+                        // Clear and repopulate the table
+                        $('tbody').html("");
+                        $.each(response.users, function(key, item) {
+                            // Use fallback values for null secondname and lastname
+                            const secondname = item.secondname || ''; // Fallback for null or undefined
+                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            const baseUrl = "{{ route('showFees') }}";
 
-                    $.each(response.users, function(key, item) {
-                        let roleSchool = item.role;
-                        if (item.school_id && item.school) {
-                            roleSchool += ' - ' + item.school.school_name;
-                        }
-                        const baseUrl = "{{ route('showFees') }}";
-                        $('#table1').append(
-                            '<tr>\
-                                <td>' + (key + 1) + '</td>\
-                                <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
-                               <!-- <td>' + item.phonenumber + '</td>-->\
-                                <td>' + item.email + '</td>\
-                                <td>' + roleSchool + '</td>\
-                                <!--<td>' + item.role + '</td>-->\
-                                <td>' + item.gender + '</td>\
-                                <td>' + item.status + '</td>\
-                                <td>\
-                                        <a href="#"><span class="badge bg-success jobDesBtn href="#" data-id="' + item.id + '" \
-                                                data-firstname="' + item.firstname + '" \
-                                                data-secondname="' + item.secondname + '" \
-                                                data-lastname="' + item.lastname + '" \
-                                                data-phonenumber="' + item.phonenumber + '" \
-                                                data-email="' + item.email + '" \
-                                                data-role="' + item.role + '" \
-                                                data-gender="' + item.gender + '" \
-                                                data-status="' + item.status + '" \
-                                                data-school-id="' + (item.school ? item.school.id : '') + '" \
-                                                data-school-name="' + (item.school ? item.school.school_name : '') + '" \
-                                        "><i class="uil-edit"></i> Update</span></a>\
-                                        <a href="#"><span  class="badge bg-danger deleteBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</span></a>\
-                                        <a class="viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
-                                        <span class="badge bg-warning"> <i class="fa fa-eye"></i>View Profile<\span>\
-                                    </a>\
-                                </td>\
-                            </tr>'
-                        );
-                    });
+                            $('#table1').append(
+                                '<tr>\
+                                    <td>' + (key + 1) + '</td>\
+                                    <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
+                                    <!--<td>' + item.phonenumber + '</td>-->\
+                                    <!--<td>' + item.email + '</td>-->\
+                                    <td>' + item.course.course_name + '</td>\
+                                    <td>' + item.clas.clas_name + '</td>\
+                                   <!-- <td>' + item.gender + '</td>-->\
+                                    <!--<td>' + item.status + '</td>-->\
+                                    <td><a><span class="badge bg-success"> <i class="fa fa-edit"></i> Update</span></a></td>\
+                                    <td>\
+                                        <div class="dropdown">\
+                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
+                                                Actions\
+                                            </button>\
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
+                                                <li>\
+                                                    <span type="button" \
+                                                        data-id="' + item.id + '" \
+                                                        data-firstname="' + item.firstname + '" \
+                                                        data-secondname="' + secondname + '" \
+                                                        data-lastname="' + lastname + '" \
+                                                        data-phonenumber="' + item.phonenumber + '" \
+                                                        data-email="' + item.email + '" \
+                                                        data-update_course_id="' + item.course.id + '" \
+                                                        data-update_clas_id="' + item.clas.id + '" \
+                                                        data-role="' + item.role + '" \
+                                                        data-gender="' + item.gender + '" \
+                                                        data-status="' + item.status + '" \
+                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Edit</span>\
+                                                </li>\
+                                                <li>\
+                                                    <span type="button" value="' + item.id + '" \
+                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete</span>\
+                                                </li>\
+                                                <li>\
+                                                    <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
+                                                        <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee\
+                                                    </a>\
+                                                </li>\
+                                            </ul>\
+                                        </div>\
+                                    </td>\
+                                </tr>'
+                            );
+                        });
 
-                    // Render pagination
-                    renderPagination(response.pagination, search, perPage);
+                        // Render pagination
+                        renderPagination(response.pagination, search, perPage);
 
-                    // Attach event listener to Update button
-                    $('.jobDesBtn').on('click', function() {
-                        const userId = $(this).data('id');
-                        const firstname = $(this).data('firstname');
-                        const secondname = $(this).data('secondname');
-                        const lastname = $(this).data('lastname');
-                        const phonenumber = $(this).data('phonenumber');
-                        const email = $(this).data('email');
-                        const role = $(this).data('role');
-                        const gender = $(this).data('gender');
-                        const status = $(this).data('status');
-                       
+                        // Attach event listeners for the dropdown actions
+                        $('.jobDesBtn').on('click', function() {
+                            const userId = $(this).data('id');
+                            const firstname = $(this).data('firstname');
+                            const secondname = $(this).data('secondname');
+                            const lastname = $(this).data('lastname');
+                            const phonenumber = $(this).data('phonenumber');
+                            const email = $(this).data('email');
+                            const update_course_id = $(this).data('update_course_id');
+                            const update_clas_id = $(this).data('update_clas_id');
+                            const role = $(this).data('role');
+                            const gender = $(this).data('gender');
+                            const status = $(this).data('status');
 
-                        const schoolId = $(this).data('school-id');  // Ensure school_id is passed
-                        const schoolName = $(this).data('school-name');  // Ensure school_name is passed
+                            // Populate modal fields
+                            $('#user_id').val(userId);
+                            $('#updateUserModal #firstname').val(firstname);
+                            $('#updateUserModal #secondname').val(secondname);
+                            $('#updateUserModal #lastname').val(lastname);
+                            $('#updateUserModal #phonenumber').val(phonenumber);
+                            $('#updateUserModal #email').val(email);
+                            $('#updateUserModal #update_course_id').val(update_course_id);
+                            $('#updateUserModal #update_clas_id').val(update_clas_id);
+                            $('#updateUserModal #role').val(role);
+                            $('#updateUserModal #gender').val(gender);
+                            $('#updateUserModal #status').val(status);
 
+                            // Show the modal
+                            $('#updateUserModal').modal('show');
+                        });
 
-                        // Populate modal fields
-                        $('#user_id').val(userId);
-                        $('#updateUserModal #firstname').val(firstname);
-                        $('#updateUserModal #secondname').val(secondname);
-                        $('#updateUserModal #lastname').val(lastname);
-                        $('#updateUserModal #phonenumber').val(phonenumber);
-                        $('#updateUserModal #email').val(email);
-                        $('#updateUserModal #role').val(role);
-                        $('#updateUserModal #gender').val(gender);
-                        $('#updateUserModal #status').val(status);
+                        $('.deleteBtn').on('click', function() {
+                            const delete_user_id = $(this).val();
+                            // Populate modal fields
+                            $('#delete_user_id').val(delete_user_id);
+                            // Show the modal
+                            $('#deleteUserModal').modal('show');
+                        });
+                    }
+                });
+            }
 
-                         // Set selected school in the dropdown
-                         $('#updateUserModal select[name="school_id"]').val(schoolId);
-
-                        // Show the modal
-                        $('#updateUserModal').modal('show');
-                    });
-
-
-
-                    // Attach event listener to Update button
-                    $('.deleteBtn').on('click', function() {
-                        const delete_user_id = $(this).data('id');
-                        // Populate modal fields
-                        $('#delete_user_id').val(delete_user_id);
-                        // Show the modal
-                        $('#deleteUserModal').modal('show');
-                    });
-
-
-
-                }
-            });
-        }
 
 
 
@@ -721,9 +730,10 @@
                 lastname: $('#lastname').val(),
                 phonenumber: $('#phonenumber').val(),
                 email: $('#email').val(),
+                update_course_id: $('#update_course_id').val(),
+                update_clas_id: $('#update_clas_id').val(),
                 role: $('#role').val(),
                 gender: $('#gender').val(),
-                school_id: $('#school_id').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
             };
 
@@ -733,7 +743,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{{ route('updateUser') }}",
+                url: "{{ route('updateTrainee') }}",
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

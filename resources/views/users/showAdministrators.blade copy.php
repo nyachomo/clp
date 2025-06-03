@@ -225,7 +225,7 @@
 
                 <div class="row" style="padding-top:20px">
                    
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                             <label>Role <span class="labelSpan">*</span></label>
                             <select class="form-control" name="role" required>
                                  <option value="">Select Role</option>
@@ -241,6 +241,22 @@
                                  <option value="Marketer">Marketer</option>
                             </select>
                     </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>School </label>
+                            <select class="form-control" name="school_id" required>
+                                 <option value="">Select School</option>
+                                 @if(!empty($schools))
+                                    @foreach($schools as $key=>$school)
+                                    <option value="{{$school->id}}">{{$school->school_name}}</option>
+                                    @endforeach
+                                 @endif
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -405,7 +421,22 @@
 
                   
 
-                   
+                   <div class="row">
+
+                           <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>School </label>
+                                    <select class="form-control" name="school_id" id="school_id">
+                                        <option value="">Select School</option>
+                                        @if(!empty($schools))
+                                            @foreach($schools as $key=>$school)
+                                            <option value="{{$school->id}}">{{$school->school_name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                   </div>
                     
                    
                    
@@ -581,21 +612,27 @@
 
                     // Clear and repopulate the table
                     $('tbody').html("");
+                  
+
                     $.each(response.users, function(key, item) {
+                        let roleSchool = item.role;
+                        if (item.school_id && item.school) {
+                            roleSchool += ' - ' + item.school.school_name;
+                        }
+
                         $('#table1').append(
                             '<tr>\
                                 <td>' + (key + 1) + '</td>\
                                 <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
                                 <td>' + item.phonenumber + '</td>\
                                 <td>' + item.email + '</td>\
-                                <td>' + item.role + '</td>\
-                                 <td>' + item.gender + '</td>\
+                                <td>' + roleSchool + '</td>\
+                                <!--<td>' + item.role + '</td>-->\
+                                <td>' + item.gender + '</td>\
                                 <td>' + item.status + '</td>\
                                 <td>\
                                 <div class="dropdown">\
-                                        <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                        <ul class="dropdown-menu">\
-                                            <li><a class="dropdown-item jobDesBtn text-success" href="#" \
+                                        <span class="badge bg-success jobDesBtn\
                                                 data-id="' + item.id + '" \
                                                 data-firstname="' + item.firstname + '" \
                                                 data-secondname="' + item.secondname + '" \
@@ -605,6 +642,23 @@
                                                 data-role="' + item.role + '" \
                                                 data-gender="' + item.gender + '" \
                                                 data-status="' + item.status + '" \
+                                                data-school-id="' + (item.school ? item.school.id : '') + '" \
+                                                data-school-name="' + (item.school ? item.school.school_name : '') + '" \
+                                        "><i class="uil-edit"></i> Update</span>\
+                                        <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                        <ul class="dropdown-menu">\
+                                            <li><a class="dropdown-item jobDesBtn2 text-success" href="#" \
+                                                data-id="' + item.id + '" \
+                                                data-firstname="' + item.firstname + '" \
+                                                data-secondname="' + item.secondname + '" \
+                                                data-lastname="' + item.lastname + '" \
+                                                data-phonenumber="' + item.phonenumber + '" \
+                                                data-email="' + item.email + '" \
+                                                data-role="' + item.role + '" \
+                                                data-gender="' + item.gender + '" \
+                                                data-status="' + item.status + '" \
+                                                data-school-id="' + (item.school ? item.school.id : '') + '" \
+                                                data-school-name="' + (item.school ? item.school.school_name : '') + '" \
                                                 ><i class="uil-edit"></i> Update</a></li>\
                                                 <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                         </ul>\
@@ -628,6 +682,11 @@
                         const role = $(this).data('role');
                         const gender = $(this).data('gender');
                         const status = $(this).data('status');
+                       
+
+                        const schoolId = $(this).data('school-id');  // Ensure school_id is passed
+                        const schoolName = $(this).data('school-name');  // Ensure school_name is passed
+
 
                         // Populate modal fields
                         $('#user_id').val(userId);
@@ -639,6 +698,9 @@
                         $('#updateUserModal #role').val(role);
                         $('#updateUserModal #gender').val(gender);
                         $('#updateUserModal #status').val(status);
+
+                         // Set selected school in the dropdown
+                         $('#updateUserModal select[name="school_id"]').val(schoolId);
 
                         // Show the modal
                         $('#updateUserModal').modal('show');
@@ -675,6 +737,7 @@
                 email: $('#email').val(),
                 role: $('#role').val(),
                 gender: $('#gender').val(),
+                school_id: $('#school_id').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
             };
 

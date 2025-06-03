@@ -58,7 +58,7 @@ class SchoolController extends Controller
     {
        
         $validated = $request->validate([
-            'school_id' =>'required|exists:topics,id',
+            'school_id' =>'required|exists:schools,id',
             'school_name' =>'string|max:255',
             'school_location' =>'string|max:255',
         ]);
