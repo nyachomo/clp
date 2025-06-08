@@ -30,7 +30,7 @@
   }
 </style>
 
-<!-- start page title -->
+<!-- start page title 
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -43,11 +43,9 @@
         </div>
     </div>
 </div>
-<!-- end page title -->
+ -->
 
-
-
-<div id="response"></div>
+<br>
 
 
 @if (session('success'))
@@ -67,253 +65,270 @@
 
 
 
-<div id="message-container" class="mt-3"></div>
+
+<!-- end page title --> 
 
 <div class="row">
-     <div class="col-sm-12">
-         <div class="card">
-             <div class="card-body">
-                <h4 class="header-title">Statistic</h4>
-                 <div class="row">
-                     <div class="col-sm-4">
-                            <div class="alert alert-success" role="alert">
-                                <strong>DEBIT (KSH)</strong> 
-                                <p id="all_courses">{{$debit??''}}</p>
-                            </div>
+   
 
-                     </div>
-
-                     <div class="col-sm-4">
-
-                        <div class="alert alert-warning" role="alert">
-                            <strong>CREDIT (KSH)</strong> 
-                            <p id="active_courses">{{$credit??''}}</p>
-                        </div>
-
-                     </div>
-                     <div class="col-sm-4">
-
-                        <div class="alert alert-danger" role="alert">
-                            <strong>BALANCE (KSH)</strong>
-                            <p id="suspended">{{$balance??''}}</p>
-                        </div>
-
-                     </div>
-
-                 </div>
-             </div>
-         </div>
-     </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
+    <div class="col-xl-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5>Payment Record for : ({{$user->firstname??''}} {{$user->secondname??''}} {{$user->lastname??''}})</h5>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addFeeModal"> <i class="uil-plus"></i>Add New Fee</a>
-
-                <!-- Default Drodown -->
-
-
+                <h5>Profile Information for : ({{$user->firstname??''}} {{$user->secondname??''}} {{$user->lastname??''}})</h5>
             </div>
             <div class="card-body">
-
-                <div class="row">
-                    <div class="col-sm-1" style="padding-top:4px">
-                         <label for="example-select" class="form-label" style="float:right;">Show</label>
-                    </div>
-                    <div class="col-sm-2">
-                       
-                       
-                    <select class="form-select" id="select">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="15">15</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                    </select>
-
-
-
-                    </div>
-
-                    <div class="col-sm-6"></div>
-
-                    <div class="col-sm-1" style="padding-top:6px">
-                         <label for="example-select" class="form-label" style="float:right;">Search</label>
-                    </div>
-
-                    <div class="col-sm-2">
-                          <input type="text" id="search" name="search" class="form-control" placeholder="Search Courses...">
-                    </div>
-
-                </div>
-                <br>
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor" style="border-radius:50px">
+                    <li class="nav-item">
+                        <a href="#aboutme" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            Academics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#timeline" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                            Finance
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            Settings
+                        </a>
+                    </li>
+                </ul>
                 <div class="tab-content">
-                    <div class="table-responsive">
-                        
-                        <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Amount Paid</th>
-                                    <th>Pyment Method</th>
-                                    <th>Date Paid</th>
-                                    <th>Ref No</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                 @if(!empty($fees))
-                                    @foreach($fees as $key=>$fee)
-                                       <tr>
-                                           <td>{{$key+1}}</td>
-                                           <td>{{$fee->amount_paid}}</td>
-                                           <td>{{$fee->payment_method}}</td>
-                                           <td>{{$fee->date_paid}}</td>
-                                           <td>{{$fee->payment_ref_no}}</td>
-                                           <td>
+                    <div class="tab-pane" id="aboutme">
+                       
+                        <h5 class="mb-3 mt-4 text-uppercase"><i class="mdi mdi-cards-variant me-1"></i>
+                            Projects</h5>
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Clients</th>
+                                        <th>Project Name</th>
+                                        <th>Start Date</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
 
-                                                <button class="btn btn-sm btn-success" href="#" data-bs-toggle="modal" data-bs-target="#updateFeeModal{{$fee->id}}" ><i class="fa fa-edit"></i> Edit</button>
-                                                <button class="btn btn-sm btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteFeeModal{{$fee->id}}" ><i class="fa fa-trash"></i> Delete</button>
-                                                                         
-                                                <a href="{{ route('admindownloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
-                                                    <i class="fa fa-download"></i> Download Receipt
-                                                </a>
-                                                           
+                    </div> <!-- end tab-pane -->
+                    <!-- end about me section content -->
 
-                                           </td>
-                                           
-                                       </tr>
+                    <div class="tab-pane show active" id="timeline">
+                         <div class="card">
+                             <div class="card-body">
+                                
+                               <div class="row">
+                                   <div class="col-sm-4">
+                                            <div class="alert alert-success" role="alert">
+                                                <strong>DEBIT (KSH)</strong> 
+                                                <p id="all_courses">{{$debit??''}}</p>
+                                            </div>
+                                    </div>
 
+                                    <div class="col-sm-4">
 
-
-                                       
-                                        <!-- Add User modal -->
-                                        <div id="updateFeeModal{{$fee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                                                    </div>
-                                                    <form method="POST" action="{{route('updateFees')}}">
-                                                        @csrf
-                                                    
-
-                                                        <!-- /.card-header -->
-                                                        <div class="card-body">
-                                                            <input type="text" class="form-control" name="id" value="{{$fee->id}}" hidden="true">
-
-                                                            <div class="row">
-
-                                                            <div class="col-sm-6">
-                                                                    <!-- text input -->
-                                                                    <div class="form-group">
-                                                                        <label>Amount Paid<sup>*</sup></label>
-                                                                        <input type="text" class="form-control" name="amount_paid" value="{{$fee->amount_paid}}" required>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-6">
-                                                                    <!-- text input -->
-                                                                    <div class="form-group">
-                                                                        <label>Date Paid<sup>*</sup></label>
-                                                                        <input type="date" class="form-control" name="date_paid" value="{{$fee->date_paid}}"  required>
-                                                                    </div>
-                                                                </div>
-
-                                                                
-
-                                                            </div>
-
-                                                            <div class="row">
-
-                                                            <div class="col-sm-6">
-                                                                    <!-- text input -->
-                                                                    <div class="form-group">
-                                                                        <label>Payment Method<sup>*</sup></label>
-                                                                        <select name="payment_method" class="form-control" required>
-                                                                            <option value="{{$fee->payment_method}}">{{$fee->payment_method}}</option>
-                                                                            <option value="Mpesa">Mpesa</option>
-                                                                            <option value="Cheque">Cheque</option>
-                                                                            <option value="Cash">Cash</option>
-                                                                            <option value="Bank Deposit">Bank Deposit</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-sm-6">
-                                                                    <!-- text input -->
-                                                                    <div class="form-group">
-                                                                        <label>Reference No<sup>*</sup></label>
-                                                                        <input type="text" class="form-control" name="payment_ref_no" value="{{$fee->payment_ref_no}}">
-                                                                    </div>
-                                                                </div>
-
-                                                                
-
-                                                            </div>
-
-
-
-                                                        </div>
-                                                        <!-- /.card-body -->
-
-
-                                                    <div class="modal-footer justify-content-between">
-                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit"  class="btn btn-success rounded-pill">Save</button>
-                                                    </div>
-                                                </form>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>CREDIT (KSH)</strong> 
+                                            <p id="active_courses">{{$credit??''}}</p>
                                         </div>
-                                        <!--end of modal-->
 
+                                    </div>
+                                    <div class="col-sm-4">
 
-
-                                        <!-- Add User modal -->
-                                        <div id="deleteFeeModal{{$fee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Are you sure you want to delete this record</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                                                    </div>
-                                                    <form method="POST" action="{{route('deleteFees')}}">
-                                                        @csrf
-                                              
-                                                            <input type="text" class="form-control" name="id" value="{{$fee->id}}" hidden="true">
-
-
-
-                                                    <div class="modal-footer justify-content-between">
-                                                        <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
-                                                    </div>
-                                                </form>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
+                                        <div class="alert alert-danger" role="alert">
+                                            <strong>BALANCE (KSH)</strong>
+                                            <p id="suspended">{{$balance??''}}</p>
                                         </div>
-                                        <!--end of modal-->
+
+                                    </div>
+                                </div>
+
+                                    <div class="table-responsive">
+                                        <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addFeeModal"> <i class="uil-plus"></i>Add New Fee</a>
+                                        <br> <br>
+                                            <table class="table table-borderless table-nowrap mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Clients</th>
+                                                        <th>Project Name</th>
+                                                        <th>Start Date</th>
+                                                        <th>Due Date</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if(!empty($fees))
+                                                        @foreach($fees as $key=>$fee)
+                                                        <tr>
+                                                            <td>{{$key+1}}</td>
+                                                            <td>{{$fee->amount_paid}}</td>
+                                                            <td>{{$fee->payment_method}}</td>
+                                                            <td>{{$fee->date_paid}}</td>
+                                                            <td>{{$fee->payment_ref_no}}</td>
+                                                            <td>
+
+                                                                    <button class="btn btn-sm btn-success" href="#" data-bs-toggle="modal" data-bs-target="#updateFeeModal{{$fee->id}}" ><i class="fa fa-edit"></i> Edit</button>
+                                                                    <button class="btn btn-sm btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteFeeModal{{$fee->id}}" ><i class="fa fa-trash"></i> Delete</button>
+                                                                                            
+                                                                    <a href="{{ route('admindownloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
+                                                                        <i class="fa fa-download"></i> Download Receipt
+                                                                    </a>
+                                                                            
+
+                                                            </td>
+                                                            
+                                                        </tr>
+
+                                                            <!-- Add User modal -->
+                                                            <div id="updateFeeModal{{$fee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                                        </div>
+                                                                        <form method="POST" action="{{route('updateFees')}}">
+                                                                            @csrf
+                                                                        
+
+                                                                            <!-- /.card-header -->
+                                                                            <div class="card-body">
+                                                                                <input type="text" class="form-control" name="id" value="{{$fee->id}}" hidden="true">
+
+                                                                                <div class="row">
+
+                                                                                <div class="col-sm-6">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Amount Paid<sup>*</sup></label>
+                                                                                            <input type="text" class="form-control" name="amount_paid" value="{{$fee->amount_paid}}" required>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-sm-6">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Date Paid<sup>*</sup></label>
+                                                                                            <input type="date" class="form-control" name="date_paid" value="{{$fee->date_paid}}"  required>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    
+
+                                                                                </div>
+
+                                                                                <div class="row">
+
+                                                                                <div class="col-sm-6">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Payment Method<sup>*</sup></label>
+                                                                                            <select name="payment_method" class="form-control" required>
+                                                                                                <option value="{{$fee->payment_method}}">{{$fee->payment_method}}</option>
+                                                                                                <option value="Mpesa">Mpesa</option>
+                                                                                                <option value="Cheque">Cheque</option>
+                                                                                                <option value="Cash">Cash</option>
+                                                                                                <option value="Bank Deposit">Bank Deposit</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-sm-6">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>Reference No<sup>*</sup></label>
+                                                                                            <input type="text" class="form-control" name="payment_ref_no" value="{{$fee->payment_ref_no}}">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    
+
+                                                                                </div>
 
 
-                                    @endforeach
-                                 @endif
-                            </tbody>
-                        </table>                                           
-                    </div> <!-- end preview-->
-                
-                </div> <!-- end tab-content-->
-                
-            </div> <!-- end card body-->
 
-            <!--end of card-footer-->
+                                                                            </div>
+                                                                            <!-- /.card-body -->
+
+
+                                                                        <div class="modal-footer justify-content-between">
+                                                                            <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                                            <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+                                                                        </div>
+                                                                    </form>
+                                                                    </div><!-- /.modal-content -->
+                                                                </div><!-- /.modal-dialog -->
+                                                            </div>
+                                                            <!--end of modal-->
+
+                                                            <!-- Add User modal -->
+                                                            <div id="deleteFeeModal{{$fee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Are you sure you want to delete this record</h4>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                                        </div>
+                                                                        <form method="POST" action="{{route('deleteFees')}}">
+                                                                            @csrf
+                                                                
+                                                                                <input type="text" class="form-control" name="id" value="{{$fee->id}}" hidden="true">
+
+
+
+                                                                        <div class="modal-footer justify-content-between">
+                                                                            <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                                                                            <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
+                                                                        </div>
+                                                                    </form>
+                                                                    </div><!-- /.modal-content -->
+                                                                </div><!-- /.modal-dialog -->
+                                                            </div>
+                                                            <!--end of modal-->
+
+
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+
+
+                                            </table>
+                                    </div>
+
+
+                                 
+                             </div>
+                         </div>
+
+
+                          
+                       
+                    </div>
+                    <!-- end timeline content-->
+
+                    <div class="tab-pane" id="settings">
+                       
+                    </div>
+                    <!-- end settings content-->
+
+                </div> <!-- end tab-content -->
+            </div> <!-- end card body -->
         </div> <!-- end card -->
-    </div><!-- end col-->
-</div> <!-- end row-->
+    </div> <!-- end col -->
+</div>
+<!-- end row-->
+
+
+
+
 
 
 
