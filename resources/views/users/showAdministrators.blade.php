@@ -124,6 +124,8 @@
             <!--end of card-footer-->
         </div> <!-- end card -->
     </div><!-- end col-->
+
+   
 </div> <!-- end row-->
 
 

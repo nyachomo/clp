@@ -86,14 +86,6 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
 
-//GETTING THE STUDENT OF THE TEACHER WHO LOGINS
-/*
- if(Auth::check() && Auth::user()->role="High_school_teacher"){
-   $students=User::with('course')->where('school_id',Auth::user()->school_id)->where('role','Trainee')->get();
-  
- }
-   */
-
 ?>
 
 <!--
