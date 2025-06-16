@@ -30,7 +30,7 @@
   }
 </style>
 <!-- start page title -->
-<div class="row">
+<!--<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -42,7 +42,7 @@
             <h4 class="page-title">Questions</h4>
         </div>
     </div>
-</div>
+</div>-->
 <!-- end page title --> 
 
 
@@ -73,7 +73,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Schools: <span id="total-users">0</span>
+                Total Questions: <span id="total-users">0</span>
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add New Question</a>
             </div>
             <div class="card-body">
@@ -172,7 +172,9 @@
                             <div class="form-group">
                                 <label> Question <sup>*</sup></label>
                                 <!--<input type="text" class="form-control" name="question_name">-->
-                                <textarea id="mytextarea"  name="question_name"></textarea>
+                                <textarea id="editor1" name="question_name" rows="10" cols="80"> </textarea>
+                                           
+                               
                             </div>
                         </div>
                     </div>
@@ -286,7 +288,7 @@
                                 <div class="form-group">
                                     <label> Question <sup>*</sup></label>
                 
-                                    <textarea id="mytextarea"  name="update_question_name" id="update_question_name"></textarea>
+                                    <textarea id="editor2"  name="update_question_name" id="update_question_name"></textarea>
                                   
                                 </div>
                             </div>
