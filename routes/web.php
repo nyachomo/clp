@@ -19,10 +19,20 @@ use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ClassNotesController;
 use App\Http\Controllers\HighSchoolTeacherController;
 use App\Http\Controllers\DashboardUpdatesController;
+use App\Http\Controllers\GoogleMeetController;
+use App\Http\Controllers\SmsController;
+use App\Http\Controllers\MpesaController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\WebsiteController;
+
+/*
 Route::get('/', function () {
     return view('welcome');
     //return redirect()->route('login');
 })->name('welcome');
+
+*/
+Route::get('/',[WelcomeController::class,'welcome'])->name('welcome');
 
 Auth::routes();
 
@@ -96,6 +106,8 @@ Route::prefix('h-schl')->group(function () {
 
 Route::prefix('trainees')->group(function () {
     Route::get('/show', [TraineeController::class, 'index'])->name('showTrainees');
+    Route::get('/showTraineePerClas', [TraineeController::class, 'showTraineePerClas'])->name('showTraineePerClas');
+
     Route::get('/fetch-trainees', [TraineeController::class, 'fetchTrainees'])->name('fetchTrainees');
     Route::post('/add-trainee', [TraineeController::class, 'addTrainee'])->name('addTrainee');
     Route::post('/update-trainee', [TraineeController::class, 'updateTrainee'])->name('updateTrainee');
@@ -130,6 +142,11 @@ Route::prefix('trainees')->group(function () {
 
     Route::get('/{id}', [TraineeController::class, 'showTraineeProfile'])->name('showTraineeProfile');
 
+    //MARKED ALL STUDENTS AS ALUMNI
+    Route::post('/markedStudentAsAlumni',[TraineeController::class,'markedStudentAsAlumni'])->name('markedStudentAsAlumni');
+    Route::post('/suspendAllStudents',[TraineeController::class,'suspendAllStudents'])->name('suspendAllStudents');
+    Route::post('/activateAllStudents',[TraineeController::class,'activateAllStudents'])->name('activateAllStudents');
+
 });
 
 
@@ -153,6 +170,12 @@ Route::prefix('clases')->group(function () {
     Route::post('/update', [ClasController::class, 'updateClas'])->name('updateClas');
     Route::post('/delete', [ClasController::class, 'deleteClas'])->name('deleteClas');
     Route::post('/suspend', [ClasController::class, 'suspendClas'])->name('suspendClas');
+    Route::post('/activate', [ClasController::class, 'activateClas'])->name('activateClas');
+    Route::POST('/activate/all', [ClasController::class, 'activateAllClas'])->name('activateAllClas');
+    Route::get('/get-students/{classId}', [TraineeController::class, 'getStudents'])->name('getStudentsPerClass');
+   // Route::get('/download-students-excel/{classId}', [ClasController::class, 'downloadStudentPerClassExcel'])->name('downloadStudentPerClassExcel');
+
+    Route::post('/download-students-excel', [ClasController::class, 'downloadStudentPerClassExcel'])->name('downloadStudentPerClassExcel');
 
    
 });
@@ -311,3 +334,25 @@ Route::get('/contact-us',[App\Http\Controllers\WebsiteController::class, 'contac
 Route::get('/enrol',[App\Http\Controllers\WebsiteController::class, 'enrol'])->name('enrol');
 
 Route::post('/contact-us/create',[App\Http\Controllers\ContactController::class, 'create'])->name('contact.create');
+
+
+
+
+//NEW WEBSITE CONTROLLER
+Route::get('/course/signup/{id}',[WebsiteController::class,'signup'])->name('pages.signup');
+Route::get('/course/show/{id}',[WebsiteController::class,'showSingleCourse'])->name('showSingleCourse');
+
+
+
+
+Route::get('/create-meeting', [GoogleMeetController::class, 'createMeeting']);
+Route::get('/join-meeting/{meetingId}', [GoogleMeetController::class, 'joinMeeting']);
+
+
+
+
+
+
+//ROUTE FOR SMS
+Route::get('/sms',[SmsController::class,'sms'])->name('sms');
+Route::get('/mpesa',[MpesaController::class,'mpesa'])->name('mpesa');

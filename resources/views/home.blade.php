@@ -107,6 +107,9 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
 
+
+
+
  <!-- end page title -->
  @if(Auth::check() && Auth::user()->role=='Admin')
 
@@ -377,7 +380,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
 
-@if(Auth::check() && Auth::user()->role=='Trainee')
+@if(Auth::check() && Auth::user()->role=='Trainee' && Auth::user()->has_paid_reg_fee=='Yes')
 
 <!-- end page title --> 
 
@@ -528,12 +531,52 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
                 </div>
             </div>
     </div>
+@endif
+
+@if(Auth::check() && Auth::user()->role=='Trainee' && Auth::user()->has_paid_reg_fee=='No')
+<div class="row">
+    <div class="col-sm-6">
+
+        <div class="alert alert-success" role="alert">
+            <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
+            <p>Techsphere Training Institute congratulates you for showing interest to be admitted Data Analytics course. To complete your enrolment, kindly upload the following document:
+
+                <ol>
+                     <li>Passport Photo</li>
+                     <li>Next of kin details</li>
+                     <li>Registration Fee of Ksh : 1000 will be required to activate your account</li>
+                     <li>Admission Letter: Once registration fee is paid, a link to download admission letter will be activated. Download the admission letter and present it to the admission office</li>
+                </ol>
+            </p>
+        </div>
+
+    </div>
 
 
 
+    <div class="col-sm-6">
+
+        <div class="alert alert-warning" role="alert">
+            <strong> <h3>How to pay registration Fee (Ksh 1000)</strong></h3>
+            <p>Pay Ksh 1000 to techsphere training institute and send the payment details to : +254768919307. Choose one payment option</p>
+            <p>Mpesa</p>
+            <li>Business Name: Techsphere Institute</li>
+            <li>Paybill: 522533</li>
+            <li>Acc No: 7855887</li>
+
+            <p>Bank</p>
+            <li>Bank: Kenya Comercial Bank</li>
+            <li>Acc Name: Techsphere Institute</li>
+            <li>Acc No: 1327338564</li>
+
+           
+        </div>
+
+    </div>
 
 
 
+</div>
 @endif
 
 
@@ -654,12 +697,6 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
             setInterval(fetchadminDashboardUpdates, 3000);
             fetchadminDashboardUpdates();
-
-
-
-
-
-
 
 
     });

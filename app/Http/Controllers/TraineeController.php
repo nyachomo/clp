@@ -733,4 +733,111 @@ class TraineeController extends Controller
 
 
 
+
+
+    public function markedStudentAsAlumni(Request $request)
+    {
+        $updatedCount = User::where('clas_id', $request->alumni_clas_id)
+            ->update(['status' => 'Alumni']);
+        
+        if ($updatedCount > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => "$updatedCount students marked as Alumni",
+                'count' => $updatedCount
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'No students found for this class'
+        ], 404);
+    }
+
+    public function suspendAllStudents(Request $request)
+    {
+        $updatedCount = User::where('clas_id', $request->suspend_all_students_clas_id)
+            ->update(['status' => 'Suspended']);
+        
+        if ($updatedCount > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => "$updatedCount students are suspended",
+                'count' => $updatedCount
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'No students found for this class'
+        ], 404);
+    }
+
+
+    public function activateAllStudents(Request $request)
+    {
+        $updatedCount = User::where('clas_id', $request->activate_all_students_clas_id)
+            ->update(['status' => 'Active']);
+        
+        if ($updatedCount > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => "$updatedCount students are Activated",
+                'count' => $updatedCount
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'No students found for this class'
+        ], 404);
+    }
+
+
+    public function showTraineePerClas(){
+        $clas_id=$_GET['clas_id'];
+        $courses=Course::select('course_name','id')->get();
+        $clases=Clas::select('clas_name','id')->get();
+        $clas=Clas::where('id',$clas_id)->first();
+        return View('trainees.showTraineesPerClas',compact('courses','clases','clas'));
+    }
+
+    public function getStudents(Request $request,$classId) {
+        $class=Clas::where('id',$classId)->first();
+        $clasName= $class->clas_name;
+        $query = User::with('course','clas')->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        DB::raw("COALESCE(clas_id, '') as clas_id"),
+        DB::raw("COALESCE(course_id, '') as course_id"),
+        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee') ->where('has_paid_reg_fee','Yes')->where('clas_id', $classId)->orderBy('created_at', 'desc');
+    
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('firstname', 'like', '%' . $request->search . '%')
+                ->orWhere('secondname', 'like', '%' . $request->search . '%')
+                ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+            'clas_name'=>$clasName,
+        ]);
+    }
+
 }

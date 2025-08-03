@@ -1,312 +1,452 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>Home-TechSphere</title>
-
-    <!-- Required meta tags -->
+<head>
+   
+    <!--====== Required meta tags ======-->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!--====== Title ======-->
+    <title>Techsphere</title>
+    
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="{{asset('frontend/logo/Logo.jpeg')}}" type="image/png">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!--====== Slick css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/slick.css')}}">
 
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!--====== Animate css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/animate.css')}}">
+    
+    <!--====== Nice Select css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/nice-select.css')}}">
+    
+    <!--====== Nice Number css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/jquery.nice-number.min.css')}}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <!--====== Magnific Popup css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/magnific-popup.css')}}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-    <link rel="stylesheet" type="text/css" href="{{asset('website/css/style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('website/css/rotating-card.css')}}">
-    <script src="https://use.fontawesome.com/d79a9c14ef.js"></script>
-
-    <link rel="icon" type="image/jpeg" href="{{asset('website/logo/logo.jpeg')}}" >
-
-     <!--Google fonts-->
+    <!--====== Bootstrap css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.min.css')}}">
+    
+    <!--====== Fontawesome css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/font-awesome.min.css')}}">
+    
+    <!--====== Default css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/default.css')}}">
+    
+    <!--====== Style css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    
+    <!--====== Responsive css ======-->
+    <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
+  
+    <!--Google fonts-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
 
+  
+    <style>
 
-  <!-- Smartsupp Live Chat script -->
-  <script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = 'b7f9e59215dfeb4a10a833748dc3307a58941cfa';
-    window.smartsupp||(function(d) {
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-    })(document);
-    </script>
-  <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
-  <!--Google fonts-->
-  <style>
+      .blueColor{
+        color:#000033 !important;
+      }
 
-    body{
-      font-family: "Afacad Flux", sans-serif !important;
-      font-optical-sizing: auto;
-      font-weight: weight;
-      font-style: normal;
-      font-variation-settings:
-        "slnt" 0;
-    }
-    </style>
+      .yellowColor{
+        color:#ffc600 !important;
+      }
 
-<style>
-  .marquee {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-  }
-  .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 10s linear infinite;
-  }
-  @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-  }
-</style>
+      .maroonColor{
+        color:#1ad1ff !important
+      }
 
+       .readMore{
+        background-color: #ffc600;
+        color: #000033;
+       }
 
-  </head>
+       .readMore:hover{
+        background-color: #000033;
+        color: #ffc600;
+       }
 
-  <body class="bg-light">
+       .hoverColor:hover{
+           color: #ffc600 !important;
+       }
+
+       body,h1,h2,h3,h4,h5,h6,p,a,li{
+        font-family: "Afacad Flux", sans-serif !important;
+        font-optical-sizing: auto;
+        font-weight: weight;
+        font-style: normal;
+        font-variation-settings:
+            "slnt" 0;
+        }
+
+        /* Zoom In Animation */
+            @keyframes zoomIn {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+            }
+
+            .modal.zoom .modal-dialog {
+            animation: zoomIn 0.7s ease;
+            }
+
+            .labelFontSize{
+                font-size:20px !important;
+            }
+
+      </style>
+      
+</head>
+
+<body class="bg-white">
    
-
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-        <div class="container">
-          <a class="navbar-brand2" href="{{route('welcome')}}" style="color:#000033">
-            <img src="{{asset('website/logo/logo.jpeg')}}" height="110px"> <span style="font-size:30px;color:#fe730c">TECHSPHERE</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ms-auto px-4">
-              <li class="nav-item px-2">
-                <a class="nav-link active" aria-current="page" href="{{route('welcome')}}">Home</a>
-              </li>
-
-              <li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="{{route('aboutUs')}}">About Us</a>
-              </li>
-             
-             
-             
-              <li class="nav-item dropdown px-2">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Courses</a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="{{route('softwareEngineering')}}">Full Stack Software Engineering (with Python)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('webApplication')}}">Web Application Development (with Python)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('dataScience')}}">Data Science Machine Learning And Artificial Inteligence (with Python and R)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('cyberSecurity')}}">Cybersecurity And Ethical Hacking</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('graphicDesign')}}">Graphic Design</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('androidApplication')}}">Android Application Development (Kotlin)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('dataAnalysis')}}">Data Analytics(With Python And R)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('digitalMarketing')}}">Digital Marketing And Search Engine Optimization</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                </ul>
-              </li>
-
-
-
-
-              <li class="nav-item dropdown px-2">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Programs</a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="{{route('corporateTraining')}}">Corporate Training Programs</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{route('industrialAttachment')}}">Online Industrial Training</a></li>
-                 
-                  <li><hr class="dropdown-divider"></li>
-                </ul>
-              </li>
-
-
-              <li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="{{route('enrol')}}">Enroll</a>
-              </li>
-
-              <li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="https://innovation.techsphereinstitute.co.ke">Ict Club</a>
-              </li>
-
-              
-              <li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="{{route('contactUs')}}">Contact Us</a>
-              </li>
-             
-              
-              
-              <li class="nav-item px-3" style="padding-top:7px !important">
-                <a href="{{route('login')}}" class="btn"><i class="fa fa-user-o" aria-hidden="true"></i> Login</a>
-              </li >
-
-             
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-
-
-    </header>
-
-
-    <main>
-
-
-     <!-- <section class="iconsSection">
-        <div class="icons-bar">
-          <a href="#"><i class="fa fa-address-book"><br>Enrol</i></a> 
-          <a href="#"><i class="fa fa-plus"><br>Apply</i></a>
-          <a href="#"><i class="fa fa-file-signature"><br>Join us</i></a>
-          
-        </div>
-        <div class="icons-social">
-          <a href="#" style="background-color:#4267B2" title="facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-          <a href="#" style="background-color:#1DA1F2" title="twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-          <a href="#" style="background-color:#FF0000  " title="youtube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
-        </div>
-      </section >-->
-
-       @yield('content')
-
-    </main>
-
-
-
-
+    <!--====== PRELOADER PART START ======-->
     
-
-
-
-
-
+    <div class="preloader">
+        <div class="loader rubix-cube">
+            <div class="layer layer-1"></div>
+            <div class="layer layer-2"></div>
+            <div class="layer layer-3 color-1"></div>
+            <div class="layer layer-4"></div>
+            <div class="layer layer-5"></div>
+            <div class="layer layer-6"></div>
+            <div class="layer layer-7"></div>
+            <div class="layer layer-8"></div>
+        </div>
+    </div>
+    
+    <!--====== PRELOADER PART START ======-->
+    
+    <!--====== HEADER PART START ======-->
+    
+    <header id="header-part">
        
-
-    <section style="background-color:  #000033; padding:10px">
-        <div class="container">
-             <div class="row">
-                   
-                <div class="col-sm-4">
-                  <h4 style="color:white;border-bottom: 3px solid #fe730c;width:fit-content">QUICK LINKS</h4>
-                  <ul>
-                      <li><a href="{{route('corporateTraining')}}" style="color:white">Corporate Training</a></li>
-                      <li><a href="{{route('industrialAttachment')}}" style="color:white">Online Industrial Attachment</a></li>
-                  </ul>
-                  <img src="{{asset('website/logo/logo.jpeg')}}" height="50%" width="30%" class="img-fluid rounded-circle">
-                </div>
-
-                <div class="col-sm-4">
-                  <h4 style="color:white;border-bottom: 3px solid #fe730c;width:fit-content">GET IN TOUCH</h4>
-                    <div class="row" style="padding-bottom: 5px;">
-                        <div class="col-sm-12">
-                            <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-map-marker" aria-hidden="true"></i></button>  <b style="color:white"> View Park Towers, University Way , Nairobi</b>
+        <div class="header-top d-none d-lg-block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="header-contact text-lg-left text-center">
+                            <ul>
+                                <li><img src="{{asset('frontend/images/all-icon/map.png')}}" alt="icon"><span>127/5 Mark street, New york</span></li>
+                                <li><img src="{{asset('frontend/images/all-icon/email.png')}}" alt="icon"><span>info@yourmail.com</span></li>
+                            </ul>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="header-opening-time text-lg-right text-center">
+                            <p>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</p>
+                        </div>
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- header top -->
+       
 
+
+        <div class="header-logo-support pt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7">
+                        <div class="logo">
+                            <div class="row">
+                                <div class="col-sm-2"> <img src="{{asset('frontend/logo/Logo.jpeg')}}"  style="width: 80px;"></div>
+                                <div class="col-sm-10">
+                                        <span style="font-size: 30px;font-weight: bold; color:#000033">TECHSPHERE TRAINING INSTITUTE</span>
+                                        <span><b style="color:#ffc600"><i>Software Development, Training and Capacity Bilding Center</i></b></span>
+                                </div>
+                            </div>
+                           
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                        <div class="support-button float-right d-none d-md-block">
+                            <div class="support float-left">
+                                <div class="icon">
+                                    <img src="{{asset('frontend/images/all-icon/support.png')}}" alt="icon">
+                                </div>
+                                <div class="cont">
+                                    <p class="blueColor"><b>Need Help? call us free</b></p>
+                                    <span class="yellowColor">+254768919307</span>
+                                </div>
+                            </div>
+                            <div class="button float-left">
+                                <a href="{{route('login')}}" class="main-btn">Account(Login)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- header logo support -->
+
+
+      
+        
+        <div class="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-10 col-12">
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                   
+                                    <li class="nav-item">
+                                        <a href="{{route('welcome')}}">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="courses.html">Courses</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="courses.html">Courses</a></li>
+                                            <li><a href="courses-singel.html">Course Singel</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="events.html">PROGRAMS</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="events.html">Ict Clubs</a></li>
+                                            <li><a href="events-singel.html">Industrial Attachment</a></li>
+                                            <li><a href="events-singel.html">Cooporate Training</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="teachers.html">INDUSTRIAL ATTACHMENT</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="teachers.html">teachers</a></li>
+                                            <li><a href="teachers-singel.html">teacher Singel</a></li>
+                                        </ul>
+                                    </li>
+                                   
+                                    <li class="nav-item">
+                                        <a href="shop.html">SCHOLARSHIP TEST</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html">Shop</a></li>
+                                            <li><a href="shop-singel.html">Shop Singel</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="shop.html">Our SOFTWARES</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="shop.html">Shop</a></li>
+                                            <li><a href="shop-singel.html">Shop Singel</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="contact.html">Contact</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="contact.html">Contact Us</a></li>
+                                            <li><a href="contact-2.html">Contact Us 2</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </div>
+                           
+                        </nav> <!-- nav -->
+                       
+                    </div>
                    
-
-                    <div class="row" style="padding-bottom: 5px;">
-                      <div class="col-sm-12">
-                          <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
-                      </div>
-                    </div>
-
-                  <div class="row" style="padding-bottom: 5px;">
-                    <div class="col-sm-12">
-                      <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-globe" aria-hidden="true"></i></button>  <b style="color:white"> www.techsphereinstitute.co.ke</b>
-                    </div>
-                  </div>
-
-
-                  <div class="row" >
-                    <div class="col-sm-12">
-                        <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-whatsapp" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
-                    </div>
-                  </div>
-
-
-                  
-                </div>
-
-                <div class="col-sm-4">
-                  <h4 style="color:white;border-bottom: 3px solid #fe730c;width:fit-content">QUICK LINKS</h4>
-                   <ul>
-                       <li>Data</li>
-                       <li>Softwares</li>
-                       <li>Security</li>
-                       <li>Design</li>
-                       <li>Marketing</li>
-                   </ul>
-                </div>
-
-
-
-             </div>
-           
-           
-            
-
+                </div> <!-- row -->
+            </div> <!-- container -->
         </div>
-    </section>
-
-
-
-
+        
+    </header>
     
+     @yield('content')
+    <!--====== FOOTER PART START ======-->
+    
+    <footer id="footer-part">
+        <div class="footer-top pt-40 pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-about mt-40">
+                          
+                            <div class="logo">
+                                <a href="#"><img src="{{asset('frontend/logo/Logo.jpeg')}}" alt="Logo" class="rounded-circle" style="height: 100px;"></a>
+                            </div>
+                            <!--<p>Gravida nibh vel velit auctor aliquetn quibibendum auci elit cons equat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate.</p>-->
+                            <ul class="mt-20">
+                                <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <!--<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div> <!-- footer about -->
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="footer-link mt-40">
+                            <div class="footer-title pb-25">
+                                <h6>QUICK LINKS</h6>
+                            </div>
+                            <ul>
+                                <li><a href="index-2.html"><i class="fa fa-angle-right"></i>Home</a></li>
+                                <li><a href="about.html"><i class="fa fa-angle-right"></i>About us</a></li>
+                                <li><a href="courses.html"><i class="fa fa-angle-right"></i>Ict Club</a></li>
+                                <li><a href="blog.html"><i class="fa fa-angle-right"></i>Attachment</a></li>
+                                <!--<li><a href="events.html"><i class="fa fa-angle-right"></i>Event</a></li>-->
+                            </ul>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Softwares</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Contact</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Scholarship Test</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>FAQs</a></li>
+                                <!--<li><a href="#"><i class="fa fa-angle-right"></i>Documentation</a></li>-->
+                            </ul>
+                        </div> <!-- footer link -->
+                    </div>
+                   <!---<div class="col-lg-2 col-md-6 col-sm-6">
+                        <div class="footer-link support mt-40">
+                            <div class="footer-title pb-25">
+                                <h6>Support</h6>
+                            </div>
+                            <ul>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Softwares</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Contact</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Scholarship Test</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>FAQs</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Documentation</a></li>
+                            </ul>
+                        </div> 
+                    </div>-->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-address mt-40">
+                            <div class="footer-title pb-25">
+                                <h6>GET IN TOUCH</h6>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>View Park Towers, University Way , Nairobi</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>+254768919307</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>info@techsphereinstitute.co.ke</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> <!-- footer address -->
+                    </div>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- footer top -->
+        
+       <!--- <div class="footer-copyright pt-10 pb-25">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="copyright text-md-left text-center pt-15">
+                            <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a> </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="copyright text-md-right text-center pt-15">
+                           
+                        </div>
+                    </div>
+                </div>  -->
+            </div> 
+        </div> 
+    </footer>
+    
+    <!--====== FOOTER PART ENDS ======-->
+   
+    <!--====== BACK TO TP PART START ======-->
+    
+    <a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a>
+    
+    <!--====== BACK TO TP PART ENDS ======-->
+   
+    
+    
+    
+    
+    
+    
+    
+    <!--====== jquery js ======-->
+    <script src="{{asset('frontend/js/vendor/modernizr-3.6.0.min.js')}}"></script>
+    <script src="{{asset('frontend/js/vendor/jquery-1.12.4.min.js')}}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" ></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" ></script>
-
-    <script type="text/javascript" src="{{asset('website/js/rotating-card.js')}}"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!--====== Bootstrap js ======-->
+    <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
+    
+    <!--====== Slick js ======-->
+    <script src="{{asset('frontend/js/slick.min.js')}}"></script>
+    
+    <!--====== Magnific Popup js ======-->
+    <script src="{{asset('frontend/js/jquery.magnific-popup.min.js')}}"></script>
+    
+    <!--====== Counter Up js ======-->
+    <script src="{{asset('frontend/js/waypoints.min.js')}}"></script>
+    <script src="{{asset('frontend/js/jquery.counterup.min.js')}}"></script>
+    
+    <!--====== Nice Select js ======-->
+    <script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>
+    
+    <!--====== Nice Number js ======-->
+    <script src="{{asset('frontend/js/jquery.nice-number.min.js')}}"></script>
+    
+    <!--====== Count Down js ======-->
+    <script src="{{asset('frontend/js/jquery.countdown.min.js')}}"></script>
+    
+    <!--====== Validator js ======-->
+    <script src="{{asset('frontend/js/validator.min.js')}}"></script>
+    
+    <!--====== Ajax Contact js ======-->
+    <script src="{{asset('frontend/js/ajax-contact.js')}}"></script>
+    
+    <!--====== Main js ======-->
+    <script src="{{asset('frontend/js/main.js')}}"></script>
+    
+    <!--====== Map js ======-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ"></script>
+    <script src="{{asset('frontend/js/map-script.js')}}"></script>
 
     <script>
-      $('.owl-carousel').owlCarousel({
-
-        loop: true,
-        margin: 15,
-        autoplay:true,
-        autoplayTimeout:3000,
-        autoplayHoverPause:true,
-        nav: false,
-        dots: false,
-        navText: ["<div class='nav-button owl-prev'>‹</div>", "<div class='nav-button owl-next'>›</div>"],
-        responsiveClass:true,
-        responsive: {
-          0: {
-            items: 1
-          },
-          600: {
-            items: 3
-          },
-          1000: {
-            items: 5
-          }
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const phoneInput = document.getElementById('phonenumber');
+        const phoneRegex = /^\+254\d{9}$/;
+        
+        if (!phoneRegex.test(phoneInput.value)) {
+        alert('Phone number must start with +254 followed by 9 digits (e.g., +254712345678)');
+        e.preventDefault(); // Prevent form submission
         }
-      });
-    </script>
-  </body>
+    });
+</script>
+
+</body>
 </html>

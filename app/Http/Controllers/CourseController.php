@@ -13,17 +13,36 @@ class CourseController extends Controller
     }
 
     public function addCourse(Request $request){
-        $save=Course::create($request->all());
-        if($save){
-            return redirect()->back()->with('success','Data saved succesfully');
-        }else{
-            return redirect()->back()->with('Failed','Could not saved');
+ 
+        if($request->hasfile('course_image')){
+            $file=$request->file('course_image');
+            $extension=$file->getClientOriginalExtension();
+            $fileName=time().'.'.$extension;
+            if($file->move('images/courses/',$fileName)){
+                $save=Course::create([
+                    'course_image'=> $fileName,
+                    'course_name'=>$request->course_name,
+                    'course_level'=>$request->course_level,
+                    'course_duration'=>$request->course_duration,
+                    'course_price'=>$request->course_price,
+                    'course_description'=>$request->course_description,
+                    'course_two_like'=>$request->course_two_like,
+                    'course_leaners_already_enrolled'=>$request->course_leaners_already_enrolled,
+                ]);
+
+                if($save){
+                    return redirect()->back()->with('success','Data saved succesfully');
+                }else{
+                    return redirect()->back()->with('Failed','Could not saved');
+                }
+            }
         }
+
     }
 
     
     public function fetchCourses(Request $request) {
-        $query = Course::select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
+        $query = Course::where('course_status','!=','Suspended')->select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
 
         $suspended_courses = count(Course::where('course_status','Suspended')->get());
         $active_courses= count(Course::where('course_status','Active')->get());

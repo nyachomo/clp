@@ -95,6 +95,7 @@
                                     <th>Exam Name</th>
                                     <th>Status</th>
                                     <th>Attempts</th>
+                                    <th>Not Attenpts</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -608,6 +609,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.exam_name + '</td>\
                         <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
                         <td>' + item.attempted_students + '</td>\
+                        <td>' + item.unattempted_students + '</td>\
                        <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">MORE ACTION</button>\

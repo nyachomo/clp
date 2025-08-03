@@ -84,7 +84,7 @@ class UserController extends Controller
 
     public function adminFetchUsers(Request $request) {
         // Query users with school relationship
-        $query = User::with('school')
+        $query = User::with('school') ->where('role','!=','Trainee')
             ->select('users.id', 'users.firstname',
                 DB::raw("COALESCE(users.secondname, '') as secondname"),
                 DB::raw("COALESCE(users.lastname, '') as lastname"),
@@ -424,6 +424,20 @@ public function adminUpdateUserPassword(Request $request)
       echo"Image id Blank";
     }
   }
+
+
+
+  public function UploadImage(Request $request){
+    if($request->hasfile('profile_image')){
+        $file=$request->file('profile_image');
+        $extension=$file->getClientOriginalExtension();
+        $fileName=time().'.'.$extension;
+        $file->move('images/profile/',$fileName);
+    }else{
+      echo"Image id Blank";
+    }
+  }
+  
 
 
 

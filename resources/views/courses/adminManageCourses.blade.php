@@ -198,12 +198,20 @@
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Course</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addCourse')}}">
+            <form method="POST" action="{{route('addCourse')}}" enctype="multipart/form-data">
                 @csrf
                
 
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                             <div class="form-group">
+                                 <label>Course Image</label>
+                                 <input type="file" name="course_image" class="form-control">
+                             </div>
+                        </div>
+                    </div>
 
                     <div class="row">
 
@@ -242,14 +250,7 @@
                         </div>
                     </div>-->
 
-                    <!--<div class="row">
-                        <div class="col-sm-12">
-                            <label>Course Description</label>
-                                  
-                                <textarea  class="form-control" name="course_description" col="6"> </textarea>
-   
-                        </div>
-                    </div>-->
+                   
 
                     <!--<div class="row">
                         <div class="col-sm-12">
@@ -288,15 +289,22 @@
 
 
 
-                    <!--<div class="row">
+                    <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label>Course Two likes</label>
+                                <label>Course Reviews</label>
                                 <input type="number" name="course_two_like" class="form-control" min="1" required>
                             </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>How Many Leaners already enrolled for this course</label>
+                                <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-sm-4">
                             <div class="form-group">
                                 <label>Course one likes</label>
                                 <input type="number" name="course_one_like" class="form-control" min="1" required>
@@ -308,13 +316,21 @@
                                 <label>Course Dislike</label>
                                 <input type="number" name="course_not_interested" class="form-control" min="1" required>
                             </div>
-                        </div>
-                    </div>-->
+                        </div>-->
+                    </div>
 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Course Description</label>
+                                  
+                                <textarea  class="form-control" name="course_description" col="6"> </textarea>
+   
+                        </div>
+                    </div>
 
                     <!--<div class="row">
                         <div class="col-sm-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label>How Many Leaners already enrolled for this course</label>
                                 <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
                             </div>

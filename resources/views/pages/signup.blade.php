@@ -1,0 +1,196 @@
+@extends('layouts.website')
+@section('content')
+<!--====== PAGE BANNER PART START ======-->
+    
+<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-banner-cont">
+                        <h2>Enrol for:   {{$course->course_name ?? 'NA'}} Course</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">{{$course->course_name ?? 'NA'}} </a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Enrol</li>
+                            </ol>
+                           <h1 style="color:#ffc600">Price: Ksh {{$course->course_price}}</h1>
+                           <h1 style="color:#ffc600">Duration: {{$course->course_duration}} Weeks</h1>
+                        </nav>
+                    </div>  <!-- page banner cont -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </section>
+    
+    <!--====== PAGE BANNER PART ENDS ======-->
+
+    
+<section id="contact-page" class="pt-90 pb-120 gray-bg">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="contact-from">
+                        <div class="section-title">
+                           <h5>Fill the form bellow</h5>
+                            <!--<h2>Keep in touch</h2>-->
+                        </div> <!-- section title -->
+                       
+                        <div class="main-form">
+                            <form method="POST" action="{{route('register')}}">
+                            @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" value="{{ old('firstname') }}" placeholder="Firstname eg John" required="required">
+                                            @error('firstname')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div> <!-- singel form -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" value="{{ old('lastname') }}" placeholder="Lastname eg Doe"  required="required">
+                                            @error('lastname')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                           
+                                        </div> <!-- singel form -->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="phonenumber" type="text" class="form-control @error('phonenumber') is-invalid @enderror" value="{{ old('phonenumber') }}" placeholder="Phone eg +25470000000"  required="required">
+                                           
+                                            @error('phonenumber')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                        </div> <!-- singel form -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email eg johndoe@gmail.com" required="required">
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div> <!-- singel form -->
+                                    </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Password" required="required">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div> <!-- singel form -->
+                                    </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input  name="password_confirmation" required autocomplete="new-password" value="{{ old('password_confirmation') }}" type="password" placeholder="Confirm Password" required="required">
+                                          
+                                        </div> <!-- singel form -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <select class="form-control" name="gender" required style="padding:20px" value="{{ old('gender') }}" >
+                                                <option value="">Select Gender ..</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>   
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <select class="form-control" name="course_id" readonly="true">
+                                                <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                            </select>   
+                                        </div>
+                                    </div>
+                                   
+                                   
+                                        <div class="col-md-12">
+                                            <input type="text" name="has_paid_reg_fee"   class="form-control" value="No" hidden="true">   
+                                            <input type="text" name="role"   class="form-control" value="Trainee" hidden="true" >
+                                        </div>
+                                  
+
+
+                                    <div class="col-md-12">
+                                        <div class="singel-form">
+                                            <button type="submit" class="main-btn">Submit</button>
+                                        </div> <!-- singel form -->
+                                    </div> 
+                                </div> <!-- row -->
+                            </form>
+                        </div> <!-- main form -->
+                    </div> <!--  contact from -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-address">
+                        <div class="contact-heading">
+                            <h5>Address</h5>
+                            <p>If you have any further questions, please don’t hesitate to contact me.</p>
+                        </div>
+                        <ul>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>View Park Towers, University Way , Nairobi</p>
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>+254768919307</p>
+                                        <!--<p>+1 222 345 342</p>-->
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>info@techsphereinstitute.co.ke</p>
+                                        <p>admission@techsphereinstitute.co.ke</p>
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                            
+                        </ul>
+                    </div> 
+                
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+
+    </section>
+    
+    <!--====== CONTACT PART ENDS ======-->
+@endsection

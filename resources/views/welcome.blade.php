@@ -1,165 +1,215 @@
 @extends('layouts.website')
 @section('content')
+    <!--====== ABOUT PART START ======-->
+    
+    <section id="about-part">
+        <div class="container-fliud" style="padding-left:80px;padding-right:0px">
+            <div class="row">
+                <div class="col-lg-5" style="background: linear-gradient(to right,#000033, #000033);">
+                    <div class="section-title">
+                        <!--<h5>About us</h5>-->
+                        <h2 style="color:#ffc600">Techsphere </h2>
+                    </div> <!-- section title -->
 
-<section class="cardSection bg-light bannerSection1">
-        <div class="container-fliud" style="padding-left:30px;padding-right:30px;padding-top:30px">
-          <div class="row" style="border-bottom: 1px solid white;padding-bottom: 0px;">
-
-            <!--<marquee class="marquee" behavior="scroll" direction="left">
-              <h1 style="color:red"><b>Enroll Now: Full Scholarship – High School Python Programming Training Program (April Holiday)</b></h1>
-            </marquee>-->
-
-                 <div class="col-sm-12">
-      
-                     <div class="row">
-                         <div class="col-sm-12" style="border-bottom: 1px solid white;">
-                            <h2>
-                              Get Your Dream Career with the Right IT Courses by Techsphere Training Institute!
-                            </h2>
-                            <center>
-                               <p>
-                                Techsphere Training Institute empower individuals and organizations with cutting-edge skills and 
-                                knowledge that drive success in the ever-evolving world of technology. We are committed to delivering 
-                                high-quality education and training that bridges the gap between theoretical learning and practical 
-                                application, ensuring our students are well-prepared for real-world challenges.
-                               </p>
-                              </center>
-                            <br>
-      
-                         </div>
-                     </div>
-                     
-                     <br>
-                     <div class="row">
-                          <div class="col-sm-3" style="border-right: 1px solid white;">
-                              <p>Course Duration <br> 3-6 Months</p>
-                          </div>
-                          <div class="col-sm-3" style="border-right: 1px solid white;">
-                            <p>Level  <br> Beginner-Advance</p>
-                          </div>
-                          <div class="col-sm-3" style="border-right: 1px solid white;">
-                            <p>Certification <br> Techsphere Training Institute</p>
-                          </div>
-                          <div class="col-sm-3">
-                            <p>Training Format <br> Live Online/Self-paced/Classroom</p>
-                          </div>
-                     </div>
+                    <div class="about-cont">
+                        <p style="color:white">We are committed to delivering high-quality education and training that bridges the gap between theoretical learning and practical application, ensuring our students are well-prepared for real-world challenges. <br> </p>
+                       <!----<a href="#" class="main-btn mt-55">Learn More</a>-->
+                        <!--<a href="#" class="main-btn mt-55">Learn More</a>-->
+                    </div>
                    
-                 </div>
-          </div>
-      
-          <br>
-      
-          <div class="row">
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                   <div class="row">
-                        <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Prof_Trained.svg"></div>
-                        <div class="col-sm-9">
-                            <p><b style="font-size:26px">500+</b><br>Professionals Trained </p> 
-                        </div>
-                   </div>
-              </div>
-      
-      
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                <div class="row">
-                     <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Batch-every.svg"></div>
-                     <div class="col-sm-9">
-                         <p><b style="font-size:26px">5+</b><br>Batch Every Month </p> 
-                     </div>
+
+                    <div class="slider-feature pt-30 d-none d-md-block">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="singel-slider-feature justify-content-center mt-30">
+                                    <div class="icon">
+                                        <img src="{{asset('frontend/images/all-icon/man.png')}}" alt="icon">
+                                    </div>
+                                    <div class="cont">
+                                        <h3>1300+</h3>
+                                        <span>Students </span>
+                                    </div>
+                                </div> <!-- singel slider feature -->
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="singel-slider-feature justify-content-center mt-30">
+                                    <div class="icon">
+                                        <img src="{{asset('frontend/images/all-icon/book.png')}}" alt="icon">
+                                    </div>
+                                    <div class="cont">
+                                        <h3>10+</h3>
+                                        <span>Courses </span>
+                                    </div>
+                                </div> <!-- singel slider feature -->
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="singel-slider-feature justify-content-center mt-30">
+                                    <div class="icon">
+                                        <img src="{{asset('frontend/images/all-icon/expert.png')}}" alt="icon">
+                                    </div>
+                                    <div class="cont">
+                                        <h3>23</h3>
+                                        <span>Instructors </span>
+                                    </div>
+                                </div> <!-- singel slider feature -->
+                            </div>
+                        </div> <!-- row -->
+                    </div> <!-- slider feature -->
+
+
+
+                    <div class="about-cont">
+                        <a href="#" class="main-btn mt-55">Learn More</a> 
+                        <a href="#" class="main-btn mt-55" style="background-color: #1ad1ff;border:1px solid#1ad1ff ;">Learn More</a>
+                    </div>
+
+
+
+                </div> <!-- about cont -->
+                <div class="col-lg-6" style="background: linear-gradient(to right,#000033, #000033);">
+                   
+
+                    <section id="slider-part" class="slider-active" >
+                        <div class="single-slider bg_cover pt-150" style="background-image: url(logo/marketing1.jpg);" data-overlay="4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="slider-cont">
+                                            <!--<h1 data-animation="bounceInLeft" data-delay="1s" style="font-size:55px">Choose the right theme for education</h1>-->
+                                            <!--<p data-animation="fadeInUp" data-delay="1.3s">Donec vitae sapien ut libearo venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt  Sed fringilla mauri amet nibh.</p>-->
+                                            <ul>
+                                                <li><a data-animation="fadeInUp" data-delay="1.6s" class="main-btn" href="#">Read More</a></li>
+                                                <li><a data-animation="fadeInUp" data-delay="1.9s" class="main-btn main-btn-2" href="#">Get Started</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> <!-- row -->
+                            </div> <!-- container -->
+                        </div> <!-- single slider -->
+
+                        <div class="single-slider bg_cover pt-150" style="background-image: url(logo/maketing2.png);height:100px;" data-overlay="4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="slider-cont">
+                                            <h1 data-animation="bounceInLeft" data-delay="1s" style="font-size:55px">Choose the right theme for education</h1>
+                                            <!--<p data-animation="fadeInUp" data-delay="1.3s">Donec vitae sapien ut libearo venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt  Sed fringilla mauri amet nibh.</p>-->
+                                            <ul>
+                                                <li><a data-animation="fadeInUp" data-delay="1.6s" class="main-btn" href="#">Read More</a></li>
+                                                <li><a data-animation="fadeInUp" data-delay="1.9s" class="main-btn main-btn-2" href="#">Get Started</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> <!-- row -->
+                            </div> <!-- container -->
+                        </div> <!-- single slider -->
+
+                        
+                        <div class="single-slider bg_cover pt-150" style="background-image: url(images/slider/s-3.jpg);height:100px" data-overlay="4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="slider-cont">
+                                            <h1 data-animation="bounceInLeft" data-delay="1s" style="font-size:55px">Choose the right theme for education</h1>
+                                            <!--<p data-animation="fadeInUp" data-delay="1.3s">Donec vitae sapien ut libearo venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt  Sed fringilla mauri amet nibh.</p>-->
+                                            <ul>
+                                                <li><a data-animation="fadeInUp" data-delay="1.6s" class="main-btn" href="#">Read More</a></li>
+                                                <li><a data-animation="fadeInUp" data-delay="1.9s" class="main-btn main-btn-2" href="#">Get Started</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> <!-- row -->
+                            </div> <!-- container -->
+                        </div> <!-- single slider -->
+                        
+                      
+                        
+                        
+                    </section>
+
+
+
+
+
                 </div>
-              </div>
-      
-      
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                <div class="row">
-                     <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Corporate.svg"></div>
-                     <div class="col-sm-9">
-                         <p><b style="font-size:26px">100+</b><br>Corporate Served</p> 
-                     </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+       
+    </section>
+    
+    <!--====== ABOUT PART ENDS ======-->
+   
+    <!--====== APPLY PART START ======-->
+    
+    <section id="apply-aprt" class="pb-40">
+        <div class="container">
+            <div class="apply">
+                <div class="row no-gutters">
+                    <div class="col-lg-6">
+                        <div class="apply-cont apply-color-1">
+                            <h3 style="border-bottom:4px solid #ffc600">Mission</h3>
+                            <p style="text-align: justify;">At techsphere, our mission is to empower individuals and organizations with cutting-edge skills and knowledge that drive success in the ever-evolving world of technology. We are committed to delivering high-quality education and training that bridges the gap between theoretical learning and ....</p>
+                            <a href="#" class="main-btn" data-toggle="modal" data-target="#mission">Read More</a>
+                        </div> <!-- apply cont -->
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="apply-cont apply-color-2">
+                            <h3 style="border-bottom:4px solid #ffc600">Vission</h3>
+                            <p style="text-align: justify;">Our vision is to become a global leader in IT training, setting new standards for excellence in education. We aim to be the preferred choice for students and professionals seeking to advance their careers and for organizations looking to enhance the capabilities of their workforce...</p>
+                            <a href="#" class="main-btn" data-toggle="modal" data-target="#vission">Read More</a>
+                        </div> <!-- apply cont -->
+                    </div> 
                 </div>
-              </div>
-      
-      
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                  <div class="row">
-                      <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Country.svg"></div>
-                      <div class="col-sm-9">
-                          <p><b style="font-size:26px">100+</b><br>Employers that trust Techsphere</p> 
+            </div> <!-- row -->
+        </div> <!-- container -->
+
+        <div class="modal fade zoom" id="mission">
+              <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                      <div class="modal-header" style="background-color:#ffc600;padding:50px 50px">
+                          <center><h1 style="color:#000033;text-align: justify;">Mission</h1></center>
+                      </div>
+                      <div class="modal-body">
+                          <p style="text-align: justify;">
+                            At techsphere, our mission is to empower individuals and organizations with cutting-edge skills and knowledge that drive success in the ever-evolving world of technology. We are committed to delivering high-quality education and training that bridges the gap between theoretical learning and practical application, ensuring our students are well-prepared for real-world challenges
+                            We believe in a student-centric approach to education. Our training programs are flexible, allowing students to choose between online and offline modes of learning. Whether you are a beginner looking to start a career in IT or a professional seeking to upgrade your skills, our courses are tailored to meet your specific needs. We emphasize interactive learning, with a blend of lectures, practical sessions, and real-world projects.
+                          </p>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn main-btn" data-dismiss="modal">Close</button>
                       </div>
                   </div>
               </div>
-      
-          </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-        
-      
-      
-      
-      
         </div>
-      </section>
 
-      
-    <section style="background-color:  #000033; padding:10px">
-        <div class="container-fliud" style="padding-left:30px; padding-right:30px">
-             <div class="row">
-                   
-                <div class="col-sm-4" style="border:1px dotted white;padding: 20px;">
-                  <a class="btn" href="{{route('enrol')}}" style="width:100%;height:60px;background-color:  #00ccff !important; border :1px solid  #00ccff;border-radius: 50px; color:white"><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> ENROL TODAY,<br>INTAKE ONGOING</b></a>
-                </div>
 
-                <div class="col-sm-4">
-
-                  <div class="row" style="padding-bottom: 5px;">
-                    <div class="col-sm-12">
-                        <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-map-marker" aria-hidden="true"></i></button>  <b style="color:white"> View Park Towers, University Way , Nairobi</b>
+        <div class="modal fade zoom" id="vission">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:#ffc600;padding:50px 50px">
+                        <center><h1 style="color:#000033;text-align: justify;">Vission</h1></center>
                     </div>
-                  </div>
-
-                    <div class="row" style="padding-bottom: 5px;">
-                        <div class="col-sm-12">
-                            <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>  <b style="color:white"> +254768919307</b>
-                        </div>
-                        
+                    <div class="modal-body">
+                        <p style="text-align: justify;">
+                          At techsphere, our mission is to empower individuals and organizations with cutting-edge skills and knowledge that drive success in the ever-evolving world of technology. We are committed to delivering high-quality education and training that bridges the gap between theoretical learning and practical application, ensuring our students are well-prepared for real-world challenges
+                          We believe in a student-centric approach to education. Our training programs are flexible, allowing students to choose between online and offline modes of learning. Whether you are a beginner looking to start a career in IT or a professional seeking to upgrade your skills, our courses are tailored to meet your specific needs. We emphasize interactive learning, with a blend of lectures, practical sessions, and real-world projects.
+                        </p>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                          <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-globe" aria-hidden="true"></i></button>  <b style="color:white"> www.techsphereinstitute.co.ke</b>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn main-btn" data-dismiss="modal">Close</button>
                     </div>
-
-
                 </div>
-
-                <div class="col-sm-4" style="border:1px dotted white;padding: 20px;">
-                  
-                  <a  class="btn" href="{{route('enrol')}}" style="width:100%;height:60px;background-color:  #00ccff !important; border :1px solid  #00ccff;border-radius: 50px;"><b style="color:white">REGISTER NOW</b><br><b><i class="fa fa-pencil-square-o" aria-hidden="true"></i> INTAKE ONGOING</b></a>
-                </div>
-
-
-
-             </div>
-           
-           
-            
-
+            </div>
         </div>
+
+
     </section>
+    
+    <!--====== APPLY PART ENDS ======-->
 
 
 
-
-      <section class="cardSection bg-light" style="padding-bottom: 40px; padding-top: 50px;">
+    <section class="cardSection bg-white" style="padding-bottom: 40px;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-5">
@@ -187,16 +237,19 @@
                 <div class="col-sm-7">
                     <div class="row">
                         <div class="col-sm-6">
-                            <img src="{{asset('website/images/trainingFeatured/student1.jpeg')}}">
+                            <img src="{{asset('frontend/images/student1.jpeg')}}" class="img-rounded">
                         </div>
                         <div class="col-sm-6">
-                          <img src="{{asset('website/images/trainingFeatured/student2.jpeg')}}">
+                          <img src="{{asset('frontend/images/student2.jpeg')}}" class="img-rounded">
                         </div>
                     </div>
 
+                    <div class="row">
+                         <div class="col-sm-12">
+                            <center><h2 class="card-title"><b>Our Training Model</h2></b></center>
+                         </div>
+                    </div>
                     <div class="row" style="padding-top: 30px;">
-
-                      <center><h2 class="card-title"><b>Our Training Model</h2></b></center>
                       <div class="col-sm-4">
 
                         <h5  class="card-title">Hands on skills training</h5>
@@ -236,392 +289,252 @@
  
 
 
-
-
-
-      <section class="cardSection bg-light trainedPeople">
+    <br></br>
+    <br></br>
+    <!--====== APPLY PART START ======-->
+    
+    <section id="apply-aprt" class="pb-0">
         <div class="container">
-         
-
-          <div class="row">
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                   <div class="row">
-                        <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Prof_Trained.svg"></div>
-                        <div class="col-sm-9">
-                            <p><b style="font-size:26px">500+</b><br>Professionals Trained </p> 
-                        </div>
-                   </div>
-              </div>
-
-
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                <div class="row">
-                     <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Batch-every.svg"></div>
-                     <div class="col-sm-9">
-                         <p><b style="font-size:26px">5+</b><br>Batch Every Month </p> 
-                     </div>
-                </div>
-              </div>
-
-
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                <div class="row">
-                     <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Corporate.svg"></div>
-                     <div class="col-sm-9">
-                         <p><b style="font-size:26px">100+</b><br>Corporate Served</p> 
-                     </div>
-                </div>
-              </div>
-
-
-              <div class="col-sm-3" style="border: 1px solid white;border-radius: 10px;padding: 10px;">
-                  <div class="row">
-                      <div class="col-sm-3"> <img src="https://www.softcrayons.com/front/images/Country.svg"></div>
-                      <div class="col-sm-9">
-                          <p><b style="font-size:26px">100+</b><br>Employers that trust techsphere</p> 
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-        </div>
-      </section>
-
-
-
-
-
-
-
-
-
-
-
-      <section class="cardSection bg-light" style="padding-bottom: 40px; padding-top: 50px;">
-       
-        <div class="text-center my-4">
-          <h3 class="card-title"><span style="border-bottom: 4px solid #fe730c;">Training Courses</span></h3>
-        </div>
-       
-
-
-        <div class="container">
-            <div class="row">
-                
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="https://www.softcrayons.com/uploads/properties/66b322f72cf1b.webp" class="card-img-top" alt="...">
-                      
-                        <div class="card-body">
-                            <h6 class="card-title">Data Science,ML And AI</h6>
-                          <p class="card-text"> At Techsphere, we deliver the best Data Science using Python training with a comprehensive curriculum designed for both beginners and professionals.</p>
-                          <a type="button" href="{{route('dataScience')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
+            <div class="apply">
+                <div class="row no-gutters apply-color-2">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="singel-counter text-center mt-40 mb-40">
+                            <span><span class="counter">30,000</span>+</span>
+                            <p>Students enrolled</p>
+                        </div> <!-- singel counter -->
                     </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="https://www.softcrayons.com/uploads/properties/669bae0244d7e.webp" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">Android Application Development</h6>
-                          <p class="card-text">At Techsphere, we provide the best Core Java + Android + Kotlin Training, designed to prepare you for the dynamic world of mobile and web application development.</p>
-                          <a type="button" href="{{route('androidApplication')}}" class="btn" style="width:100%">Read More</a>
-                        </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="singel-counter text-center mt-40">
+                            <span><span class="counter">41,000</span>+</span>
+                            <p>Courses Uploaded</p>
+                        </div> <!-- singel counter -->
                     </div>
-                </div>
-
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="https://www.softcrayons.com/uploads/properties/669f63e86f839.jfif" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">Web  Application Development</h6>
-                          <p class="card-text"> The Web Designing course by techsphere offers best training in modern web design 
-                            techniques.  The course equips students with the skills to create appealing  websites</p>
-                          <a type="button" href="{{route('webApplication')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="singel-counter text-center mt-40">
+                            <span><span class="counter">11,000</span>+</span>
+                            <p>People certifie</p>
+                        </div> <!-- singel counter -->
                     </div>
-                </div>
-
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="https://www.softcrayons.com/uploads/properties/66d2ba4629a4d.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h6 class="card-title">Digital Marketing</h6>
-                          <p class="card-text">
-                           Techsphere  digitals marketing  program covers all aspects of digital marketing, from SEO to social media 
-                           strategies, ensuring you gain essential skills for success. 
-                          </p>
-                          <a type="button" href="{{route('digitalMarketing')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="singel-counter text-center mt-40">
+                            <span><span class="counter">39,000</span>+</span>
+                            <p>Global Teachers</p>
+                        </div> <!-- singel counter -->
                     </div>
+                   
                 </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
 
+ 
+    </section>
+    
+    <!--====== APPLY PART ENDS ======-->
 
-            </div>
-
-
-            <br>
-
-
-
-            <div class="row">
-                
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="{{asset('website/images/cyber_security.jpg')}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h6 class="card-title">Cybersecurity And Ethical Hacking</h6>
-                          <p class="card-text">
-                            We offer a comprehensive program designed to fully prepare you for a career as a  cybersecurity engineer,
-                             technical analyst, penetration tester, or consultant.
-                          </p>
-                          <a type="button" href="{{route('cyberSecurity')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="{{asset('website/images/graphic_design.webp')}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h6 class="card-title">Graphic Design</h6>
-                          <p>
-                            Techsphere offers an in-depth Graphic design course for aspiring students, designers and professionals 
-                            looking to enhance their creative skills. 
-                          </p>
-                          <a type="button" href="{{route('graphicDesign')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="{{asset('website/images/fullstack.webp')}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h6 class="card-title">Full Stack Software Engineering</h6>
-                          <p class="card-text">
-                            Through hands-on projects and in-depth training, this program prepares you to tackle real-world challenges
-                             and thrive in the ever-evolving tech industry.
-                          </p>
-                          <a type="button" href="{{route('softwareEngineering')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-3">
-                    <div class="card">
-                        <img src="{{asset('website/images/data_analysis.jpg')}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h6 class="card-title">Data Analysis</h6>
-                          <p class="card-text">
-                            This  course equips you with essential Data Analytics skills using Power BI, MS Excel, and SQL. Learners 
-                            will master skills in data  analysis, and visualization 
-                          </p>
-                          <a type="button" href="{{route('dataAnalysis')}}" class="btn" style="width:100%" >Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+   
 
 
 
-          </div>
-
-
-
-
-
-      </section>
-
-
-
-
-
-      <section class="cardSection bg-light selfAssesment2">
-          <div class="container">
-            <div class="row">
-               <div class="col-sm-8">
-                  <h3><b>SELF ASSESMENT</b></h3>
-                  <p style="font-size:23px">Learn, Grow & Test your skill with Online Assessment Exam to achieve your Certification Goals</p>
-                  <button data-bs-toggle="modal" data-bs-target="#exampleModal" data-toggle="modal" style="width:30% ;height:50px; background-color: #ffc107;border:2px solid white;color:white"><b>TAKE FREE PRACTICE TEST </b></button>
-
-
-
-                  
-                <!-- Modal -->
-                <div class="modal  fade animate__animated animate__zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header" style="border:1px solid white">
-                      
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                           <div class="row">
-                              <div class="col-sm-5">
-                                  <img src="https://www.softcrayons.com/front/images/enroll.png">
-                              </div>
-                              <div class="col-sm-7">
-                                   <center><h4 class="card-title">Ask For Demo</h4></center>
-
-
-
-                                   <form>
-                                    
-                                    <div class="mb-1">
-                                      <label class="card-title">Fullname</label>
-                                      <input type="text" class="form-control" id="exampleInputPassword1">
-                                    </div>
-
-                                    <div class="mb-1">
-                                      <label class="card-title">Email</label>
-                                      <input type="email" class="form-control" id="exampleInputPassword1">
-                                    </div>
-
-                                    <div class="mb-1">
-                                      <label class="card-title">Phonenumber</label>
-                                      <input type="number" class="form-control" id="exampleInputPassword1">
-                                    </div>
-
-                                    <div class="mb-1">
-                                      <label class="card-title">Course</label>
-                                      <input type="text" class="form-control" id="exampleInputPassword1">
-                                    </div>
-                                    <div class="mt-3">
-                                      <button type="button" class="btn" style="width:100%" data-bs-dismiss="modal">Submit</button>
-                                    </div>
-                                   
-                                  </form>
-
-
-
-
-                                  
-                              </div>
-                           </div>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-
-
-
-
-
-               </div>
-
-               <div class="col-sm-4">
-                  <img src="https://www.softcrayons.com/front/images/Laptop_Image.webp">
-               </div>
-            </div>
-          </div>
-      </section>
-
-
-
-    <br><br>
-
-
-
-
-      <section class="cardSection bg-light" style="padding-bottom: 40px;">
-        <div class="text-center my-4">
-          <h3 class="card-title"><span style="border-bottom: 4px solid #fe730c;">Why Students Choose Us to Gain Their Knowledge</span></h3>
-        </div>
-       
-  
-  
+     <!--====== COURSES PART START ======-->
+    
+     <section id="apply-aprt" class="pb-40">
         <div class="container" >
-
             <div class="row">
-                <div class="col-sm-6">
-                       
-                  <div class="card" style="border-radius: 10px; padding-left: 20px;">  
-                    <div class="row ">
-                        <div class="col-sm-12">
-                            <div class="card-body" style="text-align: justify;">
-                                <h5 class="card-title"><strong>Professional Resource Trainers</strong></h5>
-                                <p style="text-align: justify;"> Our expert trainers are industry veterans with extensive experience and deep knowledge, dedicated to delivering high-quality training. They provide personalized guidance to ensure you master every aspect of your chosen field. &nbsp;&nbsp;</p>
-                                
+                <div class="col-lg-6">
+                    <div class="section-title pb-0">
+                        <h2>Featured courses </h2>
+                    </div> <!-- section title -->
+                </div>
+            </div> <!-- row -->
+           
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
+                    <div class="row bg-light" style="padding-bottom: 20px;border-radius: 10px;">
+                        @foreach($courses as $key=>$course)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="singel-course mt-30" style="border:1px solid #ffc600">
+                                <div class="thum">
+                                    <div class="image" style="max-height:180px">
+                                        <img src="{{asset('images/courses/'.$course->course_image)}}" alt="Course">
+                                    </div>
+                                    <div class="price">
+                                        <span>50%</span>
+                                    </div>
+                                </div>
+                                <div class="cont">
+                                    
+                                    <a href="courses-singel.html"><h5>{{$course->course_name ?? 'NA'}}</h5></a>
+                                    <!--<p style="text-align:justify">{{$course->course_description ?? 'NA'}}</p>-->
+                                    <p style="text-align:justify">
+                                        @if(strlen($course->course_description) > 100)
+                                            {{ substr($course->course_description, 0, 100) }}...
+                                            <span id="more-{{$key}}" style="display:none">{{ substr($course->course_description, 300) }}</span>
+                                            <a href="{{route('showSingleCourse',['id'=>$course->id])}}" class="yellowColor">Read More</a>
+                                        @else
+                                            {{$course->course_description ?? 'NA'}}
+                                        @endif
+                                    </p>
 
-                                <h5 class="card-title"><strong>Enhance Your Skills to Boost Your Career</strong></h5>
-                                <p style="text-align: justify;"> Our courses are designed to equip you with the latest skills and knowledge needed to excel in your career. Whether you're a beginner or a professional, our training will help you achieve your career goals. &nbsp;&nbsp;</p>
-                                
+
+                                    <div class="course-teacher">
+                                        <!--<div class="thum">
+                                            <a href="#"><img src="logo/Logo.jpeg" alt="teacher"></a>
+                                        </div>-->
+                                        <div class="name" style="padding-top: 10px;">
+                                            <span style="color:#ffc600"><i class="fa fa-clock-o"></i></span> <a href="#"><h6 style="color:#000033"> &nbsp;{{$course->course_duration ?? 'NA'}} Weeks</h6></a>
+                                        </div>
+                                        <div class="admin">
+                                            <ul>
+                                                <li><a href="#"><span style="color:#ffc600"><i class="fa fa-user"></i></span><span><h6 style="color:#001a33"> &nbsp;{{$course->course_leaners_already_enrolled ?? 'NA'}} Enrolled Students</h6></span></a></li>
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="course-teacher">
+                                       
+                                        <div class="name" style="padding-top: 10px;">
+                                            <span style="color:#ffc600"><i class="fa fa-clone"></i></span> <a href="#"><h6 style="color:#000033"><?php  echo$course->course_duration*5?> &nbsp;Leactures </h6></a>
+                                                 
+                                                
+                                               
+                                           
+                                        </div>
+                                        <div class="admin">
+                                            <ul>
+                                                <!--<li><i class="fa fa-star"></i></li>-->
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li> <span style="color:#000033"><h6><b>({{$course->course_two_like}} Reviws)</b></h6></span></li>
+                                                
+                                            </ul>
+                                           
+                                        </div>
+                                    </div>
+
+                                    
+                                   
+                                   
+                                    <div class="course-teacher">
+                                       
+                                        <div class="name">
+                                            <a href="#"><h4><b class="yellowColor">Ksh:</b> <b class="blueColor">{{$course->course_price ?? 'NA'}}</b></h4></a> 
+                                        </div>
+                                        <div class="admin" style="padding-top: 10px;">
+                                            <!--<button type="button" data-toggle="modal" data-target="#enrolModal{{$course->id}}" class="btn readMore" style="border-radius: 50px;"><b>Enrol</b></button>-->
+                                            <a href="{{route('pages.signup',['id'=>$course->id])}}" class="btn readMore" style="border-radius: 50px;"><b>Enrol</b></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- singel course -->
+                        </div>
 
 
+                        <!--ENROLMENT MODAL-->
 
-                                <h5 class="card-title"><strong>Realistic Learning for Optimal Exposure</strong></h5>
-                                <p style="text-align: justify;"> Experience hands-on learning with real-world scenarios and projects. Our practical approach ensures you gain the confidence and competence to tackle industry challenges effectively. &nbsp;&nbsp;</p>
-                                
+                        <div class="modal fade zoom" id="enrolModal{{$course->id}}">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color:#000033;padding:15px 15px">
+                                        <h3 style="color:#ffc600;text-align:center;">{{$course->course_name}}</h3>
+                                        <!--<p style="color:white;font-size:40px">Enrol</p>-->
+                                    </div>
+                                    <form method="POST" action="{{route('register')}}">
+                                        @csrf
+                                    <div class="modal-body">
+                                        <input type="password" name="password"  class="form-control" value="12345678" hidden="true">
+                                        <div class="row">
+                                             <div class="col-sm-12">
+                                                <div class="form-group">
+                                                     <label class="blueColor labelFontSize">Firstname (eg John)</label>
+                                                     <input type="text" name="firstname" class="form-control" required min="3">
+                                                </div>
+                                             </div>
+                                        </div>
 
+                                        <div class="row">
+                                             <div class="col-sm-12">
+                                                <div class="form-group">
+                                                     <label class="blueColor labelFontSize">Lastname (Eg Doe)</label>
+                                                     <input type="text" name="lastname" class="form-control" required min="3">
+                                                </div>
+                                             </div>
+                                        </div>
 
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label class="blueColor labelFontSize">Gender</label>
+                                                <select class="form-control" name="gender" required>
+                                                    <option value="">Select ..</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
+                                                </select>   
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                             <div class="col-sm-12">
+                                                <div class="form-group">
+                                                     <label class="blueColor labelFontSize">Phonenumber (Eg +2547xxxxxxx)</label>
+                                                     <input type="text" name="phonenumber" class="form-control" pattern="^\+254\d{9}$"  title="Phone number must start with +254 followed by 9 digits (e.g., +254712345678)" required>
+                                                </div>
+                                             </div>
+                                        </div>
+
+                                        <div class="row">
+                                             <div class="col-sm-12">
+                                                <div class="form-group">
+                                                     <label class="blueColor labelFontSize">Email Address (eg johndoe@example.com)</label>
+                                                     <input type="email" name="email" class="form-control"   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email (e.g., user@example.com)" required>
+                                                </div>
+                                             </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="text" name="has_paid_reg_fee"   class="form-control" value="No" >   
+                                                <input type="text" name="role"   class="form-control" value="Trainee" >
+                                                <input type="text" name="course_id"   class="form-control" value="{{$course->id}}">  
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <button type="button" class="btn main-btn" data-dismiss="modal" style="background-color:red;color:white;border-radius:50px;border:1px solid red">Close</button>
+                                        <button type="submit" class="btn main-btn" style="border-radius:50px;">Enrol</button>
+                                    </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                  </div>
-                </div>
 
 
 
-                <div class="col-sm-6">
+                        <!--END OF ENROLMENT BUTTON-->
+                        @endforeach
+
                        
-                  <div class="card" style="border-radius: 10px; padding-left: 20px;">  
-                    <div class="row ">
-                        <div class="col-sm-12">
-                            <div class="card-body" style="text-align: justify;">
-
-                                <h5 class="card-title"><strong>Knowledge at its Best with our Meticulous Training Programs</strong></h5>
-                                <p style="text-align: justify;"> Our comprehensive training programs are crafted to provide in-depth knowledge and practical expertise. We leverage innovative teaching methods and the latest technology to enhance your learning experience. &nbsp;&nbsp;</p>
-                                
-
-                                <h5 class="card-title"><strong>
-                                  Fastrack Your Career</strong></h5>
-                                <p style="text-align: justify;"> Accelerate your career progression with our focused and intensive training programs. Our fast-track courses are designed to get you job-ready in the shortest possible time. &nbsp;&nbsp;</p>
-                                
-
-                                <h5 class="card-title"><strong>Fly-Me-A-Trainer</strong></h5>
-                                <p style="text-align: justify;"> We bring the training to you! With our Fly-Me-A-Trainer service, get personalized, on-site training tailored to your specific needs and schedule. Experience the convenience and effectiveness of learning at your location. &nbsp;&nbsp;</p>
-                                
-                            </div>
-                        </div>
-                    </div>
-                  </div>
+                        
+                    </div> <!-- row -->
                 </div>
-
-
-            </div>
-  
-        </div>
-  
-  
-        </div>
-      </section>
+                
+            </div> <!-- tab content -->
+           
+        </div> <!-- container -->
+    </section>
+    
+    <!--====== COURSES PART ENDS ======-->
 
 @endsection
 
-	
+   
+    
+   
+   
+   
+   
+   
+    
+  

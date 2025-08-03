@@ -7,6 +7,7 @@ use App\Models\Exam;
 use App\Models\Clas;
 use App\Models\StudentAnswer;
 use App\Models\Question;
+use Illuminate\Support\Facades\DB;
 
 class ExamController extends Controller
 {
@@ -170,7 +171,29 @@ class ExamController extends Controller
             $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
                 ->distinct('user_id')
                 ->count();
+
+               
+            $classStudentIds = DB::table('users')
+                ->where('clas_id', $exam->clas_id)
+                ->where('role', 'Trainee')
+                ->pluck('id'); // List of student user IDs
+
+                // Step 2: Get IDs of students who attempted the exam
+                $attemptedStudentIds = StudentAnswer::where('exam_id', $exam->id)
+                ->distinct()
+                ->pluck('user_id');
+
+                // Step 3: Count students who attempted the exam
+                $exam->attempted_students = $attemptedStudentIds->count();
+
+                // Step 4: Count students who did not attempt the exam
+                $unattemptedStudentIds = $classStudentIds->diff($attemptedStudentIds);
+                $exam->unattempted_students = $unattemptedStudentIds->count();
+
         }
+
+        //GET STUDENTS THAT HAVE NOT ATTEMPTED EXAMS
+        
     
         return response()->json([
             'users' => $users->items(),

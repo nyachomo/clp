@@ -5,17 +5,7 @@
 use App\Models\Course;
 $courses=Course::where('course_status','Active')->get();
 ?>
-<section class="bannerSection bannerPageSection" style="background-image: url('../images/school_five.jpg');">
-        <div class="innerBannerPageSection">
-          <div class="bannerContent text-center">
-            <h1 style="color: #ffffff;"><strong>Enroll</strong></h1>
-             <ul class="breadcrumbs">
-                <li class="home" style="color: #ffffff;"><i class="fa fa-home"></i> <a href="#" style="color: #ffffff;">Home</a> <span>/</span>
-                <a href="#" style="color: #ffffff;">Enrol</a></li>
-             </ul>
-          </div>
-        </div>
-      </section>
+
 
 
 
@@ -81,7 +71,8 @@ $courses=Course::where('course_status','Active')->get();
 
                                
                                     <input type="text" name="has_paid_reg_fee"   class="form-control" value="No" hidden="true">   
-                                    <input type="text" name="role"   class="form-control" value="Trainee" hidden="true">   
+                                    <input type="text" name="role"   class="form-control" value="Trainee" hidden="true">
+                                    <input type="text" name="course_id"   class="form-control" value="{{$course->id}}" hidden="true">   
                              
 
                                 

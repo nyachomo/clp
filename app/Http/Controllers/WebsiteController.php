@@ -7,7 +7,36 @@ use App\Models\Course;
 
 class WebsiteController extends Controller
 {
+
+
+    //NEW WEBSITE CONTROLLER
+    public function showSingleCourse($id){
+        $course=Course::where('id',$id)->select('id','course_image','course_name',
+        'course_duration','course_price','course_level','course_description',
+        'course_two_like','course_leaners_already_enrolled')->first();
+
+        $othercourses=Course::where('course_level','!=', $course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
+        'course_duration','course_price','course_level','course_description',
+        'course_two_like','course_leaners_already_enrolled')->limit(5)->get();
+
+        $relatedcourses=Course::where('course_level',$course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
+        'course_duration','course_price','course_level','course_description',
+        'course_two_like','course_leaners_already_enrolled')->limit(2)->get();
+
+        return view('pages.showSingleCourse',compact('course','othercourses','relatedcourses'));
+    }
     //
+
+    public function signup($id){
+        $course=Course::where('id',$id)->select('id','course_image','course_name',
+        'course_duration','course_price','course_level','course_description',
+        'course_two_like','course_leaners_already_enrolled')->first();
+        return view('pages.signup',compact('course'));
+    }
+
+
+
+
 
     public function about_us(){
         return view('about_us');

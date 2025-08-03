@@ -29,7 +29,7 @@
     background-color: #28a745; /* Green for active page */
   }
 </style>
-<div class="row">
+<!--<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -38,7 +38,7 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
-</div>
+</div>-->
 
 
 
@@ -70,7 +70,8 @@
         <div class="card">
             <div class="card-header">
                 Total Clases: <span id="total-users">0</span>
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addClasModal"> <i class="uil-user-plus"></i>Add</a>
+                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addClasModal"> <i class="fa fa-plus"></i>Add New Class</a>
+                <a type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#activateAllClasModal"> <i class="fa fa-plus"></i>Activate All Clases</a>
             </div>
             <div class="card-body">
 
@@ -113,6 +114,7 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Status</th>
+                                    <th>Total Students</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -165,6 +167,9 @@
                             <div class="form-group">
                                 <label>Clas Name<sup>*</sup></label>
                                 <input type="text" class="form-control" name="clas_name" required>
+
+                               
+
                             </div>
                         </div>
 
@@ -281,6 +286,56 @@
 </div>
 <!--end of modal-->
 
+<!-- Add User modal -->
+<div id="activateClasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel"> Are You sure you want to activate this course ?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" id="activateClasForm">
+                @csrf
+
+                <div class="card-body" style="border:1px solid white">
+                    <input type="text" class="form-control" name="activate_clas_id" id="activate_clas_id" >
+                   
+                </div>
+
+
+            <div class="modal-footer justify-content-between" style="border:1px solid white">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Activate</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Add User modal -->
+<div id="activateAllClasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="standard-modalLabel"> You are about to activate all the clases ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" id="activateAllClasForm">
+                @csrf
+            <div class="modal-footer justify-content-between" style="border:1px solid white">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Activate</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+
 
 
 
@@ -364,21 +419,38 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             // Clear and repopulate the table
             $('tbody').html("");
             $.each(response.users, function(key, item) {
+                const baseUrl = "{{ route('showTraineePerClas') }}";
+               
+                // Inside the $.each(response.users, function(key, item) { ... }) loop
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas_name + '</td>\
+                        <td><span class="' + (item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
+                        <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
                         <td>\
-                            <button type="button" value="' + item.id + '" \
-                                data-clas_name="' + item.clas_name + '" \
-                                class="updateBtn btn btn-success btn-sm">Update</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="suspendBtn btn btn-secondary btn-sm">Suspend</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="deleteBtn btn btn-danger btn-sm">Delete</button>\
+                            <div class="dropdown">\
+                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                <ul class="dropdown-menu">\
+                                    <li><a class="dropdown-item updateBtn text-success" href="#" \
+                                        data-id="' + item.id + '" \
+                                        data-clas_status="' + item.clas_status + '" \
+                                        data-clas_name="' + item.clas_name + '"><i class="uil-edit"></i> Update Class</a></li>\
+                                    <li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-edit"></i> Delete Class</a></li>' +
+                                    (item.clas_status.toLowerCase() === 'active' ? 
+                                        '<li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend Class</a></li>' : 
+                                        '') +
+                                    (item.clas_status.toLowerCase() === 'suspended' ? 
+                                        '<li><a class="dropdown-item activateBtn text-success" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Activate Class</a></li>' : 
+                                        '') +
+                                '</ul>\
+                            </div>\
                         </td>\
                     </tr>'
                 );
+
+
+
             });
 
             // Render pagination
@@ -386,11 +458,13 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.updateBtn').on('click', function() {
-                const clas_id = $(this).val();
+                const clas_id = $(this).data('id');
                 const clas_name = $(this).data('clas_name');
+                const clas_status = $(this).data('clas_status');
                 // Populate modal fields
                 $('#clas_id').val(clas_id);
                 $('#clas_name').val(clas_name);
+                $('#updateClasModal #clas_status').val(clas_status);
 
                 // Show the modal
                 $('#updateClasModal').modal('show');
@@ -400,7 +474,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.deleteBtn').on('click', function() {
-                const delete_clas_id = $(this).val();
+                const delete_clas_id = $(this).data('id');
                 // Populate modal fields
                 $('#delete_clas_id').val(delete_clas_id);
                 // Show the modal
@@ -410,7 +484,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.suspendBtn').on('click', function() {
-                const suspend_clas_id = $(this).val();
+                const suspend_clas_id = $(this).data('id');
                 // Populate modal fields
                 $('#suspend_clas_id').val(suspend_clas_id);
                 // Show the modal
@@ -418,9 +492,138 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             });
 
 
+            // Attach event listener to Update button
+            $('.activateBtn').on('click', function() {
+                const activate_clas_id = $(this).data('id');
+                // Populate modal fields
+                $('#activate_clas_id').val(activate_clas_id);
+                // Show the modal
+                $('#activateClasModal').modal('show');
+            });
+
+
+            // Attach event listener to Update button
+            $('.downloadStudentExcel').on('click', function() {
+                const excel_clas_id = $(this).data('id');
+                // Populate modal fields
+                $('#excel_clas_id').val(excel_clas_id);
+                // Show the modal
+                $('#downloadStudentExcel').modal('show');
+            });
+
+           
+
+            // Attach event listener to Update button
+            $('.viewStudentsBtn').on('click', function() {
+                const classId = $(this).val();
+                const getStudentsPerClassRoute = "{{ route('getStudentsPerClass', ['classId' => ':classId']) }}";
+                // Replace :classId in the route
+                const url = getStudentsPerClassRoute.replace(':classId', classId);
+
+                $('#viewStudentPerClassModal').modal('show');
+                $.ajax({
+                    type: 'GET',
+                    url:url,
+                    //url: '/clases/get-students/' + classId, // Adjust this route to your backend
+                    dataType: 'json',
+                    success: function(response) {
+                        // Show the modal
+
+                        $('#clasName').text(response.clasName);
+                        $('#total_students').text(response.total_students)
+                        $('#excelStudents').text(response.total_students)
+                        $('#alumni_clas_id').val(response.alumni_clas_id)
+                        $('#table3').html("");
+                        $.each(response.users, function(key, item) {
+                            // Use fallback values for null secondname and lastname
+                            const secondname = item.secondname || ''; // Fallback for null or undefined
+                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            $('#table3').append(
+                                '<tr>\
+                                    <td>' + (key + 1) + '</td>\
+                                    <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
+                                    <td>' + item.phonenumber + '</td>\
+                                    <td>' + item.email + '</td>\
+                                    <td>' + item.status + '</td>\
+                                    <td> <button type="button" data-id="' + item.id + '" class="alumniBtn btn btn-outline-success btn-sm">Make Alumni</button></td>\
+                                </tr>'
+                            );
+                        });
+
+                      
+                    },
+                    error: function(xhr) {
+                        
+                    }
+                });
+
+                
+                
+            });
+
+
+            // Attach event listener to Update button
+             $('.viewStudentsBtn2').on('click', function() {
+                const classId = $(this).data('id');
+                const getStudentsPerClassRoute = "{{ route('getStudentsPerClass', ['classId' => ':classId']) }}";
+                // Replace :classId in the route
+                const url = getStudentsPerClassRoute.replace(':classId', classId);
+                $('#viewStudentPerClassModal').modal('show');
+                $.ajax({
+                    type: 'GET',
+                    url:url,
+                    //url: '/clases/get-students/' + classId, // Adjust this route to your backend
+                    dataType: 'json',
+                    success: function(response) {
+                        // Show the modal
+
+                        $('#clasName').text(response.clasName);
+                        $('#total_students').text(response.total_students)
+                        $('#alumni_clas_id').val(response.alumni_clas_id)
+                        $('#table3').html("");
+                        $.each(response.users, function(key, item) {
+                            // Use fallback values for null secondname and lastname
+                            const secondname = item.secondname || ''; // Fallback for null or undefined
+                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            $('#table3').append(
+                                '<tr>\
+                                    <td>' + (key + 1) + '</td>\
+                                    <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
+                                    <td>' + item.phonenumber + '</td>\
+                                    <td>' + item.email + '</td>\
+                                    <td>' + item.status + '</td>\
+                                    <td> <button type="button" data-id="' + item.id + '" class="alumniBtn btn btn-outline-success btn-sm">Make Alumni</button></td>\
+                                </tr>'
+                            );
+                        });
+
+                      
+                    },
+                    error: function(xhr) {
+                        
+                    }
+                });
+
+                
+                
+            });
+
+
+
+
+            //DOWNLOAD STUDENTS RECORDS AS EXCEL
+
+            
+
+
+
         }
     });
 }
+
+
+
+
 
 
 
@@ -552,6 +755,177 @@ $('#suspendClasForm').on('submit', function(e) {
 });
 
 
+$('#activateClasForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const formData = {
+        activate_clas_id: $('#activate_clas_id').val(),
+        _token: "{{ csrf_token() }}" // Include CSRF token for security
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('activateClas') }}",
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert(response.message); // Notify user of success
+                $('#activateClasModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('Class Activated Successfully');
+                fetchUsers(); // Refresh the users table
+            } else {
+                alert('Failed to update user.');
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                $.each(errors, function(key, value) {
+                    errorMessages += value[0] + '\n';
+                });
+                alert(errorMessages); // Display validation errors
+            } else {
+                alert('An error occurred.');
+            }
+        }
+    });
+
+
+});
+
+$('#activateAllClasForm2').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const formData = {
+        activate_all_clas_id: 2,
+        _token: "{{ csrf_token() }}" // Include CSRF token for security
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('activateAllClas') }}",
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert(response.message); // Notify user of success
+                $('#activateAllClasModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('All Classes Activated Successfully');
+                fetchUsers(); // Refresh the users table
+            } else {
+                alert('Failed to update Clases.');
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                $.each(errors, function(key, value) {
+                    errorMessages += value[0] + '\n';
+                });
+                alert(errorMessages); // Display validation errors
+            } else {
+                alert('An error occurred.');
+            }
+        }
+    });
+
+
+});
+
+
+
+
+
+
+$('#activateAllClasForm').on('submit', function(e) {
+    e.preventDefault();
+
+    // Show loading state
+    const submitBtn = $(this).find('[type="submit"]');
+    submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('activateAllClas') }}",
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        dataType: 'json',
+        success: function(response) {
+            $('#activateAllClasModal').modal('hide');
+            
+            // Show success notification (using Toastr)
+            toastr.success(response.message, 'Success', {
+                timeOut: 3000,
+                progressBar: true
+            });
+            
+            // Refresh the table
+            fetchUsers();
+        },
+        error: function(xhr) {
+            let errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+            
+            toastr.error(errorMessage, 'Error', {
+                timeOut: 5000
+            });
+        },
+        complete: function() {
+            submitBtn.prop('disabled', false).text('Activate');
+        }
+    });
+});
+
+
+
+
+
+$('#markAllStudentAlumniForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const formData = {
+        alumni_clas_id: $('#alumni_clas_id').val(),
+        _token: "{{ csrf_token() }}" // Include CSRF token for security
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ route('markedStudentAsAlumni') }}",
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                alert(response.message); // Notify user of success
+                $('#viewStudentPerClassModal').modal('hide'); // Hide the modal
+                displaySuccessMessage('All Students are marked As allumni');
+                //fetchUsers(); // Refresh the users table
+            } else {
+                alert('Failed to update user.');
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                $.each(errors, function(key, value) {
+                    errorMessages += value[0] + '\n';
+                });
+                alert(errorMessages); // Display validation errors
+            } else {
+                alert('An error occurred.');
+            }
+        }
+    });
+
+
+});
+
 
 
 function renderPagination(pagination, search, perPage) {
@@ -594,6 +968,19 @@ $(document).on('click', '.pagination-btn', function() {
     const perPage = $(this).data('per-page');
     fetchUsers(page, search, perPage);
 });
+
+
+
+
+
+
+//FUNCTION FOR PULLING DATA FOR EACH CLASS
+
+
+
+
+
+
 
 
 

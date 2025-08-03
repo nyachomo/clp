@@ -238,7 +238,7 @@
                                  <option value="Deputy_principal">Deputy Principal</option>
                                  <option value="Registrar">Registrar</option>
                                  <option value="Trainer">Trainer</option>
-                                 <option value="Trainee">Trainee</option>
+                                 <!--<option value="Trainee">Trainee</option>-->
                                  <option value="High_school_teacher">High School Teacher</option>
                                  <option value="High_school_student">High School Student</option>
                                  <option value="Data_clerk">Data Clerk</option>
@@ -250,7 +250,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>School </label>
-                            <select class="form-control" name="school_id" required>
+                            <select class="form-control" name="school_id">
                                  <option value="">Select School</option>
                                  @if(!empty($schools))
                                     @foreach($schools as $key=>$school)
@@ -399,7 +399,7 @@
                                     <option value="Deputy_principal">Deputy Principal</option>
                                     <option value="Registrar">Registrar</option>
                                     <option value="Trainer">Trainer</option>
-                                    <option value="Trainee">Trainee</option>
+                                   <!-- <option value="Trainee">Trainee</option>-->
                                     <option value="High_school_teacher">High School Teacher</option>
                                     <option value="High_school_student">High School Student</option>
                                     <option value="Data_clerk">Data Clerk</option>
