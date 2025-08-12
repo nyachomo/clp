@@ -330,7 +330,7 @@ Route::get('/corporate-training',[App\Http\Controllers\WebsiteController::class,
 Route::get('/indistrial-attachment',[App\Http\Controllers\WebsiteController::class, 'industrialAttachment'])->name('industrialAttachment');
 Route::get('/ict-hub',[App\Http\Controllers\WebsiteController::class, 'ictHub'])->name('ictHub');
 
-Route::get('/contact-us',[App\Http\Controllers\WebsiteController::class, 'contactUs'])->name('contactUs');
+
 Route::get('/enrol',[App\Http\Controllers\WebsiteController::class, 'enrol'])->name('enrol');
 
 Route::post('/contact-us/create',[App\Http\Controllers\ContactController::class, 'create'])->name('contact.create');
@@ -341,8 +341,10 @@ Route::post('/contact-us/create',[App\Http\Controllers\ContactController::class,
 //NEW WEBSITE CONTROLLER
 Route::get('/course/signup/{id}',[WebsiteController::class,'signup'])->name('pages.signup');
 Route::get('/course/show/{id}',[WebsiteController::class,'showSingleCourse'])->name('showSingleCourse');
-
-
+Route::get('/Courses',[WebsiteController::class,'showAllCourses'])->name('showAllCourses');
+Route::get('/contact-us',[WebsiteController::class, 'contactUs'])->name('contactUs');
+Route::post('sendContactMessage',[WebsiteController::class,'sendContactMessage'])->name('sendContactMessage');
+Route::get('/showContactMessages',[WebsiteController::class,'showContactMessages'])->name('showContactMessages');
 
 
 Route::get('/create-meeting', [GoogleMeetController::class, 'createMeeting']);

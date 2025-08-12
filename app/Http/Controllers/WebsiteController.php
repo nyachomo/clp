@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Contactus;
 
 class WebsiteController extends Controller
 {
@@ -32,6 +33,30 @@ class WebsiteController extends Controller
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->first();
         return view('pages.signup',compact('course'));
+    }
+
+    public function showAllCourses(){
+        $courses=Course::where('course_status','!=','Suspended')->select('id','course_image','course_name',
+        'course_duration','course_price','course_level','course_description',
+        'course_two_like','course_leaners_already_enrolled')->get();
+       
+        return view('pages.showAllCourses',compact('courses'));
+    }
+
+    public function sendContactMessage(Request $request){
+         $create=Contactus::create($request->all());
+         if($create){
+              //Alert::success('Success','Message Send Successfully. We will get back to us as soon as possible');
+              return redirect()->back()->with('success','Message Send Successfully. We will get back to us as soon as possible');
+         }else{
+              //Alert::error('Failed','Could not send message');
+              return redirect()->back()->with('error','Could not send message');
+         }
+    }
+
+    public function showContactMessages(){
+        $messages=Contactus::all();
+        return view('contactmessages.showContactMessages',compact('messages'));
     }
 
 

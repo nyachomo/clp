@@ -30,7 +30,7 @@
         <div class="container">
             
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <div class="contact-from">
                         <div class="section-title">
                            <h5>Fill the form bellow</h5>
@@ -143,7 +143,7 @@
                         </div> <!-- main form -->
                     </div> <!--  contact from -->
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="contact-address">
                         <div class="contact-heading">
                             <h5>Address</h5>

@@ -365,9 +365,10 @@
                                     <span>Manage Schools </span>
                                     <span class="menu-arrow"></span>
                                 </a>
-                           </li>
+                            </li>
 
 
+                           
 
                             <!--<li class="side-nav-item">
                                 <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
@@ -412,6 +413,15 @@
                                         
                                     </ul>
                                 </div>
+                            </li>
+
+
+                            <li class="side-nav-item">
+                                <a  href="{{route('showContactMessages')}}" class="side-nav-link">
+                                    <i class="uil-package"></i>
+                                    <span>Contact Messages</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
                             </li>
 
 

@@ -1,176 +1,140 @@
 @extends('layouts.website')
 @section('content')
-<section class="bannerSection bannerPageSection" style="background-image: url('../images/school_five.jpg');">
-        <div class="innerBannerPageSection">
-          <div class="bannerContent text-center">
-            <h1 style="color: #ffffff;"><strong>Contact Us</strong></h1>
-             <ul class="breadcrumbs">
-                <li class="home" style="color: #ffffff;"><i class="fa fa-home"></i> <a href="#" style="color: #ffffff;">Home</a> <span>/</span>
-                <a href="#" style="color: #ffffff;">Contact Us</a></li>
-             </ul>
-          </div>
-        </div>
-      </section>
 
+@if (session('success'))
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
-
-
-      
-      <section class="cardSection bg-light" style="padding-bottom: 40px; padding-top: 50px;">
+@if (session('error'))
+    <div id="error-alert"  class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ session('error') }}
+    </div>
+@endif
+<!--====== PAGE BANNER PART START ======-->
+    
+<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
         <div class="container">
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-banner-cont">
+                        <h2>Contact Us</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <!--<li class="breadcrumb-item"><a href="#">Courses</a></li>-->
+                                <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                            </ol>
+                            <!--<button type="button" class="main-btn" data-toggle="modal"  data-target="#enrolModal">Enrol</button>-->
+                        </nav>
+                    </div>  <!-- page banner cont -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </section>
+    
+    <!--====== PAGE BANNER PART ENDS ======-->
 
-
-
-            <div class="col-sm-7">
-                  <div class="card">
-                      
-                      <div class="card-body">
-
-
-                        <form method="POST" action="{{route('contact.create')}}">
-                              @csrf                
-                          <div class="mb-1">
-                            <label class="card-title">Fullname</label>
-                            <input type="text" class="form-control" name="fullname" required>
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="card-title">Email</label>
-                            <input type="email" class="form-control" name="email">
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="card-title">Phonenumber</label>
-                            <input type="number" class="form-control" name="phonenumber" required>
-                          </div>
-
-                          <div class="mb-1">
-                            <label class="card-title">Message</label>
-                              <textarea class="form-control" name="message" required>
-                                  
-                              </textarea>
-                          </div>
-
-
-                          
-
-                          <div class="mt-3">
-                            <button type="submit" class="btn" style="width:100%">Submit</button>
-                          </div>
-                        
-                        </form>
-
-
-
-
-
-                      </div>
-                   
-                  </div>
-               </div>
-
-
-
-
-               <div class="col-sm-5">
-                   
-
-
-               <div class="card">
-                        <div class="card-body">
-                            <center> <h5 class="card-title">HOW TO PAY</h5> </center>
-                             <table>
-                                <tr>
-                                    <td>
-                                        <h6 class="card-title">Mpesa</h6>
-                                        <p>
-                                        <b>Business Name:</b> Techsphere Institute<br>
-                                        <b>Paybill:</b> 522533<br>
-                                        <b>Acc No:</b> 7855887<br>
-                                        </p>
-                                    </td>
-                                    
-                                </tr>
-
-
-                                <tr>
-                                    <td>
-                                       <h6 class="card-title">Bank</h6>
-                                        <p>
-                                            <b>Bank: </b>Kenya Comercial Bank <br>
-                                            <b>Acc Name:</b> Techsphere Institute<br>
-                                            <b>Acc No:</b> 1327338564<br>
-
-                                        </p>
-                                    </td>
-                                    
-                                </tr>
-
-
-                             </table>
-                        </div>
-                   </div>
-
-
-                    <br>
-
-
-
-                   <div class="card">
-                        <div class="card-body">
-                              <div class="row">
-                              <center> <h5 class="card-title">CONTACT US</h5> </center>
-                                    <div class="col-sm-12">
-                    
-                                            <div class="row" style="padding-bottom: 5px;">
-                                                <div class="col-sm-12">
-                                                    <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-map-marker" aria-hidden="true"></i></button>  View Park Towers, University Way , Nairobi
-                                                </div>
-                                            </div>
-
-                    
-
-                                            <div class="row" style="padding-bottom: 5px;">
-                                            <div class="col-sm-12">
-                                                <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-phone" aria-hidden="true"></i></button>   +2547768919307
-                                            </div>
-                                            </div>
-
-                                            <div class="row" style="padding-bottom: 5px;">
-                                                <div class="col-sm-12">
-                                                <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-globe" aria-hidden="true"></i></button>   www.techsphereinstitute.co.ke
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row" >
-                                                <div class="col-sm-12">
-                                                    <button style="background-color: #00ccff;border-radius: 100%;color:white;border: 1px solid #00ccff;"><i class="fa fa-whatsapp" aria-hidden="true"></i></button>   +2547768919307
-                                                </div>
-                                            </div>
-
+     <!--====== CONTACT PART START ======-->
+    
+     <section id="contact-page" class="pt-90 pb-120 gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="contact-from mt-15">
+                       
+                        <div class="main-form pt-10">
+                            <form  action="{{route('sendContactMessage')}}" method="post">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="fullname" type="text" placeholder="Your name" required>
+                                           
+                                        </div> 
                                     </div>
-
-
-                              </div>
-                        </div>
-                   </div>
-
-
-
-
-
-
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="email" type="email" placeholder="Email"  required="required">
+                                           
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="subject" type="text" placeholder="Subject"  required="required">
+                                            
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <input name="phonenumber" type="text" placeholder="Phone"  required="required">
+                                            
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="singel-form form-group">
+                                            <textarea name="message" placeholder="Messege" required="required"></textarea>
+                                           
+                                        </div> 
+                                    </div>
+                                   
+                                    <div class="col-md-12">
+                                        <div class="singel-form">
+                                            <button type="submit" class="main-btn">Send</button>
+                                        </div> <!-- singel form -->
+                                    </div> 
+                                </div> <!-- row -->
+                            </form>
+                        </div> <!-- main form -->
+                    </div> <!--  contact from -->
+                </div>
+                <div class="col-lg-5">
+                    <div class="contact-address mt-30">
+                        <ul>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>143 castle road 517 district, kiyev port south Canada</p>
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>+3 123 456 789</p>
+                                        <p>+1 222 345 342</p>
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                            <li>
+                                <div class="singel-address">
+                                    <div class="icon">
+                                        <i class="fa fa-envelope-o"></i>
+                                    </div>
+                                    <div class="cont">
+                                        <p>info@yourmail.com</p>
+                                        <p>info@yourmail.com</p>
+                                    </div>
+                                </div> <!-- singel address -->
+                            </li>
+                        </ul>
+                    </div> <!-- contact address -->
                    
-               </div>
-
-              
-            </div>
-        </div>
-      </section>
-
-
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </section>
+    
+    <!--====== CONTACT PART ENDS ======-->
 
 
 
