@@ -211,7 +211,7 @@
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
                     <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" >
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" width="100px">
                        
                     </span>
                    
