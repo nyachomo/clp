@@ -57,7 +57,9 @@ class RegisterController extends Controller
             'gender' => ['string', 'max:255'],
             'role' => ['string', 'max:255'],
             'has_paid_reg_fee' => ['string', 'max:255'],
+            'school_id' => ['string', 'max:255'],
             'course_id' => ['string', 'max:255'],
+            'clas_id'=>['string','max:255'],
             'password' => ['required', 'string','confirmed', 'min:8'],
         ]);
     }
@@ -77,9 +79,11 @@ class RegisterController extends Controller
             'phonenumber' => $data['phonenumber'],
             'email' => $data['email'],
             'gender' => $data['gender'],
-            'role' => 'Trainee',
+            'role' => $data['role'],
             'has_paid_reg_fee' => $data['has_paid_reg_fee'],
+            'school_id' => $data['school_id'],
             'course_id' => $data['course_id'],
+            'clas_id'=>$data['clas_id'],
             'password' => Hash::make($data['password']),
         ]);
     }

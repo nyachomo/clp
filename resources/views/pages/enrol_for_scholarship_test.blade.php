@@ -7,15 +7,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="page-banner-cont">
-                        <h2>Enrol for:   {{$course->course_name ?? 'NA'}} Course</h2>
+                        <h2>Scholarship Test</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">{{$course->course_name ?? 'NA'}} </a></li>
+                                <li class="breadcrumb-item"><a href="#">Scholarship Test </a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Enrol</li>
                             </ol>
-                           <h1 style="color:#ffc600">Price: Ksh {{$course->course_price}}</h1>
-                           <h1 style="color:#ffc600">Duration: {{$course->course_duration}} Weeks</h1>
                         </nav>
                     </div>  <!-- page banner cont -->
                 </div>
@@ -30,7 +28,8 @@
         <div class="container">
             
             <div class="row">
-                <div class="col-lg-7">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
                     <div class="contact-from">
                         <div class="section-title">
                            <h5>Fill the form bellow</h5>
@@ -119,8 +118,11 @@
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
-                                            <select class="form-control" name="course_id" readonly="true">
-                                                <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                            <select class="form-control" name="school_id" required>
+                                               <option value="">Select ...</option>
+                                                @foreach($schools as $key=>$school)
+                                                     <option value="{{$school->id}}">{{$school->school_name}}</option>
+                                                @endforeach
                                             </select>   
                                         </div>
                                     </div>
@@ -128,7 +130,9 @@
                                    
                                         <div class="col-md-12">
                                             <input type="text" name="has_paid_reg_fee"   class="form-control" value="No" hidden="true">   
-                                            <input type="text" name="role"   class="form-control" value="Trainee" hidden="true" >
+                                            <input type="text" name="role"   class="form-control" value="scholarship_test_student" hidden="true" >
+                                            <input type="text" name="course_id"   class="form-control" value="{{$course->id}}" hidden="true">
+                                            <input type="text" name="clas_id"   class="form-control" value="{{$clas->id}}" hidden="true">
                                         </div>
                                   
 
@@ -143,50 +147,8 @@
                         </div> <!-- main form -->
                     </div> <!--  contact from -->
                 </div>
-                <div class="col-lg-5">
-                    <div class="contact-address">
-                        <div class="contact-heading">
-                            <h5>Address</h5>
-                            <p>If you have any further questions, please don’t hesitate to contact me.</p>
-                        </div>
-                        <ul>
-                            <li>
-                                <div class="singel-address">
-                                    <div class="icon">
-                                        <i class="fa fa-home"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>View Park Towers, University Way , Nairobi</p>
-                                    </div>
-                                </div> <!-- singel address -->
-                            </li>
-                            <li>
-                                <div class="singel-address">
-                                    <div class="icon">
-                                        <i class="fa fa-phone"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>+254768919307</p>
-                                        <!--<p>+1 222 345 342</p>-->
-                                    </div>
-                                </div> <!-- singel address -->
-                            </li>
-                            <li>
-                                <div class="singel-address">
-                                    <div class="icon">
-                                        <i class="fa fa-envelope-o"></i>
-                                    </div>
-                                    <div class="cont">
-                                        <p>info@techsphereinstitute.co.ke</p>
-                                        <p>admission@techsphereinstitute.co.ke</p>
-                                    </div>
-                                </div> <!-- singel address -->
-                            </li>
-                            
-                        </ul>
-                    </div> 
-                
-                </div>
+                <div class="col-lg-1"></div>
+              
             </div> <!-- row -->
         </div> <!-- container -->
 

@@ -10,7 +10,7 @@ use App\Models\Question;
 use Illuminate\Support\Facades\DB;
 
 
-if(Auth::check() && Auth::user()->role=='Trainee'){
+if(Auth::check() && Auth::user()->role=='Trainee' or Auth::user()->role=='scholarship_test_student'){
 
     $user_id=Auth::user()->id;
     $fees=Fee::where('user_id',$user_id)->get();
@@ -295,9 +295,6 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     <!-- end row-->
 
 
-   
-
-
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -372,11 +369,66 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
         </div><!-- end col-->
     </div>
 
-
-
-
+   
 
  @endif
+
+ @if(Auth::check() && Auth::user()->role=='scholarship_test_student')
+
+
+ <div class="row">
+    <div class="col-sm-6">
+
+        <div class="alert alert-success" role="alert">
+            <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
+            <p>
+                Techsphere Training Institute congratulates you for showing interest to be admitted this year student partial 
+                scholarship test. The test question are simple and any students can do it. After the test kindly remember to
+                download your scholarship letter.
+
+                
+            </p>
+            <a href="{{route('showScholarshipTest')}}" class="btn btn-danger">Click Here to begin the test</a>
+        </div>
+
+    </div>
+
+       <!-- end col-->
+       <div class="col-sm-4">
+             <div class="card">
+                 <div class="card-header">
+                         <h4 class="header-title mb-4">Assesment Analysis</h4>
+                         <!--<p>This is your Avarage Assesment</p>-->
+                 </div>
+
+                 <div class="card-body">
+                     <table class="table table-bordered">
+                         <tbody>
+                            
+                             <tr>
+                                 <td><h2>Score</h2></td>
+                                 <td><h2>{{$avgCat}} (<a href="{{route('showScholarshipTest')}}">View</a>) </h2></td>
+                             </tr>
+
+                         </tbody>
+
+                     </table>
+                 </div>
+             </div>
+         </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+@endif
 
 
 

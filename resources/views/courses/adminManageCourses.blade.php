@@ -290,19 +290,26 @@
 
 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Course Reviews</label>
                                 <input type="number" name="course_two_like" class="form-control" min="1" required>
                             </div>
                         </div>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <div class="form-group">
-                                <label>How Many Leaners already enrolled for this course</label>
-                                <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
+                                <label>Is Scholarship Test Course</label>
+                               <select name="is_scholarship_test_course" class="form-control" required>
+                                  <option value="">Select ....</option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                               </select>
                             </div>
                         </div>
+
+
+                       
 
                         <!--<div class="col-sm-4">
                             <div class="form-group">
@@ -317,6 +324,17 @@
                                 <input type="number" name="course_not_interested" class="form-control" min="1" required>
                             </div>
                         </div>-->
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>How Many Leaners already enrolled for this course</label>
+                                <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
+                            </div>
+                        </div> 
+
                     </div>
 
                     <div class="row">

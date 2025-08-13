@@ -159,21 +159,43 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-
-                    <div class="row">
-
-                    <div class="col-sm-12">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Clas Name<sup>*</sup></label>
-                                <input type="text" class="form-control" name="clas_name" required>
-
-                               
-
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Clas Name<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="clas_name" required>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Is Scholarship Test Class ?<sup>*</sup></label>
+                                        <select name="is_scholarship_test_clas" class="form-control" required>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                        </select>
+                                        
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Scholarship Test Category<sup>*</sup></label>
+                                        <select name="scholarship_test_category" class="form-control" required>
+                                            <option value="None">None</option>
+                                            <option value="lower_Forms">Lower Forms</option>
+                                            <option value="Form_4">Form 4</option>
+                                        </select>
+                                        
+                                    </div>
+                            </div>
+                        </div>
+
 
                 </div>
                  <!-- /.card-body -->
@@ -214,6 +236,9 @@
                                 </div>
                         </div>
                     </div>
+
+                   
+
                 </div>
                  <!-- /.card-body -->
 

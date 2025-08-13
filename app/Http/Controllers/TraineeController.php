@@ -513,7 +513,7 @@ class TraineeController extends Controller
 
     public function traineeViewQuestions(Request $request){
         if(Auth::check()){
-            if(Auth::user()->role=='Trainee'){
+            if(Auth::user()->role=='Trainee' or Auth::user()->role=='scholarship_test_student'){
                 $exam_id = $request->query('exam_id');
                 $questions = Question::select('id','question_name','question_mark','question_answer','exam_id')->where('exam_id',$exam_id)->orderBy('created_at', 'desc');
                 return view('trainees.traineeViewQuestions',compact('questions'));

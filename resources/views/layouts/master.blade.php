@@ -152,7 +152,7 @@
         }
 
         .bodyColor{
-            background-color:#000033 !important; 
+            background-color:#07294d !important; 
         }
 
         .time-button {
@@ -211,14 +211,13 @@
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
                     <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" height="68">
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" >
                        
                     </span>
                    
                 </a>
-                <br>
-    
-                <div class="h-100 bodyColor" id="leftside-menu-container" data-simplebar style="padding-top:30px;">
+               
+                <div class="h-100 bodyColor" id="leftside-menu-container" data-simplebar>
 
                     <!--- Sidemenu -->
                     @if(Auth::check() && Auth::user()->role=='Admin')
@@ -415,6 +414,7 @@
                                 </div>
                             </li>
 
+                          
 
                             <li class="side-nav-item">
                                 <a  href="{{route('showContactMessages')}}" class="side-nav-link">
@@ -422,6 +422,22 @@
                                     <span>Contact Messages</span>
                                     <span class="menu-arrow"></span>
                                 </a>
+                            </li>
+
+                            <li class="side-nav-item">
+                                <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                                    <i class="uil-copy-alt"></i>
+                                    <span>Scholarship Letters</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarPages">
+                                    <ul class="side-nav-second-level">
+                                        <li>
+                                            <a href="{{route('adminManageFormFourScholarshipLetter')}}">Form Four</a>
+                                        </li>
+  
+                                    </ul>
+                                </div>
                             </li>
 
 
@@ -552,6 +568,48 @@
 
                        
 
+                    </ul> 
+                    @endif
+
+                    @if(Auth::check() && Auth::user()->role=='scholarship_test_student')
+                    <ul class="side-nav">
+
+                       <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('home')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-warning"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('userAccount')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-danger"></i>
+                                <span class="menu-arrow"></span>
+                                <span> My Account</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showScholarshipTest')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-danger"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Scholarship Test</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showFormFourScholarshipLetter')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-danger"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Scholarship Letter</span>
+                            </a>
+                        </li>
+
+
+                  
                     </ul> 
                     @endif
 
@@ -806,6 +864,7 @@
             // instance, using default configuration.
             CKEDITOR.replace('editor1')
             CKEDITOR.replace('editor2')
+            CKEDITOR.replace('editor3')
             //bootstrap WYSIHTML5 - text editor
             $('.textarea').wysihtml5()
         })

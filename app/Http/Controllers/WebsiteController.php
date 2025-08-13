@@ -5,6 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Contactus;
+use App\Models\School;
+use App\Models\User;
+use App\Models\Fee;
+use App\Models\Clas;
+use App\Models\Exam;
+use App\Models\StudentAnswer;
+use App\Models\Topic;
+use App\Models\Question;
+use App\Models\CourseModule;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\ScholarshipLetter;
 
 class WebsiteController extends Controller
 {
@@ -57,6 +74,28 @@ class WebsiteController extends Controller
     public function showContactMessages(){
         $messages=Contactus::all();
         return view('contactmessages.showContactMessages',compact('messages'));
+    }
+
+
+    public function enrol_for_scholarship_test(){
+        $schools=School::select('id','school_name')->get();
+        $course=Course::where('is_scholarship_test_course','Yes')->select('id','course_name')->first();
+        $clas=Clas::where('is_scholarship_test_clas','Yes')->where('scholarship_test_category','Form_4')->first();
+        return view('pages.enrol_for_scholarship_test',compact('schools','course','clas'));
+    }
+
+    public function showScholarshipTest(Request $request){
+        if(Auth::check() && Auth::user()->role=='scholarship_test_student'){
+            return view('pages.scholarshipTest');
+        }else{
+            return redirect()->back();
+        }
+       
+    }
+
+    public function showFormFourScholarshipLetter(){
+        $letter=ScholarshipLetter::select('id','form_four')->first();
+        return view('pages.showFormFourScholarshipLetter',compact('letter'));
     }
 
 

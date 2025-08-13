@@ -24,6 +24,7 @@ use App\Http\Controllers\SmsController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\ScholarshipLetterController;
 
 /*
 Route::get('/', function () {
@@ -345,6 +346,17 @@ Route::get('/Courses',[WebsiteController::class,'showAllCourses'])->name('showAl
 Route::get('/contact-us',[WebsiteController::class, 'contactUs'])->name('contactUs');
 Route::post('sendContactMessage',[WebsiteController::class,'sendContactMessage'])->name('sendContactMessage');
 Route::get('/showContactMessages',[WebsiteController::class,'showContactMessages'])->name('showContactMessages');
+Route::get('/enrol_for_scholarship_test',[WebsiteController::class,'enrol_for_scholarship_test'])->name('enrol_for_scholarship_test');
+Route::get('/showScholarshipTest',[WebsiteController::class,'showScholarshipTest'])->name('showScholarshipTest');
+Route::get('/showFormFourScholarshipLetter',[WebsiteController::class,'showFormFourScholarshipLetter'])->name('showFormFourScholarshipLetter');
+
+//SCHOLARSHIP LETTERS
+Route::get('/adminManageFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminManageFormFourScholarshipLetters'])->name('adminManageFormFourScholarshipLetter');
+Route::post('/adminAddFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminAddFormFourScholarshipLetters'])->name('adminAddFormFourScholarshipLetters');
+Route::post('/adminUpdateFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminUpdateFormFourScholarshipLetters'])->name('adminUpdateFormFourScholarshipLetters');
+Route::post('/adminDeleteFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminDeleteFormFourScholarshipLetters'])->name('adminDeleteFormFourScholarshipLetters');
+
+
 
 
 Route::get('/create-meeting', [GoogleMeetController::class, 'createMeeting']);

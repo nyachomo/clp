@@ -12,6 +12,8 @@ class Clas extends Model
        'clas_name',
        'clas_status',
        'clas_timetable',
+       'is_scholarship_test_clas',
+       'scholarship_test_category',
     ];
 
     public function exams(){

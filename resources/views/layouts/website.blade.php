@@ -271,7 +271,7 @@ $courses=Course::select('id','course_name')->get();
       
 
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white" style="background-color:#ffc600 !important">
             <div class="container">
                 <!--<a class="navbar-brand" href="#">Navbar</a>-->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -297,10 +297,16 @@ $courses=Course::select('id','course_name')->get();
                         </ul>
                     </li>
 
+                  
+
+                    <li class="nav-item">
+                         <a class="nav-link active" aria-current="page" href="{{route('enrol_for_scholarship_test')}}"><b>SCHOLARSHIP TEST</b></a>
+                    </li>
+                   
                     <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="{{route('contactUs')}}"><b>CONTACT US</b></a>
                     </li>
-                   
+
                 </ul>
                
                 </div>

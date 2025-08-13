@@ -28,6 +28,7 @@ class CourseController extends Controller
                     'course_description'=>$request->course_description,
                     'course_two_like'=>$request->course_two_like,
                     'course_leaners_already_enrolled'=>$request->course_leaners_already_enrolled,
+                    'is_scholarship_test_course'=>$request->is_scholarship_test_course,
                 ]);
 
                 if($save){

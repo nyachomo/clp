@@ -35,7 +35,8 @@ class ClasController extends Controller
     }
 
     public function fetchClases(Request $request) {
-        $query = Clas::select( 'id', 'clas_name','clas_status' )->orderBy('created_at', 'desc');
+        $query = Clas::select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
+       'scholarship_test_category')->orderBy('created_at', 'desc');
 
 
         // Apply search filter if provided
