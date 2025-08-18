@@ -25,6 +25,7 @@ use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\ScholarshipLetterController;
+use App\Http\Controllers\ScholarshipTestCourseController;
 
 /*
 Route::get('/', function () {
@@ -111,7 +112,10 @@ Route::prefix('trainees')->group(function () {
 
     Route::get('/fetch-trainees', [TraineeController::class, 'fetchTrainees'])->name('fetchTrainees');
     Route::post('/add-trainee', [TraineeController::class, 'addTrainee'])->name('addTrainee');
+    
     Route::post('/update-trainee', [TraineeController::class, 'updateTrainee'])->name('updateTrainee');
+    Route::post('/update-trainee-per-class', [TraineeController::class, 'updateTraineePerClas'])->name('updateTraineePerClas');
+    
     Route::get('/view-notes/{id}', [TraineeController::class, 'traineeViewNotes'])->name('traineeViewNotes');
     //trainee view course
 
@@ -200,8 +204,20 @@ Route::prefix('school')->group(function () {
     Route::post('/update', [SchoolController::class, 'updateSchools'])->name('updateSchools');
     Route::post('/delete', [SchoolController::class, 'deleteSchools'])->name('deleteSchools');
     Route::post('/suspend', [SchoolController::class, 'suspendSchools'])->name('suspendSchools');
+    Route::get('/showFormFourLeedPerSchool', [SchoolController::class, 'showFormFourLeedPerSchool'])->name('showFormFourLeedPerSchool');
+    Route::get('/fetchFormFourLeedPerSchool/{classId}', [SchoolController::class, 'fetchFormFourLeedPerSchool'])->name('fetchFormFourLeedPerSchool');
+    Route::post('/addScholarshipTestStudentPerSchool', [SchoolController::class, 'addScholarshipTestStudentPerSchool'])->name('addScholarshipTestStudentPerSchool');
+    Route::post('/updateScholarshipTestStudentPerSchool', [SchoolController::class, 'updateScholarshipTestStudentPerSchool'])->name('updateScholarshipTestStudentPerSchool');
 
-   
+    Route::get('/highSchoolTeacherViewStudent',[SchoolController::class,'highSchoolTeacherViewStudent'])->name('highSchoolTeacherViewStudent');
+    Route::get('/highSchoolTeacherFetchStudent',[SchoolController::class,'highSchoolTeacherFetchStudent'])->name('highSchoolTeacherFetchStudent');
+    Route::post('/highSchoolTeacherEnrolStudent',[SchoolController::class,'highSchoolTeacherEnrolStudent'])->name('highSchoolTeacherEnrolStudent');
+    Route::post('/highSchoolTeacherUpdateStudent',[SchoolController::class,'highSchoolTeacherUpdateStudent'])->name('highSchoolTeacherUpdateStudent');
+    Route::get('/highSchoolTeacherViewingStudentTest',[SchoolController::class,'highSchoolTeacherViewingStudentTest'])->name('highSchoolTeacherViewingStudentTest');
+    Route::get('/highSchoolTeacherFetchStudentTest',[SchoolController::class,'highSchoolTeacherFetchStudentTest'])->name('highSchoolTeacherFetchStudentTest');
+    Route::get('/highSchoolTeacherViewTestAttemptPage',[SchoolController::class,'highSchoolTeacherViewTestAttemptPage'])->name('highSchoolTeacherViewTestAttemptPage');
+    Route::get('/highSchoolTeacherFetchTestAttemptStudent',[SchoolController::class,'highSchoolTeacherFetchTestAttemptStudent'])->name('highSchoolTeacherFetchTestAttemptStudent');
+    Route::get('/highSchoolTeacherDownloadStudentScholarshipLetter', [SchoolController::class, 'highSchoolTeacherDownloadStudentScholarshipLetter'])->name('highSchoolTeacherDownloadStudentScholarshipLetter');
 });
 
 
@@ -349,13 +365,25 @@ Route::get('/showContactMessages',[WebsiteController::class,'showContactMessages
 Route::get('/enrol_for_scholarship_test',[WebsiteController::class,'enrol_for_scholarship_test'])->name('enrol_for_scholarship_test');
 Route::get('/showScholarshipTest',[WebsiteController::class,'showScholarshipTest'])->name('showScholarshipTest');
 Route::get('/showFormFourScholarshipLetter',[WebsiteController::class,'showFormFourScholarshipLetter'])->name('showFormFourScholarshipLetter');
+Route::get('/applicantDownloadAdmissionLetter',[WebsiteController::class,'applicantDownloadAdmissionLetter'])->name('applicantDownloadAdmissionLetter');
+
 
 //SCHOLARSHIP LETTERS
 Route::get('/adminManageFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminManageFormFourScholarshipLetters'])->name('adminManageFormFourScholarshipLetter');
 Route::post('/adminAddFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminAddFormFourScholarshipLetters'])->name('adminAddFormFourScholarshipLetters');
 Route::post('/adminUpdateFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminUpdateFormFourScholarshipLetters'])->name('adminUpdateFormFourScholarshipLetters');
 Route::post('/adminDeleteFormFourScholarshipLetters',[ScholarshipLetterController::class,'adminDeleteFormFourScholarshipLetters'])->name('adminDeleteFormFourScholarshipLetters');
+Route::get('/studentDownloadFormFourScholarshipLetter/{id}',[ScholarshipLetterController::class,'studentDownloadFormFourScholarshipLetter'])->name('studentDownloadFormFourScholarshipLetter');
 
+
+
+
+
+
+//SCHOLARSHIPTESTCOURSES
+Route::get('/adminManageScholarshipTestCourse',[ScholarshipTestCourseController::class,'adminManageScholarshipTestCourse'])->name('adminManageScholarshipTestCourse');
+Route::post('/adminAddScholarshipTestCourse',[ScholarshipTestCourseController::class,'adminAddScholarshipTestCourse'])->name('adminAddScholarshipTestCourse');
+Route::get('/fetchScholarshipTestCourses',[ScholarshipTestCourseController::class,'fetchScholarshipTestCourses'])->name('fetchScholarshipTestCourses');
 
 
 

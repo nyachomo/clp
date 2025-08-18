@@ -146,8 +146,8 @@ $courses=Course::select('id','course_name')->get();
                 color: white; /* change text color for contrast */
                 }
 
-                .dropdown-menu .dropdown-item:hover {
-                background-color: #ffc600; /* darker on hover */
+               .dropdown-menu .dropdown-item:hover {
+                background-color: #1fd1ff;  /*darker on hover */
                 }
 
                 /* Show dropdown menu on hover */
@@ -165,7 +165,7 @@ $courses=Course::select('id','course_name')->get();
                     }
                 
                     .nav-link:hover {
-                    color: #ffc600 !important; /* yellowish color on hover */
+                    color: #07294d !important; /* yellowish color on hover */
                     }
 
       </style>
@@ -214,14 +214,14 @@ $courses=Course::select('id','course_name')->get();
                     <div class="col-lg-6">
                         <div class="header-contact text-lg-left text-center">
                             <ul>
-                                <li><img src="{{asset('frontend/images/all-icon/map.png')}}" alt="icon"><span>View Park Towers, University Way , Nairobi</span></li>
-                                <li><img src="{{asset('frontend/images/all-icon/email.png')}}" alt="icon"><span>info@techsphereinstitute.co.ke</span></li>
+                                <li><img src="{{asset('frontend/images/all-icon/map.png')}}" alt="icon"><span><b>View Park Towers, University Way , Nairobi</b></span></li>
+                                <li><img src="{{asset('frontend/images/all-icon/email.png')}}" alt="icon"><span><b>info@techsphereinstitute.co.ke</b></span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="header-opening-time text-lg-right text-center">
-                            <p>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</p>
+                            <p><b>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</b></p>
                         </div>
                     </div>
                 </div> <!-- row -->

@@ -27,7 +27,10 @@ class User extends Authenticatable
         'status',
         'role',
         'profile_image',
+        'prefered_course',
 
+        'clas_category',
+        'parent_phone',
         'has_paid_reg_fee',
         'date_paid_reg_fee',
         'reg_fee_ref_no',

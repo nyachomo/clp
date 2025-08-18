@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
+<br>
 <!-- start page title -->
 <!--<div class="row">
     <div class="col-12">
@@ -35,7 +36,7 @@
 
 <div class="row">
     <div class="col-xl-4 col-lg-5">
-        <div class="card text-center">
+        <div class="card text-center" style="border:2px solid #ffc600">
             @if(Auth::check())
             <div class="card-body">
             <img id="profile-image" src="{{ asset('images/profile/' . Auth::user()->profile_image) }}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
@@ -84,7 +85,7 @@
     </div> <!-- end col-->
 
     <div class="col-xl-8 col-lg-7">
-        <div class="card">
+        <div class="card" style="border:2px solid #ffc600">
             <div class="card-body">
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor" style="border-radius:50px">
                     <li class="nav-item">

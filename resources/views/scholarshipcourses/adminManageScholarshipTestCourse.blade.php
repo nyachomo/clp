@@ -112,11 +112,14 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Category</th>
-                                    <th>Total Students</th>
-                                    <th>Action</th>
+                                    <th>Code</th>
+                                    <th>Course</th>
+                                    <th>Duration</th>
+                                    <th>Course Fee</th>
+                                    <th>Scholarship Amount</th>
+                                    <th>Subsidized Fee</th>
+                                    <th>Monthly Installment</th>
+                                    <!--<th>Action</th>-->
                                 </tr>
                             </thead>
                         
@@ -154,7 +157,7 @@
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Clas</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addClas')}}">
+            <form method="POST" action="{{route('adminAddScholarshipTestCourse')}}">
                 @csrf
                
 
@@ -164,61 +167,79 @@
                             <div class="col-sm-12">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label>Clas Name<sup>*</sup></label>
-                                    <input type="text" class="form-control" name="clas_name" required>
+                                    <label>Course Code<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_code" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Is Scholarship Test Class ?<sup>*</sup></label>
-                                        <select name="is_scholarship_test_clas" class="form-control" required>
-                                            <option value="No">No</option>
-                                            <option value="Yes">Yes</option>
-                                        </select>
-                                        
-                                    </div>
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Name<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_name" required>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Scholarship Test Category<sup>*</sup></label>
-                                        <select name="scholarship_test_category" class="form-control" required>
-                                            <option value="None">None</option>
-                                            <option value="lower_Forms">Lower Forms</option>
-                                            <option value="Form_4">Form 4</option>
-                                        </select>
-                                        
-                                    </div>
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Duration<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_duration" required>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label>Class Category<sup>*</sup></label>
-                                        <select name="clas_category" class="form-control" required>
-                                            <option value="">Select ....</option>
-                                            <option value="training_class">Training Class</option>
-                                            <option value="ict_club_class">Ict Club Class</option>
-                                            <option value="event_class">Event Class/Program</option>
-                                            <option value="scholarship_test_class">Scholarship Test Class</option>
-                                            <option value="referal_class">Referal Class</option>
-                                        </select>
-                                        
-                                    </div>
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Fee<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_fee" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Scholarship Amount<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_scholarship_amount" required>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12">
-                                 <input type="text" name="clas_status" value="Active" hidden="true">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Course Subsidized Fee<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_subsidized_fee" required>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label> Course Monthly Installment<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="course_monthly_installment" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                       
+
+
+
+
 
 
                 </div>
@@ -475,7 +496,7 @@ setTimeout(() => {
 function fetchUsers(page = 1, search = '', perPage = 10) {
     $.ajax({
         type: 'GET',
-        url: "{{route('fetchClases')}}",
+        url: "{{route('fetchScholarshipTestCourses')}}",
         data: { page: page, search: search, per_page: perPage },
         dataType: "json",
         success: function(response) {
@@ -491,29 +512,13 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
-                        <td>' + item.clas_name + '</td>\
-                        <td><span class="' + (item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
-                         <td>' + item.clas_category + '</td>\
-                        <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>\
-                            <div class="dropdown">\
-                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
-                                <ul class="dropdown-menu">\
-                                    <li><a class="dropdown-item updateBtn text-success" href="#" \
-                                        data-id="' + item.id + '" \
-                                        data-clas_status="' + item.clas_status + '" \
-                                        data-clas_category="' + item.clas_category + '" \
-                                        data-clas_name="' + item.clas_name + '"><i class="uil-edit"></i> Update Class</a></li>\
-                                    <li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-edit"></i> Delete Class</a></li>' +
-                                    (item.clas_status.toLowerCase() === 'active' ? 
-                                        '<li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend Class</a></li>' : 
-                                        '') +
-                                    (item.clas_status.toLowerCase() === 'suspended' ? 
-                                        '<li><a class="dropdown-item activateBtn text-success" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Activate Class</a></li>' : 
-                                        '') +
-                                '</ul>\
-                            </div>\
-                        </td>\
+                        <td>' + item.course_code + '</td>\
+                         <td>' + item.course_name + '</td>\
+                         <td>' + item.course_duration + '</td>\
+                         <td>' + item.course_fee + '</td>\
+                         <td>' + item.course_scholarship_amount + '</td>\
+                         <td>' + item.course_subsidized_fee + '</td>\
+                         <td>' + item.course_monthly_installment + '</td>\
                     </tr>'
                 );
 

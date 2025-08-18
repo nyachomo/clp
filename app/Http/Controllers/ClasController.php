@@ -36,7 +36,7 @@ class ClasController extends Controller
 
     public function fetchClases(Request $request) {
         $query = Clas::select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
-       'scholarship_test_category')->orderBy('created_at', 'desc');
+       'scholarship_test_category','clas_category')->orderBy('created_at', 'desc');
 
 
         // Apply search filter if provided
@@ -88,6 +88,7 @@ class ClasController extends Controller
         if ($user) {
             // Update user details
             $user->clas_name = $request->clas_name;
+            $user->clas_category = $request->clas_category;
             $user->update();
             return response()->json(['success' => true, 'message' => 'Clas updated successfully!']);
         }

@@ -74,21 +74,21 @@
                 
                 <div class="row">
                       <div class="col-sm-12">
-                          <center><h3>CLASS: {{$clas->clas_name ?? 'NA'}}</h3></center>
+                          <center><h3>School: {{$school->school_name ?? 'NA'}}</h3></center>
                       </div>
                 </div>
                 <br>
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
                     <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
                     <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-warning rounded-pill"><i class=" uil-arrow-down"> Download (Pdf)</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-warning rounded-pill"><i class=" uil-arrow-down"> Download (Pdf)</i></button>-->
                        
                  </form>
 
@@ -96,21 +96,21 @@
                  <form method="POST" action="{{route('markedStudentAsAlumni')}}" id="markAllStudentAlumniForm">
                     @csrf
                     <input type="text" name="alumni_clas_id" value="{{$clas->id}}" id="alumni_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-info rounded-pill"><i class=" uil-arrow-down">Mark All Students As Alumni</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-info rounded-pill"><i class=" uil-arrow-down">Mark All Students As Alumni</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('suspendAllStudents')}}" id="suspendAllStudentsForm">
                     @csrf
                     <input type="text" name="suspend_all_students_clas_id" value="{{$clas->id}}" id="suspend_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-danger rounded-pill"><i class=" uil-arrow-down">Suspend All</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-danger rounded-pill"><i class=" uil-arrow-down">Suspend All</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('activateAllStudents')}}" id="activateAllStudentsForm">
                     @csrf
                     <input type="text" name="activate_all_students_clas_id" value="{{$clas->id}}" id="activate_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-primary rounded-pill"><i class=" uil-arrow-down">Activate All</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-primary rounded-pill"><i class=" uil-arrow-down">Activate All</i></button>-->
                        
                  </form>
                  <!--<a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>-->
@@ -161,16 +161,13 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Student Contact</th>
-                                    <th>Parent Contact</th>
-                                    <th>Class</th>
+                                    <th>Student Phonenumber</th>
+                                    <th>Parent Phonenumber</th>
                                     <th>Email</th>
-                                    <th>School</th>
-                                    <th>Prefered Course</th>
-                                    <th>Course/Program</th>
-                                    <!--<th>Class</th>-->
+                                    <th>Course</th>
+                                    <th>Class</th>
                                     <!--<th>Gender</th>-->
-                                    <th>Status</th>
+                                    <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -203,10 +200,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Student</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addTrainee')}}">
+            <form method="POST" action="{{route('addScholarshipTestStudentPerSchool')}}">
                 @csrf
                
             <div class="modal-body">
@@ -217,7 +214,7 @@
                             <p>
                                 <ol>
                                     <li>The Fields marked <span class="labelSpan">*</span> are mandatory</li>
-                                    <li>Email is unique</li>
+                                    <li>Email is will be uniquely generated. Student can use the generated email and 12345678</li>
                                 </ol>
                             </p>
                         </div>
@@ -234,44 +231,39 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                             <label>Secondname</label>
-                             <input type="text"  name="secondname" class="form-control">
-                        </div>
-                    </div>
-
-                   
-
-
-                </div>
-
-                <div class="row">
-                   
-                   <div class="col-sm-6">
-                        <div class="form-group">
                             <label>Lastname</label>
                              <input type="text" class="form-control" name="lastname">
                         </div>
                     </div>
 
-
-                    <div class="col-sm-6">
+                   <!-- <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Phonenumber <span class="labelSpan">*</span></label>
-                            <input type="number" class="form-control" name="phonenumber" required>
+                             <label>Secondname</label>
+                             <input type="text"  name="secondname" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
 
+                   
 
-                    
 
                 </div>
 
                 <div class="row">
+                   
+                  
 
-                   <div class="col-sm-6">
+
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Email <span class="labelSpan">*</span></label>
-                            <input type="email" class="form-control" name="email" required>
+                            <label> Student Phonenumber <span class="labelSpan">*</span></label>
+                            <input type="number" class="form-control" name="phonenumber" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label> Parent Phonenumber <span class="labelSpan"></span></label>
+                            <input type="number" class="form-control" name="parent_phone" >
                         </div>
                     </div>
 
@@ -289,27 +281,40 @@
 
 
 
+                    
+
+                </div>
+
+                <div class="row">
+
+                   <!--<div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Email <span class="labelSpan">*</span></label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                    </div>-->
+
+                   
+
+
 
                 </div>
 
                 <div class="row" style="padding-top:10px">
                    
                     <div class="col-sm-6">
-                            <label>Course <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="course_id" required>
-                               <option value="">Select Course</option>
-                                @if(!empty($courses))
-                                   @foreach($courses as $key=>$course)
-                                      <option value="{{$course->id}}">{{$course->course_name}}</option>
-                                   @endforeach
+                           <!-- <label>Course <span class="labelSpan">*</span></label>-->
+                            <select class="form-control" name="course_id" required hidden="true">
+                                @if(!empty($course))
+                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
                                 @endif
                                  
                             </select>
                     </div>
 
                     <div class="col-sm-6">
-                            <label>Class <span class="labelSpan">*</span></label>
-                             <select class="form-control" name="clas_id" required>
+                            <!--<label>Class <span class="labelSpan">*</span></label>-->
+                             <select class="form-control" name="clas_id" required hidden="true">
                                 <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
                             </select>
                     </div>
@@ -317,84 +322,27 @@
 
                 <div class="row" style="padding-top:10px">
                     <div class="col-sm-6">
-                           <label>Has Paid Registration Fee</label>
-                           <select class="form-control" name="has_paid_reg_fee" required>
+                        <!--<label>Has Paid Registration Fee</label>-->
+                           <select class="form-control" name="has_paid_reg_fee" required hidden="true">
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
                             </select>
                     </div>
 
                     <div class="col-sm-6">
-                           <label>Type Of Student</label>
-                           <select class="form-control" name="role" required>
-                                <option value="">Select</option>
-                                <option value="Trainee">Active/Student Ready to take class</option>
-                                <option value="Applicant">Student Who Applied From Website</option>
-                                <option value="ict_club_student">Ict Club Student</option>
-                                <option value="student_from_event">Student From Event</option>
-                                <option value="student_from_referal">Student From Referal</option>
-                                <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
-
-                            </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Parent Phonenumber<label>
-                            <input type="text" name="parent_phone" class="form-control">
-                        </div>
-                            
-                    </div>
-                   
-                    <div class="col-sm-6">
-                            <label>School <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="school_id">
-                               <option value="">Select School</option>
-                                @if(!empty($schools))
-                                   @foreach($schools as $key=>$school)
-                                      <option value="{{$school->id}}">{{$school->school_name}}</option>
-                                   @endforeach
-                                @endif
-                                 
+                           <!--<label>School</label>-->
+                            <select class="form-control" name="school_id" required hidden="true">
+                                <option value="{{$school->id}}">{{$school->school_name}}</option>
                             </select>
                     </div>
 
                 </div>
 
                 <div class="row">
-                    
-                    <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_category">
-                               <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
-                               <option value="Form Two">Form Two</option>
-                               <option value="Form Three">Form Three</option>
-                               <option value="Form Four">Form Four</option>
-                            </select>
+                    <div class="col-sm-12">
+                         <input type="text" name="clas_category" class="form-control" value="Form Four" hidden="true">
                     </div>
-
-                    <div class="col-sm-6">
-                            <label>Student Prefered Course<span class="labelSpan">*</span></label>
-                            <select class="form-control" name="prefered_course">
-                               <option value="">Select Course</option>
-                               <option value="Mobile Application Development">Mobile Application Development</option>
-                               <option value="Web Application Development">Web Application Development</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Cyber Security And Ethical Hacking">Cyber Security And Ethical Hacking</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Datascienec Machine Learning And AI">Datascience Machine Learning And AI</option>
-                               <option value="Robotics And IOT">Robotics And IOT</option>
-                               <option value="Graphic Design">Graphic Design</option>
-                               <option value="Digital Marketing">Digital Marketing</option>
-                               <option value="Ui/Ux Design">Ui/Ux Design</option>
-                            </select>
-                    </div>
-
                 </div>
-
 
 
 
@@ -463,19 +411,6 @@
                                 </div>
                         </div>
 
-                        <div class="col-sm-6 mb-2">
-                                <div class="form-group">
-                                    <label  for="lastname">Secondname</label>
-                                    <input type="text" class="form-control" id="secondname" name="secondname">
-                                </div>
-                        </div>
-
-                        
-
-                    </div>
-
-                    <div class="row">
-
                         <div class="col-sm-6">
                                 <div class="form-group mb-2">
                                     <label  for="lastname">Lastname</label>
@@ -483,11 +418,33 @@
                                 </div>
                         </div>
 
+                        <!--<div class="col-sm-6 mb-2">
+                                <div class="form-group">
+                                    <label  for="lastname">Secondname</label>
+                                    <input type="text" class="form-control" id="secondname" name="secondname">
+                                </div>
+                        </div>-->
+
+                        
+
+                    </div>
+
+                    <div class="row">
+
+                        
+
 
                         <div class="col-sm-6">
                             <div class="form-group mb-2">
-                                <label  for="firstname">Phonenumber<span class="labelSpan">*</span></label>
+                                <label  for="firstname">Student Phonenumber<span class="labelSpan">*</span></label>
                                 <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group mb-2">
+                                <label  for="firstname">Parent Phonenumber<span class="labelSpan"></span></label>
+                                <input type="number" class="form-control" id="parent_phone" name="parent_phone" required>
                             </div>
                         </div>
 
@@ -521,100 +478,7 @@
 
                     </div>
 
-                   
-                    <div class="row" style="padding-top:10px">
-                   
-                    <div class="col-sm-6">
-                            <label>Course <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="course_id" id="update_course_id" required>
-                                <option value="">Select Course</option>
-                                @if(!empty($courses))
-                                    @foreach($courses as $key=>$course)
-                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
-                                    @endforeach
-                                @endif
-                                    
-                            </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <label>Class <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_id" id="update_clas_id" required>
-                                <option value="">Select Class</option>
-                                @if(!empty($clases))
-                                    @foreach($clases as $key=>$clas)
-                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
-                                    @endforeach
-                                @endif
-
-                            </select>
-                    </div>
-               </div>
-
-               <div class="row">
-
-                         <div class="col-sm-6">
-                            <label>Type Of Student</label>
-                            <select class="form-control" name="role" id="role" required>
-                                    <option value="">Select</option>
-                                    <option value="Trainee">Active/Student Ready to take class</option>
-                                    <option value="Applicant">Student Who Applied From Website</option>
-                                    <option value="ict_club_student">Ict Club Student</option>
-                                    <option value="student_from_event">Student From Event</option>
-                                    <option value="student_from_referal">Student From Referal</option>
-                                    <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
-
-                                </select>
-                        </div>
-
-                        <div class="col-sm-6">
-                                <label>Parent Phonenumber<label>
-                                <input type="text" name="parent_phone" id="parent_phone" class="form-control">
-                        </div>
-
-               </div>
-
-               <div class="row">
-                    
-                    <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_category" id="clas_category">
-                               <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
-                               <option value="Form Two">Form Two</option>
-                               <option value="Form Three">Form Three</option>
-                               <option value="Form Four">Form Four</option>
-                            </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <label>Student Prefered Course<span class="labelSpan">*</span></label>
-                            <select class="form-control" name="prefered_course" id="prefered_course">
-                               <option value="">Select Class</option>
-                               <option value="Mobile Application Development">Mobile Application Development</option>
-                               <option value="Web Application Development">Web Application Development</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Cyber Security And Ethical Hacking">Cyber Security And Ethical Hacking</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Datascienec Machine Learning And AI">Datascience Machine Learning And AI</option>
-                               <option value="Robotics And IOT">Robotics And IOT</option>
-                               <option value="Graphic Design">Graphic Design</option>
-                               <option value="Digital Marketing">Digital Marketing</option>
-                               <option value="Ui/Ux Design">Ui/Ux Design</option>
-                            </select>
-                    </div>
-
-
-                </div>
-
-
-                  
-
-                   
-                    
-                   
-                   
-                   
+ 
                    <!-- <button type="submit" class="btn btn-primary">Save Changes</button>-->
                
             </div>
@@ -806,7 +670,7 @@
             function fetchUsers(page = 1, search = '', perPage = 10) {
                 $.ajax({
                     type: 'GET',
-                    url: "{{ route('getStudentsPerClass', ['classId' => ':classId']) }}".replace(':classId', clas_id),
+                    url: "{{ route('fetchFormFourLeedPerSchool', ['classId' => ':classId']) }}".replace(':classId', clas_id),
                     data: { page: page, search: search, per_page: perPage },
                     dataType: "json",
                     success: function(response) {
@@ -828,14 +692,11 @@
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
                                     <td>' + item.phonenumber + '</td>\
                                     <td>' + item.parent_phone + '</td>\
-                                     <td>' + item.clas_category + '</td>\
                                     <td>' + item.email + '</td>\
-                                    <td>' + item.school.school_name + '</td>\
-                                    <td>' + item.prefered_course + '</td>\
                                     <td>' + item.course.course_name + '</td>\
-                                    <!--<td>' + item.clas.clas_name + '</td>-->\
+                                    <td>' + item.clas.clas_name + '</td>\
                                    <!-- <td>' + item.gender + '</td>-->\
-                                   <td>' + item.status + '</td>\
+                                  <!-- <td>' + item.status + '</td>-->\
                                     <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
@@ -849,30 +710,28 @@
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
                                                         data-phonenumber="' + item.phonenumber + '" \
-                                                         data-parent_phone="' + item.parent_phone + '" \
+                                                        data-parent_phone="' + item.parent_phone + '" \
                                                         data-email="' + item.email + '" \
                                                         data-update_course_id="' + item.course.id + '" \
                                                         data-update_clas_id="' + item.clas.id + '" \
                                                         data-role="' + item.role + '" \
-                                                        data-clas_category="' + item.clas_category + '" \
-                                                        data-prefered_course="' + item.prefered_course + '" \
                                                         data-gender="' + item.gender + '" \
                                                         data-status="' + item.status + '" \
                                                         class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i>Update Student</span>\
                                                 </li>\
-                                                <li>\
+                                               <!-- <li>\
                                                     <span type="button" data-id="' + item.id + '" \
                                                         class="text-warning dropdown-item suspendBtn"><i class="fa fa-trash"></i> Suspend Student</span>\
-                                                </li>\
+                                                </li>-->\
                                                  <li>\
-                                                    <span type="button" value="' + item.id + '" \
+                                                    <span type="button" data-id="' + item.id + '" \
                                                         class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete Student</span>\
                                                 </li>\
-                                                <li>\
+                                                <!--<li>\
                                                     <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
                                                         <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee\
                                                     </a>\
-                                                </li>\
+                                                </li>-->\
                                             </ul>\
                                         </div>\
                                     </td>\
@@ -895,9 +754,7 @@
                             const update_course_id = $(this).data('update_course_id');
                             const update_clas_id = $(this).data('update_clas_id');
                             const role = $(this).data('role');
-                            const clas_category = $(this).data('clas_category');
                             const gender = $(this).data('gender');
-                            const prefered_course = $(this).data('prefered_course');
                             const status = $(this).data('status');
 
                             // Populate modal fields
@@ -911,9 +768,7 @@
                             $('#updateUserModal #update_course_id').val(update_course_id);
                             $('#updateUserModal #update_clas_id').val(update_clas_id);
                             $('#updateUserModal #role').val(role);
-                            $('#updateUserModal #clas_category').val(clas_category);
                             $('#updateUserModal #gender').val(gender);
-                            $('#updateUserModal #prefered_course').val(prefered_course);
                             $('#updateUserModal #status').val(status);
 
                             // Show the modal
@@ -952,13 +807,8 @@
                 secondname: $('#secondname').val(),
                 lastname: $('#lastname').val(),
                 phonenumber: $('#phonenumber').val(),
-                prefered_course: $('#prefered_course').val(),
                 parent_phone: $('#parent_phone').val(),
                 email: $('#email').val(),
-                update_course_id: $('#update_course_id').val(),
-                update_clas_id: $('#update_clas_id').val(),
-                role: $('#role').val(),
-                clas_category: $('#clas_category').val(),
                 gender: $('#gender').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
             };
@@ -969,7 +819,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{{ route('updateTraineePerClas') }}",
+                url: "{{ route('updateScholarshipTestStudentPerSchool') }}",
                 data: formData,
                 dataType: 'json',
                 success: function(response) {

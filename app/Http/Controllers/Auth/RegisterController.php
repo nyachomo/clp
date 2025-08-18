@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -50,16 +51,19 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'firstname' => ['string', 'max:255'],
-           // 'secondname' =>['string', 'max:255'],
+            'secondname' =>['string', 'max:255'],
             'lastname' => ['string', 'max:255'],
             'phonenumber' => ['string', 'regex:/^\+254\d{9}$/'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'gender' => ['string', 'max:255'],
             'role' => ['string', 'max:255'],
+            'parent_phone' => ['max:255'],
             'has_paid_reg_fee' => ['string', 'max:255'],
-            'school_id' => ['string', 'max:255'],
+            'school_id' => ['max:255'],
             'course_id' => ['string', 'max:255'],
             'clas_id'=>['string','max:255'],
+            'clas_category'=>['string','max:255'],
+            'prefered_course'=>['string','max:255'],
             'password' => ['required', 'string','confirmed', 'min:8'],
         ]);
     }
@@ -73,17 +77,21 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'firstname' => $data['firstname'],
+            //'firstname' => $data['firstname'],
+            'firstname' => Str::title($data['firstname']),
             //'secondname' => $data['secondname'],
             'lastname' => $data['lastname'],
             'phonenumber' => $data['phonenumber'],
+            'parent_phone' => $data['parent_phone'],
             'email' => $data['email'],
             'gender' => $data['gender'],
             'role' => $data['role'],
             'has_paid_reg_fee' => $data['has_paid_reg_fee'],
-            'school_id' => $data['school_id'],
-            'course_id' => $data['course_id'],
-            'clas_id'=>$data['clas_id'],
+            'school_id' => $data['school_id'] ?? null,
+            'course_id' => $data['course_id'] ?? null,
+            'clas_category' => $data['clas_category'] ?? '',
+            'prefered_course' => $data['prefered_course'] ?? '',
+            'clas_id'=>$data['clas_id'] ?? null,
             'password' => Hash::make($data['password']),
         ]);
     }

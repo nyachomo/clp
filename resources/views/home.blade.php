@@ -395,7 +395,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
        <!-- end col-->
        <div class="col-sm-4">
-             <div class="card">
+             <div class="card" style="border:1px solid #ffc600">
                  <div class="card-header">
                          <h4 class="header-title mb-4">Assesment Analysis</h4>
                          <!--<p>This is your Avarage Assesment</p>-->
@@ -585,7 +585,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     </div>
 @endif
 
-@if(Auth::check() && Auth::user()->role=='Trainee' && Auth::user()->has_paid_reg_fee=='No')
+@if(Auth::check() && Auth::user()->role=='Applicant')
 <div class="row">
     <div class="col-sm-6">
 

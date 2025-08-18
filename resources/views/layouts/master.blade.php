@@ -91,7 +91,7 @@
 
 
 
-            <!-- Smartsupp Live Chat script -->
+            <!-- Smartsupp Live Chat script 
             <script type="text/javascript">
             var _smartsupp = _smartsupp || {};
             _smartsupp.key = 'b7f9e59215dfeb4a10a833748dc3307a58941cfa';
@@ -103,6 +103,7 @@
             })(document);
             </script>
             <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+            -->
 
 
     <style>
@@ -142,7 +143,7 @@
         }
 
         thead{
-            background-color:#000033;
+            background-color:#1ad1ff;
             color:white;
         }
 
@@ -187,12 +188,23 @@
         }
 
         .card{
-        
+          border:2px solid #ffc600 !important;
+        }
+
+        .btn{
+            background-color:#ffc600 !important;
+            color:#ffffff !important;
+            border:1px solid #ffc600 !important;
         }
 
         ul li a{
             color:white !important;
            
+        }
+
+        .footer{
+            background-color:#07294d !important;
+            color:#ffc600 !important;
         }
 
        
@@ -210,12 +222,13 @@
     
                 <!-- LOGO -->
                 <a href="index.html" class="logo text-center logo-white">
-                    <span class="logo-lg" style="background-color:white;">
-                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" width="80px">
+                    <span class="logo-lg" style="background-color:#07294d !important;border-bottom:20px solid #ffc600 !important">
+                        <img src="{{asset('images/logo/'.$setting->company_logo)}}" alt="" width="67px" class="rounded-circle">
                        
                     </span>
                    
                 </a>
+               <br>
                
                 <div class="h-100 bodyColor" id="leftside-menu-container" data-simplebar>
 
@@ -424,21 +437,35 @@
                                 </a>
                             </li>
 
+                           
+
                             <li class="side-nav-item">
-                                <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
-                                    <i class="uil-copy-alt"></i>
-                                    <span>Scholarship Letters</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <div class="collapse" id="sidebarPages">
-                                    <ul class="side-nav-second-level">
-                                        <li>
-                                            <a href="{{route('adminManageFormFourScholarshipLetter')}}">Form Four</a>
-                                        </li>
-  
-                                    </ul>
-                                </div>
-                            </li>
+                            <a data-bs-toggle="collapse" href="#sidebarCharts" aria-expanded="false" aria-controls="sidebarCharts" class="side-nav-link">
+                                <i class="uil-chart"></i>
+                                <span> Scholarship Letters </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarCharts">
+                                <ul class="side-nav-second-level">
+                                   
+                                    <li>
+                                        <a href="{{route('adminManageFormFourScholarshipLetter')}}">Form Fours</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('adminManageFormFourScholarshipLetter')}}">Form Fours</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('adminManageScholarshipTestCourse')}}" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Scholarship Test Courses</span>
+                            </a>
+                        </li>
+
 
 
                         </ul> 
@@ -453,7 +480,7 @@
                             <a href="{{route('home')}}" class="side-nav-link">
                                 <i class="uil-comments-alt text-warning"></i>
                                 <span class="menu-arrow"></span>
-                                <span> SHOW DASHBOARD </span>
+                                <span>Dashboard</span>
                             </a>
                         </li>
 
@@ -461,18 +488,40 @@
                                 <a href="{{route('userAccount')}}" class="side-nav-link">
                                     <i class="uil-comments-alt text-danger"></i>
                                     <span class="menu-arrow"></span>
-                                    <span> MANAGE PROFILE</span>
+                                    <span> My Profile</span>
                                 </a>
                             </li>
 
 
                         <li class="side-nav-item">
+                            <a href="{{route('highSchoolTeacherViewStudent')}}" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span class="menu-arrow"></span>
+                                <span>EnrolStudents</span>
+                            </a>
+                        </li>
+
+                        
+
+                        <!--<li class="side-nav-item">
                             <a href="{{route('showLeeds')}}" class="side-nav-link">
                                 <i class="uil-comments-alt"></i>
                                 <span class="menu-arrow"></span>
                                 <span>SCHOLARSHIP</span>
                             </a>
-                        </li>
+                        </li>-->
+
+                        <!--<li class="side-nav-item">
+                            <a href="{{route('highSchoolTeacherViewingStudentTest')}}" class="side-nav-link">
+                                <i class="uil-comments-alt"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Student Scores</span>
+                            </a>
+                        </li>-->
+
+                        
+
+                       
 
                       
 
@@ -571,7 +620,7 @@
                     </ul> 
                     @endif
 
-                    @if(Auth::check() && Auth::user()->role=='scholarship_test_student')
+                    @if(Auth::check() && Auth::user()->role=='Applicant')
                     <ul class="side-nav">
 
                        <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
@@ -592,9 +641,48 @@
                             </a>
                         </li>
 
+
+                        <li class="side-nav-item">
+                            <a href="{{route('applicantDownloadAdmissionLetter')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Admission Letter</span>
+                            </a>
+                        </li>
+
+
+
+
+                       
+
+                    </ul> 
+                    @endif
+
+
+                    @if(Auth::check() && Auth::user()->role=='scholarship_test_student')
+                    <ul class="side-nav">
+
+                       <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('home')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('userAccount')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span> My Account</span>
+                            </a>
+                        </li>
+
                         <li class="side-nav-item">
                             <a href="{{route('showScholarshipTest')}}" class="side-nav-link">
-                                <i class="uil-comments-alt text-danger"></i>
+                                <i class="uil-comments-alt text-white"></i>
                                 <span class="menu-arrow"></span>
                                 <span> Scholarship Test</span>
                             </a>
@@ -602,7 +690,7 @@
 
                         <li class="side-nav-item">
                             <a href="{{route('showFormFourScholarshipLetter')}}" class="side-nav-link">
-                                <i class="uil-comments-alt text-danger"></i>
+                                <i class="uil-comments-alt text-white"></i>
                                 <span class="menu-arrow"></span>
                                 <span> Scholarship Letter</span>
                             </a>
@@ -644,10 +732,10 @@
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
 
-            <div class="content-page">
+            <div class="content-page ">
                 <div class="content">
                     <!-- Topbar Start -->
-                    <div class="navbar-custom">
+                    <div class="navbar-custom bodyColor">
                         <ul class="list-unstyled topbar-menu float-end mb-0">
                             <li class="dropdown notification-list d-lg-none">
                                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -730,14 +818,14 @@
 
 
                         </ul>
-                       <button class="button-menu-mobile open-left">
-                            <i class="mdi mdi-menu"></i>
+                       <button class="button-menu-mobile open-left" style="padding-top:5px">
+                            <i class="mdi mdi-menu" style="color:white"></i>
                         </button>
                         <div class="app-search dropdown d-none d-lg-block" style="padding-top:15px">
                                 @if(!empty($setting->company_name))
-                                <h4>{{$setting->company_name}}</h4>
+                                <h4 style="color:white;font-size:25px">{{$setting->company_name}}</h4>
                                 @else
-                                <h2>Collaboration And Linkages Portal</h2>
+                                <h2 style="color:white;font-size:25px">Collaboration And Linkages Portal</h2>
                                 @endif
                         </div>
 
@@ -763,13 +851,13 @@
                             <div class="col-md-6">
                                 <script>document.write(new Date().getFullYear())</script> © TECHSPHERE TRAINING INSTITUTE
                             </div>
-                            <div class="col-md-6">
+                            <!--<div class="col-md-6">
                                 <div class="text-md-end footer-links d-none d-md-block">
                                     <a href="">About</a>
                                     <a href="">Support</a>
                                     <a href="">Contact Us</a>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </footer>

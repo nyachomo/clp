@@ -19,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\School;
 
 
 class TraineeController extends Controller
@@ -73,7 +74,12 @@ class TraineeController extends Controller
         $user->lastname=$request->lastname;
         $user->phonenumber=$request->phonenumber;
         $user->email=$request->email;
-        $user->role="Trainee";
+        //$user->role="Trainee";
+        $user->role=$request->role ?? '';
+        $user->parent_phone=$request->parent_phone ?? '';
+        $user->school_id=$request->school_id ?? '';
+        $user->clas_category=$request->clas_category ?? '';
+        $user->prefered_course=$request->prefered_course ?? '';
         $user->has_paid_reg_fee=$request->has_paid_reg_fee;
         $user->gender=$request->gender;
         $user->course_id=$request->course_id;
@@ -90,6 +96,9 @@ class TraineeController extends Controller
 
 
 
+
+
+    
 
     public function updateTrainee(Request $request)
     {
@@ -114,6 +123,44 @@ class TraineeController extends Controller
             $user->course_id = $request->update_course_id;
             $user->clas_id = $request->update_clas_id;
             $user->gender = $request->gender;
+            $user->update();
+
+            return response()->json(['success' => true, 'message' => 'User updated successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'User not found!'], 404);
+   
+    }
+
+
+    public function updateTraineePerClas(Request $request)
+    {
+       
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'firstname' => 'required|string|max:255',
+            'email' => 'required|email|max:255' . $request->user_id,
+        ]);
+
+
+        $user = User::find($request->user_id);
+
+        if ($user) {
+            // Update user details
+            $user->firstname = $request->firstname;
+            $user->lastname = $request->lastname;
+            $user->secondname = $request->secondname;
+            $user->phonenumber = $request->phonenumber;
+            $user->parent_phone = $request->parent_phone;
+            $user->email = $request->email;
+            $user->course_id = $request->update_course_id;
+            $user->clas_id = $request->update_clas_id;
+            $user->gender = $request->gender;
+            $user->role = $request->role;
+            $user->clas_category = $request->clas_category;
+            $user->prefered_course = $request->prefered_course;
+           
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);
@@ -798,19 +845,20 @@ class TraineeController extends Controller
         $clas_id=$_GET['clas_id'];
         $courses=Course::select('course_name','id')->get();
         $clases=Clas::select('clas_name','id')->get();
+        $schools=School::select('id','school_name')->get();
         $clas=Clas::where('id',$clas_id)->first();
-        return View('trainees.showTraineesPerClas',compact('courses','clases','clas'));
+        return View('trainees.showTraineesPerClas',compact('courses','clases','clas','schools'));
     }
 
     public function getStudents(Request $request,$classId) {
         $class=Clas::where('id',$classId)->first();
         $clasName= $class->clas_name;
-        $query = User::with('course','clas')->select('id', 'firstname',
+        $query = User::with('course','clas','school')->select('id', 'firstname',
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee') ->where('has_paid_reg_fee','Yes')->where('clas_id', $classId)->orderBy('created_at', 'desc');
+        'email','phonenumber','course_id','status','gender','clas_id','parent_phone','clas_category','school_id','role','prefered_course')->where('clas_id', $classId)->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {

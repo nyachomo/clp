@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
+<br>
 @if (session('success'))
     <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -20,7 +21,7 @@
     <div class="col-sm-12">
          <div class="card">
             <div class="card-header">
-               <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLetter">Add New Letter</button>
+               <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addLetter" style="float:right">Add New Letter</button>
             </div>
             
                 
@@ -63,15 +64,21 @@
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                   
+                                    <td>Letter Id</td>
                                     <th>Letter</th>
+                                    <th>Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if(!empty($letter->form_four))
                                  <tr>
-                                    <td><?php echo$letter->form_four ??'NA'?></td>
+                                    <td>{{$letter->letter_id}}</td>
+                                    <td>
+                                        <?php echo$letter->form_four ??'NA'?>
+                                        
+                                    </td>
+                                    <td>{{$letter->date ?? 'NA'}}</td>
                                     <td>
                                         <!-- Active Item -->
                                         <div class="btn-group">
@@ -102,6 +109,25 @@
 
                                                         <!-- /.card-header -->
                                                         <div class="card-body">
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label>Date</label>
+                                                                        <input type="text" name="date" class="form-control" value="{{$letter->date}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label>Letter Id</label>
+                                                                        <input type="text" name="letter_id" class="form-control" value="{{$letter->letter_id}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
@@ -195,7 +221,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Exam</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Letter</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('adminAddFormFourScholarshipLetters')}}">
@@ -204,6 +230,23 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text" name="date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Letter Id</label>
+                                <input type="text" name="letter_id" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                    
                     <div class="row">
                         <div class="col-sm-12">
@@ -212,8 +255,6 @@
                                 <label>Content of the letter <sup>*</sup></label>
                                 <!--<input type="text" class="form-control" name="question_name">-->
                                 <textarea id="editor1" name="form_four" rows="10" cols="80"> </textarea>
-                                           
-                               
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,6 @@
 
 
 
-
 <div id="response"></div>
 
 
@@ -72,49 +71,9 @@
         <div class="card">
             <div class="card-header">
                 
-                <div class="row">
-                      <div class="col-sm-12">
-                          <center><h3>CLASS: {{$clas->clas_name ?? 'NA'}}</h3></center>
-                      </div>
-                </div>
-                <br>
-                 <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
-                    @csrf
-                    <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>
-                       
-                 </form>
-
-                 <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
-                    @csrf
-                    <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-warning rounded-pill"><i class=" uil-arrow-down"> Download (Pdf)</i></button>
-                       
-                 </form>
-
-
-                 <form method="POST" action="{{route('markedStudentAsAlumni')}}" id="markAllStudentAlumniForm">
-                    @csrf
-                    <input type="text" name="alumni_clas_id" value="{{$clas->id}}" id="alumni_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-info rounded-pill"><i class=" uil-arrow-down">Mark All Students As Alumni</i></button>
-                       
-                 </form>
-
-                 <form method="POST" action="{{route('suspendAllStudents')}}" id="suspendAllStudentsForm">
-                    @csrf
-                    <input type="text" name="suspend_all_students_clas_id" value="{{$clas->id}}" id="suspend_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-danger rounded-pill"><i class=" uil-arrow-down">Suspend All</i></button>
-                       
-                 </form>
-
-                 <form method="POST" action="{{route('activateAllStudents')}}" id="activateAllStudentsForm">
-                    @csrf
-                    <input type="text" name="activate_all_students_clas_id" value="{{$clas->id}}" id="activate_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-primary rounded-pill"><i class=" uil-arrow-down">Activate All</i></button>
-                       
-                 </form>
+                Total Students: <span id="total-users">0</span>
                  <!--<a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>-->
-                 <!--<a type="button" style="float:right" class="btn btn-sm btn-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <i class="uil-export"></i>Upload</a>-->
+                 <!--<a type="button" style="float:right" class="btn btn-sm btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"> <i class="uil-export"></i>Upload</a>-->
                 <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUser-modal"> <i class="uil-user-plus"></i>Add</a>-->
 
                  <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addUserModal"> <i class="uil-user-plus"></i>Add New Student</a>
@@ -161,16 +120,16 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Student Contact</th>
-                                    <th>Parent Contact</th>
-                                    <th>Class</th>
+                                    <th>Phonenumber</th>
+                                    <th>Parent Phone</th>
                                     <th>Email</th>
-                                    <th>School</th>
-                                    <th>Prefered Course</th>
-                                    <th>Course/Program</th>
                                     <!--<th>Class</th>-->
+                                    <!--<th>Course</th>-->
+                                    <th>Class</th>
+                                    <th>Score</th>
+                                    <th>S.Letter</th>
                                     <!--<th>Gender</th>-->
-                                    <th>Status</th>
+                                    <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -203,10 +162,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New User</h4>
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Student</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form method="POST" action="{{route('addTrainee')}}">
+            <form method="POST" action="{{route('highSchoolTeacherEnrolStudent')}}">
                 @csrf
                
             <div class="modal-body">
@@ -234,10 +193,17 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
+                            <label>Lastname</label>
+                             <input type="text" class="form-control" name="lastname">
+                        </div>
+                    </div>
+
+                   <!-- <div class="col-sm-6">
+                        <div class="form-group">
                              <label>Secondname</label>
                              <input type="text"  name="secondname" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
 
                    
 
@@ -246,18 +212,20 @@
 
                 <div class="row">
                    
-                   <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Lastname</label>
-                             <input type="text" class="form-control" name="lastname">
-                        </div>
-                    </div>
+                  
 
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Phonenumber <span class="labelSpan">*</span></label>
+                            <label>Student Phonenumber <span class="labelSpan">*</span></label>
                             <input type="number" class="form-control" name="phonenumber" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Parent Phonenumber <span class="labelSpan"></span></label>
+                            <input type="number" class="form-control" name="parent_phone">
                         </div>
                     </div>
 
@@ -268,12 +236,12 @@
 
                 <div class="row">
 
-                   <div class="col-sm-6">
+                   <!--<div class="col-sm-6">
                         <div class="form-group">
                             <label>Email <span class="labelSpan">*</span></label>
                             <input type="email" class="form-control" name="email" required>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -287,114 +255,75 @@
                         </div>
                     </div>
 
-
-
-
-                </div>
-
-                <div class="row" style="padding-top:10px">
-                   
                     <div class="col-sm-6">
-                            <label>Course <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="course_id" required>
+                            <label>Class<span class="labelSpan">*</span></label>
+                            <select class="form-control" name="clas_category" required>
                                <option value="">Select Course</option>
-                                @if(!empty($courses))
-                                   @foreach($courses as $key=>$course)
-                                      <option value="{{$course->id}}">{{$course->course_name}}</option>
-                                   @endforeach
-                                @endif
-                                 
-                            </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <label>Class <span class="labelSpan">*</span></label>
-                             <select class="form-control" name="clas_id" required>
-                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
-                            </select>
-                    </div>
-                </div>
-
-                <div class="row" style="padding-top:10px">
-                    <div class="col-sm-6">
-                           <label>Has Paid Registration Fee</label>
-                           <select class="form-control" name="has_paid_reg_fee" required>
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                           <label>Type Of Student</label>
-                           <select class="form-control" name="role" required>
-                                <option value="">Select</option>
-                                <option value="Trainee">Active/Student Ready to take class</option>
-                                <option value="Applicant">Student Who Applied From Website</option>
-                                <option value="ict_club_student">Ict Club Student</option>
-                                <option value="student_from_event">Student From Event</option>
-                                <option value="student_from_referal">Student From Referal</option>
-                                <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
-
-                            </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Parent Phonenumber<label>
-                            <input type="text" name="parent_phone" class="form-control">
-                        </div>
-                            
-                    </div>
-                   
-                    <div class="col-sm-6">
-                            <label>School <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="school_id">
-                               <option value="">Select School</option>
-                                @if(!empty($schools))
-                                   @foreach($schools as $key=>$school)
-                                      <option value="{{$school->id}}">{{$school->school_name}}</option>
-                                   @endforeach
-                                @endif
-                                 
-                            </select>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    
-                    <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_category">
-                               <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
                                <option value="Form Two">Form Two</option>
                                <option value="Form Three">Form Three</option>
                                <option value="Form Four">Form Four</option>
                             </select>
                     </div>
 
-                    <div class="col-sm-6">
-                            <label>Student Prefered Course<span class="labelSpan">*</span></label>
-                            <select class="form-control" name="prefered_course">
-                               <option value="">Select Course</option>
-                               <option value="Mobile Application Development">Mobile Application Development</option>
-                               <option value="Web Application Development">Web Application Development</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Cyber Security And Ethical Hacking">Cyber Security And Ethical Hacking</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Datascienec Machine Learning And AI">Datascience Machine Learning And AI</option>
-                               <option value="Robotics And IOT">Robotics And IOT</option>
-                               <option value="Graphic Design">Graphic Design</option>
-                               <option value="Digital Marketing">Digital Marketing</option>
-                               <option value="Ui/Ux Design">Ui/Ux Design</option>
-                            </select>
-                    </div>
+
+
 
                 </div>
 
+                <div class="row" style="padding-top:10px">
+                   
+                    <div class="col-sm-6">
+                            <!--<label>Course <span class="labelSpan">*</span></label>-->
+                            <select class="form-control" name="course_id" required hidden="true">
+                               <!--<option value="">Select Course</option>-->
+                                @if(!empty($courses))
+                                   @foreach($courses as $key=>$course)
+                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                   @endforeach
+                                @endif
+                                 
+                            </select>
+                    </div>
+
+                    <div class="col-sm-6">
+                            <!--<label>Class <span class="labelSpan">*</span></label>-->
+                             <select class="form-control" name="clas_id" required hidden="true">
+                                <!--<option value="">Select Class</option>-->
+                                @if(!empty($clases))
+                                   @foreach($clases as $key=>$clas)
+                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                   @endforeach
+                                @endif
+
+                            </select>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="col-sm-6">
+                        <!--<label>Has Paid Registration Fee</label>-->
+                           <select class="form-control" name="has_paid_reg_fee" required hidden="true">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                    </div>
+
+                    <div class="col-sm-6">
+                            <!--<label>School<span class="labelSpan">*</span></label>-->
+                            <select class="form-control" name="school_id" required hidden="true">
+                               <!--<option value="">Select Course</option>-->
+                                @if(!empty($schools))
+                                   @foreach($schools as $key=>$school)
+                                    <option value="{{$school->id}}">{{$school->school_name}}</option>
+                                   @endforeach
+                                @endif
+                                 
+                            </select>
+                    </div>
+
+                    
+
+                </div>
 
 
 
@@ -463,19 +392,6 @@
                                 </div>
                         </div>
 
-                        <div class="col-sm-6 mb-2">
-                                <div class="form-group">
-                                    <label  for="lastname">Secondname</label>
-                                    <input type="text" class="form-control" id="secondname" name="secondname">
-                                </div>
-                        </div>
-
-                        
-
-                    </div>
-
-                    <div class="row">
-
                         <div class="col-sm-6">
                                 <div class="form-group mb-2">
                                     <label  for="lastname">Lastname</label>
@@ -484,12 +400,35 @@
                         </div>
 
 
+                        <!--<div class="col-sm-6 mb-2">
+                                <div class="form-group">
+                                    <label  for="lastname">Secondname</label>
+                                    <input type="text" class="form-control" id="secondname" name="secondname">
+                                </div>
+                        </div>-->
+
+                        
+
+                    </div>
+
+                    <div class="row">
+
+                        
+
                         <div class="col-sm-6">
                             <div class="form-group mb-2">
-                                <label  for="firstname">Phonenumber<span class="labelSpan">*</span></label>
-                                <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
+                                <label  for="firstname">Student Phonenumber<span class="labelSpan">*</span></label>
+                                <input type="text" class="form-control" id="phonenumber" name="phonenumber" required>
                             </div>
                         </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group mb-2">
+                                <label  for="firstname">Parent Phonenumber<span class="labelSpan">*</span></label>
+                                <input type="text" class="form-control" id="parent_phone" name="parent_phone" >
+                            </div>
+                        </div>
+
 
 
                        
@@ -524,89 +463,44 @@
                    
                     <div class="row" style="padding-top:10px">
                    
-                    <div class="col-sm-6">
-                            <label>Course <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="course_id" id="update_course_id" required>
-                                <option value="">Select Course</option>
-                                @if(!empty($courses))
-                                    @foreach($courses as $key=>$course)
-                                    <option value="{{$course->id}}">{{$course->course_name}}</option>
-                                    @endforeach
-                                @endif
-                                    
-                            </select>
-                    </div>
+                   <!--<div class="col-sm-6">
+                           <label>Course <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="course_id" id="update_course_id" required>
+                              <option value="">Select Course</option>
+                               @if(!empty($courses))
+                                  @foreach($courses as $key=>$course)
+                                   <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                  @endforeach
+                               @endif
+                                
+                           </select>
+                   </div>-->
 
-                    <div class="col-sm-6">
-                            <label>Class <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_id" id="update_clas_id" required>
-                                <option value="">Select Class</option>
-                                @if(!empty($clases))
-                                    @foreach($clases as $key=>$clas)
-                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
-                                    @endforeach
-                                @endif
-
-                            </select>
-                    </div>
-               </div>
-
-               <div class="row">
-
-                         <div class="col-sm-6">
-                            <label>Type Of Student</label>
-                            <select class="form-control" name="role" id="role" required>
-                                    <option value="">Select</option>
-                                    <option value="Trainee">Active/Student Ready to take class</option>
-                                    <option value="Applicant">Student Who Applied From Website</option>
-                                    <option value="ict_club_student">Ict Club Student</option>
-                                    <option value="student_from_event">Student From Event</option>
-                                    <option value="student_from_referal">Student From Referal</option>
-                                    <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
-
-                                </select>
-                        </div>
-
-                        <div class="col-sm-6">
-                                <label>Parent Phonenumber<label>
-                                <input type="text" name="parent_phone" id="parent_phone" class="form-control">
-                        </div>
-
-               </div>
-
-               <div class="row">
-                    
-                    <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="clas_category" id="clas_category">
+                   <!--<div class="col-sm-6">
+                           <label>Class <span class="labelSpan">*</span></label>
+                           <select class="form-control" name="clas_id" id="update_clas_id" required>
                                <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
+                               @if(!empty($clases))
+                                  @foreach($clases as $key=>$clas)
+                                       <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                  @endforeach
+                               @endif
+
+                           </select>
+                   </div>-->
+               </div>
+
+               <div class="row">
+                        <div class="col-sm-12">
+                            <label>Class<span class="labelSpan">*</span></label>
+                            <select class="form-control" name="clas_category" id="clas_category" required>
+                               <option value="">Select Course</option>
                                <option value="Form Two">Form Two</option>
                                <option value="Form Three">Form Three</option>
                                <option value="Form Four">Form Four</option>
                             </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <label>Student Prefered Course<span class="labelSpan">*</span></label>
-                            <select class="form-control" name="prefered_course" id="prefered_course">
-                               <option value="">Select Class</option>
-                               <option value="Mobile Application Development">Mobile Application Development</option>
-                               <option value="Web Application Development">Web Application Development</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Cyber Security And Ethical Hacking">Cyber Security And Ethical Hacking</option>
-                               <option value="Full-Stack Software Development">Full-Stack Software Development</option>
-                               <option value="Datascienec Machine Learning And AI">Datascience Machine Learning And AI</option>
-                               <option value="Robotics And IOT">Robotics And IOT</option>
-                               <option value="Graphic Design">Graphic Design</option>
-                               <option value="Digital Marketing">Digital Marketing</option>
-                               <option value="Ui/Ux Design">Ui/Ux Design</option>
-                            </select>
-                    </div>
-
-
-                </div>
-
+                       </div>
+               </div>
 
                   
 
@@ -650,33 +544,6 @@
             <div class="modal-footer justify-content-between" style="border:1px solid white">
                 <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
                 <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="suspendUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="border:1px solid white">
-                <h5 class="modal-title" id="deleteUserModalLabel">Are you sure you want to suspend this Students</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="border:1px solid white">
-                <form id="suspendUserForm">
-                   
-                
-                    <input type="text" id="suspend_user_id" name="suspend_user_id" class="form-control" hidden="true">
-                   
-            </div>
-
-            <div class="modal-footer justify-content-between" style="border:1px solid white">
-                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Suspend</button>
             </div>
             </form>
         </div>
@@ -748,8 +615,6 @@
 <script>
     $(document).ready(function(){
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const clas_id = urlParams.get('clas_id');
 
 
 
@@ -806,13 +671,12 @@
             function fetchUsers(page = 1, search = '', perPage = 10) {
                 $.ajax({
                     type: 'GET',
-                    url: "{{ route('getStudentsPerClass', ['classId' => ':classId']) }}".replace(':classId', clas_id),
+                    url: "{{route('highSchoolTeacherFetchStudent')}}",
                     data: { page: page, search: search, per_page: perPage },
                     dataType: "json",
                     success: function(response) {
                         // Update total users
                         $('#total-users').text(response.total_users);
-                        $('#clas_name').text(response.clasName);
 
                         // Clear and repopulate the table
                         $('tbody').html("");
@@ -828,54 +692,40 @@
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
                                     <td>' + item.phonenumber + '</td>\
                                     <td>' + item.parent_phone + '</td>\
-                                     <td>' + item.clas_category + '</td>\
                                     <td>' + item.email + '</td>\
-                                    <td>' + item.school.school_name + '</td>\
-                                    <td>' + item.prefered_course + '</td>\
-                                    <td>' + item.course.course_name + '</td>\
+                                    <td>' + item.clas_category + '</td>\
+                                    <td>' + item.total_score + '</td>\
+                                    <!--<td>' + item.course.course_name + '</td>-->\
                                     <!--<td>' + item.clas.clas_name + '</td>-->\
                                    <!-- <td>' + item.gender + '</td>-->\
-                                   <td>' + item.status + '</td>\
+                                    <!--<td>' + item.status + '</td>-->\
                                     <td>\
-                                        <div class="dropdown">\
-                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
-                                                Actions\
-                                            </button>\
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
-                                                <li>\
-                                                    <span type="button" \
-                                                        data-id="' + item.id + '" \
+                                        <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="btn btn-sm btn-primary download-pdf" data-id="' + item.id + '">\
+                                            <i class="fa fa-download"></i> Download\
+                                        </a>\
+                                    </td>\
+                                    <td>\
+                                    <div class="dropdown">\
+                                        <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                        <ul class="dropdown-menu">\
+                                            <li><a href="#" class="dropdown-item jobDesBtn text-success" data-id="' + item.id + '" \
                                                         data-firstname="' + item.firstname + '" \
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
                                                         data-phonenumber="' + item.phonenumber + '" \
-                                                         data-parent_phone="' + item.parent_phone + '" \
+                                                        data-parent_phone="' + item.parent_phone + '" \
                                                         data-email="' + item.email + '" \
                                                         data-update_course_id="' + item.course.id + '" \
                                                         data-update_clas_id="' + item.clas.id + '" \
                                                         data-role="' + item.role + '" \
-                                                        data-clas_category="' + item.clas_category + '" \
-                                                        data-prefered_course="' + item.prefered_course + '" \
                                                         data-gender="' + item.gender + '" \
-                                                        data-status="' + item.status + '" \
-                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i>Update Student</span>\
-                                                </li>\
-                                                <li>\
-                                                    <span type="button" data-id="' + item.id + '" \
-                                                        class="text-warning dropdown-item suspendBtn"><i class="fa fa-trash"></i> Suspend Student</span>\
-                                                </li>\
-                                                 <li>\
-                                                    <span type="button" value="' + item.id + '" \
-                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete Student</span>\
-                                                </li>\
-                                                <li>\
-                                                    <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
-                                                        <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee\
-                                                    </a>\
-                                                </li>\
-                                            </ul>\
-                                        </div>\
-                                    </td>\
+                                                        data-clas_category="' + item.clas_category + '" \
+                                                        data-status="' + item.status + '" \> <i class="fa fa-edit"></i> Update</a></li>\
+                                            <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
+                                            <li><a  class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
+                                        </ul>\
+                                    </div>\
+                                </td>\
                                 </tr>'
                             );
                         });
@@ -895,9 +745,8 @@
                             const update_course_id = $(this).data('update_course_id');
                             const update_clas_id = $(this).data('update_clas_id');
                             const role = $(this).data('role');
-                            const clas_category = $(this).data('clas_category');
                             const gender = $(this).data('gender');
-                            const prefered_course = $(this).data('prefered_course');
+                            const clas_category = $(this).data('clas_category');
                             const status = $(this).data('status');
 
                             // Populate modal fields
@@ -911,9 +760,8 @@
                             $('#updateUserModal #update_course_id').val(update_course_id);
                             $('#updateUserModal #update_clas_id').val(update_clas_id);
                             $('#updateUserModal #role').val(role);
-                            $('#updateUserModal #clas_category').val(clas_category);
                             $('#updateUserModal #gender').val(gender);
-                            $('#updateUserModal #prefered_course').val(prefered_course);
+                            $('#updateUserModal #clas_category').val(clas_category);
                             $('#updateUserModal #status').val(status);
 
                             // Show the modal
@@ -927,15 +775,6 @@
                             // Show the modal
                             $('#deleteUserModal').modal('show');
                         });
-
-                        $('.suspendBtn').on('click', function() {
-                            const suspend_user_id = $(this).data('id');
-                            // Populate modal fields
-                            $('#suspend_user_id').val(suspend_user_id);
-                            // Show the modal
-                            $('#suspendUserModal').modal('show');
-                        });
-
                     }
                 });
             }
@@ -949,15 +788,10 @@
             const formData = {
                 user_id: $('#user_id').val(),
                 firstname: $('#firstname').val(),
-                secondname: $('#secondname').val(),
                 lastname: $('#lastname').val(),
                 phonenumber: $('#phonenumber').val(),
-                prefered_course: $('#prefered_course').val(),
                 parent_phone: $('#parent_phone').val(),
                 email: $('#email').val(),
-                update_course_id: $('#update_course_id').val(),
-                update_clas_id: $('#update_clas_id').val(),
-                role: $('#role').val(),
                 clas_category: $('#clas_category').val(),
                 gender: $('#gender').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
@@ -969,7 +803,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{{ route('updateTraineePerClas') }}",
+                url: "{{ route('highSchoolTeacherUpdateStudent') }}",
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
@@ -1085,48 +919,6 @@
 
 
 
-        $('#suspendUserForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const formData = {
-                suspend_user_id: $('#suspend_user_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('suspendUser') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        $('#suspendUserModal').modal('hide'); // Hide the modal
-                        displaySuccessMessage('User Suspended Successfully');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to suspend user.');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
-            });
-
-        
-        });
-
-
-
 
         function renderPagination(pagination, search, perPage) {
             let paginationHTML = "";
@@ -1168,138 +960,6 @@
             const perPage = $(this).data('per-page');
             fetchUsers(page, search, perPage);
         });
-
-
-
-
-
-
-        $('#markAllStudentAlumniForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const formData = {
-                alumni_clas_id: $('#alumni_clas_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('markedStudentAsAlumni') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        displaySuccessMessage('All Students are marked As allumni');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to update user.');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
-            });  
-        });
-
-
-
-
-
-
-
-        $('#suspendAllStudentsForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const formData = {
-                suspend_all_students_clas_id: $('#suspend_all_students_clas_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('suspendAllStudents') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        displaySuccessMessage('All Students Are suspended');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to suspend.');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
-            });  
-        });
-
-
-
-
-        $('#activateAllStudentsForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const formData = {
-                activate_all_students_clas_id: $('#activate_all_students_clas_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('activateAllStudents') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        displaySuccessMessage('All Students Are Activated');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to Activate Students.');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
-            });  
-        });
-
-
-
-
-
-
-
 
 
 

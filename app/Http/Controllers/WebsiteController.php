@@ -94,7 +94,7 @@ class WebsiteController extends Controller
     }
 
     public function showFormFourScholarshipLetter(){
-        $letter=ScholarshipLetter::select('id','form_four')->first();
+        $letter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp')->first();
         return view('pages.showFormFourScholarshipLetter',compact('letter'));
     }
 
@@ -169,5 +169,17 @@ class WebsiteController extends Controller
     public function enrol(){
         $courses=Course::where('course_status','Active')->select('course_name')->get();
         return view('pages.enrol',compact('courses'));
+    }
+
+    public function applicantDownloadAdmissionLetter(){
+        
+                $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                $imageData2 = base64_encode(file_get_contents($imagePath2));
+                $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+        
+                $imagePath3 = public_path('images/stamp/official_stamp.png');
+                $imageData3 = base64_encode(file_get_contents($imagePath3));
+                $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+        return view('admissionletters.applicantDownloadAdmissionLetter',compact('imageSrc3','imageSrc2'));
     }
 }

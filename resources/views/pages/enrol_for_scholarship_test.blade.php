@@ -42,6 +42,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Firstname</label>
                                             <input name="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" value="{{ old('firstname') }}" placeholder="Firstname eg John" required="required">
                                             @error('firstname')
                                                 <span class="invalid-feedback" role="alert">
@@ -53,6 +54,7 @@
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Lastname</label>
                                             <input name="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" value="{{ old('lastname') }}" placeholder="Lastname eg Doe"  required="required">
                                             @error('lastname')
                                                 <span class="invalid-feedback" role="alert">
@@ -65,6 +67,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Student Phonenumber</label>
                                             <input name="phonenumber" type="text" class="form-control @error('phonenumber') is-invalid @enderror" value="{{ old('phonenumber') }}" placeholder="Phone eg +25470000000"  required="required">
                                            
                                             @error('phonenumber')
@@ -78,6 +81,21 @@
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Parent Phonenumber</label>
+                                            <input name="parent_phone" type="text" class="form-control @error('parent_phone') is-invalid @enderror" value="{{ old('parent_phone') }}" placeholder="Phone eg +25470000000">
+                                           
+                                            @error('parent_phone')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                        </div> <!-- singel form -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <label>Email Address</label>
                                             <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email eg johndoe@gmail.com" required="required">
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
@@ -89,6 +107,7 @@
                                    
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Password</label>
                                             <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Password" required="required">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -100,6 +119,7 @@
                                    
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Confirm Password</label>
                                             <input  name="password_confirmation" required autocomplete="new-password" value="{{ old('password_confirmation') }}" type="password" placeholder="Confirm Password" required="required">
                                           
                                         </div> <!-- singel form -->
@@ -107,6 +127,7 @@
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>Gender</label>
                                             <select class="form-control" name="gender" required style="padding:20px" value="{{ old('gender') }}" >
                                                 <option value="">Select Gender ..</option>
                                                 <option value="Male">Male</option>
@@ -118,6 +139,7 @@
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
+                                            <label>School</label>
                                             <select class="form-control" name="school_id" required>
                                                <option value="">Select ...</option>
                                                 @foreach($schools as $key=>$school)
@@ -126,6 +148,38 @@
                                             </select>   
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+
+                                        <div class="singel-form form-group">
+                                            <label>Class</label>
+                                            <select class="form-control" name="clas_category" required>
+                                               <option value="">Select ...</option>
+                                                <option value="Form Two">Form Two</option>
+                                                <option value="Form Three">Form Three</option>
+                                                <option value="Form Four">Form Four</option>
+                                            </select>   
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+
+                                        <div class="singel-form form-group">
+                                            <label>Should You Pass Partial Scholarship test, which course would you like to study with us<span class="labelSpan">*</span></label>
+                                            <select class="form-control" name="prefered_course" required>
+                                                <option value="">Select Course</option>
+                                                <option value="Full-Stack Software Development">Full-Stack Software Development</option>
+                                                <option value="Cyber Security And Ethical Hacking">Cyber Security And Ethical Hacking</option>
+                                                <option value="Datascienec Machine Learning And AI">Datascience Machine Learning And AI</option>
+                                                <option value="Graphic Design">Graphic Design</option>
+                                                <option value="Digital Marketing And Search Engine Optimization">Digital Marketing And Search Engine Optimization</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
                                    
                                    
                                         <div class="col-md-12">

@@ -14,5 +14,7 @@ class ScholarshipLetter extends Model
             'lower_forms',
             'date',
             'letter_id',
+            'stamp',
+            'signature',
     ];
 }

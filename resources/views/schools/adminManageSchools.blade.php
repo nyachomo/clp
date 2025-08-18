@@ -29,7 +29,8 @@
     background-color: #28a745; /* Green for active page */
   }
 </style>
-<div class="row">
+
+<!--<div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
@@ -38,7 +39,7 @@
             <h4 class="page-title">Dashboard</h4>
         </div>
     </div>
-</div>
+</div>-->
 
 
 
@@ -113,6 +114,8 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Location</th>
+                                    <th>Students(Form Four)</th>
+                                    <th>Students(Lower Forms)</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -215,7 +218,7 @@
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <input type="text" class="form-control" name="school_id" id="school_id" >
+                    <input type="text" class="form-control" name="school_id" id="school_id" hidden="true">
                    
 
 
@@ -399,22 +402,28 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             // Clear and repopulate the table
             $('tbody').html("");
             $.each(response.users, function(key, item) {
+                const baseUrl = "{{ route('showFormFourLeedPerSchool') }}";
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.school_name + '</td>\
                         <td>' + item.school_location + '</td>\
+                        <td>' + item.total_form_four_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_lower_forms_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
                         <td>' + item.school_status + '</td>\
-                        <td>\
-                            <button type="button" value="' + item.id + '" \
-                                data-school_name="' + item.school_name + '" \
-                                data-school_location="' + item.school_location + '" \
-                                data-school_status="' + item.school_status + '" \
-                                class="updateBtn btn btn-success btn-sm">Update</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="suspendBtn btn btn-secondary btn-sm">Suspend</button>\
-                                <button type="button" value="' + item.id + '" \
-                                class="deleteBtn btn btn-danger btn-sm">Delete</button>\
+                         <td>\
+                            <div class="dropdown">\
+                                <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
+                                <ul class="dropdown-menu">\
+                                    <li><a class="dropdown-item updateBtn text-success" href="#" \
+                                         data-id="' + item.id + '" \
+                                         data-school_name="' + item.school_name + '" \
+                                         data-school_location="' + item.school_location + '" \
+                                         data-school_status="' + item.course_price + '" ><i class="uil-edit"></i> Update</a></li>\
+                                    <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
+                                    <li><a  class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
+                                </ul>\
+                            </div>\
                         </td>\
                     </tr>'
                 );
@@ -425,7 +434,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.updateBtn').on('click', function() {
-                const school_id = $(this).val();
+                const school_id = $(this).data('id');
                 const school_name = $(this).data('school_name');
                 const school_location = $(this).data('school_location');
                 // Populate modal fields
@@ -440,7 +449,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.deleteBtn').on('click', function() {
-                const delete_school_id = $(this).val();
+                const delete_school_id = $(this).data('id');
                 // Populate modal fields
                 $('#delete_school_id').val(delete_school_id);
                 // Show the modal
@@ -450,7 +459,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
             // Attach event listener to Update button
             $('.suspendBtn').on('click', function() {
-                const suspend_school_id = $(this).val();
+                const suspend_school_id = $(this).data('id');
                 // Populate modal fields
                 $('#suspend_school_id').val(suspend_school_id);
                 // Show the modal
