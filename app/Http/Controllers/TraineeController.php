@@ -168,11 +168,11 @@ class TraineeController extends Controller
             $user->parent_phone = $request->parent_phone;
             $user->email = $request->email;
             $user->course_id = $request->update_course_id;
-            $user->clas_id = $request->update_clas_id;
+           // $user->clas_id = $request->update_clas_id;
             $user->gender = $request->gender;
             $user->role = $request->role;
             $user->clas_category = $request->clas_category;
-            $user->prefered_course = $request->prefered_course;
+            //$user->prefered_course = $request->prefered_course;
            
             $user->update();
 
