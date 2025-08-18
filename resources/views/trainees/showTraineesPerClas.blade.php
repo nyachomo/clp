@@ -270,8 +270,8 @@
 
                    <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Email <span class="labelSpan">*</span></label>
-                            <input type="email" class="form-control" name="email" required>
+                            <label>Email <span class="labelSpan"></span></label>
+                            <input type="email" class="form-control" name="email">
                         </div>
                     </div>
 
