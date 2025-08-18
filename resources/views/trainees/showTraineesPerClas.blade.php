@@ -81,14 +81,14 @@
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
                     <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>
+                   <!-- <button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
                     <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-warning rounded-pill"><i class=" uil-arrow-down"> Download (Pdf)</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-warning rounded-pill"><i class=" uil-arrow-down"> Download (Pdf)</i></button>-->
                        
                  </form>
 
@@ -96,21 +96,21 @@
                  <form method="POST" action="{{route('markedStudentAsAlumni')}}" id="markAllStudentAlumniForm">
                     @csrf
                     <input type="text" name="alumni_clas_id" value="{{$clas->id}}" id="alumni_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-info rounded-pill"><i class=" uil-arrow-down">Mark All Students As Alumni</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-info rounded-pill"><i class=" uil-arrow-down">Mark All Students As Alumni</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('suspendAllStudents')}}" id="suspendAllStudentsForm">
                     @csrf
                     <input type="text" name="suspend_all_students_clas_id" value="{{$clas->id}}" id="suspend_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-danger rounded-pill"><i class=" uil-arrow-down">Suspend All</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-danger rounded-pill"><i class=" uil-arrow-down">Suspend All</i></button>-->
                        
                  </form>
 
                  <form method="POST" action="{{route('activateAllStudents')}}" id="activateAllStudentsForm">
                     @csrf
                     <input type="text" name="activate_all_students_clas_id" value="{{$clas->id}}" id="activate_all_students_clas_id" hidden="true">
-                    <button style="float:right" type="submit" class="btn btn-sm btn-primary rounded-pill"><i class=" uil-arrow-down">Activate All</i></button>
+                    <!--<button style="float:right" type="submit" class="btn btn-sm btn-primary rounded-pill"><i class=" uil-arrow-down">Activate All</i></button>-->
                        
                  </form>
                  <!--<a style="float:right"  href="{{ route('users.download') }}" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"></i> Download</a>-->
@@ -231,13 +231,22 @@
                              <input type="text"  name="firstname" class="form-control" required>
                         </div>
                     </div>
+                   
+                   
 
                     <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Lastname</label>
+                             <input type="text" class="form-control" name="lastname">
+                        </div>
+                    </div>
+
+                    <!--<div class="col-sm-6">
                         <div class="form-group">
                              <label>Secondname</label>
                              <input type="text"  name="secondname" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
 
                    
 
@@ -246,20 +255,10 @@
 
                 <div class="row">
                    
-                   <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Lastname</label>
-                             <input type="text" class="form-control" name="lastname">
-                        </div>
-                    </div>
+                   
 
 
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Phonenumber <span class="labelSpan">*</span></label>
-                            <input type="number" class="form-control" name="phonenumber" required>
-                        </div>
-                    </div>
+                   
 
 
                     
@@ -268,12 +267,12 @@
 
                 <div class="row">
 
-                   <div class="col-sm-6">
+                   <!--<div class="col-sm-6">
                         <div class="form-group">
                             <label>Email <span class="labelSpan"></span></label>
                             <input type="email" class="form-control" name="email">
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -287,16 +286,31 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Student Phonenumber <span class="labelSpan">*</span></label>
+                            <input type="number" class="form-control" name="phonenumber" required>
+                        </div>
+                    </div>
+
 
 
 
                 </div>
 
                 <div class="row" style="padding-top:10px">
+
+                   <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Parent Phonenumber <span class="labelSpan">*</span></label>
+                            <input type="number" class="form-control" name="parent_phone" required>
+                        </div>
+                    </div>
+
                    
                     <div class="col-sm-6">
                             <label>Course <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="course_id" required>
+                            <select class="form-control" name="course_id">
                                <option value="">Select Course</option>
                                 @if(!empty($courses))
                                    @foreach($courses as $key=>$course)
@@ -304,23 +318,6 @@
                                    @endforeach
                                 @endif
                                  
-                            </select>
-                    </div>
-
-                    <div class="col-sm-6">
-                            <label>Class <span class="labelSpan">*</span></label>
-                             <select class="form-control" name="clas_id" required>
-                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
-                            </select>
-                    </div>
-                </div>
-
-                <div class="row" style="padding-top:10px">
-                    <div class="col-sm-6">
-                           <label>Has Paid Registration Fee</label>
-                           <select class="form-control" name="has_paid_reg_fee" required>
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
                             </select>
                     </div>
 
@@ -337,17 +334,7 @@
 
                             </select>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Parent Phonenumber<label>
-                            <input type="text" name="parent_phone" class="form-control">
-                        </div>
-                            
-                    </div>
-                   
                     <div class="col-sm-6">
                             <label>School <span class="labelSpan">*</span></label>
                             <select class="form-control" name="school_id">
@@ -361,12 +348,38 @@
                             </select>
                     </div>
 
+
+
+                    <div class="col-sm-6">
+                            <!--<label>Class <span class="labelSpan">*</span></label>-->
+                             <select class="form-control" name="clas_id" required hidden="true">
+                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                            </select>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="col-sm-6">
+                           <!--<label>Has Paid Registration Fee</label>-->
+                           <select class="form-control" name="has_paid_reg_fee" hidden="true">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                    </div>
+
+                    
+                </div>
+
+                <div class="row">
+                    
+                   
+                    
                 </div>
 
                 <div class="row">
                     
                     <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan">*</span></label>
+                            <label>Which Class Does this student belongs <span class="labelSpan"></span></label>
                             <select class="form-control" name="clas_category">
                                <option value="">Select Class</option>
                                <option value="Form One">Form One</option>

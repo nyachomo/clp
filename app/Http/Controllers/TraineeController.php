@@ -21,6 +21,14 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\School;
 
+use Illuminate\Support\Facades\Hash;
+use App\Models\ScholarshipLetter;
+use App\Models\Setting;
+use App\Models\Leed;
+use Dompdf\Dompdf; // Import the Dompdf class
+use Illuminate\Support\Facades\View;
+
+
 
 class TraineeController extends Controller
 {
@@ -68,23 +76,28 @@ class TraineeController extends Controller
     }
 
     public function addTrainee(Request $request){
+        do {
+            $randomEmail = mt_rand(1000, 9999) . '@tti.co.ke';
+        } while (User::where('email', $randomEmail)->exists());
+
         $user=new User;
-        $user->firstname=$request->firstname;
-        $user->secondname=$request->secondname;
-        $user->lastname=$request->lastname;
+        $user->firstname = ucwords(strtolower($request->firstname));
+        $user->secondname = ucwords(strtolower($request->secondname));
+        $user->lastname = ucwords(strtolower($request->lastname));
         $user->phonenumber=$request->phonenumber;
-        $user->email=$request->email;
+        $user->email = $randomEmail; // Ensured to be unique
         //$user->role="Trainee";
-        $user->role=$request->role ?? '';
-        $user->parent_phone=$request->parent_phone ?? '';
-        $user->school_id=$request->school_id ?? '';
-        $user->clas_category=$request->clas_category ?? '';
-        $user->prefered_course=$request->prefered_course ?? '';
+        $user->role=$request->role ?? null;
+        $user->parent_phone=$request->parent_phone ?? null;
+        $user->school_id=$request->school_id ?? null;
+        $user->clas_category=$request->clas_category ?? null;
+        $user->prefered_course=$request->prefered_course ?? null;
         $user->has_paid_reg_fee=$request->has_paid_reg_fee;
         $user->gender=$request->gender;
-        $user->course_id=$request->course_id;
+        $user->course_id=$request->course_id ?? null;
         $user->clas_id=$request->clas_id;
-        $user->password=123456;
+        $user->prefered_course=$request->prefered_course ?? null;
+        $user->password = Hash::make('12345678'); 
         $save=$user->save();
         if ($save) {
             return redirect()->back()->with('success', 'Trainee created successfully!');
