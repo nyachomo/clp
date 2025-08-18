@@ -489,11 +489,11 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                
                 // Inside the $.each(response.users, function(key, item) { ... }) loop
                 $('#table1').append(
-                    '<tr>\
+                   '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas_name + '</td>\
-                        <td><span class="' + (item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
-                         <td>' + item.clas_category + '</td>\
+                        <td><span class="' + (item.clas_status && item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
+                        <td>' + item.clas_category + '</td>\
                         <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
                         <td>\
                             <div class="dropdown">\
@@ -505,12 +505,12 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                         data-clas_category="' + item.clas_category + '" \
                                         data-clas_name="' + item.clas_name + '"><i class="uil-edit"></i> Update Class</a></li>\
                                     <li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-edit"></i> Delete Class</a></li>' +
-                                    (item.clas_status.toLowerCase() === 'active' ? 
-                                        '<li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend Class</a></li>' : 
-                                        '') +
-                                    (item.clas_status.toLowerCase() === 'suspended' ? 
-                                        '<li><a class="dropdown-item activateBtn text-success" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Activate Class</a></li>' : 
-                                        '') +
+                                        (item.clas_status && item.clas_status.toLowerCase() === 'active' ? 
+                                            '<li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend Class</a></li>' : 
+                                            '') +
+                                        (item.clas_status && item.clas_status.toLowerCase() === 'suspended' ? 
+                                            '<li><a class="dropdown-item activateBtn text-success" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Activate Class</a></li>' : 
+                                            '') +
                                 '</ul>\
                             </div>\
                         </td>\
