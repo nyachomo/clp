@@ -111,47 +111,38 @@
                        <th>AMOUNT TO PAY (KSH)</th>
                   </thead>
                   <tr style="border:1px solid black !important">
-                       <td><b>CIT 201</b></td>
+                       <td><b>CIT 101</b></td>
                        <td>FULL-STACK SOFTWARE ENGINEERING</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                   <tr style="border:1px solid black !important">
-                      <td><b>CIT 202</b></td>
+                      <td><b>CIT 102</b></td>
                        <td>CYBERSECURITY AND ETHICAL HACKING</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                   <tr>
-                       <td><b>CIT 203</b></td>
+                       <td><b>CIT 103</b></td>
                        <td>DIGITAL MARKETING AND SEO</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
                   <tr>
-                      <td><b>CIT 204</b></td>
+                      <td><b>CIT 104</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
-                  </tr>
-
-                  <tr>
-                      <td><b>CIT 205</b></td>
-                       <td>GRAPHIC DESIGN</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                </table>

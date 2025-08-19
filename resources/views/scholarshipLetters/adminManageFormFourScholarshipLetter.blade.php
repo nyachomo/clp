@@ -64,21 +64,23 @@
                         <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <td>Letter Id</td>
-                                    <th>Letter</th>
+                                    <th>Letter Id</th>
                                     <th>Date</th>
+                                    <th>Start Date</th>
+                                    <th>Registration Deadline</th>
+                                    <th>Category</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!empty($letter->form_four))
+                                @foreach($letters as $key=>$letter)
                                  <tr>
                                     <td>{{$letter->letter_id}}</td>
-                                    <td>
-                                        <?php echo$letter->form_four ??'NA'?>
-                                        
-                                    </td>
+                                   
                                     <td>{{$letter->date ?? 'NA'}}</td>
+                                    <td>{{$letter->start_date ?? 'NA'}}</td>
+                                    <td>{{$letter->registration_deadline ?? 'NA'}}</td>
+                                    <td>{{$letter->category ?? 'NA'}}</td>
                                     <td>
                                         <!-- Active Item -->
                                         <div class="btn-group">
@@ -97,7 +99,7 @@
 
                                     <!-- Add User modal -->
                                         <div id="updateLetter{{$letter->id ?? ''}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl">
+                                            <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Letter</h4>
@@ -109,7 +111,7 @@
 
                                                         <!-- /.card-header -->
                                                         <div class="card-body">
-
+                                                             <input type="text" name="id" value="{{$letter->id}}" hidden="true">
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
@@ -131,16 +133,35 @@
                                                         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <!-- text input -->
                                                                     <div class="form-group">
-                                                                        <label>Content of the letter <sup>*</sup></label>
-                                                                        <input type="text" class="form-control" name="id" value="{{$letter->id ?? ''}}" hidden="true">
-                                                                        <textarea id="editor2" name="form_four" rows="10" cols="80"> {{$letter->form_four ?? ''}}</textarea>
-                                                                                
-                                                                    
+                                                                        <label>Registration Deadline</label>
+                                                                        <input type="text" name="registration_deadline" class="form-control" value="{{$letter->registration_deadline}}">
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label>Start Date</label>
+                                                                        <input type="text" name="start_date" class="form-control" value="{{$letter->start_date}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label>Category</label>
+                                                                        <select class="form-control" name="category" required>
+                                                                            <option value="{{$letter->category}}">{{$letter->category}}</option>
+                                                                            <option value="Lower Forms">Lower Forms </option>
+                                                                            <option value="Form Four">Form Four </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                    
 
                                                         </div>
                                                         <!-- /.card-body -->
@@ -195,7 +216,7 @@
                                     <!--end of modal-->
 
                                  </tr>
-                                 @endif
+                                 @endforeach
                             </tbody>
                         
                         </table>                                           
@@ -218,7 +239,7 @@
 
 <!-- Add User modal -->
 <div id="addLetter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Letter</h4>
@@ -247,17 +268,48 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="row">
                         <div class="col-sm-12">
-                            <!-- text input -->
                             <div class="form-group">
-                                <label>Content of the letter <sup>*</sup></label>
-                                <!--<input type="text" class="form-control" name="question_name">-->
-                                <textarea id="editor1" name="form_four" rows="10" cols="80"> </textarea>
+                                <label>Registration Deadline</label>
+                                <input type="text" name="registration_deadline" class="form-control">
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input type="text" name="start_date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select class="form-control" name="category" required>
+                                    <option value="">Select ...</option>
+                                    <option value="Lower Forms">Lower Forms </option>
+                                    <option value="Form Four">Form Four </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                         
+                            <div class="form-group">
+                                <label>Content of the letter <sup>*</sup></label>
+                               <input type="text" class="form-control" name="question_name">
+                                <textarea id="editor1" name="form_four" rows="10" cols="80"> </textarea>
+                            </div>
+                        </div
+                    </div>-->
 
                 </div>
                  <!-- /.card-body -->

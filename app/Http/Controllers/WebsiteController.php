@@ -80,7 +80,7 @@ class WebsiteController extends Controller
     public function enrol_for_scholarship_test(){
         $schools=School::select('id','school_name')->get();
         $course=Course::where('is_scholarship_test_course','Yes')->select('id','course_name')->first();
-        $clas=Clas::where('is_scholarship_test_clas','Yes')->where('scholarship_test_category','Form_4')->first();
+        $clas=Clas::where('is_scholarship_test_clas','Yes')->first();
         return view('pages.enrol_for_scholarship_test',compact('schools','course','clas'));
     }
 
@@ -94,8 +94,9 @@ class WebsiteController extends Controller
     }
 
     public function showFormFourScholarshipLetter(){
-        $letter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp')->first();
-        return view('pages.showFormFourScholarshipLetter',compact('letter'));
+        $formFourLetter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp','registration_deadline','category','start_date')->where('category','Form Four')->first();
+        $lowerFormsLetter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp','registration_deadline','category','start_date')->where('category','Lower Forms')->first();
+        return view('scholarshipletters.showFormFourScholarshipLetter',compact('formFourLetter','lowerFormsLetter'));
     }
 
 

@@ -58,11 +58,11 @@ class SchoolController extends Controller
         $users = $query->paginate($perPage);
         // Append the number of students who in each school
         foreach ($users as $school) {
-            $school->total_form_four_student = count(User::where('school_id', $school->id)->where('role','scholarship_test_student')->where('clas_category','Form Four')->get());
+            $school->total_form_four_student = count(User::where('school_id', $school->id)->where('clas_category','Form Four')->get());
         }
 
         foreach ($users as $school2) {
-            $school2->total_lower_forms_student = count(User::where('school_id', $school2->id)->where('role','scholarship_test_student')->where('clas_category','!=','Form Four')->get());
+            $school2->total_lower_forms_student = count(User::where('school_id', $school2->id)->where('clas_category','!=','Form Four')->get());
         }
     
         return response()->json([
@@ -157,7 +157,7 @@ class SchoolController extends Controller
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','parent_phone','course_id','status','gender','clas_id')->where('role','scholarship_test_student')->where('school_id', $classId)->orderBy('created_at', 'desc');
+        'email','phonenumber','parent_phone','course_id','status','gender','clas_id')->where('school_id', $classId)->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -281,7 +281,10 @@ class SchoolController extends Controller
                 DB::raw("COALESCE(lastname, '') as lastname"),
                 DB::raw("COALESCE(clas_id, '') as clas_id"),
                 DB::raw("COALESCE(course_id, '') as course_id"),
-                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id')->where('role','scholarship_test_student')->where('school_id',Auth::user()->school_id)->orderBy('created_at', 'desc');
+                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id')->where('clas_category','Form Four')
+                ->orWhere('clas_category','Form Two')
+                ->orWhere('clas_category','Form Three')
+                ->where('school_id',Auth::user()->school_id)->orderBy('created_at', 'desc');
             
                 // Apply search filter if provided
                 if ($request->has('search') && !empty($request->search)) {
@@ -553,39 +556,79 @@ class SchoolController extends Controller
 
                 //$student = User::findOrFail($request->id);
                 $student=User::where('id',$request->id)->first();
-                $letter=ScholarshipLetter::select('id','form_four','date','letter_id')->first();
-                //GET NAME OF THE PERSON THAT LOGINS 
-                $setting=Setting::latest()->first();
-                $imagePath = public_path('images/logo/' . $setting->company_logo);
-                $imageData = base64_encode(file_get_contents($imagePath));
-                $imageSrc = 'data:image/jpeg;base64,' . $imageData;
-        
-        
-                $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
-                $imageData2 = base64_encode(file_get_contents($imagePath2));
-                $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
-        
-                $imagePath3 = public_path('images/stamp/official_stamp.png');
-                $imageData3 = base64_encode(file_get_contents($imagePath3));
-                $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
-        
-        
-                // Load the view and pass the data
-                $html = View::make('scholarshipLetters.highSchoolTeacherDownloadStudentScholarshipLetter', compact('imageSrc','imageSrc2','imageSrc3','letter','student'))->render();
-                //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
-        
-                // Convert the view to a PDF
-                $dompdf = new \Dompdf\Dompdf();
-                $dompdf->loadHtml($html);
-                $dompdf->setPaper('A4', 'portrait');
-                $dompdf->render();
-        
-                // Stream or download the PDF
-                return response($dompdf->output(), 200, [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_Partial_scholarship_Letter.pdf"',
-                ]);
+                if($student->clas_category=="Form Four"){
 
+
+                    $formFourLetter=ScholarshipLetter::where('category','Form Four')->select('id','form_four','date','letter_id','category','registration_deadline','start_date')->first();
+                    //GET NAME OF THE PERSON THAT LOGINS 
+                    $setting=Setting::latest()->first();
+                    $imagePath = public_path('images/logo/' . $setting->company_logo);
+                    $imageData = base64_encode(file_get_contents($imagePath));
+                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            
+            
+                    $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                    $imageData2 = base64_encode(file_get_contents($imagePath2));
+                    $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+            
+                    $imagePath3 = public_path('images/stamp/official_stamp.png');
+                    $imageData3 = base64_encode(file_get_contents($imagePath3));
+                    $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+            
+            
+                    // Load the view and pass the data
+                    $html = View::make('scholarshipLetters.highSchoolTeacherDownloadFormFourScholarshipLetter', compact('imageSrc','imageSrc2','imageSrc3','formFourLetter','student'))->render();
+                    //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+            
+                    // Convert the view to a PDF
+                    $dompdf = new \Dompdf\Dompdf();
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'portrait');
+                    $dompdf->render();
+            
+                    // Stream or download the PDF
+                    return response($dompdf->output(), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_Partial_scholarship_Letter.pdf"',
+                    ]);
+
+                    
+                }else{
+                    $formFourLetter=ScholarshipLetter::where('category','Lower Forms')->select('id','form_four','date','letter_id','category','registration_deadline','start_date')->first();
+                    //GET NAME OF THE PERSON THAT LOGINS 
+                    $setting=Setting::latest()->first();
+                    $imagePath = public_path('images/logo/' . $setting->company_logo);
+                    $imageData = base64_encode(file_get_contents($imagePath));
+                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            
+            
+                    $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                    $imageData2 = base64_encode(file_get_contents($imagePath2));
+                    $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+            
+                    $imagePath3 = public_path('images/stamp/official_stamp.png');
+                    $imageData3 = base64_encode(file_get_contents($imagePath3));
+                    $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+            
+            
+                    // Load the view and pass the data
+                    $html = View::make('scholarshipLetters.highSchoolTeacherDownloadLowerFormsScholarshipLetter', compact('imageSrc','imageSrc2','imageSrc3','formFourLetter','student'))->render();
+                    //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+            
+                    // Convert the view to a PDF
+                    $dompdf = new \Dompdf\Dompdf();
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'portrait');
+                    $dompdf->render();
+            
+                    // Stream or download the PDF
+                    return response($dompdf->output(), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_Partial_scholarship_Letter.pdf"',
+                    ]);
+    
+                }
+               
 
         }
 

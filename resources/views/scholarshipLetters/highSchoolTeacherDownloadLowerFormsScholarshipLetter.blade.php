@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Short Course</title>
+        <title>Scholarship Letter</title>
         <style>
             table {
                 width: 100%;
@@ -41,15 +41,15 @@
 
                 <table style="width:100%">
                   <tr>
-                      <td><b>{{Auth::user()->firstname ?? 'NA'}} {{Auth::user()->lastname ?? 'NA'}}</b></td>
-                      <td style="text-align:right;padding-right:20px"><b>{{$letter->letter_id ?? 'NA'}}/{{Auth::user()->id ?? 'NA'}}</b></td>
+                      <td><b>{{$student->firstname ?? 'NA'}} {{$student->lastname ?? 'NA'}}</b></td>
+                      <td style="text-align:right;padding-right:20px"><b>{{$formFourLetter->letter_id ?? 'NA'}}/{{$student->id ?? 'NA'}}</b></td>
                   </tr>
                   <tr>
                      <td colspan="2">
                         <p>
-                            <b>{{Auth::user()->email ?? 'NA'}}</b><br>
-                            <b>{{Auth::user()->phonenumber ?? 'NA'}}</b><br>
-                            <b>{{$letter->date ?? 'NA'}}</b>
+                            <b>{{$student->email ?? 'NA'}}</b><br>
+                            <b>{{$student->phonenumber ?? 'NA'}}</b><br>
+                            <b>{{$formFourLetter->date ?? 'NA'}}</b>
                         </p>
                      </td>
                      
@@ -58,7 +58,7 @@
 
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Admission into Techsphere’s 2025 Skill Pathfinding Program – {{$letter->letter_id}}<u></b></h4>
+                         <h4><b><u>RE: Admission into Techsphere’s 2025 Skill Pathfinding Program – {{$formFourLetter->letter_id}}<u></b></h4>
                      </td>
                   </tr>
                   <tr>
@@ -111,47 +111,47 @@
                        <th>AMOUNT TO PAY (KSH)</th>
                   </thead>
                   <tr style="border:1px solid black !important">
-                       <td><b>CIT 201</b></td>
+                       <td><b>CIT 101</b></td>
                        <td>FULL-STACK SOFTWARE ENGINEERING</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                   <tr style="border:1px solid black !important">
-                      <td><b>CIT 202</b></td>
+                      <td><b>CIT 102</b></td>
                        <td>CYBERSECURITY AND ETHICAL HACKING</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                   <tr>
-                       <td><b>CIT 203</b></td>
+                       <td><b>CIT 103</b></td>
                        <td>DIGITAL MARKETING AND SEO</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
                   <tr>
-                      <td><b>CIT 204</b></td>
+                      <td><b>CIT 104</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                   <tr>
-                      <td><b>CIT 205</b></td>
+                      <td><b>CIT 105</b></td>
                        <td>GRAPHIC DESIGN</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
+                       <td>6 WEEKS</td>
+                       <td>30,500</td>
+                       <td>23,000</td>
+                       <td><b>7,500</b></td>
                   </tr>
 
                </table>
@@ -163,9 +163,9 @@
                               For this program, select one course from the list above. The program will run for a period of 6 weeks, 
                               2hrs per day (MON-FRI) and a certificate will be issued upon completion. To accept this partial scholarship,
                                you are required to visit https://techsphereinstitute.co.ke and select “Enroll” to register before the 
-                               deadline <b>{{$letter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
+                               deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                                the program but students who have attended the program before will not be required to pay this fee. 
-                               The starting date for the program is on <b>{{$letter->start_date ?? 'NA'}}</b>. Please note, the program will be run 
+                               The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. Please note, the program will be run 
                                PURELY ONLINE. This will enable students to put focus to both the program and other activities.
                          </p>
                      </td>
@@ -231,6 +231,11 @@
      
     </body>
 </html>
+
+
+
+
+
 
 
 

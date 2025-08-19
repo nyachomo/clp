@@ -701,7 +701,7 @@
                                     <!--<td>' + item.status + '</td>-->\
                                     <td>\
                                         <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="btn btn-sm btn-primary download-pdf" data-id="' + item.id + '">\
-                                            <i class="fa fa-download"></i> Download\
+                                            <i class="fa fa-download"></i> Download Scholarship Letter\
                                         </a>\
                                     </td>\
                                     <td>\

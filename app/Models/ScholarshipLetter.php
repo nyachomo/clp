@@ -16,5 +16,8 @@ class ScholarshipLetter extends Model
             'letter_id',
             'stamp',
             'signature',
+            'start_date',
+           'registration_deadline',
+            'category',
     ];
 }
