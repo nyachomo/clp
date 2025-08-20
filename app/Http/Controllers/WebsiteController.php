@@ -33,11 +33,11 @@ class WebsiteController extends Controller
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->first();
 
-        $othercourses=Course::where('course_level','!=', $course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
+        $othercourses=Course::where('course_status','Active')->where('course_level','!=', $course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->limit(5)->get();
 
-        $relatedcourses=Course::where('course_level',$course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
+        $relatedcourses=Course::where('course_status','Active')->where('course_level',$course->course_level)->whereNotIn('id',[$course->id])->select('id','course_image','course_name',
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->limit(2)->get();
 
@@ -53,7 +53,7 @@ class WebsiteController extends Controller
     }
 
     public function showAllCourses(){
-        $courses=Course::where('course_status','!=','Suspended')->select('id','course_image','course_name',
+        $courses=Course::where('course_status','!=','Suspended')->where('is_scholarship_test_course','!=','Yes')->select('id','course_image','course_name',
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->get();
        

@@ -1,3 +1,9 @@
+<?php
+use Illuminate\Http\Request;
+use App\Models\Course;
+$courses=Course::where('course_status','Active')->select('id','course_name','course_level','course_duration','course_price')->get();
+ 
+?>
 @extends('layouts.master')
 @section('content')
 
@@ -30,7 +36,7 @@
   }
 </style>
 
- <!-- start page title -->
+ <!-- start page title
  <div class="row">
     <div class="col-12">
         <div class="page-title-box">
@@ -44,7 +50,7 @@
         </div>
     </div>
 </div>
-<!-- end page title --> 
+ --> 
 
 
 
@@ -114,6 +120,7 @@
             <div class="card-header">
                 Total Courses: <span id="all_courses">0</span>
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addCourseModal"> <i class="uil-plus"></i>Add New Course</a>
+               <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#suspendedCourseModal2"> <i class="uil-plus"></i>Suspended Courses</a>-->
             </div>
             <div class="card-body">
 
@@ -390,6 +397,32 @@
                 <button type="submit"  class="btn btn-success rounded-pill">Save</button>
             </div>
         </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Add User modal -->
+<div id="suspendedCourseModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel"> Suspended Courses</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                   
+                            @foreach($courses as $course)
+                              <h2>{{$course->course_name}}</h2>
+                            @endforeach
+                        
+           </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+            </div>
+       
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>

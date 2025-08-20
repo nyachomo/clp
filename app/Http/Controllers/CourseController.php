@@ -9,7 +9,8 @@ class CourseController extends Controller
 {
     //
     public function index(){
-      return view('courses.adminManageCourses');
+        $courses2=Course::where('course_status','Active')->select('id','course_name','course_level','course_duration','course_price')->get();
+      return view('courses.adminManageCourses',compact('courses2'));
     }
 
     public function addCourse(Request $request){
@@ -43,7 +44,7 @@ class CourseController extends Controller
 
     
     public function fetchCourses(Request $request) {
-        $query = Course::where('course_status','!=','Suspended')->select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
+        $query = Course::select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
 
         $suspended_courses = count(Course::where('course_status','Suspended')->get());
         $active_courses= count(Course::where('course_status','Active')->get());

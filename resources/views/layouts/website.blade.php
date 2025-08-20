@@ -1,7 +1,7 @@
 <?php
 use App\Models\Course;
 
-$courses=Course::select('id','course_name')->get();
+$courses=Course::where('course_status','Active')->select('id','course_name')->get();
 ?>
 
 <!doctype html>
@@ -291,7 +291,7 @@ $courses=Course::select('id','course_name')->get();
                             <li><a class="dropdown-item" href="{{route('showAllCourses')}}"><b>All Courses</b></a></li>
                             <li><hr class="dropdown-divider"></li>
                             @foreach($courses as $key=>$course)
-                            <li><a class="dropdown-item" href="{{route('showSingleCourse',['id'=>$course->id])}}">{{$key+1}} .  {{$course->course_name}}</a></li>
+                            <li><a class="dropdown-item" href="{{route('showSingleCourse',['id'=>$course->id])}}">{{$course->course_name}}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             @endforeach
                         </ul>
