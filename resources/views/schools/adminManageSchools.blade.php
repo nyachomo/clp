@@ -115,7 +115,7 @@
                                     <th>Name</th>
                                     <th>Location</th>
                                     <th>Students(Form Four)</th>
-                                    <th>Students(Lower Forms)</th>
+                                  
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -409,7 +409,6 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.school_name + '</td>\
                         <td>' + item.school_location + '</td>\
                         <td>' + item.total_form_four_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>' + item.total_lower_forms_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
                         <td>' + item.school_status + '</td>\
                          <td>\
                             <div class="dropdown">\

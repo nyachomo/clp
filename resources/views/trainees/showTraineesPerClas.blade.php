@@ -169,6 +169,7 @@
                                     <th>Type</th>
                                     <!--<th>Prefered Course</th>-->
                                     <th>Course/Program</th>
+                                    <th>Downloads</th>
                                     <!--<th>Class</th>-->
                                     <!--<th>Gender</th>-->
                                     <!--<th>Status</th>-->
@@ -562,53 +563,48 @@
 
                    
                     <div class="row" style="padding-top:10px">
-                   
                      
-                    <div class="col-sm-6">
-                            <label>Which Class Does this student belongs <span class="labelSpan"></span></label>
-                            <select class="form-control" name="clas_category" id="clas_category">
-                               <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
-                               <option value="Form Two">Form Two</option>
-                               <option value="Form Three">Form Three</option>
-                               <option value="Form Four">Form Four</option>
-                            </select>
+                            <div class="col-sm-6">
+                                    <label>Which Class Does this student belongs <span class="labelSpan"></span></label>
+                                    <select class="form-control" name="clas_category" id="clas_category">
+                                    <option value="">Select Class</option>
+                                    <option value="Form One">Form One</option>
+                                    <option value="Form Two">Form Two</option>
+                                    <option value="Form Three">Form Three</option>
+                                    <option value="Form Four">Form Four</option>
+                                    </select>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Type Of Student</label>
+                                <select class="form-control" name="role" id="role" required>
+                                        <option value="">Select</option>
+                                        <option value="Trainee">Active/Student Ready to take class</option>
+                                        <option value="Applicant">Student Who Applied From Website</option>
+                                        <option value="ict_club_student">Ict Club Student</option>
+                                        <option value="student_from_event">Student From Event</option>
+                                        <option value="student_from_referal">Student From Referal</option>
+                                        <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
+
+                                    </select>
+                            </div>
+
+                        
+
+                            <div class="col-sm-6">
+                                    <!--<label>Class <span class="labelSpan">*</span></label>-->
+                                    <select class="form-control" name="clas_id" id="update_clas_id" hidden="true">
+                                        <option value="">Select Class</option>
+                                        @if(!empty($clases))
+                                            @foreach($clases as $key=>$clas)
+                                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                            @endforeach
+                                        @endif
+
+                                    </select>
+                            </div>
+
                     </div>
-
-                    <div class="col-sm-6">
-                        <label>Type Of Student</label>
-                        <select class="form-control" name="role" id="role" required>
-                                <option value="">Select</option>
-                                <option value="Trainee">Active/Student Ready to take class</option>
-                                <option value="Applicant">Student Who Applied From Website</option>
-                                <option value="ict_club_student">Ict Club Student</option>
-                                <option value="student_from_event">Student From Event</option>
-                                <option value="student_from_referal">Student From Referal</option>
-                                <option value="scholarship_test_student">Student Who Applied For Scholarship Test</option>
-
-                            </select>
-                    </div>
-
-                   
-
-                    <div class="col-sm-6">
-                            <!--<label>Class <span class="labelSpan">*</span></label>-->
-                            <select class="form-control" name="clas_id" id="update_clas_id" hidden="true">
-                                <option value="">Select Class</option>
-                                @if(!empty($clases))
-                                    @foreach($clases as $key=>$clas)
-                                        <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
-                                    @endforeach
-                                @endif
-
-                            </select>
-                    </div>
-
-
-                       
-
-
-               </div>
 
                <div class="row">
                    
@@ -629,6 +625,32 @@
                                <option value="Ui/Ux Design">Ui/Ux Design</option>
                             </select>
                     </div>-->
+
+                        <div class="col-sm-6">
+                                <label>School <span class="labelSpan">*</span></label>
+                                <select class="form-control" name="school_id" id="school_id">
+                                <option value="">Select School</option>
+                                    @if(!empty($schools))
+                                        @foreach($schools as $key=>$school)
+                                            <option value="{{$school->id}}">{{$school->school_name}}</option>
+                                        @endforeach
+                                    @endif
+                                    
+                                </select>
+                        </div>
+
+                        <div class="col-sm-6">
+                                <label>Program<span class="labelSpan">*</span></label>
+                                <select class="form-control" name="update_clas_id" id="update_clas_id">
+                                <option value="">Select School</option>
+                                    @if(!empty($clases))
+                                        @foreach($clases as $key=>$clas)
+                                            <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                        @endforeach
+                                    @endif
+                                    
+                                </select>
+                        </div>
 
 
                 </div>
@@ -860,6 +882,11 @@
                                     <td>' + item.role + '</td>\
                                     <!--<td>' + item.prefered_course + '</td>-->\
                                     <td>' + item.course.course_name + '</td>\
+                                    <td>\
+                                        <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
+                                            <i class="fa fa-download"></i> Download Scholarship Letter\
+                                        </a>\
+                                    </td>\
                                     <!--<td>' + item.clas.clas_name + '</td>-->\
                                    <!-- <td>' + item.gender + '</td>-->\
                                   <!-- <td>' + item.status + '</td>-->\
@@ -880,6 +907,7 @@
                                                         data-email="' + item.email + '" \
                                                         data-update_course_id="' + item.course.id + '" \
                                                         data-update_clas_id="' + item.clas.id + '" \
+                                                        data-school_id="' + item.school.id + '" \
                                                         data-role="' + item.role + '" \
                                                         data-clas_category="' + item.clas_category + '" \
                                                         data-prefered_course="' + item.prefered_course + '" \
@@ -919,6 +947,7 @@
                             const phonenumber = $(this).data('phonenumber');
                             const parent_phone = $(this).data('parent_phone');
                             const email = $(this).data('email');
+                            const school_id = $(this).data('school_id');
                             const update_course_id = $(this).data('update_course_id');
                             const update_clas_id = $(this).data('update_clas_id');
                             const role = $(this).data('role');
@@ -935,6 +964,7 @@
                             $('#updateUserModal #phonenumber').val(phonenumber);
                             $('#updateUserModal #parent_phone').val(parent_phone);
                             $('#updateUserModal #email').val(email);
+                            $('#updateUserModal #school_id').val(school_id);
                             $('#updateUserModal #update_course_id').val(update_course_id);
                             $('#updateUserModal #update_clas_id').val(update_clas_id);
                             $('#updateUserModal #role').val(role);
@@ -970,231 +1000,232 @@
 
 
 
-        $('#updateUserForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+            $('#updateUserForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
 
-            const formData = {
-                user_id: $('#user_id').val(),
-                firstname: $('#firstname').val(),
-                secondname: $('#secondname').val(),
-                lastname: $('#lastname').val(),
-                phonenumber: $('#phonenumber').val(),
-                //prefered_course: $('#prefered_course').val(),
-                parent_phone: $('#parent_phone').val(),
-                email: $('#email').val(),
-                update_course_id: $('#update_course_id').val(),
-                //update_clas_id: $('#update_clas_id').val(),
-                role: $('#role').val(),
-                clas_category: $('#clas_category').val(),
-                gender: $('#gender').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
+                const formData = {
+                    user_id: $('#user_id').val(),
+                    firstname: $('#firstname').val(),
+                    secondname: $('#secondname').val(),
+                    lastname: $('#lastname').val(),
+                    phonenumber: $('#phonenumber').val(),
+                    school_id: $('#school_id').val(),
+                    //prefered_course: $('#prefered_course').val(),
+                    parent_phone: $('#parent_phone').val(),
+                    email: $('#email').val(),
+                    update_course_id: $('#update_course_id').val(),
+                    update_clas_id: $('#update_clas_id').val(),
+                    role: $('#role').val(),
+                    clas_category: $('#clas_category').val(),
+                    gender: $('#gender').val(),
+                    _token: "{{ csrf_token() }}" // Include CSRF token for security
+                };
 
-            //console.log('Form Data:', formData); // Log serialized data
+                //console.log('Form Data:', formData); // Log serialized data
 
-        
+            
 
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('updateTraineePerClas') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        $('#updateUserModal').modal('hide'); // Hide the modal
-                        displaySuccessMessage('User Updated Successfully');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to update user.');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('updateTraineePerClas') }}",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message); // Notify user of success
+                            $('#updateUserModal').modal('hide'); // Hide the modal
+                            displaySuccessMessage('User Updated Successfully');
+                            fetchUsers(); // Refresh the users table
+                        } else {
+                            alert('Failed to update user.');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            let errorMessages = '';
+                            $.each(errors, function(key, value) {
+                                errorMessages += value[0] + '\n';
+                            });
+                            alert(errorMessages); // Display validation errors
+                        } else {
+                            alert('An error occurred.');
+                        }
                     }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
+                });
+
+            
             });
 
-        
-        });
 
 
 
+            $('#deleteUserForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
 
-        $('#deleteUserForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+                const formData = {
+                    delete_user_id: $('#delete_user_id').val(),
+                    _token: "{{ csrf_token() }}" // Include CSRF token for security
+                };
 
-            const formData = {
-                delete_user_id: $('#delete_user_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('deleteUser') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        $('#deleteUserModal').modal('hide'); // Hide the modal
-                        displaySuccessMessage('User Deleted Successfully');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to update user.');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('deleteUser') }}",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message); // Notify user of success
+                            $('#deleteUserModal').modal('hide'); // Hide the modal
+                            displaySuccessMessage('User Deleted Successfully');
+                            fetchUsers(); // Refresh the users table
+                        } else {
+                            alert('Failed to update user.');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            let errorMessages = '';
+                            $.each(errors, function(key, value) {
+                                errorMessages += value[0] + '\n';
+                            });
+                            alert(errorMessages); // Display validation errors
+                        } else {
+                            alert('An error occurred.');
+                        }
                     }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
+                });
+
+            
             });
 
-        
-        });
 
+            $('#suspendUserForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
 
-        $('#suspendUserForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+                const formData = {
+                    suspend_user_id: $('#suspend_user_id').val(),
+                    _token: "{{ csrf_token() }}" // Include CSRF token for security
+                };
 
-            const formData = {
-                suspend_user_id: $('#suspend_user_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('suspendUser') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        $('#suspendUserModal').modal('hide'); // Hide the modal
-                        displaySuccessMessage('User Suspended Successfully');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to suspend user.');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('suspendUser') }}",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message); // Notify user of success
+                            $('#suspendUserModal').modal('hide'); // Hide the modal
+                            displaySuccessMessage('User Suspended Successfully');
+                            fetchUsers(); // Refresh the users table
+                        } else {
+                            alert('Failed to suspend user.');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            let errorMessages = '';
+                            $.each(errors, function(key, value) {
+                                errorMessages += value[0] + '\n';
+                            });
+                            alert(errorMessages); // Display validation errors
+                        } else {
+                            alert('An error occurred.');
+                        }
                     }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
+                });
+
+            
             });
 
-        
-        });
 
 
+            $('#suspendUserForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
 
-        $('#suspendUserForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+                const formData = {
+                    suspend_user_id: $('#suspend_user_id').val(),
+                    _token: "{{ csrf_token() }}" // Include CSRF token for security
+                };
 
-            const formData = {
-                suspend_user_id: $('#suspend_user_id').val(),
-                _token: "{{ csrf_token() }}" // Include CSRF token for security
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('suspendUser') }}",
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message); // Notify user of success
-                        $('#suspendUserModal').modal('hide'); // Hide the modal
-                        displaySuccessMessage('User Suspended Successfully');
-                        fetchUsers(); // Refresh the users table
-                    } else {
-                        alert('Failed to suspend user.');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('suspendUser') }}",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message); // Notify user of success
+                            $('#suspendUserModal').modal('hide'); // Hide the modal
+                            displaySuccessMessage('User Suspended Successfully');
+                            fetchUsers(); // Refresh the users table
+                        } else {
+                            alert('Failed to suspend user.');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            let errorMessages = '';
+                            $.each(errors, function(key, value) {
+                                errorMessages += value[0] + '\n';
+                            });
+                            alert(errorMessages); // Display validation errors
+                        } else {
+                            alert('An error occurred.');
+                        }
                     }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        let errorMessages = '';
-                        $.each(errors, function(key, value) {
-                            errorMessages += value[0] + '\n';
-                        });
-                        alert(errorMessages); // Display validation errors
-                    } else {
-                        alert('An error occurred.');
-                    }
-                }
+                });
+
+            
             });
 
-        
-        });
 
 
 
+            function renderPagination(pagination, search, perPage) {
+                let paginationHTML = "";
 
-        function renderPagination(pagination, search, perPage) {
-            let paginationHTML = "";
+                if (pagination.current_page > 1) {
+                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
+                }
 
-            if (pagination.current_page > 1) {
-                paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page - 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Previous</button>';
+                for (let i = 1; i <= pagination.last_page; i++) {
+                    const activeClass = pagination.current_page === i ? 'active' : '';
+                    paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
+                }
+
+                if (pagination.current_page < pagination.last_page) {
+                    paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
+                }
+
+                $('#pagination-controls').html(paginationHTML);
             }
 
-            for (let i = 1; i <= pagination.last_page; i++) {
-                const activeClass = pagination.current_page === i ? 'active' : '';
-                paginationHTML += '<button class="pagination-btn ' + activeClass + '" data-page="' + i + '" data-search="' + search + '" data-per-page="' + perPage + '">' + i + '</button>';
-            }
 
-            if (pagination.current_page < pagination.last_page) {
-                paginationHTML += '<button class="pagination-btn" data-page="' + (pagination.current_page + 1) + '" data-search="' + search + '" data-per-page="' + perPage + '">Next</button>';
-            }
-
-            $('#pagination-controls').html(paginationHTML);
-        }
+            // Live search functionality
+            $('#search').on('input', function() {
+                const search = $(this).val();
+                fetchUsers(1, search); // Always reset to page 1 when searching
+            });
 
 
-        // Live search functionality
-        $('#search').on('input', function() {
-            const search = $(this).val();
-            fetchUsers(1, search); // Always reset to page 1 when searching
-        });
+            $('#select').on('change', function() {
+                const perPage = $(this).val();
+                const search = $('#search').val(); // Get current search term, if any
+                fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
+            });
 
-
-        $('#select').on('change', function() {
-            const perPage = $(this).val();
-            const search = $('#search').val(); // Get current search term, if any
-            fetchUsers(1, search, perPage); // Reset to page 1 with new perPage value
-        });
-
-        // Handle pagination button click with updated perPage
-        $(document).on('click', '.pagination-btn', function() {
-            const page = $(this).data('page');
-            const search = $(this).data('search');
-            const perPage = $(this).data('per-page');
-            fetchUsers(page, search, perPage);
-        });
+            // Handle pagination button click with updated perPage
+            $(document).on('click', '.pagination-btn', function() {
+                const page = $(this).data('page');
+                const search = $(this).data('search');
+                const perPage = $(this).data('per-page');
+                fetchUsers(page, search, perPage);
+            });
 
 
 

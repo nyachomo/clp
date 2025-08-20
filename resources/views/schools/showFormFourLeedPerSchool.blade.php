@@ -161,11 +161,13 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Student Phonenumber</th>
-                                    <th>Parent Phonenumber</th>
+                                    <th>S.Contact</th>
+                                    <th>P. Contact</th>
                                     <th>Email</th>
-                                    <th>Course</th>
                                     <th>Class</th>
+                                    <th>Course</th>
+                                    <th>Program</th>
+                                    <th>Download</th>
                                     <!--<th>Gender</th>-->
                                     <!--<th>Status</th>-->
                                     <th>Action</th>
@@ -256,28 +258,18 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label> Student Phonenumber <span class="labelSpan">*</span></label>
-                            <input type="number" class="form-control" name="phonenumber" required>
+                            <input type="text" class="form-control" name="phonenumber" required>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label> Parent Phonenumber <span class="labelSpan"></span></label>
-                            <input type="number" class="form-control" name="parent_phone" >
+                            <input type="text" class="form-control" name="parent_phone" >
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Gender <span class="labelSpan">*</span></label>
-                            <select class="form-control" name="gender" required>
-                                 <option value="">Select Gender</option>
-                                 <option value="Male">Male</option>
-                                 <option value="Female">Female</option>
-                                 <option value="Other">Other</option>
-                            </select>
-                        </div>
-                    </div>
+                    
 
 
 
@@ -294,7 +286,24 @@
                         </div>
                     </div>-->
 
-                   
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Gender <span class="labelSpan">*</span></label>
+                            <select class="form-control" name="gender" required>
+                                 <option value="">Select Gender</option>
+                                 <option value="Male">Male</option>
+                                 <option value="Female">Female</option>
+                                 <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                           <label>School</label>
+                            <select class="form-control" name="school_id" required>
+                                <option value="{{$school->id}}">{{$school->school_name}}</option>
+                            </select>
+                    </div>
 
 
 
@@ -303,19 +312,27 @@
                 <div class="row" style="padding-top:10px">
                    
                     <div class="col-sm-6">
-                           <!-- <label>Course <span class="labelSpan">*</span></label>-->
-                            <select class="form-control" name="course_id" required hidden="true">
-                                @if(!empty($course))
+                           <label>Course <span class="labelSpan">*</span></label>
+                            <select class="form-control" name="course_id" required>
+                                <option value="">Select .. </option>
+                                @if(!empty($courses))
+                                    @foreach($courses as $key=>$course)
                                     <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                    @endforeach
                                 @endif
                                  
                             </select>
                     </div>
 
                     <div class="col-sm-6">
-                            <!--<label>Class <span class="labelSpan">*</span></label>-->
-                             <select class="form-control" name="clas_id" required hidden="true">
-                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                            <label>Program/Class <span class="labelSpan">*</span></label>
+                             <select class="form-control" name="clas_id" required>
+                                <option value="">Select ....</option>
+                                @if(!empty($clases))
+                                    @foreach($clases as $key=>$clas)
+                                         <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                     </div>
                 </div>
@@ -329,18 +346,20 @@
                             </select>
                     </div>
 
-                    <div class="col-sm-6">
-                           <!--<label>School</label>-->
-                            <select class="form-control" name="school_id" required hidden="true">
-                                <option value="{{$school->id}}">{{$school->school_name}}</option>
-                            </select>
-                    </div>
+                   
 
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12">
-                         <input type="text" name="clas_category" class="form-control" value="Form Four" hidden="true">
+                    <label>Class</label>
+                      <select class="form-control" name="clas_category" required>
+                            <option value="">Select ....</option>
+                            <option value="Form One">Form one</option>
+                            <option value="Form Two">Form two</option>
+                            <option value="Form Three">Form Three</option>
+                            <option value="Form Four">Form Four</option>
+                        </select>
                     </div>
                 </div>
 
@@ -437,14 +456,14 @@
                         <div class="col-sm-6">
                             <div class="form-group mb-2">
                                 <label  for="firstname">Student Phonenumber<span class="labelSpan">*</span></label>
-                                <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
+                                <input type="text" class="form-control" id="phonenumber" name="phonenumber" required>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group mb-2">
                                 <label  for="firstname">Parent Phonenumber<span class="labelSpan"></span></label>
-                                <input type="number" class="form-control" id="parent_phone" name="parent_phone" required>
+                                <input type="text" class="form-control" id="parent_phone" name="parent_phone" required>
                             </div>
                         </div>
 
@@ -477,6 +496,52 @@
 
 
                     </div>
+
+
+                    <div class="row" style="padding-top:10px">
+                   
+                        <div class="col-sm-6">
+                                <label>Course <span class="labelSpan">*</span></label>
+                                <select class="form-control" name="course_id" id="update_course_id" required>
+                                    <option value="">Select .. </option>
+                                    @if(!empty($courses))
+                                        @foreach($courses as $key=>$course)
+                                        <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                        @endforeach
+                                    @endif
+                                        
+                                </select>
+                        </div>
+
+                        <div class="col-sm-6">
+                                <label>Program/Class <span class="labelSpan">*</span></label>
+                                    <select class="form-control" name="clas_id" id="update_clas_id" required>
+                                    <option value="">Select ....</option>
+                                    @if(!empty($clases))
+                                        @foreach($clases as $key=>$clas)
+                                                <option value="{{$clas->id}}">{{$clas->clas_name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Class</label>
+                            <select class="form-control" name="clas_category" id="clas_category" required>
+                                <option value="">Select ....</option>
+                                <option value="Form One">Form one</option>
+                                <option value="Form Two">Form two</option>
+                                <option value="Form Three">Form Three</option>
+                                <option value="Form Four">Form Four</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
 
  
                    <!-- <button type="submit" class="btn btn-primary">Save Changes</button>-->
@@ -693,8 +758,14 @@
                                     <td>' + item.phonenumber + '</td>\
                                     <td>' + item.parent_phone + '</td>\
                                     <td>' + item.email + '</td>\
+                                    <td>' + item.clas_category + '</td>\
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.clas.clas_name + '</td>\
+                                    <td>\
+                                        <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
+                                            <i class="fa fa-download"></i> Download Scholarship Letter\
+                                        </a>\
+                                    </td>\
                                    <!-- <td>' + item.gender + '</td>-->\
                                   <!-- <td>' + item.status + '</td>-->\
                                     <td>\
@@ -712,6 +783,7 @@
                                                         data-phonenumber="' + item.phonenumber + '" \
                                                         data-parent_phone="' + item.parent_phone + '" \
                                                         data-email="' + item.email + '" \
+                                                        data-clas_category="' + item.clas_category + '" \
                                                         data-update_course_id="' + item.course.id + '" \
                                                         data-update_clas_id="' + item.clas.id + '" \
                                                         data-role="' + item.role + '" \
@@ -750,6 +822,7 @@
                             const lastname = $(this).data('lastname');
                             const phonenumber = $(this).data('phonenumber');
                             const parent_phone = $(this).data('parent_phone');
+                            const clas_category = $(this).data('clas_category');
                             const email = $(this).data('email');
                             const update_course_id = $(this).data('update_course_id');
                             const update_clas_id = $(this).data('update_clas_id');
@@ -764,6 +837,7 @@
                             $('#updateUserModal #lastname').val(lastname);
                             $('#updateUserModal #phonenumber').val(phonenumber);
                             $('#updateUserModal #parent_phone').val(parent_phone);
+                            $('#updateUserModal #clas_category').val(clas_category);
                             $('#updateUserModal #email').val(email);
                             $('#updateUserModal #update_course_id').val(update_course_id);
                             $('#updateUserModal #update_clas_id').val(update_clas_id);
@@ -807,7 +881,10 @@
                 secondname: $('#secondname').val(),
                 lastname: $('#lastname').val(),
                 phonenumber: $('#phonenumber').val(),
+                clas_category: $('#clas_category').val(),
                 parent_phone: $('#parent_phone').val(),
+                update_course_id: $('#update_course_id').val(),
+                update_clas_id: $('#update_clas_id').val(),
                 email: $('#email').val(),
                 gender: $('#gender').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security

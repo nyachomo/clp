@@ -58,13 +58,10 @@ class SchoolController extends Controller
         $users = $query->paginate($perPage);
         // Append the number of students who in each school
         foreach ($users as $school) {
-            $school->total_form_four_student = count(User::where('school_id', $school->id)->where('clas_category','Form Four')->get());
+            $school->total_form_four_student = count(User::where('school_id', $school->id)->get());
         }
 
-        foreach ($users as $school2) {
-            $school2->total_lower_forms_student = count(User::where('school_id', $school2->id)->where('clas_category','!=','Form Four')->get());
-        }
-    
+        
         return response()->json([
             'users' => $users->items(),
             'pagination' => [
@@ -140,10 +137,10 @@ class SchoolController extends Controller
         $school_id=$_GET['clas_id'];
         $school=School::where('id',$school_id)->first();
         $clas_id=$_GET['clas_id'];
-        $course=Course::where('is_scholarship_test_course','Yes')->select('course_name','id')->first();
+        $courses=Course::select('id','course_name')->get();
         $clases=Clas::select('clas_name','id')->get();
         $clas=Clas::where('is_scholarship_test_clas','Yes')->first();
-        return View('schools.showFormFourLeedPerSchool',compact('course','clases','clas','school'));
+        return View('schools.showFormFourLeedPerSchool',compact('courses','clases','clas','school'));
 
        
     }
@@ -157,7 +154,7 @@ class SchoolController extends Controller
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','parent_phone','course_id','status','gender','clas_id')->where('school_id', $classId)->orderBy('created_at', 'desc');
+        'email','phonenumber','parent_phone','course_id','status','gender','clas_id','clas_category')->where('school_id', $classId)->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -244,6 +241,9 @@ class SchoolController extends Controller
             $user->parent_phone = $request->parent_phone;
             $user->email = $request->email;
             $user->gender = $request->gender;
+            $user->clas_id = $request->update_clas_id;
+            $user->course_id =$request->update_course_id;
+            $user->clas_category =$request->clas_category;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);
