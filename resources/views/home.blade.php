@@ -234,7 +234,10 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
  @if(Auth::check() && Auth::user()->role=='High_school_teacher')
 
-
+   <?php
+    $student=count(User::where('school_id', Auth::user()->school_id)
+    ->whereIn('clas_category', ['Form One', 'Form Two', 'Form Three', 'Form Four'])->get());
+   ?>
     <div class="row">
 
         <div class="col-xxl-3 col-sm-3">
@@ -243,133 +246,20 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
                     <div class="float-end">
                         <i class="mdi mdi-account-multiple widget-icon bg-white text-success"></i>
                     </div>
-                    <h6 class="text-uppercase mt-0" title="Customers">Active Students</h6>
-                    <h3 class="mt-3 mb-3">123</h3>
+                    <h6 class="text-uppercase mt-0" title="Customers">Total Students</h6>
+                    <h3 class="mt-3 mb-3">{{$student ?? 'NA'}}</h3>
+
+                    <a href="{{route('highSchoolTeacherViewStudent')}}" class="btn btn-sm">Click Here to Enrol Student</a>
                 </div>
             </div>
         </div> <!-- end col-->
 
-        <div class="col-xxl-3 col-sm-3">
-            <div class="card widget-flat bg-primary text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">My Earnings</h5>
-                    <h3 class="mt-3 mb-3 text-white">35000</h3>
-                    
-                </div>
-            </div>
-        </div> <!-- end col-->
-
-
-        <div class="col-xxl-3 col-sm-3">
-            <div class="card widget-flat bg-warning text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">Amount paid</h5>
-                    <h3 class="mt-3 mb-3 text-white">4534</h3>
-                    
-                </div>
-            </div>
-        </div> <!-- end col-->
-
-        <div class="col-xxl-3 col-sm-3">
-            <a href="{{route('traineeViewCourse')}}">
-            <div class="card widget-flat bg-danger text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">Balance</h5>
-                    <h3 class="mt-3 mb-3 text-white">896</h3>
-                    
-                </div>
-            </div>
-            </a>
-        </div> <!-- end col-->
+       
 
     </div>
     <!-- end row-->
 
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    
-                    Total Registered Student: <span id="total-users">0</span>
-                </div>
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-sm-1" style="padding-top:4px">
-                            <label for="example-select" class="form-label" style="float:right;">Show</label>
-                        </div>
-                        <div class="col-sm-2">
-                        
-                        
-                        <select class="form-select" id="select">
-                            <option value="5">5</option>
-                            <option value="10" selected>10</option>
-                            <option value="15">15</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                        </select>
-
-
-
-                        </div>
-
-                        <div class="col-sm-6"></div>
-
-                        <div class="col-sm-1" style="padding-top:6px">
-                            <label for="example-select" class="form-label" style="float:right;">Search</label>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <input type="text" id="search" name="search" class="form-control" placeholder="Search users...">
-                        </div>
-
-                    </div>
-                    <br>
-                    <div class="tab-content">
-                        <div class="table-responsive">
-                            
-                            <table id="table1" class="table table-sm table-striped dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <th>School</th>
-                                        <th>Course</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            
-                                <tbody id="table1"></tbody>
-                        
-                                <tbody id="table2"></tbody>
-                                
-                            </table>                                           
-                        </div> <!-- end preview-->
-                    
-                    </div> <!-- end tab-content-->
-                    
-                </div> <!-- end card body-->
-
-                <!--card-footer-->
-                <div id="pagination-controls" style="float:right"></div>
-                <!--end of card-footer-->
-            </div> <!-- end card -->
-        </div><!-- end col-->
-    </div>
-
-   
 
  @endif
 
