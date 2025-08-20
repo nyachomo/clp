@@ -149,12 +149,15 @@ class SchoolController extends Controller
 
         $class=Clas::where('id',$classId)->first();
         $clasName= $class->clas_name;
-        $query = User::with('course','clas')->select('id', 'firstname',
+        $query = User::with('course','clas','school')->select('id', 'firstname',
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','parent_phone','course_id','status','gender','clas_id','clas_category')->where('school_id', $classId)->orderBy('created_at', 'desc');
+        'email','phonenumber','parent_phone','course_id','status','gender','clas_id','clas_category')
+        ->where('school_id', $classId)
+        ->whereIn('clas_category', ['Form One', 'Form Two', 'Form Three', 'Form Four'])  ->orderBy('created_at', 'desc')
+        ->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {

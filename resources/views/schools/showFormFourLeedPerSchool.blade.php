@@ -746,28 +746,41 @@
                         // Clear and repopulate the table
                         $('tbody').html("");
                         $.each(response.users, function(key, item) {
-                            // Use fallback values for null secondname and lastname
-                            const secondname = item.secondname || ''; // Fallback for null or undefined
-                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            // Use fallback values for null properties
+                            const secondname = item.secondname || '';
+                            const lastname = item.lastname || '';
+                            const phonenumber = item.phonenumber || '';
+                            const parent_phone = item.parent_phone || '';
+                            const email = item.email || '';
+                            const clas_category = item.clas_category || '';
+                            const gender = item.gender || '';
+                            const status = item.status || '';
+                            
+                            // Safely access nested properties
+                            const courseName = item.course ? item.course.course_name : 'N/A';
+                            const className = item.clas ? item.clas.clas_name : 'N/A';
+                            const courseId = item.course ? item.course.id : '';
+                            const clasId = item.clas ? item.clas.id : '';
+                            
                             const baseUrl = "{{ route('showFees') }}";
 
                             $('#table1').append(
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
-                                    <td>' + item.phonenumber + '</td>\
-                                    <td>' + item.parent_phone + '</td>\
-                                    <td>' + item.email + '</td>\
-                                    <td>' + item.clas_category + '</td>\
-                                    <td>' + item.course.course_name + '</td>\
-                                    <td>' + item.clas.clas_name + '</td>\
+                                    <td>' + phonenumber + '</td>\
+                                    <td>' + parent_phone + '</td>\
+                                    <td>' + email + '</td>\
+                                    <td>' + clas_category + '</td>\
+                                    <td>' + courseName + '</td>\
+                                    <td>' + className + '</td>\
                                     <td>\
                                         <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
                                             <i class="fa fa-download"></i> Download Scholarship Letter\
                                         </a>\
                                     </td>\
-                                   <!-- <td>' + item.gender + '</td>-->\
-                                  <!-- <td>' + item.status + '</td>-->\
+                                <!-- <td>' + gender + '</td>-->\
+                                <!-- <td>' + status + '</td>-->\
                                     <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
@@ -780,22 +793,22 @@
                                                         data-firstname="' + item.firstname + '" \
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
-                                                        data-phonenumber="' + item.phonenumber + '" \
-                                                        data-parent_phone="' + item.parent_phone + '" \
-                                                        data-email="' + item.email + '" \
-                                                        data-clas_category="' + item.clas_category + '" \
-                                                        data-update_course_id="' + item.course.id + '" \
-                                                        data-update_clas_id="' + item.clas.id + '" \
-                                                        data-role="' + item.role + '" \
-                                                        data-gender="' + item.gender + '" \
-                                                        data-status="' + item.status + '" \
+                                                        data-phonenumber="' + phonenumber + '" \
+                                                        data-parent_phone="' + parent_phone + '" \
+                                                        data-email="' + email + '" \
+                                                        data-clas_category="' + clas_category + '" \
+                                                        data-update_course_id="' + courseId + '" \
+                                                        data-update_clas_id="' + clasId + '" \
+                                                        data-role="' + (item.role || '') + '" \
+                                                        data-gender="' + gender + '" \
+                                                        data-status="' + status + '" \
                                                         class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i>Update Student</span>\
                                                 </li>\
-                                               <!-- <li>\
+                                            <!-- <li>\
                                                     <span type="button" data-id="' + item.id + '" \
                                                         class="text-warning dropdown-item suspendBtn"><i class="fa fa-trash"></i> Suspend Student</span>\
                                                 </li>-->\
-                                                 <li>\
+                                                <li>\
                                                     <span type="button" data-id="' + item.id + '" \
                                                         class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete Student</span>\
                                                 </li>\
@@ -864,11 +877,9 @@
                             // Show the modal
                             $('#suspendUserModal').modal('show');
                         });
-
                     }
                 });
             }
-
 
 
 
