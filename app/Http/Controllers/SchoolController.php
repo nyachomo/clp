@@ -274,17 +274,17 @@ class SchoolController extends Controller
 
     public function highSchoolTeacherFetchStudent(Request $request) {
         if(Auth::check()){
-             if(Auth::user()->role="high_school_teacher"){
+             if(Auth::user()->role=="High_school_teacher"){
+                $school_id=Auth::user()->school_id;
 
-                $query = User::with('course','clas')->select('id', 'firstname',
+                $query = User::with('course','clas','school')->select('id', 'firstname',
                 DB::raw("COALESCE(secondname, '') as secondname"),
                 DB::raw("COALESCE(lastname, '') as lastname"),
                 DB::raw("COALESCE(clas_id, '') as clas_id"),
                 DB::raw("COALESCE(course_id, '') as course_id"),
-                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id')->where('clas_category','Form Four')
-                ->orWhere('clas_category','Form Two')
-                ->orWhere('clas_category','Form Three')
-                ->where('school_id',Auth::user()->school_id)->orderBy('created_at', 'desc');
+                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id','school_id')
+                ->where('school_id',$school_id)->orderBy('created_at', 'desc')
+                ->whereIn('clas_category', ['Form One', 'Form Two', 'Form Three', 'Form Four'])  ->orderBy('created_at', 'desc');
             
                 // Apply search filter if provided
                 if ($request->has('search') && !empty($request->search)) {

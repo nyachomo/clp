@@ -126,8 +126,9 @@
                                     <!--<th>Class</th>-->
                                     <!--<th>Course</th>-->
                                     <th>Class</th>
+                                    <th>School</th>
                                     <th>Score</th>
-                                    <th>S.Letter</th>
+                                    <th>Download</th>
                                     <!--<th>Gender</th>-->
                                     <!--<th>Status</th>-->
                                     <th>Action</th>
@@ -671,7 +672,7 @@
             function fetchUsers(page = 1, search = '', perPage = 10) {
                 $.ajax({
                     type: 'GET',
-                    url: "{{route('highSchoolTeacherFetchStudent')}}",
+                    url: "{{ route('highSchoolTeacherFetchStudent') }}",
                     data: { page: page, search: search, per_page: perPage },
                     dataType: "json",
                     success: function(response) {
@@ -681,9 +682,13 @@
                         // Clear and repopulate the table
                         $('tbody').html("");
                         $.each(response.users, function(key, item) {
-                            // Use fallback values for null secondname and lastname
-                            const secondname = item.secondname || ''; // Fallback for null or undefined
-                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            // Use fallback values for null properties
+                            const secondname = item.secondname || '';
+                            const lastname = item.lastname || '';
+                            const courseId = item.course ? item.course.id : '';
+                            const clasId = item.clas ? item.clas.id : '';
+                            const schoolName = item.school ? item.school.school_name : 'N/A';
+                            const totalScore = item.total_score || '0';
                             const baseUrl = "{{ route('showFees') }}";
 
                             $('#table1').append(
@@ -694,14 +699,11 @@
                                     <td>' + item.parent_phone + '</td>\
                                     <td>' + item.email + '</td>\
                                     <td>' + item.clas_category + '</td>\
-                                    <td>' + item.total_score + '</td>\
-                                    <!--<td>' + item.course.course_name + '</td>-->\
-                                    <!--<td>' + item.clas.clas_name + '</td>-->\
-                                   <!-- <td>' + item.gender + '</td>-->\
-                                    <!--<td>' + item.status + '</td>-->\
+                                    <td>' + schoolName + '</td>\
+                                    <td>' + totalScore + '</td>\
                                     <td>\
-                                        <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="btn btn-sm btn-primary download-pdf" data-id="' + item.id + '">\
-                                            <i class="fa fa-download"></i> Download Scholarship Letter\
+                                        <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
+                                            <i class="fa fa-download"></i>Scholarship Letter\
                                         </a>\
                                     </td>\
                                     <td>\
@@ -715,14 +717,14 @@
                                                         data-phonenumber="' + item.phonenumber + '" \
                                                         data-parent_phone="' + item.parent_phone + '" \
                                                         data-email="' + item.email + '" \
-                                                        data-update_course_id="' + item.course.id + '" \
-                                                        data-update_clas_id="' + item.clas.id + '" \
+                                                        data-update_course_id="' + courseId + '" \
+                                                        data-update_clas_id="' + clasId + '" \
                                                         data-role="' + item.role + '" \
                                                         data-gender="' + item.gender + '" \
                                                         data-clas_category="' + item.clas_category + '" \
-                                                        data-status="' + item.status + '" \> <i class="fa fa-edit"></i> Update</a></li>\
-                                            <li><a  class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
-                                            <li><a  class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
+                                                        data-status="' + item.status + '" > <i class="fa fa-edit"></i> Update</a></li>\
+                                            <!--<li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>-->\
+                                           <!-- <li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>-->\
                                         </ul>\
                                     </div>\
                                 </td>\
@@ -742,8 +744,8 @@
                             const phonenumber = $(this).data('phonenumber');
                             const parent_phone = $(this).data('parent_phone');
                             const email = $(this).data('email');
-                            const update_course_id = $(this).data('update_course_id');
-                            const update_clas_id = $(this).data('update_clas_id');
+                            const update_course_id = $(this).data('update_course_id') || '';
+                            const update_clas_id = $(this).data('update_clas_id') || '';
                             const role = $(this).data('role');
                             const gender = $(this).data('gender');
                             const clas_category = $(this).data('clas_category');
@@ -775,9 +777,25 @@
                             // Show the modal
                             $('#deleteUserModal').modal('show');
                         });
+
+                        // Add event listener for suspend button if needed
+                        $('.suspendBtn').on('click', function() {
+                            const suspend_user_id = $(this).data('id');
+                            // Handle suspend action here
+                            console.log('Suspend user:', suspend_user_id);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching users:', error);
+                        alert('Error fetching users. Please try again.');
                     }
                 });
             }
+
+// Make sure to call this function when the page loads
+$(document).ready(function() {
+    fetchUsers();
+});
 
 
 
