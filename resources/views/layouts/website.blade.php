@@ -185,7 +185,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
       
 </head>
 
-<body class="bg-white">
+<body class="bg-light">
    
     <!--====== PRELOADER PART START ======-->
     
@@ -206,7 +206,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
     
     <!--====== HEADER PART START ======-->
     
-    <header id="header-part">
+    <!--<header id="header-part">
        
         <div class="header-top d-none d-lg-block">
             <div class="container-fliud">
@@ -224,9 +224,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                             <p><b>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</b></p>
                         </div>
                     </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- header top -->
+                </div> 
+            </div> 
+        </div>  -->
        
 
 
@@ -282,8 +282,12 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                     <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="{{route('welcome')}}"><b>HOME</b></a>
                     </li>
+
+                    <li class="nav-item">
+                         <a class="nav-link active" aria-current="page" href="{{route('showAllCourses')}}"><b>COURSES</b></a>
+                    </li>
                     
-                    <li class="nav-item dropdown">
+                    <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <b>COURSES</b>
                         </a>
@@ -295,7 +299,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                             <li><hr class="dropdown-divider"></li>
                             @endforeach
                         </ul>
-                    </li>
+                    </li>-->
 
                   
 

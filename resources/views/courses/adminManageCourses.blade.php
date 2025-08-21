@@ -34,6 +34,13 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
   #pagination-controls .active {
     background-color: #28a745; /* Green for active page */
   }
+
+  .course-image {
+            width: 60px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
 </style>
 
  <!-- start page title
@@ -162,6 +169,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Level</th>
                                     <th>Duration</th>
@@ -202,7 +210,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Course</h4>
+                <h4 class="modal-title" id="standard-modalLabel"> Add New Course</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('addCourse')}}" enctype="multipart/form-data">
@@ -212,23 +220,26 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                              <div class="form-group">
                                  <label>Course Image</label>
                                  <input type="file" name="course_image" class="form-control">
                              </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-
-                       <div class="col-sm-6">
+                        <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Course Name<sup>*</sup></label>
                                 <input type="text" class="form-control" name="course_name" required>
                             </div>
                         </div>
+
+                    </div>
+
+                    <div class="row">
+
+                       
 
                         <div class="col-sm-6">
                             <!-- text input -->
@@ -240,6 +251,15 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                                     <option value="Intermediary Level">Intermediary Level</option>
                                     <option value="Advance Level">Advance Level</option>
                                 </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Course Price (Ksh)<sup>*</sup></label>
+                                <input type="number" class="form-control" name="course_price" required min="1">
                             </div>
 
                         </div>
@@ -277,30 +297,8 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Course Duration (In Months)<sup>*</sup></label>
+                                <label>Course Duration (In Weeks)<sup>*</sup></label>
                                 <input type="number" class="form-control" name="course_duration" required>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Course Price (Ksh)<sup>*</sup></label>
-                                <input type="number" class="form-control" name="course_price" required min="1">
-                            </div>
-
-                        </div>
-
-
-                    </div> 
-
-
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Course Reviews</label>
-                                <input type="number" name="course_two_like" class="form-control" min="1" required>
                             </div>
                         </div>
 
@@ -314,6 +312,23 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                                </select>
                             </div>
                         </div>
+
+                        
+
+
+                    </div> 
+
+
+
+                    <div class="row">
+                       <!--<div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Course Reviews</label>
+                                <input type="number" name="course_two_like" class="form-control" min="1" required>
+                            </div>
+                        </div>-->
+
+                       
 
 
                        
@@ -335,12 +350,12 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
 
                     <div class="row">
                         
-                        <div class="col-sm-12">
+                        <!--<div class="col-sm-12">
                             <div class="form-group">
                                 <label>How Many Leaners already enrolled for this course</label>
                                 <input type="number" name="course_leaners_already_enrolled" class="form-control" min="1" required>
                             </div>
-                        </div> 
+                        </div>-->
 
                     </div>
 
@@ -435,7 +450,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Course</h4>
+                <h4 class="modal-title" id="standard-modalLabel"> Update Course</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" id="updateCourseForm">
@@ -501,7 +516,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Course Duration (In Months)<sup>*</sup></label>
+                                <label>Course Duration (In Weeks)<sup>*</sup></label>
                                 <input type="number" class="form-control" name="course_duration" id="course_duration" required>
                             </div>
                         </div>
@@ -521,7 +536,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                     <div class="row">
                       
                              
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Course Status<sup>*</sup></label>
@@ -533,8 +548,28 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                                 </div>
                             </div>
 
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Is Scholarship Test Course</label>
+                                <select name="is_scholarship_test_course" class="form-control" id="is_scholarship_test_course" required>
+                                    <option value="">Select ....</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                </div>
+                            </div>
+
 
                         
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Course Description</label>
+                                  
+                                <textarea  class="form-control" name="course_description" id ="course_description" col="6"> </textarea>
+   
+                        </div>
                     </div>
 
 
@@ -616,6 +651,44 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
 
 
 
+<!-- Add User modal -->
+<div id="updateCourseImageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Update Course Image</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" action="{{route('updateCourseImage')}}" enctype="multipart/form-data">
+                @csrf
+               
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <input type="text" class="form-control" name="course_image_id" id="course_image_id" hidden="true">
+                    <div class="row">
+                       <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Choose Image<sup>*</sup></label>
+                                <input type="file" class="form-control" name="course_image"  required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- /.card-body -->
+
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
 
 
 
@@ -633,22 +706,22 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
 
 
 
-// Automatically hide success and error messages after 5 seconds
-setTimeout(() => {
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        successAlert.style.transition = "opacity 0.5s";
-        successAlert.style.opacity = "0";
-        setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
-    }
-    
-    const errorAlert = document.getElementById('error-alert');
-    if (errorAlert) {
-        errorAlert.style.transition = "opacity 0.5s";
-        errorAlert.style.opacity = "0";
-        setTimeout(() => errorAlert.remove(), 500);
-    }
-}, 5000); // 5000 milliseconds = 5 seconds
+    // Automatically hide success and error messages after 5 seconds
+    setTimeout(() => {
+        const successAlert = document.getElementById('success-alert');
+        if (successAlert) {
+            successAlert.style.transition = "opacity 0.5s";
+            successAlert.style.opacity = "0";
+            setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
+        }
+        
+        const errorAlert = document.getElementById('error-alert');
+        if (errorAlert) {
+            errorAlert.style.transition = "opacity 0.5s";
+            errorAlert.style.opacity = "0";
+            setTimeout(() => errorAlert.remove(), 500);
+        }
+    }, 5000); // 5000 milliseconds = 5 seconds
 
 
 
@@ -713,9 +786,14 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 }
 
                 const baseUrl = "{{ route('manageCourseModule') }}";
+                const imagePath = "{{ asset('images/courses/') }}" + '/' + item.course_image;
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
+                        <td>\
+                            <img src="' + imagePath + '" class="course-image" alt="' + item.course_name + '">\
+                            <a class="updateCourseBtn text-info" href="#" data-id="' + item.id + '"><i class="uil-edit"></i> Edit</a>\
+                        </td>\
                         <td>' + item.course_name + '</td>\
                         <td>' + item.course_level + '</td>\
                         <td>' + item.course_duration + '</td>\
@@ -728,9 +806,11 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a class="dropdown-item updateBtn text-success" href="#" \
                                         data-id="' + item.id + '" \
                                         data-course_name="' + item.course_name + '" \
-                                         data-course_status="' + item.course_status + '" \
+                                        data-course_status="' + item.course_status + '" \
                                         data-course_level="' + item.course_level + '" \
                                         data-course_duration="' + item.course_duration + '" \
+                                        data-is_scholarship_test_course="' + item.is_scholarship_test_course + '" \
+                                        data-course_description="' + item.course_description + '" \
                                         data-what_to_learn="' + item.what_to_learn + '" \
                                         data-course_price="' + item.course_price + '" ><i class="uil-edit"></i> Update</a></li>\
                                     <li><a  class="dropdown-item deleteBtn text-danger" href="#" value="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
@@ -755,6 +835,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const course_price = $(this).data('course_price');
                 const what_to_learn = $(this).data('what_to_learn');
                 const course_status = $(this).data('course_status');
+                const is_scholarship_test_course=$(this).data('is_scholarship_test_course');
+                const course_description=$(this).data('course_description');
 
                 // Populate modal fields
                 $('#course_id').val(course_id);
@@ -764,18 +846,30 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#course_price').val(course_price);
                 $('#what_to_learn').val(what_to_learn);
                 $('#course_status').val(course_status);
+                $('#is_scholarship_test_course').val(is_scholarship_test_course);
+                $("#course_description").val(course_description);
 
 
-                // Set TinyMCE content for #what_to_learn
-                if (tinymce.get('what_to_learn')) {
-                    tinymce.get('what_to_learn').setContent(what_to_learn || '');
-                }
-
-               
-
+              
                 // Show the modal
                 $('#updateCourseModal').modal('show');
             });
+
+
+
+
+            $('.updateCourseBtn').on('click', function() {
+                const course_image_id = $(this).data('id');
+                
+                // Populate modal fields
+                $('#course_image_id').val(course_image_id);
+                
+
+                // Show the modal
+                $('#updateCourseImageModal').modal('show');
+            });
+
+
 
 
             // Attach event listener to Update button
@@ -818,6 +912,8 @@ $('#updateCourseForm').on('submit', function(e) {
         course_level: $('#course_level').val(),
         course_duration: $('#course_duration').val(),
         course_price: $('#course_price').val(),
+        is_scholarship_test_course:$('#is_scholarship_test_course').val(),
+        course_description:$('#course_description').val(),
         what_to_learn: $('#what_to_learn').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
     };

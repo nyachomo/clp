@@ -162,6 +162,7 @@ Route::prefix('courses')->group(function () {
     Route::post('/update', [CourseController::class, 'updateCourse'])->name('updateCourse');
     Route::post('/delete', [CourseController::class, 'deleteCourse'])->name('deleteCourse');
     Route::post('/suspend', [CourseController::class, 'suspendCourse'])->name('suspendCourse');
+    Route::post('/updateCourseImage', [CourseController::class, 'updateCourseImage'])->name('updateCourseImage');
 
    
 });

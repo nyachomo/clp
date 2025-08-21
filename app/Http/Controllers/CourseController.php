@@ -27,8 +27,8 @@ class CourseController extends Controller
                     'course_duration'=>$request->course_duration,
                     'course_price'=>$request->course_price,
                     'course_description'=>$request->course_description,
-                    'course_two_like'=>$request->course_two_like,
-                    'course_leaners_already_enrolled'=>$request->course_leaners_already_enrolled,
+                    'course_two_like'=>rand(10, 99),
+                    'course_leaners_already_enrolled'=>rand(10, 99),
                     'is_scholarship_test_course'=>$request->is_scholarship_test_course,
                 ]);
 
@@ -44,7 +44,7 @@ class CourseController extends Controller
 
     
     public function fetchCourses(Request $request) {
-        $query = Course::select( 'id', 'course_name', 'course_level', 'course_duration','course_price','course_status','what_to_learn')->orderBy('created_at', 'desc');
+        $query = Course::select( 'id', 'course_name', 'course_level','is_scholarship_test_course','course_description','course_duration','course_price','course_status','what_to_learn','course_image')->orderBy('created_at', 'desc');
 
         $suspended_courses = count(Course::where('course_status','Suspended')->get());
         $active_courses= count(Course::where('course_status','Active')->get());
@@ -91,7 +91,7 @@ class CourseController extends Controller
             'course_level' =>'required|string|max:255',
             'course_duration' =>'required|max:255',
             'course_price' =>'required|max:255',
-            'what_to_learn' => 'nullable|string', // Add validation for this field
+           
         ]);
 
 
@@ -103,7 +103,9 @@ class CourseController extends Controller
             $user->course_level = $request->course_level;
             $user->course_duration = $request->course_duration;
             $user->course_price = $request->course_price;
-            $user->what_to_learn = $request->what_to_learn;
+           // $user->what_to_learn = $request->what_to_learn;
+            $user->is_scholarship_test_course = $request->is_scholarship_test_course;
+            $user->course_description=$request->course_description;
             $user->course_status = $request->course_status;
             $user->update();
 
@@ -114,6 +116,25 @@ class CourseController extends Controller
    
     }
 
+
+    public function updateCourseImage(Request $request){
+        if($request->hasfile('course_image')){
+            $file=$request->file('course_image');
+            $extension=$file->getClientOriginalExtension();
+            $fileName=time().'.'.$extension;
+            if($file->move('images/courses/',$fileName)){
+                $save=Course::where('id',$request->course_image_id)->update([
+                    'course_image'=> $fileName,
+                ]);
+
+                if($save){
+                    return redirect()->back()->with('success','Image Updated succesfully');
+                }else{
+                    return redirect()->back()->with('Failed','Could not Update Image');
+                }
+            }
+        } 
+    }
 
 
 

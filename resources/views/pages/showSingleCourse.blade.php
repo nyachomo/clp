@@ -2,7 +2,7 @@
 @section('content')
 <!--====== PAGE BANNER PART START ======-->
     
-<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
+<!--<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -15,18 +15,35 @@
                                 <li class="breadcrumb-item active" aria-current="page">{{$course->course_name ?? 'NA'}}</li>
                             </ol>
                             <a href="{{route('pages.signup',['id'=>$course->id])}}" type="button" class="main-btn">Enrol</a>
-                            <!--<button type="button" class="main-btn" data-toggle="modal"  data-target="#enrolModal">Enrol</button>-->
+                            <button type="button" class="main-btn" data-toggle="modal"  data-target="#enrolModal">Enrol</button>
                         </nav>
-                    </div>  <!-- page banner cont -->
+                    </div>  
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+            </div> 
+        </div> 
+    </section>-->
     
     <!--====== PAGE BANNER PART ENDS ======-->
 
 
      <!--====== COURSES SINGEl PART START ======-->
+     <section style="background: linear-gradient(135deg, #3E5BA0 0%, #3E5BA0 100%);">
+         <div class="container-fliud">
+            <div class="row">
+                        <div class="col-sm-7" style="padding:30px">
+                            <div class="course_content">
+                                <h1 style="color:white">{{$course->course_name ?? 'NA'}}</h1>
+                                <p style="color:white">{{$course->course_description ?? 'NA'}}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="course_image">
+                                <img src="{{asset('images/courses/'.$course->course_image)}}" alt="Courses">
+                            </div>
+                        </div>
+            </div>
+         </div>
+     </section>
     
      <section id="corses-singel" class="pt-30 pb-120 gray-bg">
         <div class="container">
@@ -295,7 +312,7 @@
                                     <p style="text-align:justify">
                                         @if(strlen($course->course_description) > 100)
                                             {{ substr($course->course_description, 0, 100) }}...
-                                            <span id="more-{{$key}}" style="display:none">{{ substr($course->course_description, 300) }}</span>
+                                            <span  style="display:none">{{ substr($course->course_description, 300) }}</span>
                                             <a href="{{route('showSingleCourse',['id'=>$course->id])}}" class="yellowColor">Read More</a>
                                         @else
                                             {{$course->course_description ?? 'NA'}}

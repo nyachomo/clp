@@ -2,7 +2,7 @@
 @section('content')
 <!--====== PAGE BANNER PART START ======-->
     
-<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
+<!--<section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -10,29 +10,29 @@
                         <h2>Courses</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>-->
                                 <!--<li class="breadcrumb-item"><a href="#">Courses</a></li>-->
-                                <li class="breadcrumb-item active" aria-current="page">Courses</li>
-                            </ol>
+                                <!--<li class="breadcrumb-item active" aria-current="page">Courses</li>
+                            </ol>-->
                             <!--<button type="button" class="main-btn" data-toggle="modal"  data-target="#enrolModal">Enrol</button>-->
-                        </nav>
-                    </div>  <!-- page banner cont -->
+                       <!-- </nav>-->
+                    <!--</div> 
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+            </div> 
+        </div> 
+    </section>-->
     
     <!--====== PAGE BANNER PART ENDS ======-->
 
      <!--====== COURSES PART START ======-->
     
-     <section id="apply-aprt" class="pb-40">
+     <section id="apply-aprt" class="pb-40" style="background-color:#3E5BA0">
         <div class="container-fliud" >
            
            
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
-                    <div class="row bg-light" style="padding-bottom: 20px;border-radius: 10px;">
+                    <div class="row" style="padding-bottom: 20px;border-radius: 10px;">
                         @foreach($courses as $key=>$course)
                         <div class="col-lg-4 col-md-6">
                             <div class="singel-course mt-30" style="border:1px solid #ffc600">
