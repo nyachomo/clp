@@ -959,4 +959,169 @@ class TraineeController extends Controller
 
 
     }
+
+
+    public function downloadAllTraineePerClassPdf($id){
+        //GET NAME OF THE PERSON THAT LOGINS 
+        $setting=Setting::latest()->first();
+        $imagePath = public_path('images/logo/' . $setting->company_logo);
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+
+
+        $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+        $imageData2 = base64_encode(file_get_contents($imagePath2));
+        $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+
+        $imagePath3 = public_path('images/stamp/official_stamp.png');
+        $imageData3 = base64_encode(file_get_contents($imagePath3));
+        $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+
+
+        // Fetch all records from the `fees` table
+       $trainees= User::with('course','clas','school')->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        DB::raw("COALESCE(clas_id, '') as clas_id"),
+        DB::raw("COALESCE(course_id, '') as course_id"),
+        'email','phonenumber','course_id','status','gender','clas_id','parent_phone','clas_category','school_id','role','prefered_course')
+        ->where('clas_id', $id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+        
+        $total_students=$trainees->count();
+        $clas=Clas::where('id',$id)->first();
+       
+
+        // Load the view and pass the data
+        $html = View::make('trainees.downloadAllTraineePerClass', compact('imageSrc', 'trainees','imageSrc2','imageSrc3','total_students','clas'))->render();
+        //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+
+        // Convert the view to a PDF
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Stream or download the PDF
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $clas->clas_name . '_students_Partial_scholarship.pdf"',
+        ]);
+
+    }
+
+
+
+    public function downloadFormFourTraineePerClassPdf($id){
+        //GET NAME OF THE PERSON THAT LOGINS 
+        $setting=Setting::latest()->first();
+        $imagePath = public_path('images/logo/' . $setting->company_logo);
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+
+
+        $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+        $imageData2 = base64_encode(file_get_contents($imagePath2));
+        $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+
+        $imagePath3 = public_path('images/stamp/official_stamp.png');
+        $imageData3 = base64_encode(file_get_contents($imagePath3));
+        $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+
+
+        // Fetch all records from the `fees` table
+       $trainees= User::with('course','clas','school')->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        DB::raw("COALESCE(clas_id, '') as clas_id"),
+        DB::raw("COALESCE(course_id, '') as course_id"),
+        'email','phonenumber','course_id','status','gender','clas_id','parent_phone','clas_category','school_id','role','prefered_course')
+        ->where('clas_id', $id)
+        ->where('clas_category','Form Four')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+        
+        $total_students=$trainees->count();
+        $clas=Clas::where('id',$id)->first();
+       
+
+        // Load the view and pass the data
+        $html = View::make('trainees.downloadFormFourTraineePerClassPdf', compact('imageSrc', 'trainees','imageSrc2','imageSrc3','total_students','clas'))->render();
+        //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+
+        // Convert the view to a PDF
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Stream or download the PDF
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $clas->clas_name . '_students_Partial_scholarship.pdf"',
+        ]);
+
+    }
+
+
+
+    public function  downloadLowerFormsTraineePerClassPdf($id){
+        //GET NAME OF THE PERSON THAT LOGINS 
+        $setting=Setting::latest()->first();
+        $imagePath = public_path('images/logo/' . $setting->company_logo);
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+
+
+        $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+        $imageData2 = base64_encode(file_get_contents($imagePath2));
+        $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+
+        $imagePath3 = public_path('images/stamp/official_stamp.png');
+        $imageData3 = base64_encode(file_get_contents($imagePath3));
+        $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+
+
+        // Fetch all records from the `fees` table
+       $trainees= User::with('course','clas','school')->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        DB::raw("COALESCE(clas_id, '') as clas_id"),
+        DB::raw("COALESCE(course_id, '') as course_id"),
+        'email','phonenumber','course_id','status','gender','clas_id','parent_phone','clas_category','school_id','role','prefered_course')
+        ->where('clas_id', $id)
+        ->whereIn('clas_category',['Form One','Form Two','Form Three'])
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+        
+        $total_students=$trainees->count();
+        $clas=Clas::where('id',$id)->first();
+       
+
+        // Load the view and pass the data
+        $html = View::make('trainees.downloadLowerFormsTraineePerClassPdf', compact('imageSrc', 'trainees','imageSrc2','imageSrc3','total_students','clas'))->render();
+        //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+
+        // Convert the view to a PDF
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Stream or download the PDF
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $clas->clas_name . '_students_Partial_scholarship.pdf"',
+        ]);
+
+    }
+
+
+    
+   
+
 }

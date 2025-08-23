@@ -154,6 +154,12 @@ Route::prefix('trainees')->group(function () {
 
     Route::get('/downloadStudentPerClassPdf/{id}',[TraineeController::class,'downloadStudentPerClassPdf'])->name('downloadStudentPerClassPdf');
 
+    Route::get('/downloadAllTraineePerClassPdf/{id}',[TraineeController::class,'downloadAllTraineePerClassPdf'])->name('downloadAllTraineePerClassPdf');
+    Route::get('/downloadFormFourTraineePerClassPdf/{id}',[TraineeController::class,'downloadFormFourTraineePerClassPdf'])->name('downloadFormFourTraineePerClassPdf');
+
+    Route::get('/downloadLowerFormsTraineePerClassPdf/{id}',[TraineeController::class,'downloadLowerFormsTraineePerClassPdf'])->name('downloadLowerFormsTraineePerClassPdf');
+    
+
 });
 
 

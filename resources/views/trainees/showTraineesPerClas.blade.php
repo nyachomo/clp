@@ -79,8 +79,17 @@
                 </div>
                 <br>
 
-                  <a href="{{route('downloadStudentPerClassPdf',['id'=>$clas->id])}}" class="btn btn-secondary btn-sm" style="float:right"><i class="fa fa-download"></i> Download Students</a>
-                 
+                  <!-- Default dropup button -->
+                <div class="btn-group dropdown" style="float:right">
+                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-download"></i> Downloads (Pdf)</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item text-success" href="{{route('downloadAllTraineePerClassPdf',['id'=>$clas->id])}}">All Students</a>
+                        <a class="dropdown-item text-info" href="{{route('downloadFormFourTraineePerClassPdf',['id'=>$clas->id])}}">Form Fours Students</a>
+                        <a class="dropdown-item text-warning" href="{{route('downloadLowerFormsTraineePerClassPdf',['id'=>$clas->id])}}">Lower Forms Students</a>
+                        <a class="dropdown-item text-success" href="{{route('downloadStudentPerClassPdf',['id'=>$clas->id])}}">Names Confirmation List</a>
+                    </div>
+                </div>
+
 
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
