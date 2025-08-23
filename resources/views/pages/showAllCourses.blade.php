@@ -22,14 +22,14 @@
         </div> 
     </section>-->
     
-    <!--====== PAGE BANNER PART ENDS ======-->
+
+   
 
      <!--====== COURSES PART START ======-->
     
      <section id="apply-aprt" class="pb-40" style="background-color:#3E5BA0">
-        <div class="container-fliud" >
-           
-           
+        <div class="container">
+
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
                     <div class="row" style="padding-bottom: 20px;border-radius: 10px;">
@@ -209,5 +209,9 @@
     </section>
     
     <!--====== COURSES PART ENDS ======-->
+
+
+  
+    
 
 @endsection

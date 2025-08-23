@@ -58,14 +58,14 @@
 
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Admission into Techsphere’s 2025 Skill Pathfinding Program – {{$letter->letter_id}}<u></b></h4>
+                         <h4><b><u>RE: Admission into Techsphere's 2025 Skill Pathfinding Program - {{$letter->letter_id}}<u></b></h4>
                      </td>
                   </tr>
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
                          Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                         this year’s 2025 Annual <b>“Skill Pathfinding”</b> training program having passed our assessment.
+                         this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
                          </p>
                       </td>
                   </tr>
@@ -73,7 +73,7 @@
                   <tr>
                     <td colspan="2" style="text-align: justify;">
                         <p>
-                            The <b>“Skill Pathfinding”</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
+                            The <b>"Skill Pathfinding"</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
                             identify and mentor close to more than 500 talented youth annually, to acquire and develop specialized tech skills 
                             that are high in demand globally today. This is an effort to be part of the solution to the widening skill gap in 
                             the global ICT industry. Consequently, Techspshere is set out to develop a futuristic approach to reskilling the 
@@ -162,7 +162,7 @@
                          <p>
                               For this program, select one course from the list above. The program will run for a period of 6 weeks, 
                               2hrs per day (MON-FRI) and a certificate will be issued upon completion. To accept this partial scholarship,
-                               you are required to visit https://techsphereinstitute.co.ke and select “Enroll” to register before the 
+                               you are required to visit <a href="https://techsphereinstitute.co.ke ">https://techsphereinstitute.co.ke </a> and select “Enroll” to register before the 
                                deadline <b>{{$letter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                                the program but students who have attended the program before will not be required to pay this fee. 
                                The starting date for the program is on <b>{{$letter->start_date ?? 'NA'}}</b>. Please note, the program will be run 
@@ -174,7 +174,7 @@
                   <tr>
                       <td colspan="2" style="text-align: justify;">
                             <p>
-                             Kindly call <b>+254768919307</b> or send an email to info@techsphereinstitute.co.ke for any queries or clarifications regarding the program. We look forward to having you join us
+                             Kindly call <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
                              </p>
                              <p>
                              <b>For payment :</b> You can make payment either through direct transfer or through mpesa paybill option. The following are the payment option

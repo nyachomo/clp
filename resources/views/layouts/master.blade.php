@@ -191,11 +191,13 @@
           border:2px solid #ffc600 !important;
         }
 
-        .btn{
+        .YellowBtn{
             background-color:#ffc600 !important;
             color:#ffffff !important;
             border:1px solid #ffc600 !important;
         }
+
+        
 
         ul li a{
             color:white !important;

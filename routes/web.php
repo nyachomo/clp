@@ -152,6 +152,8 @@ Route::prefix('trainees')->group(function () {
     Route::post('/suspendAllStudents',[TraineeController::class,'suspendAllStudents'])->name('suspendAllStudents');
     Route::post('/activateAllStudents',[TraineeController::class,'activateAllStudents'])->name('activateAllStudents');
 
+    Route::get('/downloadStudentPerClassPdf/{id}',[TraineeController::class,'downloadStudentPerClassPdf'])->name('downloadStudentPerClassPdf');
+
 });
 
 

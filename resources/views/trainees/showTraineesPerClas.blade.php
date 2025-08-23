@@ -78,12 +78,9 @@
                       </div>
                 </div>
                 <br>
-                 <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
-                    @csrf
-                    <input type="text" name="excel_clas_id" value="{{$clas->id}}" hidden="true">
-                   <!-- <button style="float:right" type="submit" class="btn btn-sm btn-secondary rounded-pill"><i class=" uil-arrow-down"> Download (Excel)</i></button>-->
-                       
-                 </form>
+
+                  <a href="{{route('downloadStudentPerClassPdf',['id'=>$clas->id])}}" class="btn btn-secondary btn-sm" style="float:right"><i class="fa fa-download"></i> Download Students</a>
+                 
 
                  <form method="POST" action="{{route('downloadStudentPerClassExcel')}}">
                     @csrf
@@ -801,27 +798,26 @@
 
 
 
-        // Automatically hide success and error messages after 5 seconds
-        setTimeout(() => {
-            const successAlert = document.getElementById('success-alert');
-            if (successAlert) {
-                successAlert.style.transition = "opacity 0.5s";
-                successAlert.style.opacity = "0";
-                setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
-            }
-            
-            const errorAlert = document.getElementById('error-alert');
-            if (errorAlert) {
-                errorAlert.style.transition = "opacity 0.5s";
-                errorAlert.style.opacity = "0";
-                setTimeout(() => errorAlert.remove(), 500);
-            }
-        }, 5000); // 5000 milliseconds = 5 seconds
+            // Automatically hide success and error messages after 5 seconds
+            setTimeout(() => {
+                const successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.transition = "opacity 0.5s";
+                    successAlert.style.opacity = "0";
+                    setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
+                }
+                
+                const errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.transition = "opacity 0.5s";
+                    errorAlert.style.opacity = "0";
+                    setTimeout(() => errorAlert.remove(), 500);
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
 
 
 
     
-
             fetchUsers();
 
 
@@ -859,37 +855,52 @@
                     dataType: "json",
                     success: function(response) {
                         // Update total users
-                        $('#total-users').text(response.total_users);
-                        $('#clas_name').text(response.clasName);
+                        $('#total-users').text(response.total_users || 0);
+                        $('#clas_name').text(response.clasName || 'N/A');
 
                         // Clear and repopulate the table
                         $('tbody').html("");
                         $.each(response.users, function(key, item) {
-                            // Use fallback values for null secondname and lastname
-                            const secondname = item.secondname || ''; // Fallback for null or undefined
-                            const lastname = item.lastname || ''; // Fallback for null or undefined
+                            // Use fallback values for all potentially null properties
+                            const firstname = item.firstname || 'N/A';
+                            const secondname = item.secondname || '';
+                            const lastname = item.lastname || '';
+                            const phonenumber = item.phonenumber || 'N/A';
+                            const parent_phone = item.parent_phone || 'N/A';
+                            const clas_category = item.clas_category || 'N/A';
+                            const email = item.email || 'N/A';
+                            const school_name = (item.school && item.school.school_name) ? item.school.school_name : 'N/A';
+                            const role = item.role || 'N/A';
+                            const course_name = (item.course && item.course.course_name) ? item.course.course_name : 'N/A';
+                            const prefered_course = item.prefered_course || 'N/A';
+                            const gender = item.gender || 'N/A';
+                            const status = item.status || 'N/A';
+                            const school_id = (item.school && item.school.id) ? item.school.id : '';
+                            const course_id = (item.course && item.course.id) ? item.course.id : '';
+                            const clas_id_val = (item.clas && item.clas.id) ? item.clas.id : '';
+                            
                             const baseUrl = "{{ route('showFees') }}";
 
                             $('#table1').append(
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
-                                    <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
-                                    <td>' + item.phonenumber + '</td>\
-                                    <td>' + item.parent_phone + '</td>\
-                                    <td>' + item.clas_category + '</td>\
-                                    <td>' + item.email + '</td>\
-                                    <td>' + item.school.school_name + '</td>\
-                                    <td>' + item.role + '</td>\
-                                    <!--<td>' + item.prefered_course + '</td>-->\
-                                    <td>' + item.course.course_name + '</td>\
+                                    <td>' + firstname + ' ' + secondname + ' ' + lastname + '</td>\
+                                    <td>' + phonenumber + '</td>\
+                                    <td>' + parent_phone + '</td>\
+                                    <td>' + clas_category + '</td>\
+                                    <td>' + email + '</td>\
+                                    <td>' + school_name + '</td>\
+                                    <td>' + role + '</td>\
+                                    <!--<td>' + prefered_course + '</td>-->\
+                                    <td>' + course_name + '</td>\
                                     <td>\
                                         <a href="{{ route('highSchoolTeacherDownloadStudentScholarshipLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
                                             <i class="fa fa-download"></i> Download Scholarship Letter\
                                         </a>\
                                     </td>\
-                                    <!--<td>' + item.clas.clas_name + '</td>-->\
-                                   <!-- <td>' + item.gender + '</td>-->\
-                                  <!-- <td>' + item.status + '</td>-->\
+                                    <!--<td>' + (item.clas ? item.clas.clas_name : 'N/A') + '</td>-->\
+                                <!-- <td>' + gender + '</td>-->\
+                                <!-- <td>' + status + '</td>-->\
                                     <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
@@ -899,27 +910,27 @@
                                                 <li>\
                                                     <span type="button" \
                                                         data-id="' + item.id + '" \
-                                                        data-firstname="' + item.firstname + '" \
+                                                        data-firstname="' + firstname + '" \
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
-                                                        data-phonenumber="' + item.phonenumber + '" \
-                                                        data-parent_phone="' + item.parent_phone + '" \
-                                                        data-email="' + item.email + '" \
-                                                        data-update_course_id="' + item.course.id + '" \
-                                                        data-update_clas_id="' + item.clas.id + '" \
-                                                        data-school_id="' + item.school.id + '" \
-                                                        data-role="' + item.role + '" \
-                                                        data-clas_category="' + item.clas_category + '" \
-                                                        data-prefered_course="' + item.prefered_course + '" \
-                                                        data-gender="' + item.gender + '" \
-                                                        data-status="' + item.status + '" \
+                                                        data-phonenumber="' + phonenumber + '" \
+                                                        data-parent_phone="' + parent_phone + '" \
+                                                        data-email="' + email + '" \
+                                                        data-update_course_id="' + course_id + '" \
+                                                        data-update_clas_id="' + clas_id_val + '" \
+                                                        data-school_id="' + school_id + '" \
+                                                        data-role="' + role + '" \
+                                                        data-clas_category="' + clas_category + '" \
+                                                        data-prefered_course="' + prefered_course + '" \
+                                                        data-gender="' + gender + '" \
+                                                        data-status="' + status + '" \
                                                         class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i>Update Student</span>\
                                                 </li>\
                                                 <li>\
                                                     <span type="button" data-id="' + item.id + '" \
                                                         class="text-warning dropdown-item suspendBtn"><i class="fa fa-trash"></i> Suspend Student</span>\
                                                 </li>\
-                                                 <li>\
+                                                <li>\
                                                     <span type="button" value="' + item.id + '" \
                                                         class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete Student</span>\
                                                 </li>\
@@ -941,20 +952,20 @@
                         // Attach event listeners for the dropdown actions
                         $('.jobDesBtn').on('click', function() {
                             const userId = $(this).data('id');
-                            const firstname = $(this).data('firstname');
-                            const secondname = $(this).data('secondname');
-                            const lastname = $(this).data('lastname');
-                            const phonenumber = $(this).data('phonenumber');
-                            const parent_phone = $(this).data('parent_phone');
-                            const email = $(this).data('email');
-                            const school_id = $(this).data('school_id');
-                            const update_course_id = $(this).data('update_course_id');
-                            const update_clas_id = $(this).data('update_clas_id');
-                            const role = $(this).data('role');
-                            const clas_category = $(this).data('clas_category');
-                            const gender = $(this).data('gender');
-                            const prefered_course = $(this).data('prefered_course');
-                            const status = $(this).data('status');
+                            const firstname = $(this).data('firstname') || '';
+                            const secondname = $(this).data('secondname') || '';
+                            const lastname = $(this).data('lastname') || '';
+                            const phonenumber = $(this).data('phonenumber') || '';
+                            const parent_phone = $(this).data('parent_phone') || '';
+                            const email = $(this).data('email') || '';
+                            const school_id = $(this).data('school_id') || '';
+                            const update_course_id = $(this).data('update_course_id') || '';
+                            const update_clas_id = $(this).data('update_clas_id') || '';
+                            const role = $(this).data('role') || '';
+                            const clas_category = $(this).data('clas_category') || '';
+                            const gender = $(this).data('gender') || '';
+                            const prefered_course = $(this).data('prefered_course') || '';
+                            const status = $(this).data('status') || '';
 
                             // Populate modal fields
                             $('#user_id').val(userId);
@@ -992,7 +1003,6 @@
                             // Show the modal
                             $('#suspendUserModal').modal('show');
                         });
-
                     }
                 });
             }
