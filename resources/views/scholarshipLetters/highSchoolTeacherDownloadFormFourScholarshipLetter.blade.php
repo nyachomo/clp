@@ -65,7 +65,7 @@
                      <td colspan="2" style="text-align: justify;">
                          <p>
                          Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                         this year's 2025 Annual <b>“Skill Pathfinding”</b> training program having passed our assessment.
+                         this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
                          </p>
                       </td>
                   </tr>

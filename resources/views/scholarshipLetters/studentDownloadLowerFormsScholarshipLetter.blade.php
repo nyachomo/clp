@@ -58,7 +58,7 @@
 
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Admission into Techsphere 2025 Skill Pathfinding Program – {{$letter->letter_id}}<u></b></h4>
+                         <h4><b><u>RE: Admission into Techsphere 2025 Skill Pathfinding Program - {{$letter->letter_id}}<u></b></h4>
                      </td>
                   </tr>
                   <tr>
