@@ -41,7 +41,9 @@ class WebsiteController extends Controller
         'course_duration','course_price','course_level','course_description',
         'course_two_like','course_leaners_already_enrolled')->limit(2)->get();
 
-        return view('pages.showSingleCourse',compact('course','othercourses','relatedcourses'));
+        $modules=CourseModule::where('course_id',$id)->paginate(2);
+
+        return view('pages.showSingleCourse',compact('course','othercourses','relatedcourses','modules'));
     }
     //
 

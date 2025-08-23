@@ -168,6 +168,71 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                     color: #07294d !important; /* yellowish color on hover */
                     }
 
+                    .btnClickToEnrol{
+                        background-color: #ffc600 !important;
+                        color:white;
+                        border-radius:50px;
+                        width:200px;
+
+                    }
+
+                    .btnDownloadCourseOutline{
+                       background-color: #66e0ff;
+                       color:white !important;
+                       border-radius:50px;
+                       width:200px
+                    }
+
+
+
+
+                    .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        #table2 {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 0;
+        }
+        #table2 thead th {
+            background-color: #07294d;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 15px;
+            border: none;
+        }
+        #table2 tbody tr:nth-child(odd) {
+            background-color: #ffc600;
+        }
+        #table2 tbody tr:nth-child(even) {
+            background-color: #07294d;
+            color: white;
+        }
+        #table2 tbody td {
+            padding: 15px;
+            vertical-align: top;
+            border: none;
+        }
+        .module-title {
+            font-weight: 600;
+            width: 25%;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .module-title {
+                width: 35%;
+            }
+        }
+
       </style>
 
   <!-- Smartsupp Live Chat script -->
@@ -271,9 +336,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
       
 
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white" style="background-color:#ffc600 !important">
+        <!--<nav class="navbar navbar-expand-lg navbar-light bg-white" style="background-color:#ffc600 !important">
             <div class="container">
-                <!--<a class="navbar-brand" href="#">Navbar</a>-->
+              <a class="navbar-brand" href="#">Navbar</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -287,7 +352,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                          <a class="nav-link active" aria-current="page" href="{{route('showAllCourses')}}"><b>COURSES</b></a>
                     </li>
                     
-                    <!--<li class="nav-item dropdown">
+                   <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <b>COURSES</b>
                         </a>
@@ -299,7 +364,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                             <li><hr class="dropdown-divider"></li>
                             @endforeach
                         </ul>
-                    </li>-->
+                    </li>
 
                   
 
@@ -315,8 +380,47 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                
                 </div>
             </div>
-        </nav>
+        </nav>-->
 
+
+
+        <div class="navigation" style="background-color:#ffc600 !important">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    
+                                    <li class="nav-item">
+                                        <a href="{{route('welcome')}}">HOME</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('showAllCourses')}}">COURSES</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP TEST</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('contactUs')}}">CONTACT US</a>
+                                    </li>
+                            
+                                   
+                                   
+                                </ul>
+                            </div>
+                        </nav> <!-- nav -->
+                    </div>
+                   
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div>
 
 
         

@@ -27,7 +27,7 @@
 
      <!--====== COURSES PART START ======-->
     
-     <section id="apply-aprt" class="pb-40" style="background-color:#3E5BA0">
+     <section id="apply-aprt" class="pb-40" style="background-color:#07294b">
         <div class="container">
 
             <div class="tab-content" id="myTabContent">

@@ -173,8 +173,6 @@
                                 <label> Question <sup>*</sup></label>
                                 <!--<input type="text" class="form-control" name="question_name">-->
                                 <textarea id="editor1" name="question_name" rows="10" cols="80"> </textarea>
-                                           
-                               
                             </div>
                         </div>
                     </div>
