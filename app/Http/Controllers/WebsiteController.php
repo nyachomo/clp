@@ -26,6 +26,10 @@ use App\Models\ScholarshipLetter;
 class WebsiteController extends Controller
 {
 
+    public function aboutUs(){
+        return view('pages.aboutUs');
+    }
+
 
     //NEW WEBSITE CONTROLLER
     public function showSingleCourse($id){
@@ -149,9 +153,7 @@ class WebsiteController extends Controller
         return view('pages.dataAnalysis');
     }
 
-    public function aboutUs (){
-        return view('pages.aboutUs');
-    }
+   
 
     public function corporateTraining(){
         return view('pages.corporateTraining');

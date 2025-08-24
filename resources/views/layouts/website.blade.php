@@ -54,14 +54,24 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
 
   <!--BOOTSTRAP LINKS-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-  
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <style>
+       
+        
+ 
+     
+
 
 
        .nav-item {
@@ -258,6 +268,143 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
             }
         }
 
+
+
+
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+      
+        
+        .card {
+            width: 100%;
+            max-width: 800px;
+            background: #07294d;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            color: white;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .card-header {
+            background: #ffc600;
+            padding: 25px 40px;
+            position: relative;
+        }
+        
+        .card-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #07294d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .card-header h1:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: #07294d;
+            border-radius: 2px;
+        }
+        
+        .card-body {
+            padding: 40px;
+            line-height: 1.7;
+        }
+        
+        .card-body p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #e6e6e6;
+        }
+        
+        .card-body p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .accent-text {
+            color: #ffc600;
+            font-weight: 600;
+        }
+        
+        .icon-container {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            font-size: 2.5rem;
+            color: #07294d;
+            opacity: 0.8;
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 100px 100px;
+            border-color: transparent transparent #ffc600 transparent;
+            opacity: 0.2;
+        }
+        
+        .circle-decoration {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #ffc600;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 768px) {
+            .card-header {
+                padding: 20px;
+            }
+            
+            .card-header h1 {
+                font-size: 2rem;
+            }
+            
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .card-body p {
+                font-size: 1.1rem;
+            }
+            
+            .icon-container {
+                font-size: 2rem;
+                top: 20px;
+                right: 20px;
+            }
+        }
+ 
+
       </style>
 
   <!-- Smartsupp Live Chat script -->
@@ -321,7 +468,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
 
         <div class="header-logo-support pt-3">
-            <div class="container">
+            <div class="container-fliud">
                 <div class="row">
                     <div class="col-lg-7 col-md-7">
                         <div class="logo">
@@ -347,9 +494,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     <span class="yellowColor">+254768919307</span>
                                 </div>
                             </div>
-                            <div class="button float-left">
+                           <!-- <div class="button float-left">
                                 <a href="{{route('login')}}" class="main-btn">Account(Login)</a>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div> <!-- row -->
@@ -410,7 +557,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
 
         <div class="navigation" style="background-color:#ffc600 !important">
-            <div class="container">
+            <div class="container-fliud">
                 <div class="row">
                     <div class="col-lg-10 col-md-10 col-sm-9 col-8">
                         <nav class="navbar navbar-expand-lg">
@@ -426,6 +573,11 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     <li class="nav-item">
                                         <a href="{{route('welcome')}}">HOME</a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('aboutUs')}}">ABOUT US</a>
+                                    </li>
+
                                     <li class="nav-item">
                                         <a href="{{route('showAllCourses')}}">COURSES</a>
                                     </li>
@@ -435,7 +587,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     <li class="nav-item">
                                         <a href="{{route('contactUs')}}">CONTACT US</a>
                                     </li>
-                            
+                                    <li class="nav-item">
+                                        <a href="{{route('login')}}">My Account (Login)</a>
+                                    </li>
                                    
                                    
                                 </ul>

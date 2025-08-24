@@ -1,7 +1,8 @@
 @extends('layouts.website')
 @section('content')
 <!--====== PAGE BANNER PART START ======-->
-    
+
+<!--
 <section id="page-banner" class="pt-50 pb-50 bg_cover" data-overlay="8" style="background-image: url('{{asset('frontend/images/page-banner-2.jpg')}}')">
         <div class="container">
             <div class="row">
@@ -17,24 +18,24 @@
                            <h1 style="color:#ffc600">Price: Ksh {{$course->course_price}}</h1>
                            <h1 style="color:#ffc600">Duration: {{$course->course_duration}} Weeks</h1>
                         </nav>
-                    </div>  <!-- page banner cont -->
+                    </div>  
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+            </div> 
+        </div> 
+    </section>-->
     
     <!--====== PAGE BANNER PART ENDS ======-->
 
     
-   <section id="contact-page" class="pt-90 pb-120 gray-bg">
+   <section id="contact-page" class="pt-40 pb-120 gray-bg">
         <div class="container">
             
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="contact-from">
-                        <div class="section-title">
-                           <h5>Fill the form bellow</h5>
-                            <!--<h2>Keep in touch</h2>-->
+                    <div class="contact-from" style="padding-top:5px !important">
+                        <div class="section-title" >
+                          <!--<h5>Fill the form bellow</h5>-->
+                            <center><h2 style="border-bottom:5px solid #ffc600;">Apply for : {{$course->course_name}} Course</h2></center>
                         </div> <!-- section title -->
                        
                         <div class="main-form">
@@ -155,7 +156,7 @@
 
                                     <div class="col-md-12">
                                         <div class="singel-form">
-                                            <button type="submit" class="main-btn">Submit</button>
+                                            <button type="submit" class="main-btn" style="width:100%">Submit</button>
                                         </div> <!-- singel form -->
                                     </div> 
                                 </div> <!-- row -->
