@@ -696,7 +696,7 @@
                 <form id="deleteUserForm">
                    
                 
-                    <input type="text" id="delete_user_id" name="delete_user_id" hidden="true">
+                    <input type="text" id="delete_user_id" name="delete_user_id" class="form-control" hidden="true">
                     <!--<button type="submit" class="btn btn-primary">Delete</button>-->
                
             </div>
@@ -940,7 +940,7 @@
                                                         class="text-warning dropdown-item suspendBtn"><i class="fa fa-trash"></i> Suspend Student</span>\
                                                 </li>\
                                                 <li>\
-                                                    <span type="button" value="' + item.id + '" \
+                                                    <span type="button" data-id="' + item.id + '" \
                                                         class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete Student</span>\
                                                 </li>\
                                                 <li>\
@@ -1000,7 +1000,7 @@
                         $('.deleteBtn').on('click', function() {
                             const delete_user_id = $(this).data('id');
                             // Populate modal fields
-                            $('#delete_user_id').val(delete_user_id);
+                            $('#deleteUserModal #delete_user_id').val(delete_user_id);
                             // Show the modal
                             $('#deleteUserModal').modal('show');
                         });

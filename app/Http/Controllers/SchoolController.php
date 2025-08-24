@@ -268,10 +268,16 @@ class SchoolController extends Controller
 
         }*/
 
-        $schools=School::where('id',Auth::user()->school_id)->select('id','school_name')->get();
-        $courses=Course::where('is_scholarship_test_course','Yes')->select('course_name','id')->get();
-        $clases=Clas::where('is_scholarship_test_clas','Yes')->select('clas_name','id')->get();
-        return view('schools.highSchoolTeacherViewStudent',compact('courses','clases','schools'));
+        if(Auth::check()&& Auth::user()->role=='High_school_teacher'){
+            $schools=School::where('id',Auth::user()->school_id)->select('id','school_name')->get();
+            $courses=Course::where('is_scholarship_test_course','Yes')->select('course_name','id')->get();
+            $clases=Clas::where('is_scholarship_test_clas','Yes')->select('clas_name','id')->get();
+            return view('schools.highSchoolTeacherViewStudent',compact('courses','clases','schools'));
+        }else{
+            return redirect()->route('login');
+        }
+
+        
         
     }
 

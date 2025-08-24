@@ -63,6 +63,31 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
   
     <style>
 
+
+       .nav-item {
+            margin: 0 5px;
+            font-weight: 600;
+            font-size: 1.9rem;
+        }
+        
+        .nav-item a {
+            color: #07294d !important;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover effect for navigation links */
+        .nav-item a:hover {
+            /*background-color: rgba(255, 255, 255, 0.2);*/
+            
+            color: #07294d !important;
+            /*transform: translateY(-2px);*/
+        }
+        
+
+
+
       .blueColor{
         color:#000033 !important;
       }
