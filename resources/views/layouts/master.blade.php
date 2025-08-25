@@ -705,6 +705,50 @@
                     </ul> 
                     @endif
 
+                    @if(Auth::check() && Auth::user()->role=='ict_club_student')
+                    <ul class="side-nav">
+
+                       <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('home')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('userAccount')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span> My Account</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showScholarshipTest')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Exam/Test</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('showFormFourScholarshipLetter')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-white"></i>
+                                <span class="menu-arrow"></span>
+                                <span>Scholarship Letter</span>
+                            </a>
+                        </li>
+
+
+                  
+                    </ul> 
+                    @endif
+
+
+                    
 
                     @if(Auth::check() && Auth::user()->role=='Data_clerk')
                     <ul class="side-nav">

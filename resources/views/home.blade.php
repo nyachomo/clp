@@ -10,7 +10,7 @@ use App\Models\Question;
 use Illuminate\Support\Facades\DB;
 
 
-if(Auth::check() && Auth::user()->role=='Trainee' or Auth::user()->role=='scholarship_test_student'){
+if(Auth::check() && Auth::user()->role=='Trainee' or Auth::user()->role=='scholarship_test_student' or Auth::user()->role=='ict_club_student'){
 
     $user_id=Auth::user()->id;
     $fees=Fee::where('user_id',$user_id)->get();
@@ -263,7 +263,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
  @endif
 
- @if(Auth::check() && Auth::user()->role=='scholarship_test_student')
+ @if(Auth::check() && Auth::user()->role=='scholarship_test_student' or Auth::user()->role=='ict_club_student')
 
 
  <div class="row">
@@ -278,7 +278,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
                 
             </p>
-            <a href="{{route('showScholarshipTest')}}" class="btn btn-danger">Click Here to begin the test</a>
+            <a href="{{route('showScholarshipTest')}}" class="btn btn-danger">Click Here to begin the test</a>  <a href="{{route('showFormFourScholarshipLetter')}}" class="btn btn-success">Click Here to download scholarship Letter</a>
         </div>
 
     </div>

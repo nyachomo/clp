@@ -91,8 +91,11 @@ class WebsiteController extends Controller
     }
 
     public function showScholarshipTest(Request $request){
-        if(Auth::check() && Auth::user()->role=='scholarship_test_student'){
-            return view('pages.scholarshipTest');
+        if(Auth::check()){
+            if(Auth::user()->role=='scholarship_test_student' OR Auth::user()->role=='ict_club_student'){
+                return view('pages.scholarshipTest');
+            }
+           
         }else{
             return redirect()->back();
         }

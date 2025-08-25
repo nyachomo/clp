@@ -46,7 +46,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                Total Cats: <span id="total-users">0</span>
+                Total Exam/Test: <span id="total-users">0</span>
                <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="uil-user-plus"></i>Add</a>-->
             </div>
             <div class="card-body">
@@ -81,6 +81,7 @@
                     </div>
 
                 </div>
+                <br>
                 <div class="tab-content">
                     <div class="table-responsive">
                         
@@ -538,7 +539,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.student_score + '</td>\ <!-- Display Student Score -->\
                         <!--<td>' + item.percentage_score + '</td>-->\ <!-- Percentage Score -->\
                         <td class="' + statusClass + '">' + item.exam_status + '</td>\ <!-- Colored Exam Status -->\
-                        <td><a class="btn btn-success btn-sm rounded-pill viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">View Questions</a></td>\
+                        <td><a class="btn btn-success btn-sm rounded-pill viewQuestionsBtn" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">Start Exam</a></td>\
                     </tr>'
                 );
             });
