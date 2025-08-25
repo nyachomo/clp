@@ -105,7 +105,7 @@ class WebsiteController extends Controller
     public function showFormFourScholarshipLetter(){
         $formFourLetter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp','registration_deadline','category','start_date')->where('category','Form Four')->first();
         $lowerFormsLetter=ScholarshipLetter::select('id','form_four','date','letter_id','signature','stamp','registration_deadline','category','start_date')->where('category','Lower Forms')->first();
-        return view('scholarshipletters.showFormFourScholarshipLetter',compact('formFourLetter','lowerFormsLetter'));
+        return view('scholarshipLetters.showFormFourScholarshipLetter',compact('formFourLetter','lowerFormsLetter'));
     }
 
 
