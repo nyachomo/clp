@@ -291,7 +291,7 @@ class SchoolController extends Controller
                 DB::raw("COALESCE(lastname, '') as lastname"),
                 DB::raw("COALESCE(clas_id, '') as clas_id"),
                 DB::raw("COALESCE(course_id, '') as course_id"),
-                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id','school_id')
+                'email','phonenumber','parent_phone','clas_category','course_id','status','gender','clas_id','school_id','prefered_course')
                 ->where('school_id',$school_id)->orderBy('created_at', 'desc')
                 ->whereIn('clas_category', ['Form One', 'Form Two', 'Form Three', 'Form Four'])  ->orderBy('created_at', 'desc');
             
@@ -370,6 +370,7 @@ class SchoolController extends Controller
         $user->clas_id = $request->clas_id;
         $user->school_id = $request->school_id;
         $user->clas_category = $request->clas_category;
+        $user->prefered_course =$request->prefered_course ?? null;
         $user->password = Hash::make('12345678'); 
         $save = $user->save();
         if ($save) {
@@ -410,6 +411,7 @@ class SchoolController extends Controller
             //$user->clas_id = $request->update_clas_id;
             $user->gender = $request->gender;
             $user->clas_category = $request->clas_category;
+            $user->prefered_course = $request->prefered_course ?? null;
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'Student updated successfully!']);

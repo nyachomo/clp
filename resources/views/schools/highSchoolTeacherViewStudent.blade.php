@@ -126,6 +126,7 @@
                                     <!--<th>Class</th>-->
                                     <!--<th>Course</th>-->
                                     <th>Class</th>
+                                    <th>Prefered Course</th>
                                     <th>School</th>
                                     <th>Score</th>
                                     <th>Download</th>
@@ -322,8 +323,25 @@
                             </select>
                     </div>
 
+
                     
 
+                    
+
+                </div>
+
+                <div class="row">
+                            <div class="col-sm-12">
+                                    <label>Preffered Course<span class="labelSpan">*</span></label>
+                                    <select class="form-control" name="prefered_course">
+                                    <option value="">Select Course</option>
+                                    <option value="Full Stack Software Development">Full Stack Software Development</option>
+                                    <option value="Cybersecurity And Ethical Hacking">Cybersecurity And Ethical Hacking</option>
+                                    <option value="Graphic Design And Annimation">Graphic Design And Annimation</option>
+                                    <option value="Digital Marketing And Seo">Digital Marketting And Seo</option>
+                                    <option value="Datascience,Machine Learning And AI">Datascience Machine Learning And AI</option>
+                                    </select>
+                            </div>
                 </div>
 
 
@@ -502,6 +520,22 @@
                             </select>
                        </div>
                </div>
+
+               <div class="row">
+                            <div class="col-sm-12">
+                                    <label>Preffered Course<span class="labelSpan">*</span></label>
+                                    <select class="form-control" name="prefered_course" id="prefered_course">
+                                    <option value="">Select Course</option>
+                                    <option value="Full Stack Software Development">Full Stack Software Development</option>
+                                    <option value="Cybersecurity And Ethical Hacking">Cybersecurity And Ethical Hacking</option>
+                                    <option value="Graphic Design And Annimation">Graphic Design And Annimation</option>
+                                    <option value="Digital Marketing And Seo">Digital Marketting And Seo</option>
+                                    <option value="Datascience,Machine Learning And AI">Datascience Machine Learning And AI</option>
+                                    </select>
+                            </div>
+                </div>
+
+
 
                   
 
@@ -685,6 +719,7 @@
                             // Use fallback values for null properties
                             const secondname = item.secondname || '';
                             const lastname = item.lastname || '';
+                            const prefered_course = item.prefered_course || '';
                             const courseId = item.course ? item.course.id : '';
                             const clasId = item.clas ? item.clas.id : '';
                             const schoolName = item.school ? item.school.school_name : 'N/A';
@@ -699,6 +734,7 @@
                                     <td>' + item.parent_phone + '</td>\
                                     <td>' + item.email + '</td>\
                                     <td>' + item.clas_category + '</td>\
+                                    <td>' + item.prefered_course + '</td>\
                                     <td>' + schoolName + '</td>\
                                     <td>' + totalScore + '</td>\
                                     <td>\
@@ -722,6 +758,7 @@
                                                         data-role="' + item.role + '" \
                                                         data-gender="' + item.gender + '" \
                                                         data-clas_category="' + item.clas_category + '" \
+                                                         data-prefered_course="' + item.prefered_course + '" \
                                                         data-status="' + item.status + '" > <i class="fa fa-edit"></i> Update</a></li>\
                                             <!--<li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>-->\
                                            <!-- <li><a class="dropdown-item suspendBtn text-warning" href="#" data-id="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>-->\
@@ -749,6 +786,7 @@
                             const role = $(this).data('role');
                             const gender = $(this).data('gender');
                             const clas_category = $(this).data('clas_category');
+                            const prefered_course = $(this).data('prefered_course');
                             const status = $(this).data('status');
 
                             // Populate modal fields
@@ -764,6 +802,7 @@
                             $('#updateUserModal #role').val(role);
                             $('#updateUserModal #gender').val(gender);
                             $('#updateUserModal #clas_category').val(clas_category);
+                            $('#updateUserModal #prefered_course').val(prefered_course);
                             $('#updateUserModal #status').val(status);
 
                             // Show the modal
@@ -811,6 +850,7 @@ $(document).ready(function() {
                 parent_phone: $('#parent_phone').val(),
                 email: $('#email').val(),
                 clas_category: $('#clas_category').val(),
+                prefered_course: $('#prefered_course').val(),
                 gender: $('#gender').val(),
                 _token: "{{ csrf_token() }}" // Include CSRF token for security
             };

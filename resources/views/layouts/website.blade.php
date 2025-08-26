@@ -582,7 +582,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                         <a href="{{route('showAllCourses')}}">COURSES</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP TEST</a>
+                                        <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{route('contactUs')}}">CONTACT US</a>
