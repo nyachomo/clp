@@ -2,34 +2,8 @@
 @section('content')
 
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         
-      
-        
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: #ffc600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .header p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            color: #e6e6e6;
-        }
+ 
         
         .card {
             height: 100%;
@@ -156,8 +130,7 @@
             color: #ffc600;
         }
         
-        
-        
+    
         @media (max-width: 992px) {
             .header h1 {
                 font-size: 2.4rem;
@@ -195,6 +168,31 @@
                 right: 20px;
             }
         }
+
+
+        .corner-decoration {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 100px 100px;
+            border-color: transparent transparent #ffc600 transparent;
+            opacity: 0.2;
+        }
+        
+        .circle-decoration {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #ffc600;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
     </style>
 
 <section class="bg-light mt-20">

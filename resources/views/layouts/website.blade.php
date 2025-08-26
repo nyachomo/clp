@@ -222,9 +222,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
 
                     .table-container {
-            overflow-x: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+                    overflow-x: auto;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.05);
         }
         #table2 {
             width: 100%;
@@ -271,92 +271,184 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
 
 
-
-
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-        
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
       
         
+      
+      
+        
+       
+
+
+
+
+
+        
+        
         .card {
-            width: 100%;
-            max-width: 800px;
-            background: #07294d;
-            border-radius: 20px;
+            height: 100%;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            color: white;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: #07294d;
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            transform: translateY(-8px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.4);
         }
         
         .card-header {
-            background: #ffc600;
-            padding: 25px 40px;
+            padding: 25px 25px 20px;
             position: relative;
-        }
-        
-        .card-header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #07294d;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .card-header h1:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 60px;
-            height: 4px;
-            background: #07294d;
-            border-radius: 2px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         
         .card-body {
-            padding: 40px;
+            padding: 25px;
             line-height: 1.7;
         }
         
         .card-body p {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
+            font-size: 1.1rem;
             color: #e6e6e6;
         }
         
-        .card-body p:last-child {
-            margin-bottom: 0;
+        .card h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
         }
         
-        .accent-text {
-            color: #ffc600;
-            font-weight: 600;
+        .card h1:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            border-radius: 2px;
         }
         
         .icon-container {
             position: absolute;
             top: 25px;
-            right: 30px;
-            font-size: 2.5rem;
-            color: #07294d;
+            right: 25px;
+            font-size: 2.2rem;
             opacity: 0.8;
         }
         
+        /* Mission Card Styling */
+        .mission-card .card-header {
+            background: #ffc600;
+        }
+        
+        .mission-card h1 {
+            color: #07294d;
+        }
+        
+        .mission-card h1:after {
+            background: #07294d;
+        }
+        
+        .mission-card .icon-container {
+            color: #07294d;
+        }
+        
+        /* Vision Card Styling */
+        .vision-card .card-header {
+            background: #1fd1ff;
+        }
+        
+        .vision-card h1 {
+            color: #07294d;
+        }
+        
+        .vision-card h1:after {
+            background: #07294d;
+        }
+        
+        .vision-card .icon-container {
+            color: #07294d;
+        }
+        
+        /* Expertise Card Styling */
+        .expertise-card .card-header {
+            background: #07294d;
+        }
+        
+        .expertise-card h1 {
+            color: #ffc600;
+        }
+        
+        .expertise-card h1:after {
+            background: #ffc600;
+        }
+        
+        .expertise-card .icon-container {
+            color: #ffc600;
+        }
+        
+        .accent-text {
+            font-weight: 600;
+        }
+        
+        .mission-card .accent-text {
+            color: #ffc600;
+        }
+        
+        .vision-card .accent-text {
+            color: #1fd1ff;
+        }
+        
+        .expertise-card .accent-text {
+            color: #ffc600;
+        }
+        
+    
+        @media (max-width: 992px) {
+            .header h1 {
+                font-size: 2.4rem;
+            }
+            
+            .card {
+                margin-bottom: 25px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .card-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .card h1 {
+                font-size: 1.6rem;
+            }
+            
+            .icon-container {
+                font-size: 1.8rem;
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+
         .corner-decoration {
             position: absolute;
             bottom: 0;
@@ -379,31 +471,11 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
             border-radius: 50%;
             opacity: 0.3;
         }
+
+
+
         
-        @media (max-width: 768px) {
-            .card-header {
-                padding: 20px;
-            }
-            
-            .card-header h1 {
-                font-size: 2rem;
-            }
-            
-            .card-body {
-                padding: 25px 20px;
-            }
-            
-            .card-body p {
-                font-size: 1.1rem;
-            }
-            
-            .icon-container {
-                font-size: 2rem;
-                top: 20px;
-                right: 20px;
-            }
-        }
- 
+      
 
       </style>
 
@@ -559,7 +631,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
         <div class="navigation" style="background-color:#ffc600 !important">
             <div class="container-fliud">
                 <div class="row">
-                    <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                         <nav class="navbar navbar-expand-lg">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="icon-bar"></span>
@@ -581,14 +653,28 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     <li class="nav-item">
                                         <a href="{{route('showAllCourses')}}">COURSES</a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('login')}}">DIGITAL HUSTLE </a>
+                                    </li>
+
                                     <li class="nav-item">
                                         <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{route('contactUs')}}">CONTACT US</a>
                                     </li>
+
                                     <li class="nav-item">
                                         <a href="{{route('login')}}">My Account (Login)</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('login')}}">E-learning</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{route('login')}}">Enrol</a>
                                     </li>
                                    
                                    
