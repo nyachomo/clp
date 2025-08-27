@@ -81,13 +81,18 @@
     </section>-->
     
     <!--====== PAGE BANNER PART ENDS ======-->
+    <div class="row" style="max-width:100%; width:100%; margin:0;">
+        <div class="col-sm-12" style="background-color:#07294d;padding-top:20px;padding-bottom:20px;">
+            <center><h1 style="color:white">Form Four 2025 Scholarship Program</h1></center>
+        </div>
+    </div>
 
     
    <section id="contact-page" class="pt-20 pb-120 gray-bg">
         <div class="container-fliud">
             <div class="row">
                  <div class="col-sm-12">
-                     <center> <h1>Form Four 2025 Scholarship Program</h1></center>
+                    
                       <p>
                          Welcome to Techsphere Training Institute, a premier destination for cutting-edge digital skills training! We are thrilled to announce a special partial scholarship program exclusively for 2025 Form Four leavers, designed to launch your career in the high-demand tech industry.
                         We offer industry-relevant training in Full-Stack Software Engineering, Cybersecurity and Ethical Hacking, Graphic Design and Animation, 

@@ -44,7 +44,7 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btnClickToEnrol">Enrol For this Course</button>
+                                    <button class="btn btnClickToEnrol"><a href="{{route('apply')}}">Enrol For this Course</a></button>
                                     <button class="btn btnDownloadCourseOutline"> <i class="fa fa-download"></i> Download Course Outline</button>
                                 </div>
                             </div>

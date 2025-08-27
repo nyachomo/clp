@@ -340,6 +340,7 @@ Route::prefix('Applicants')->group(function () {
 Route::get('/about_us',[App\Http\Controllers\WebsiteController::class, 'about_us'])->name('about_us');
 Route::get('/all_courses',[App\Http\Controllers\WebsiteController::class, 'all_courses'])->name('all_courses');
 Route::get('/apply',[App\Http\Controllers\WebsiteController::class, 'apply'])->name('apply');
+Route::get('/digital-hustle',[App\Http\Controllers\WebsiteController::class, 'digitalHustle'])->name('digitalHustle');
 
 Route::get('/data-science',[App\Http\Controllers\WebsiteController::class, 'dataScience'])->name('dataScience');
 Route::get('/android-application',[App\Http\Controllers\WebsiteController::class, 'androidApplication'])->name('androidApplication');

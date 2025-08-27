@@ -66,6 +66,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://use.fontawesome.com/d79a9c14ef.js"></script>
     <style>
        
         
@@ -473,8 +474,58 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
         }
 
 
+        .icons-social2{
+            position:fixed;
+            display: flex;
+            flex-direction: column;
+            top:35%;
+            right:1%;
+            z-index:2
+        }
 
+        .icons-social2 a{
+            display: block;
+            text-align: center;
+            color: white;
+            /*padding:15px 15px;*/
+            padding-top:7px !important;
+            padding-bottom:7px !important;
+
+            margin-bottom: 5px;
+            border-radius:50px;
+            width: 40px;           /* equal width */
+            height: 40px;          /* equal height */
+            border-radius: 50%;
+        }
         
+
+        .whatsapp-circle {
+        width: 70px;
+        height: 70px;
+        background-color: #25D366; /* WhatsApp green */
+        border-radius: 50%;        /* makes it circular */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        position:fixed;
+        bottom:2%;
+        left:1% !important;
+        z-index:200 !important;
+        }
+
+        .whatsapp-circle:hover {
+        transform: scale(1.1);
+        }
+
+        .whatsapp-circle i {
+            color: white;
+            font-size: 36px;
+        }
+
+
       
 
       </style>
@@ -510,6 +561,44 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
             <div class="layer layer-8"></div>
         </div>
     </div>
+
+
+    
+
+    <section class="iconsSection">
+        <div class="icons-social2">
+            <a href="#" style="background-color: #1877F2">
+                <i class="fa fa-facebook"></i>
+            </a>
+
+            <a href="#" style="background-color: #1DA1F2">
+                <i class="fa fa-twitter"></i>
+            </a>
+
+            <a href="#" style="background-color:#FF0000">
+                <i class="fa fa-youtube-play"></i>
+            </a>
+
+            <a href="#" style="background-color:#F58529">
+                <i class="fa fa-instagram"></i>
+            </a>
+
+            <a href="#" style="background-color:#010101">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+        </div>
+    </section>
+
+
+    <!--WATSUP SECTION-->
+
+    <div class="whatsapp-circle">
+        <a href="https://wa.me/+254768919307?text=I'm%20interested%20in%20your%20Courses" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!--END OF WATSUP SECTION-->
+
+
     
     <!--====== PRELOADER PART START ======-->
     
@@ -566,9 +655,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     <span class="yellowColor">+254768919307</span>
                                 </div>
                             </div>
-                           <!-- <div class="button float-left">
-                                <a href="{{route('login')}}" class="main-btn">Account(Login)</a>
-                            </div>-->
+                           <div class="button float-left">
+                                <a href="{{route('apply')}}" class="main-btn"  style="padding-bottom:10px;padding-top:10px;">APPLY NOW</a>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- row -->
@@ -631,7 +720,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
         <div class="navigation" style="background-color:#ffc600 !important">
             <div class="container-fliud">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                   <div class="col-lg-10 col-md-10 col-sm-9 col-8">
                         <nav class="navbar navbar-expand-lg">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="icon-bar"></span>
@@ -655,7 +744,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{route('login')}}">DIGITAL HUSTLE </a>
+                                        <a href="{{route('digitalHustle')}}">DIGITAL HUSTLE </a>
                                     </li>
 
                                     <li class="nav-item">
@@ -674,13 +763,22 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{route('login')}}">Enrol</a>
+                                        <a href="{{route('apply')}}">Enrol</a>
                                     </li>
                                    
                                    
                                 </ul>
                             </div>
                         </nav> <!-- nav -->
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-3 col-4">
+                        <div class="right-icon text-right">
+                            <ul>
+                                <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
+                                <!--<li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>-->
+                            </ul>
+                        </div> <!-- right icon -->
                     </div>
                    
                 </div> <!-- row -->

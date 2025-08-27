@@ -195,8 +195,31 @@
 
     </style>
 
+<div class="row" style="max-width:100%; width:100%; margin:0;">
+    <div class="col-sm-12" style="background-color:#07294d;padding-top:20px;padding-bottom:20px;">
+        <center><h1 style="color:white">About Us</h1></center>
+    </div>
+</div>
+ 
+
+
+
+
+
 <section class="bg-light mt-20">
         <div class="container-fliud">
+            <div class="row">
+                 <div class="col-sm-12">
+                     <p>
+                           At Techsphere Training Institute, we are dedicated to equipping young people and professionals with the digital 
+                           skills of the future. Established with a vision to bridge the digital skills gap, we specialize in practical, 
+                           hands-on training that prepares our students for real-world opportunities in technology and innovation.
+                           Our programs are carefully designed to be project-based, ensuring that students not only learn the theory but also build 
+                           real-world solutions. We focus on career readiness, empowering learners to become innovators, problem solvers, 
+                           and leaders in the digital economy.
+                     </p>
+                 </div>
+            </div>
             <div class="row">
             <div class="col-lg-4 col-md-6 mb-4">
                  <div class="card mission-card">

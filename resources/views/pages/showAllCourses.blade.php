@@ -26,16 +26,30 @@
    
 
      <!--====== COURSES PART START ======-->
+     <div class="row" style="max-width:100%; width:100%; margin:0;">
+        <div class="col-sm-12" style="background-color:#07294d;padding-top:20px;padding-bottom:20px;">
+            <center><h1 style="color:white">Our Courses</h1></center>
+        </div>
+    </div>
+
+    <div class="row" style="max-width:100%; width:100%; margin:0;">
+        <div class="col-sm-12" style="padding-top:20px;padding-bottom:20px;">
+           <p>
+                 At Techsphere Training Institute, we offer a wide range of industry-driven courses designed to equip learners with practical, in-demand skills. Our programs include Full-Stack Software Engineering, Cybersecurity and Ethical Hacking, Graphic Design and Animation, Digital Marketing, Data Analysis, Data Science, and Machine Learning & Artificial Intelligence. Each course is carefully structured to prepare students for real-world challenges while opening doors to exciting career opportunities in the digital economy.
+           </p>
+        </div>
+    </div>
+
     
      <section id="apply-aprt" class="pb-40" >
-        <div class="container">
+        <div class="container-fliud">
 
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="courses-grid" role="tabpanel" aria-labelledby="courses-grid-tab">
                     <div class="row" style="padding-bottom: 20px;border-radius: 10px;">
                         @foreach($courses as $key=>$course)
                         <div class="col-lg-4 col-md-6">
-                            <div class="singel-course mt-30" style="border:2px solid #ffc600">
+                            <div class="singel-course mt-30">
                                 <div class="thum">
                                     <div class="image" style="max-height:180px">
                                         <img src="{{asset('images/courses/'.$course->course_image)}}" alt="Course">
@@ -103,7 +117,8 @@
                                         </div>
                                         <div class="admin" style="padding-top: 10px;">
                                             <!--<button type="button" data-toggle="modal" data-target="#enrolModal{{$course->id}}" class="btn readMore" style="border-radius: 50px;"><b>Enrol</b></button>-->
-                                            <a href="{{route('pages.signup',['id'=>$course->id])}}" class="btn readMore" style="border-radius: 50px;padding-left:30px;padding-right:30px;"><b>Enrol</b></a>
+                                            <!--<a href="{{route('pages.signup',['id'=>$course->id])}}" class="btn readMore" style="border-radius: 50px;padding-left:30px;padding-right:30px;"><b>Enrol</b></a>-->
+                                            <a href="{{route('apply')}}" class="btn readMore" style="border-radius: 50px;padding-left:30px;padding-right:30px;"><b>Enrol</b></a>
                                         </div>
                                     </div>
                                 </div>

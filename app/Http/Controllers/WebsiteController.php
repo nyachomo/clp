@@ -120,9 +120,7 @@ class WebsiteController extends Controller
         return view("all_courses");
     }
 
-    public function apply(){
-        return view("apply");
-    }
+   
 
     public function dataScience(){
           return view('pages.data_science');
@@ -177,6 +175,15 @@ class WebsiteController extends Controller
     public function enrol(){
         $courses=Course::where('course_status','Active')->select('course_name')->get();
         return view('pages.enrol',compact('courses'));
+    }
+
+    public function digitalHustle(){
+        return view('pages.digital_hustle');
+    }
+
+    public function apply(){
+        $courses=Course::where('course_status','Active')->select('id','course_name')->get();
+        return view("pages.apply",compact('courses'));
     }
 
     public function applicantDownloadAdmissionLetter(){
