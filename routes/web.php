@@ -184,6 +184,7 @@ Route::prefix('clases')->group(function () {
     Route::post('/update', [ClasController::class, 'updateClas'])->name('updateClas');
     Route::post('/delete', [ClasController::class, 'deleteClas'])->name('deleteClas');
     Route::post('/suspend', [ClasController::class, 'suspendClas'])->name('suspendClas');
+    Route::get('/classRoom', [ClasController::class, 'classRoom'])->name('classRoom');
     Route::post('/activate', [ClasController::class, 'activateClas'])->name('activateClas');
     Route::POST('/activate/all', [ClasController::class, 'activateAllClas'])->name('activateAllClas');
     Route::get('/get-students/{classId}', [TraineeController::class, 'getStudents'])->name('getStudentsPerClass');

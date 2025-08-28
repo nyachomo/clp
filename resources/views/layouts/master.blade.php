@@ -311,6 +311,11 @@
                                         <li>
                                             <a href="{{route('showClases')}}">Clases</a>
                                         </li>
+                                        <li>
+                                            <a href="{{route('classRoom')}}">Class Room</a>
+                                        </li>
+
+                                        
                                     
                                     </ul>
                                 </div>

@@ -934,7 +934,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
     <script src="{{asset('frontend/js/jquery.counterup.min.js')}}"></script>
     
     <!--====== Nice Select js ======-->
-    <script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>
+   <!-- <script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>-->
     
     <!--====== Nice Number js ======-->
     <script src="{{asset('frontend/js/jquery.nice-number.min.js')}}"></script>

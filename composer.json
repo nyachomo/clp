@@ -9,6 +9,7 @@
         "php": "^8.2",
         "africastalking/africastalking": "^3.0",
         "dompdf/dompdf": "^3.1",
+        "firebase/php-jwt": "^6.11",
         "google/apiclient": "^2.18",
         "kiveu/mpesa": "^1.1",
         "laravel/framework": "^11.31",

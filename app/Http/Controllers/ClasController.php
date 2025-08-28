@@ -319,4 +319,8 @@ public function getStudents(Request $request,$classId) {
             return response()->json(['success' => false, 'message' => 'Class not found!'], 404);
             
         }
+
+        public function classRoom(){
+            return view('clas.classRoom');
+        }
 }
