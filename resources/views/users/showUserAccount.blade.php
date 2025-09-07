@@ -192,8 +192,9 @@
                             </div>
                         </div>
                     <!--end of progress bar-->
+
                     <!-- Message Area -->
-                    <div id="passwordUpdateMsg"></div>
+                       <div id="passwordUpdateMsg"></div>
 
 
                         <form id="passwordUpdateForm" method="POST">

@@ -125,9 +125,10 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                Total Courses: <span id="all_courses">0</span>
+                Total Active Courses: <span id="all_courses">0</span>
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addCourseModal"> <i class="uil-plus"></i>Add New Course</a>
                <!-- <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#suspendedCourseModal2"> <i class="uil-plus"></i>Suspended Courses</a>-->
+               <a href="{{route('showSuspendedCourses')}}" type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill"> <span id="suspendedspan"></span> Suspended Courses (View)</a>
             </div>
             <div class="card-body">
 
@@ -175,6 +176,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                                     <th>Duration</th>
                                     <th>Price</th>
                                     <th>Status</th>
+                                    <th>Enrolled Students</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -765,7 +767,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
         success: function(response) {
             // Update total users
             $('#all_courses').text(response.all_courses);
-            $('#suspended').text(response.suspended);
+            $('#suspendedspan').text(response.suspended_courses);
             $('#active_courses').text(response.active_courses);
 
 
@@ -787,6 +789,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
                 const baseUrl = "{{ route('manageCourseModule') }}";
                 const imagePath = "{{ asset('images/courses/') }}" + '/' + item.course_image;
+                const viewStudent="{{route('adminManageTraineePerCourse')}}"
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
@@ -799,6 +802,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.course_duration + '</td>\
                         <td>' + item.course_price + '</td>\
                          <td><span class="font-weight-bold ' + statusClass + '">' + statusText + '</span></td>\
+                        <td>' + item.total_students + 'Exams<a class="text-info" href="' + viewStudent + '?course_id=' + item.id + '" target="_blank"> View</a>\
                         <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\

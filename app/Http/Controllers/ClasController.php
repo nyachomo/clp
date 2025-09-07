@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Course;
+use App\Models\Exam;
+use App\Models\StudentAnswer;
+use App\Models\JitsiMeeting;
 
 
 class ClasController extends Controller
@@ -22,7 +25,13 @@ class ClasController extends Controller
     //
 
     public function index(){
-        return view('clas.adminManageClas');
+        $suspendedClases=Clas::where('clas_status','suspended')->select('id','clas_name','clas_status');
+        return view('clas.adminManageClas',compact('suspendedClases'));
+    }
+
+    public function showSuspendedClases(){
+        $suspendedClases=Clas::where('clas_status','suspended')->select('id','clas_name','clas_status');
+        return view('clas.adminManageSuspendedClases',compact('suspendedClases'));
     }
 
     public function addClas(Request $request){
@@ -34,8 +43,9 @@ class ClasController extends Controller
         }
     }
 
-    public function fetchClases(Request $request) {
-        $query = Clas::select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
+
+    public function fetchSuspendedClases(Request $request) {
+        $query = Clas::where('clas_status','Suspended')->whereIn('clas_category', ['training_class',])->select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
        'scholarship_test_category','clas_category')->orderBy('created_at', 'desc');
 
 
@@ -57,7 +67,12 @@ class ClasController extends Controller
         // Append the number of students who attempted each exam
         foreach ($users as $clas) {
             $clas->total_student = count(User::where('clas_id', $clas->id)->get());
+            $clas->total_assignment=count(Exam::where('clas_id',$clas->id)->where('is_assignment','Yes')->get());
+            $clas->total_cats=count(Exam::where('clas_id',$clas->id)->where('is_cat','Yes')->get());
+            $clas->total_final_exam=count(Exam::where('clas_id',$clas->id)->where('is_final_exam','Yes')->get());
         }
+
+        $suspendedClases=count(Clas::where('clas_status','Suspended')->get());
 
 
         return response()->json([
@@ -69,6 +84,54 @@ class ClasController extends Controller
                 'per_page' => $users->perPage(),
             ],
             'total_users' => $users->total(),
+            'suspendedClases'=> $suspendedClases,
+        ]);
+    }
+
+
+    public function fetchClases(Request $request) {
+        $query = Clas::where('clas_status','Active')->whereIn('clas_category', ['training_class',])->select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
+       'scholarship_test_category','clas_category')->orderBy('created_at', 'desc');
+
+
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function($q) use ($request) {
+                $q->where('clas_name', 'like', '%' . $request->search . '%')
+                ->orWhere('clas_status', 'like', '%' . $request->search . '%');
+            });
+        }
+    
+
+         
+        // Get the number of records per page
+        $perPage = $request->input('per_page', 10); // Default is 10
+    
+        $users = $query->paginate($perPage);
+    
+        // Append the number of students who attempted each exam
+        foreach ($users as $clas) {
+            $clas->total_student = count(User::where('clas_id', $clas->id)->get());
+            $clas->total_assignment=count(Exam::where('clas_id',$clas->id)->where('is_assignment','Yes')->get());
+            $clas->total_cats=count(Exam::where('clas_id',$clas->id)->where('is_cat','Yes')->get());
+            $clas->total_final_exam=count(Exam::where('clas_id',$clas->id)->where('is_final_exam','Yes')->get());
+            $clas->total_jitsi_meeting=count(JitsiMeeting::where('clas_id',$clas->id)->get());
+        }
+
+        $suspendedClases=count(Clas::where('clas_status','Suspended')->get());
+
+
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+            'suspendedClases'=> $suspendedClases,
+          
         ]);
     }
 
@@ -323,4 +386,234 @@ public function getStudents(Request $request,$classId) {
         public function classRoom(){
             return view('clas.classRoom');
         }
+
+
+        public function adminManagePrograms(){
+            return view('programs.adminManagePrograms');
+        }
+
+
+        public function fetchPrograms(Request $request) {
+            $query = Clas::whereIn('clas_category',['ict_club_class','scholarship_test_class','event_class','referal_class'])->select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
+           'scholarship_test_category','clas_category')->orderBy('created_at', 'desc');
+    
+    
+            // Apply search filter if provided
+            if ($request->has('search') && !empty($request->search)) {
+                $query->where(function($q) use ($request) {
+                    $q->where('clas_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('clas_status', 'like', '%' . $request->search . '%');
+                });
+            }
+        
+    
+             
+            // Get the number of records per page
+            $perPage = $request->input('per_page', 10); // Default is 10
+        
+            $users = $query->paginate($perPage);
+        
+            // Append the number of students who attempted each exam
+            foreach ($users as $clas) {
+                $clas->total_student = count(User::where('clas_id', $clas->id)->get());
+            }
+    
+    
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+
+
+
+
+        }
+
+
+        public function showAssignmentPerClas(){
+            $clas_id=$_GET['clas_id'];
+            $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
+            $clases=Clas::select('id','clas_name')->get();
+            return view('exams.showAssignmentPerClas',compact('clas','clases'));
+        }
+
+
+        public function showCatsPerClas(){
+            $clas_id=$_GET['clas_id'];
+            $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
+            $clases=Clas::select('id','clas_name')->get();
+            return view('exams.showCatsPerClas',compact('clas','clases'));
+        }
+
+        public function showFinalExamPerClas(){
+            $clas_id=$_GET['clas_id'];
+            $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
+            $clases=Clas::select('id','clas_name')->get();
+            return view('exams.showFinalExamPerClas',compact('clas','clases'));
+        }
+
+
+        public function fetchAssignmentPerClas(Request $request,$classId) {
+            $query = Exam::with('clas')->select( 'id',  'exam_type',
+            'is_assignment',
+            'is_cat',
+            'is_final_exam',
+            'exam_name',
+            'exam_start_date',
+            'exam_end_date',
+            'exam_duration',
+            'exam_instruction',
+            'exam_status',
+            'course_id',
+            'clas_id')
+            ->where('is_assignment','Yes')
+            ->where('clas_id',$classId)
+            ->orderBy('created_at', 'desc');
+    
+    
+            // Apply search filter if provided
+            if ($request->has('search') && !empty($request->search)) {
+                $query->where(function($q) use ($request) {
+                    $q->where('exam_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                    ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+                });
+            }
+        
+            // Get the number of records per page
+            $perPage = $request->input('per_page', 10); // Default is 10
+        
+            $users = $query->paginate($perPage);
+    
+            // Append the number of students who attempted each exam
+            foreach ($users as $exam) {
+                $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                    ->distinct('user_id')
+                    ->count();
+            }
+        
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+        }
+
+
+        public function fetchCatsPerClas(Request $request,$classId) {
+            $query = Exam::with('clas')->select( 'id',  'exam_type',
+            'is_assignment',
+            'is_cat',
+            'is_final_exam',
+            'exam_name',
+            'exam_start_date',
+            'exam_end_date',
+            'exam_duration',
+            'exam_instruction',
+            'exam_status',
+            'course_id',
+            'clas_id')
+            ->where('is_cat','Yes')
+            ->where('clas_id',$classId)
+            ->orderBy('created_at', 'desc');
+    
+    
+            // Apply search filter if provided
+            if ($request->has('search') && !empty($request->search)) {
+                $query->where(function($q) use ($request) {
+                    $q->where('exam_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                    ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+                });
+            }
+        
+            // Get the number of records per page
+            $perPage = $request->input('per_page', 10); // Default is 10
+        
+            $users = $query->paginate($perPage);
+    
+            // Append the number of students who attempted each exam
+            foreach ($users as $exam) {
+                $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                    ->distinct('user_id')
+                    ->count();
+            }
+        
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+        }
+
+
+        public function fetchFinalExamPerClas(Request $request,$classId) {
+            $query = Exam::with('clas')->select( 'id',  'exam_type',
+            'is_assignment',
+            'is_cat',
+            'is_final_exam',
+            'exam_name',
+            'exam_start_date',
+            'exam_end_date',
+            'exam_duration',
+            'exam_instruction',
+            'exam_status',
+            'course_id',
+            'clas_id')
+            ->where('is_final_exam','Yes')
+            ->where('clas_id',$classId)
+            ->orderBy('created_at', 'desc');
+    
+    
+            // Apply search filter if provided
+            if ($request->has('search') && !empty($request->search)) {
+                $query->where(function($q) use ($request) {
+                    $q->where('exam_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                    ->orWhere('exam_status', 'like', '%' . $request->search . '%');
+                });
+            }
+        
+            // Get the number of records per page
+            $perPage = $request->input('per_page', 10); // Default is 10
+        
+            $users = $query->paginate($perPage);
+    
+            // Append the number of students who attempted each exam
+            foreach ($users as $exam) {
+                $exam->attempted_students = StudentAnswer::where('exam_id', $exam->id)
+                    ->distinct('user_id')
+                    ->count();
+            }
+        
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+        }
+
+
+
 }

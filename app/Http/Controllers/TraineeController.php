@@ -864,6 +864,8 @@ class TraineeController extends Controller
         return View('trainees.showTraineesPerClas',compact('courses','clases','clas','schools'));
     }
 
+    
+
     public function getStudents(Request $request,$classId) {
         $class=Clas::where('id',$classId)->first();
         $clasName= $class->clas_name;

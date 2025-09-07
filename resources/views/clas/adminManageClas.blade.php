@@ -70,8 +70,10 @@
         <div class="card">
             <div class="card-header">
                 Total Clases: <span id="total-users">0</span>
+                <a type="button" href="{{route('showSuspendedClases')}}" class="btn btn-sm btn-warning rounded-pill" style="float:right"><span id="suspendedClasesButton"></span> Suspended Clases</a>
+               
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addClasModal"> <i class="fa fa-plus"></i>Add New Class</a>
-                <a type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#activateAllClasModal"> <i class="fa fa-plus"></i>Activate All Clases</a>
+                <!--<a type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#activateAllClasModal"> <i class="fa fa-plus"></i>Activate All Clases</a>-->
             </div>
             <div class="card-body">
 
@@ -105,6 +107,7 @@
                     </div>
 
                 </div>
+                <br>
                 <div class="tab-content">
                     <div class="table-responsive">
                         
@@ -116,6 +119,10 @@
                                     <th>Status</th>
                                     <th>Category</th>
                                     <th>Total Students</th>
+                                    <th>Total Assignment</th>
+                                    <th>Total Cats</th>
+                                    <th>Total Final Exam</th>
+                                    <th>Jitsi Meetings</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -170,7 +177,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Is Scholarship Test Class ?<sup>*</sup></label>
@@ -181,9 +188,9 @@
                                         
                                     </div>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Scholarship Test Category<sup>*</sup></label>
@@ -195,19 +202,14 @@
                                         
                                     </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="row">
                             <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label>Class Category<sup>*</sup></label>
-                                        <select name="clas_category" class="form-control" required>
-                                            <option value="">Select ....</option>
+                                        <!--<label>Class Category<sup>*</sup></label>-->
+                                        <select name="clas_category" class="form-control" hidden="true">
                                             <option value="training_class">Training Class</option>
-                                            <option value="ict_club_class">Ict Club Class</option>
-                                            <option value="event_class">Event Class/Program</option>
-                                            <option value="scholarship_test_class">Scholarship Test Class</option>
-                                            <option value="referal_class">Referal Class</option>
                                         </select>
                                         
                                     </div>
@@ -268,10 +270,7 @@
                                         <select name="clas_category" id="clas_category" class="form-control" required>
                                             <option value="">Select ....</option>
                                             <option value="training_class">Training Class</option>
-                                            <option value="ict_club_class">Ict Club Class</option>
-                                            <option value="event_class">Event Class/Program</option>
-                                            <option value="scholarship_test_class">Scholarship Test Class</option>
-                                            <option value="referal_class">Referal Class</option>
+                                           
                                         </select>
                                         
                                     </div>
@@ -401,6 +400,39 @@
 <!--end of modal-->
 
 
+<!-- Add User modal -->
+<div id="suspendedClassesModal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel"><span id="suspendedClasesHeader"></span> Suspended Classes</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            
+                <div class="card-body" style="border:1px solid white">
+                   <ol>
+                  @foreach($suspendedClases as $key=>$suspendedClas)
+                 
+                   <li>
+                      {{$suspendedClas->clas_name}}
+                   </li>
+                  @endforeach
+                </ol>
+                   
+                </div>
+
+
+            <div class="modal-footer justify-content-between" style="border:1px solid white">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <!--<button type="submit"  class="btn btn-success rounded-pill">Suspend</button>-->
+            </div>
+       
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -481,11 +513,17 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
         success: function(response) {
             // Update total users
             $('#total-users').text(response.total_users);
+            $('#suspendedClasesHeader').text(response.suspendedClases);
+            $('#suspendedClasesButton').text(response.suspendedClases);
 
             // Clear and repopulate the table
             $('tbody').html("");
             $.each(response.users, function(key, item) {
                 const baseUrl = "{{ route('showTraineePerClas') }}";
+                const classAssignmentUrl = "{{ route('showAssignmentPerClas') }}";
+                const classCatsUrl = "{{ route('showCatsPerClas') }}";
+                const classFinalExamUrl = "{{ route('showFinalExamPerClas') }}";
+                const jitsiMeetingPerClasUrl="{{route('showJitsiMeetingPerClas')}}";
                
                 // Inside the $.each(response.users, function(key, item) { ... }) loop
                 $('#table1').append(
@@ -495,6 +533,10 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td><span class="' + (item.clas_status && item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
                         <td>' + item.clas_category + '</td>\
                         <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_assignment + 'Assignments<a class="text-info" href="' + classAssignmentUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_cats + 'Cats<a class="text-info" href="' + classCatsUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_final_exam + 'Exams<a class="text-info" href="' + classFinalExamUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_jitsi_meeting +' Jitsi Meetings <a href="'+jitsiMeetingPerClasUrl+'?clas_id='+item.id+'" target="_blank">View</a> </td>\
                         <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\

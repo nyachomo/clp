@@ -37,12 +37,6 @@
        <link href="{{asset('assets/css/vendor/simplemde.min.css')}}" rel="stylesheet" type="text/css" />
        <script src="https://use.fontawesome.com/d79a9c14ef.js"></script>
 
-       <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-       
-
-       <!-- Place the first <script> tag in your HTML's <head> -->
-      <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
      <!--Google fonts-->
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,31 +57,6 @@
         <!-- App css -->
         <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
-
-
-        <!-- In your layout file -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
-
-
-
-         <!-- Tell the browser to be responsive to screen width -->
-       <!-- <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
-        <!-- Bootstrap 3.3.7 -->
-       <!-- <link rel="stylesheet" href="{{asset('admin2/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">-->
-        <!-- Font Awesome -->
-        <!--<link rel="stylesheet" href="{{asset('admin2/bower_components/font-awesome/css/font-awesome.min.css')}}">-->
-        <!-- Ionicons -->
-       <!-- <link rel="stylesheet" href="{{asset('admin2/bower_components/Ionicons/css/ionicons.min.css')}}">-->
-        <!-- Theme style -->
-       <!-- <link rel="stylesheet" href="{{asset('admin2/dist/css/AdminLTE.min.css')}}">-->
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-            folder instead of downloading all of them to reduce the load. -->
-       <!-- <link rel="stylesheet" href="{{asset('admin2/dist/css/skins/_all-skins.min.css')}}">-->
-        <!-- bootstrap wysihtml5 - text editor -->
-       <!-- <link rel="stylesheet" href="{{asset('admin2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">-->
 
 
 
@@ -153,7 +122,7 @@
         }
 
         .bodyColor{
-            background-color:#07294d !important; 
+            background-color:#0044cc !important; 
         }
 
         .time-button {
@@ -187,9 +156,7 @@
             border-radius:20px;
         }
 
-        .card{
-          border:2px solid #ffc600 !important;
-        }
+      
 
         .YellowBtn{
             background-color:#ffc600 !important;
@@ -204,15 +171,7 @@
            
         }
 
-        .footer{
-            background-color:#07294d !important;
-            color:#ffc600 !important;
-        }
-
       
-       
-      
-
     </style>
 
 
@@ -293,8 +252,14 @@
                                 <div class="collapse" id="sidebarEcommerce">
                                     <ul class="side-nav-second-level">
                                         <li>
-                                            <a href="{{route('showCourses')}}">Courses</a>
+                                            <a href="{{route('showCourses')}}">Active Courses</a>
                                         </li>
+
+                                        <li>
+                                            <a href="{{route('showSuspendedCourses')}}">Suspended Courses</a>
+                                        </li>
+
+                                        
                                     </ul>
                                 </div>
                             </li>
@@ -309,8 +274,14 @@
                                 <div class="collapse" id="sidebarCrm">
                                     <ul class="side-nav-second-level">
                                         <li>
-                                            <a href="{{route('showClases')}}">Clases</a>
+                                            <a href="{{route('showClases')}}">Active Clases</a>
                                         </li>
+
+                                        <li>
+                                            <a href="{{route('showSuspendedClases')}}">Suspended Clases</a>
+                                        </li>
+
+                                       
                                         <li>
                                             <a href="{{route('classRoom')}}">Class Room</a>
                                         </li>
@@ -383,6 +354,15 @@
                                 <a  href="{{route('showSchools')}}" class="side-nav-link">
                                     <i class="uil-package"></i>
                                     <span>Manage Schools </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                            </li>
+
+                            
+                            <li class="side-nav-item">
+                                <a  href="{{route('adminManagePrograms')}}" class="side-nav-link">
+                                    <i class="uil-package"></i>
+                                    <span>Programs </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                             </li>

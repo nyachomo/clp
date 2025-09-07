@@ -26,6 +26,8 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\ScholarshipLetterController;
 use App\Http\Controllers\ScholarshipTestCourseController;
+use App\Http\Controllers\BackendController;
+use App\Http\Controllers\JitsiMeetingController;
 
 /*
 Route::get('/', function () {
@@ -57,35 +59,35 @@ Route::get('/download-user-file',[UserController::class,'downloadUserFile'])->na
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/administrators', [UserController::class, 'index'])->name('showAdministrator');
-    Route::get('/fetch-users', [UserController::class, 'adminFetchUsers'])->name('adminFetchUsers');
-    Route::post('/add-new-user', [UserController::class, 'adminAddNewUser2'])->name('adminAddNewUser2');
-    Route::post('/update-user', [UserController::class, 'update'])->name('updateUser');
-    Route::post('/delete-user', [UserController::class, 'delete'])->name('deleteUser');
-    Route::post('/suspend-user', [UserController::class, 'suspend'])->name('suspendUser');
-    Route::post('/users/upload', [UserController::class, 'upload'])->name('users.upload');
-    Route::get('/users/download', [UserController::class, 'download'])->name('users.download');
-    Route::get('/download-user-file', [UserController::class, 'downloadUserFile'])->name('downloadUserFile');
-    Route::get('/user-account', [UserController::class, 'UserAccount'])->name('userAccount');
+    Route::get('/administrators', [BackendController::class, 'index'])->name('showAdministrator');
+    Route::get('/fetch-users', [BackendController::class, 'adminFetchUsers'])->name('adminFetchUsers');
+    Route::post('/add-new-user', [BackendController::class, 'adminAddNewUser2'])->name('adminAddNewUser2');
+    Route::post('/update-user', [BackendController::class, 'update'])->name('updateUser');
+    Route::post('/delete-user', [BackendController::class, 'delete'])->name('deleteUser');
+    Route::post('/suspend-user', [BackendController::class, 'suspend'])->name('suspendUser');
+    Route::post('/users/upload', [BackendController::class, 'upload'])->name('users.upload');
+    Route::get('/users/download', [BackendController::class, 'download'])->name('users.download');
+    Route::get('/download-user-file', [BackendController::class, 'downloadUserFile'])->name('downloadUserFile');
+    Route::get('/user-account', [BackendController::class, 'UserAccount'])->name('userAccount');
     //AJAX REQUEST THAT FETCH USER PROFILE
-    Route::get('/fetch-user-profile', [UserController::class, 'fetchUserProfile'])->name('fetchUserProfile');
+    Route::get('/fetch-user-profile', [BackendController::class, 'fetchUserProfile'])->name('fetchUserProfile');
 
-    Route::post('adminUpdateUserPassword',[UserController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
-    Route::post('adminUpdateUserPicture',[UserController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
-    Route::post('userUpdateProfile',[UserController::class, 'userUpdateProfile'])->name('userUpdateProfile');
+    Route::post('adminUpdateUserPassword',[BackendController::class, 'adminUpdateUserPassword'])->name('adminUpdateUserPassword');
+    Route::post('adminUpdateUserPicture',[BackendController::class, 'adminUpdateUserPicture'])->name('adminUpdateUserPicture');
+    Route::post('userUpdateProfile',[BackendController::class, 'userUpdateProfile'])->name('userUpdateProfile');
     
 
     //admin manage timetable
-    Route::get('manageTimeTable',[TimeTableController::class, 'showTimeTable'])->name('showTimeTable');
-    Route::post('create-timetable',[TimeTableController::class, 'addTimeTable'])->name('addTimeTable');
-    Route::post('update-timetable',[TimeTableController::class, 'updateTimeTable'])->name('updateTimeTable');
-    Route::post('delete-timetable',[TimeTableController::class, 'deleteTimeTable'])->name('deleteTimeTable');
+    Route::get('manageTimeTable',[BackendController::class, 'showTimeTable'])->name('showTimeTable');
+    Route::post('create-timetable',[BackendController::class, 'addTimeTable'])->name('addTimeTable');
+    Route::post('update-timetable',[BackendController::class, 'updateTimeTable'])->name('updateTimeTable');
+    Route::post('delete-timetable',[BackendController::class, 'deleteTimeTable'])->name('deleteTimeTable');
 
     //MANAGE CLASS NOTES
-    Route::get('ShowClassNotes',[ClassNotesController::class, 'showClassNotes'])->name('showClassNotes');
-    Route::post('create-class-notes',[ClassNotesController::class, 'addClassNotes'])->name('addClassNotes');
-    Route::post('update-class-notes',[ClassNotesController::class, 'updateClassNotes'])->name('updateClassNotes');
-    Route::post('delete-class-notes',[ClassNotesController::class, 'deleteClassNotes'])->name('deleteClassNotes');
+    Route::get('ShowClassNotes',[BackendController::class, 'showClassNotes'])->name('showClassNotes');
+    Route::post('create-class-notes',[BackendController::class, 'addClassNotes'])->name('addClassNotes');
+    Route::post('update-class-notes',[BackendController::class, 'updateClassNotes'])->name('updateClassNotes');
+    Route::post('delete-class-notes',[BackendController::class, 'deleteClassNotes'])->name('deleteClassNotes');
     
 });
 
@@ -93,84 +95,96 @@ Route::prefix('admin')->group(function () {
 
 //ROUTE FOR UPDATING THE DASHBOARD
 Route::prefix('Dashboard-Updates')->group(function (){
-   Route::get('admin',[DashboardUpdatesController::class,'fetchAdminDashboardUpdates'])->name('fetchAdminDashboardUpdates');
-   Route::get('/monthly-enrollments', [DashboardUpdatesController::class, 'getMonthlyEnrollments'])->name('monthly.enrollments');
+   Route::get('admin',[BackendController::class,'fetchAdminDashboardUpdates'])->name('fetchAdminDashboardUpdates');
+   Route::get('/monthly-enrollments', [BackendController::class, 'getMonthlyEnrollments'])->name('monthly.enrollments');
 
 });
 
 //HIGH SCHOOL TEACHER
 Route::prefix('h-schl')->group(function () {
-    Route::get('/students', [HighSchoolTeacherController::class, 'fetchHighStudents'])->name('fetchHighStudents');
-    Route::get('/ViewTraineeProfile', [HighSchoolTeacherController::class, 'ViewTraineeProfile'])->name('ViewTraineeProfile');
+    Route::get('/students', [BackendController::class, 'fetchHighStudents'])->name('fetchHighStudents');
+    Route::get('/ViewTraineeProfile', [BackendController::class, 'ViewTraineeProfile'])->name('ViewTraineeProfile');
 });
 
 
 
 Route::prefix('trainees')->group(function () {
-    Route::get('/show', [TraineeController::class, 'index'])->name('showTrainees');
-    Route::get('/showTraineePerClas', [TraineeController::class, 'showTraineePerClas'])->name('showTraineePerClas');
+    Route::get('/show', [BackendController::class, 'showTrainees'])->name('showTrainees');
+    Route::get('/showTraineePerClas', [BackendController::class, 'showTraineePerClas'])->name('showTraineePerClas');
+    Route::get('/showAssignmentPerClas', [ClasController::class, 'showAssignmentPerClas'])->name('showAssignmentPerClas');
+    Route::get('/showCatsPerClas', [ClasController::class, 'showCatsPerClas'])->name('showCatsPerClas');
+    Route::get('/showFinalExamPerClas', [ClasController::class, 'showFinalExamPerClas'])->name('showFinalExamPerClas');
+    Route::get('/fetchFinalExamPerClas/{classId}', [ClasController::class, 'fetchFinalExamPerClas'])->name('fetchFinalExamPerClas');
+    Route::get('/fetchAssignmentPerClas/{classId}', [ClasController::class, 'fetchAssignmentPerClas'])->name('fetchAssignmentPerClas');
+    Route::get('/fetchCatsPerClas/{classId}', [ClasController::class, 'fetchCatsPerClas'])->name('fetchCatsPerClas');
 
-    Route::get('/fetch-trainees', [TraineeController::class, 'fetchTrainees'])->name('fetchTrainees');
-    Route::post('/add-trainee', [TraineeController::class, 'addTrainee'])->name('addTrainee');
+
+    Route::get('/fetch-trainees', [BackendController::class, 'fetchTrainees'])->name('fetchTrainees');
+    Route::post('/add-trainee', [BackendController::class, 'addTrainee'])->name('addTrainee');
     
-    Route::post('/update-trainee', [TraineeController::class, 'updateTrainee'])->name('updateTrainee');
-    Route::post('/update-trainee-per-class', [TraineeController::class, 'updateTraineePerClas'])->name('updateTraineePerClas');
+    Route::post('/update-trainee', [BackendController::class, 'updateTrainee'])->name('updateTrainee');
+    Route::post('/update-trainee-per-class', [BackendController::class, 'updateTraineePerClas'])->name('updateTraineePerClas');
     
-    Route::get('/view-notes/{id}', [TraineeController::class, 'traineeViewNotes'])->name('traineeViewNotes');
+    Route::get('/view-notes/{id}', [BackendController::class, 'traineeViewNotes'])->name('traineeViewNotes');
     //trainee view course
 
-    Route::get('/view-course', [TraineeController::class, 'traineeViewCourse'])->name('traineeViewCourse');
-    Route::get('/viewFeePayments', [TraineeController::class, 'traineeViewFeePayment'])->name('traineeViewFeePayment');
-    Route::get('/viewAssignment', [TraineeController::class, 'traineeViewAssignment'])->name('traineeViewAssignment');
-    Route::get('/fetch-assignments', [TraineeController::class, 'traineeFetchAssignments'])->name('traineeFetchAssignments');
-    Route::get('/viewQuestions', [TraineeController::class, 'traineeViewQuestions'])->name('traineeViewQuestions');
-    Route::get('/fetch_questions/{exam_id}', [TraineeController::class, 'fetchQuestionsForTrainee'])->name('fetchQuestionsForTrainee');
+    Route::get('/view-course', [BackendController::class, 'traineeViewCourse'])->name('traineeViewCourse');
+    Route::get('/viewFeePayments', [BackendController::class, 'traineeViewFeePayment'])->name('traineeViewFeePayment');
+    Route::get('/viewAssignment', [BackendController::class, 'traineeViewAssignment'])->name('traineeViewAssignment');
+    Route::get('/fetch-assignments', [BackendController::class, 'traineeFetchAssignments'])->name('traineeFetchAssignments');
+    Route::get('/viewQuestions', [BackendController::class, 'traineeViewQuestions'])->name('traineeViewQuestions');
+    Route::get('/fetch_questions/{exam_id}', [BackendController::class, 'fetchQuestionsForTrainee'])->name('fetchQuestionsForTrainee');
 
 
-    Route::post('/store-answer', [TraineeController::class, 'storeStudentAnswer'])->name('storeStudentAnswer');
+    Route::post('/store-answer', [BackendController::class, 'storeStudentAnswer'])->name('storeStudentAnswer');
 
     //CATS
-    Route::get('/viewCats', [TraineeController::class, 'traineeViewCats'])->name('traineeViewCats');
-    Route::get('/fetch-cats', [TraineeController::class, 'traineeFetchCats'])->name('traineeFetchCats');
+    Route::get('/viewCats', [BackendController::class, 'traineeViewCats'])->name('traineeViewCats');
+    Route::get('/fetch-cats', [BackendController::class, 'traineeFetchCats'])->name('traineeFetchCats');
 
     //FINAL EXAM
-    Route::get('/viewFinalExam', [TraineeController::class, 'traineeViewFinalExam'])->name('traineeViewFinalExam');
-    Route::get('/fetch-final-exam', [TraineeController::class, 'traineeFetchFinalExam'])->name('traineeFetchFinalExam');
+    Route::get('/viewFinalExam', [BackendController::class, 'traineeViewFinalExam'])->name('traineeViewFinalExam');
+    Route::get('/fetch-final-exam', [BackendController::class, 'traineeFetchFinalExam'])->name('traineeFetchFinalExam');
 
 
     //FETCH FEES
-    Route::get('/fetch-fees', [TraineeController::class, 'fetchFeeBalance'])->name('fetchFeeBalance');
+    Route::get('/fetch-fees', [BackendController::class, 'fetchFeeBalance'])->name('fetchFeeBalance');
 
-    Route::get('/show-class-link', [TraineeController::class, 'showClassLink'])->name('showClassLink');
-    Route::get('/show-class-notes', [TraineeController::class, 'showClassNotes'])->name('showClassNotes');
+    Route::get('/show-class-link', [BackendController::class, 'showClassLink'])->name('showClassLink');
+    Route::get('/show-class-notes', [BackendController::class, 'viewClassNotes'])->name('viewClassNotes');
 
 
-    Route::get('/{id}', [TraineeController::class, 'showTraineeProfile'])->name('showTraineeProfile');
+    Route::get('/{id}', [BackendController::class, 'showTraineeProfile'])->name('showTraineeProfile');
 
     //MARKED ALL STUDENTS AS ALUMNI
-    Route::post('/markedStudentAsAlumni',[TraineeController::class,'markedStudentAsAlumni'])->name('markedStudentAsAlumni');
-    Route::post('/suspendAllStudents',[TraineeController::class,'suspendAllStudents'])->name('suspendAllStudents');
-    Route::post('/activateAllStudents',[TraineeController::class,'activateAllStudents'])->name('activateAllStudents');
+    Route::post('/markedStudentAsAlumni',[BackendController::class,'markedStudentAsAlumni'])->name('markedStudentAsAlumni');
+    Route::post('/suspendAllStudents',[BackendController::class,'suspendAllStudents'])->name('suspendAllStudents');
+    Route::post('/activateAllStudents',[BackendController::class,'activateAllStudents'])->name('activateAllStudents');
 
-    Route::get('/downloadStudentPerClassPdf/{id}',[TraineeController::class,'downloadStudentPerClassPdf'])->name('downloadStudentPerClassPdf');
+    Route::get('/downloadStudentPerClassPdf/{id}',[BackendController::class,'downloadStudentPerClassPdf'])->name('downloadStudentPerClassPdf');
 
-    Route::get('/downloadAllTraineePerClassPdf/{id}',[TraineeController::class,'downloadAllTraineePerClassPdf'])->name('downloadAllTraineePerClassPdf');
-    Route::get('/downloadFormFourTraineePerClassPdf/{id}',[TraineeController::class,'downloadFormFourTraineePerClassPdf'])->name('downloadFormFourTraineePerClassPdf');
+    Route::get('/downloadAllTraineePerClassPdf/{id}',[BackendController::class,'downloadAllTraineePerClassPdf'])->name('downloadAllTraineePerClassPdf');
+    Route::get('/downloadFormFourTraineePerClassPdf/{id}',[BackendController::class,'downloadFormFourTraineePerClassPdf'])->name('downloadFormFourTraineePerClassPdf');
 
-    Route::get('/downloadLowerFormsTraineePerClassPdf/{id}',[TraineeController::class,'downloadLowerFormsTraineePerClassPdf'])->name('downloadLowerFormsTraineePerClassPdf');
+    Route::get('/downloadLowerFormsTraineePerClassPdf/{id}',[BackendController::class,'downloadLowerFormsTraineePerClassPdf'])->name('downloadLowerFormsTraineePerClassPdf');
     
 
 });
 
 
 Route::prefix('courses')->group(function () {
-    Route::get('/show', [CourseController::class, 'index'])->name('showCourses');
-    Route::get('/fetch-courses', [CourseController::class, 'fetchCourses'])->name('fetchCourses');
-    Route::post('/add', [CourseController::class, 'addCourse'])->name('addCourse');
-    Route::post('/update', [CourseController::class, 'updateCourse'])->name('updateCourse');
-    Route::post('/delete', [CourseController::class, 'deleteCourse'])->name('deleteCourse');
-    Route::post('/suspend', [CourseController::class, 'suspendCourse'])->name('suspendCourse');
-    Route::post('/updateCourseImage', [CourseController::class, 'updateCourseImage'])->name('updateCourseImage');
+    Route::get('/show', [BackendController::class, 'showCourses'])->name('showCourses');
+    Route::get('/show/suspended', [BackendController::class, 'showSuspendedCourses'])->name('showSuspendedCourses');
+    Route::get('/fetch-courses', [BackendController::class, 'fetchCourses'])->name('fetchCourses');
+    Route::get('/fetch-suspended-courses', [BackendController::class, 'fetchSuspendedCourses'])->name('fetchSuspendedCourses');
+    Route::get('/adminManageTraineePerCourse', [BackendController::class, 'adminManageTraineePerCourse'])->name('adminManageTraineePerCourse');
+   
+    Route::get('/fetch-student-per-course/{course_id}', [BackendController::class, 'fetchStudentPerCourse'])->name('fetchStudentPerCourse');
+    Route::post('/add', [BackendController::class, 'addCourse'])->name('addCourse');
+    Route::post('/update', [BackendController::class, 'updateCourse'])->name('updateCourse');
+    Route::post('/delete', [BackendController::class, 'deleteCourse'])->name('deleteCourse');
+    Route::post('/suspend', [BackendController::class, 'suspendCourse'])->name('suspendCourse');
+    Route::post('/updateCourseImage', [BackendController::class, 'updateCourseImage'])->name('updateCourseImage');
 
    
 });
@@ -179,15 +193,19 @@ Route::prefix('courses')->group(function () {
 
 Route::prefix('clases')->group(function () {
     Route::get('/show', [ClasController::class, 'index'])->name('showClases');
+    Route::get('/show/suspended', [ClasController::class, 'showSuspendedClases'])->name('showSuspendedClases');
     Route::get('/fetch-clases', [ClasController::class, 'fetchClases'])->name('fetchClases');
+    Route::get('/fetch-suspended-clases', [ClasController::class, 'fetchSuspendedClases'])->name('fetchSuspendedClases');
     Route::post('/add', [ClasController::class, 'addClas'])->name('addClas');
     Route::post('/update', [ClasController::class, 'updateClas'])->name('updateClas');
     Route::post('/delete', [ClasController::class, 'deleteClas'])->name('deleteClas');
     Route::post('/suspend', [ClasController::class, 'suspendClas'])->name('suspendClas');
+    Route::get('/fetch-program', [ClasController::class, 'fetchPrograms'])->name('fetchPrograms');
+    Route::get('/programs', [ClasController::class, 'adminManagePrograms'])->name('adminManagePrograms');
     Route::get('/classRoom', [ClasController::class, 'classRoom'])->name('classRoom');
     Route::post('/activate', [ClasController::class, 'activateClas'])->name('activateClas');
     Route::POST('/activate/all', [ClasController::class, 'activateAllClas'])->name('activateAllClas');
-    Route::get('/get-students/{classId}', [TraineeController::class, 'getStudents'])->name('getStudentsPerClass');
+    Route::get('/get-students/{classId}', [BackendController::class, 'getStudents'])->name('getStudentsPerClass');
    // Route::get('/download-students-excel/{classId}', [ClasController::class, 'downloadStudentPerClassExcel'])->name('downloadStudentPerClassExcel');
 
     Route::post('/download-students-excel', [ClasController::class, 'downloadStudentPerClassExcel'])->name('downloadStudentPerClassExcel');
@@ -399,13 +417,30 @@ Route::get('/fetchScholarshipTestCourses',[ScholarshipTestCourseController::clas
 
 
 
+//JISTI MEETING
+Route::prefix('jitsi-meeting')->group(function (){
+    Route::get('show-jitsi-meeting-per-class',[JitsiMeetingController::class,'showJitsiMeetingPerClas'])->name('showJitsiMeetingPerClas');
+    Route::post('create-jitsi-meeting-per-class',[JitsiMeetingController::class,'createJitsiMeetingPerClas'])->name('createJitsiMeetingPerClas');
+    Route::post('update-jitsi-meeting-per-class',[JitsiMeetingController::class,'updateJitsiMeetingPerClas'])->name('updateJitsiMeetingPerClas');
+    Route::post('delete-jitsi-meeting-per-class',[JitsiMeetingController::class,'deleteJitsiMeetingPerClas'])->name('deleteJitsiMeetingPerClas');
+    Route::post('suspend-jitsi-meeting-per-class',[JitsiMeetingController::class,'suspendJitsiMeetingPerClas'])->name('suspendJitsiMeetingPerClas');
+    Route::post('activate-jitsi-meeting-per-class',[JitsiMeetingController::class,'activateJitsiMeetingPerClas'])->name('activateJitsiMeetingPerClas');
+    Route::get('fetch-jitsi-meeting-per-class/{classId}',[JitsiMeetingController::class,'fetchJitsiMeetingPerClas'])->name('fetchJitsiMeetingPerClas');
+    Route::get('join-jitsi-meeting-per-class',[JitsiMeetingController::class,'joinJitsiMeetingPerClas'])->name('joinJitsiMeetingPerClas');
+});
+
+
+
+
+
+
+
+
+
+
+
 Route::get('/create-meeting', [GoogleMeetController::class, 'createMeeting']);
 Route::get('/join-meeting/{meetingId}', [GoogleMeetController::class, 'joinMeeting']);
-
-
-
-
-
 
 //ROUTE FOR SMS
 Route::get('/sms',[SmsController::class,'sms'])->name('sms');

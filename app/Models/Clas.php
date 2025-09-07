@@ -21,6 +21,10 @@ class Clas extends Model
         return $this->hasMany(Exam::class,'clas_id','id');
     }
 
+    public function jitsimeetings(){
+        return $this->hasMany(JitsiMeeting::class,'clas_id','id');
+    }
+
     
     public function users()
     {

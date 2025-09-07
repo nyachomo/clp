@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('class_notes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('clas_id')->nullable();
             $table->longText('date')->nullable();
             $table->longText('notes')->nullable();
             $table->longText('video_link')->nullable();
+            $table->unsignedBigInteger('clas_id')->nullable();
             $table->foreign('clas_id')->references('id')->on('clas')->onDelete('cascade');
             $table->timestamps();
         });

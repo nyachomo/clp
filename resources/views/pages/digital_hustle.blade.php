@@ -44,7 +44,7 @@
 
                </div>
                <div class="col-sm-6">
-                  <p>DigitalAge Hustle is a Modcom Initiative That aims at addressing the unique challenges and opportunities facing the tech industry in Africa. We’re dedicated to facilitating meaningful trainings and connections that drive innovation and growth. Our program aims to equip 30,000 young individuals with essential 21st-century technology skills by 2030. All of our alumni will gain access to a diverse array of job opportunities with leading tech companies, startups, and organizations worldwide.</p>
+                  <p>DigitalAge Hustle is a Techsphere Initiative That aims at addressing the unique challenges and opportunities facing the tech industry in Africa. We’re dedicated to facilitating meaningful trainings and connections that drive innovation and growth. Our program aims to equip 30,000 young individuals with essential 21st-century technology skills by 2030. All of our alumni will gain access to a diverse array of job opportunities with leading tech companies, startups, and organizations worldwide.</p>
                   <p>
                      We’re thrilled to team up with Propel to connect you with transformative job opportunities in Africa and Europe. Access remote tech roles, track your applications, and enjoy additional services. With skills in Software Development, Data Science, AI & ML, Cyber Security and many more we believe Africans can compete globally.
                   </p>
