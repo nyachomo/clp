@@ -132,7 +132,7 @@
    
     <!--====== APPLY PART START ======-->
     
-    <section id="apply-aprt" class="pt-140 pb-40">
+    <!--<section id="apply-aprt" class="pt-140 pb-40">
         <div class="container-fliud">
             <div class="apply">
                 <div class="row no-gutters">
@@ -141,18 +141,18 @@
                             <h3 style="border-bottom:4px solid #ffc600">Mission</h3>
                             <p style="text-align: justify;">At techsphere, our mission is to empower individuals and organizations with cutting-edge skills and knowledge that drive success in the ever-evolving world of technology. We are committed to delivering high-quality education and training that bridges the gap between theoretical learning and ....</p>
                             <a href="#" class="main-btn" data-toggle="modal" data-target="#mission">Read More</a>
-                        </div> <!-- apply cont -->
+                        </div> 
                     </div>
                     <div class="col-lg-6">
                         <div class="apply-cont apply-color-2">
                             <h3 style="border-bottom:4px solid #ffc600">Vission</h3>
                             <p style="text-align: justify;">Our vision is to become a global leader in IT training, setting new standards for excellence in education. We aim to be the preferred choice for students and professionals seeking to advance their careers and for organizations looking to enhance the capabilities of their workforce...</p>
                             <a href="#" class="main-btn" data-toggle="modal" data-target="#vission">Read More</a>
-                        </div> <!-- apply cont -->
+                        </div> 
                     </div> 
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
+            </div> 
+        </div> -->
 
         <div class="modal fade zoom" id="mission">
               <div class="modal-dialog modal-dialog-centered">
@@ -198,13 +198,14 @@
     
     <!--====== APPLY PART ENDS ======-->
 
+    <br><br>
 
 
     <section class="cardSection" style="padding-bottom: 40px;">
         <div class="container-fliud">
             <div class="row">
                 <div class="col-sm-5">
-                    <div class="card" style="background-color:#ffc600">
+                    <div class="card" style="background-color:#00cc99">
                         <div class="card-body">
 
                              <h1  class="card-title"><b>Launch Your Tech Career Today</b></h1>
@@ -287,7 +288,7 @@
     <br></br>
     <!--====== APPLY PART START ======-->
     
-    <section id="apply-aprt" class="pb-50" >
+    <!--<section id="apply-aprt" class="pb-50" >
         <div class="container-fliud">
             <div class="apply">
                 <div class="row no-gutters apply-color-2" style="border-radius:7px">
@@ -295,30 +296,30 @@
                         <div class="singel-counter text-center mt-40 mb-40">
                             <span><span class="counter">30,000</span>+</span>
                             <p style="text-align:center">Students enrolled</p>
-                        </div> <!-- singel counter -->
+                        </div> 
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="singel-counter text-center mt-40">
                             <span><span class="counter">41,000</span>+</span>
                             <p style="text-align:center">Courses Uploaded</p>
-                        </div> <!-- singel counter -->
+                        </div> 
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="singel-counter text-center mt-40">
                             <span><span class="counter">11,000</span>+</span>
                             <p style="text-align:center">People certifie</p>
-                        </div> <!-- singel counter -->
+                        </div> 
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="singel-counter text-center mt-40">
                             <span><span class="counter">39,000</span>+</span>
                             <p style="text-align:center">Global Teachers</p>
-                        </div> <!-- singel counter -->
+                        </div> 
                     </div>
                    
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
+            </div> 
+        </div> -->
 
  
     </section>

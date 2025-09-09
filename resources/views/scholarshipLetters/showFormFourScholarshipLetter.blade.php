@@ -24,7 +24,7 @@
                     @if(Auth::user()->clas_category !='Form Four')
                     <table style="width:100%">
                         <tr>
-                            <td><b>{{Auth::user()->firstname ?? 'NA'}} {{Auth::user()->lastname ?? 'NA'}}</b></td>
+                            <td><b>{{Auth::user()->firstname ?? ''}} {{Auth::user()->lastname ?? ''}}</b></td>
                             <td style="float:right;padding-right:80px;"><b>{{$lowerFormsLetter->letter_id ?? 'NA'}}/{{Auth::user()->id ?? 'NA'}}</b></td>
                         </tr>
                         <tr>
@@ -37,24 +37,33 @@
                             </td>
                         
                         </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <p><b>Dear {{Auth::user()->firstname ?? ''}}</b></p>
+                            </td>
+                        </tr>
                     
                         <tr>
                             <td colspan="2">
-                                <center><h3><b><u>RE: Admission into Techsphere's 2025 Skill Pathfinding Program - {{$lowerFormsLetter->letter_id}}<u></b></h3></center>
+                                <center><h3><b><u>RE: Partial Scholarship Award – Techsphere 2025 Skill Pathfinding Program {{$lowerFormsLetter->letter_id}}<u></b></h3></center>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
+                               
                                 <p>
-                                Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                                this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
+                                     Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                                     Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
+                                     in-demand ICT skills through specialized training, mentorship, and project-based learning.
                                 </p>
+                                
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="2">
-                                <p>
+                               <!-- <p>
                                     The <b>“Skill Pathfinding”</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
                                     identify and mentor close to more than 500 talented youth annually, to acquire and develop specialized tech skills 
                                     that are high in demand globally today. This is an effort to be part of the solution to the widening skill gap in 
@@ -62,13 +71,22 @@
                                     nation. Over time, we have grown to become a multi-stakeholder alliance representing both the academia and the ICT
                                     sector. Our focus is on three areas: <b>lifelong learning and upskilling, future-readiness and youth employability as
                                     well as innovation.</b>
+                                </p>-->
+
+                                <p>
+                                    The Skill Pathfinding Training Program is an ICT talent-nurturing initiative that mentors over 500 youth 
+                                    annually, equipping them with globally in-demand tech skills. It addresses the growing ICT skills gap by 
+                                    fostering lifelong learning, future-readiness, youth employability, and innovation. Techsphere has evolved 
+                                    into a multi-stakeholder alliance bridging academia and the ICT sector, with a mission to reskill the 
+                                    nation through a forward-looking approach.
                                 </p>
+
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="2">
-                                <p>
+                                <!--<p>
                                     Having successfully qualified for the program, you will be taken through a series of trainings, mentorship 
                                     programs, and project-based learning. This will culminate in developing industry recognized skillsets in 
                                     your area of specialization as well as proper mentorship into the tech industry. For the 2025 program, 
@@ -76,6 +94,13 @@
                                     a cutting edge in the ICT industry. To make this dream come true, we have reduced down our fee charges 
                                     by almost 60% from the standard charges in order to impact more lives as cost can be a greater barrier 
                                     to such a predominant milestone. Attached below is the payable fee structure.
+                                </p>-->
+
+                                <p>
+                                    Having qualified for the program, you will receive training, mentorship, and project-based learning to 
+                                    build industry-recognized skills and gain guidance into the tech industry. The 2025 program features 
+                                    high-demand, up-to-date courses designed to give you a competitive edge, with fees reduced by nearly 
+                                    60% to make this opportunity more accessible.
                                 </p>
                             </td>
                         </tr>
@@ -96,8 +121,8 @@
                             <td>FULL-STACK SOFTWARE ENGINEERING</td>
                             <td>6 WEEKS</td>
                             <td>30,500</td>
-                            <td>23,000</td>
-                            <td>7,500</td>
+                            <td>22,000</td>
+                            <td>8,500</td>
                         </tr>
 
                         <tr>
@@ -105,8 +130,8 @@
                             <td>CYBERSECURITY AND ETHICAL HACKING</td>
                             <td>6 WEEKS</td>
                             <td>30,500</td>
-                            <td>23,000</td>
-                            <td>7,500</td>
+                            <td>22,000</td>
+                            <td>8,500</td>
                         </tr>
 
                         <tr>
@@ -114,16 +139,16 @@
                             <td>DIGITAL MARKETING AND SEO</td>
                             <td>6 WEEKS</td>
                             <td>30,500</td>
-                            <td>23,000</td>
-                            <td>7,500</td>
+                            <td>22,000</td>
+                            <td>8,500</td>
                         </tr>
                         <tr>
                             <td>CIT 104</td>
                             <td>DATASCIENCE MACHINE LEARNING AND AI</td>
                             <td>6 WEEKS</td>
                             <td>30,500</td>
-                            <td>23,000</td>
-                            <td>7,500</td>
+                            <td>22,000</td>
+                            <td>8,500</td>
                         </tr>
 
                     </table>
@@ -187,52 +212,72 @@
                     @if(Auth::user()->clas_category =='Form Four')
                     <table style="width:100%">
                         <tr>
-                            <td><b>{{Auth::user()->firstname ?? 'NA'}} {{Auth::user()->lastname ?? 'NA'}}</b></td>
-                            <td style="float:right;padding-right:80px;"><b>{{$formFourLetter->letter_id ?? 'NA'}}/{{Auth::user()->id ?? 'NA'}}</b></td>
+                            <td><b>{{Auth::user()->firstname ?? ''}} {{Auth::user()->lastname ?? ''}}</b></td>
+                            <td style="float:right;padding-right:80px;"><b>{{$formFourLetterormsLetter->letter_id ?? 'NA'}}/{{Auth::user()->id ?? 'NA'}}</b></td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <p>
                                     <b>{{Auth::user()->email ?? 'NA'}}</b><br>
                                     <b>{{Auth::user()->phonenumber ?? 'NA'}}</b><br>
-                                    <b>{{$formFourLetter->date ?? 'NA'}}</b>
+                                    <b>{{$lowerFormsLetter->date ?? 'NA'}}</b>
                                 </p>
                             </td>
-                            
+                        
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <p><b>Dear {{Auth::user()->firstname ?? ''}}</b></p>
+                            </td>
                         </tr>
                     
-
                         <tr>
                             <td colspan="2">
-                                <center><h3><b><u>RE: Admission into Techsphere's 2025 Skill Pathfinding Program - {{$formFourLetter->letter_id}}<u></b></h3></center>
+                                <center><h3><b><u>RE: Partial Scholarship Award – Techsphere 2026 Skill Pathfinding Program ({{$lowerFormsLetter->letter_id}})<u></b></h3></center>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
+                                <!--<p>
+                                    Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
+                                    this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
+                                </p>-->
                                 <p>
-                                Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                                this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
+                                     Techsphere Training Institute is pleased to award you a partial scholarship for the 2026 Annual Skill 
+                                     Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
+                                     in-demand ICT skills through specialized training, mentorship, and project-based learning.
                                 </p>
+                                
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="2">
-                                <p>
-                                    The <b>"Skill Pathfinding"</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
+                               <!-- <p>
+                                    The <b>“Skill Pathfinding”</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
                                     identify and mentor close to more than 500 talented youth annually, to acquire and develop specialized tech skills 
                                     that are high in demand globally today. This is an effort to be part of the solution to the widening skill gap in 
                                     the global ICT industry. Consequently, Techspshere is set out to develop a futuristic approach to reskilling the 
                                     nation. Over time, we have grown to become a multi-stakeholder alliance representing both the academia and the ICT
                                     sector. Our focus is on three areas: <b>lifelong learning and upskilling, future-readiness and youth employability as
                                     well as innovation.</b>
+                                </p>-->
+
+                                <p>
+                                    The Skill Pathfinding Training Program is an ICT talent-nurturing initiative that mentors over 500 youth 
+                                    annually, equipping them with globally in-demand tech skills. It addresses the growing ICT skills gap by 
+                                    fostering lifelong learning, future-readiness, youth employability, and innovation. Techsphere has evolved 
+                                    into a multi-stakeholder alliance bridging academia and the ICT sector, with a mission to reskill the 
+                                    nation through a forward-looking approach.
                                 </p>
+
                             </td>
                         </tr>
 
                         <tr>
                             <td colspan="2">
-                                <p>
+                                <!--<p>
                                     Having successfully qualified for the program, you will be taken through a series of trainings, mentorship 
                                     programs, and project-based learning. This will culminate in developing industry recognized skillsets in 
                                     your area of specialization as well as proper mentorship into the tech industry. For the 2025 program, 
@@ -240,6 +285,13 @@
                                     a cutting edge in the ICT industry. To make this dream come true, we have reduced down our fee charges 
                                     by almost 60% from the standard charges in order to impact more lives as cost can be a greater barrier 
                                     to such a predominant milestone. Attached below is the payable fee structure.
+                                </p>-->
+
+                                <p>
+                                    Having qualified for the program, you will receive training, mentorship, and project-based learning to 
+                                    build industry-recognized skills and gain guidance into the tech industry. The 2026 program features 
+                                    high-demand, up-to-date courses designed to give you a competitive edge, with fees reduced by nearly 
+                                    60% to make this opportunity more accessible.
                                 </p>
                             </td>
                         </tr>
@@ -292,7 +344,7 @@
 
                         <tr>
                             <td>CIT 205</td>
-                            <td>GRAPHIC DESIGN</td>
+                            <td>GRAPHIC DESIGN AND ANIMATION</td>
                             <td>16 WEEKS</td>
                             <td>90,500</td>
                             <td>60,000</td>
@@ -305,13 +357,12 @@
                         <tr>
                             <td colspan="2">
                                 <p>
-                                    For this program, select one course from the list above. The program will run for a period of 6 weeks, 
+                                    For this program, select one course from the list above. The program will run for a period of 16 weeks, 
                                     2hrs per day (MON-FRI) and a certificate will be issued upon completion. To accept this partial scholarship,
                                     you are required to visit <a href="https://techsphereinstitute.co.ke ">https://techsphereinstitute.co.ke </a> and select “Enroll” to register before the 
                                     deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                                     the program but students who have attended the program before will not be required to pay this fee. 
-                                    The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. Please note, the program will be run 
-                                    PURELY ONLINE. This will enable students to put focus to both the program and other activities.
+                                    The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. 
                                 </p>
                             </td>
                         </tr>

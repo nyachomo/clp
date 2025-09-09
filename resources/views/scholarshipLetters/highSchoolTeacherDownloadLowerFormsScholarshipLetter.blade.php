@@ -41,8 +41,8 @@
 
                 <table style="width:100%">
                   <tr>
-                      <td><b>{{$student->firstname ?? 'NA'}} {{$student->lastname ?? 'NA'}}</b></td>
-                      <td style="text-align:right;padding-right:20px"><b>{{$formFourLetter->letter_id ?? 'NA'}}/{{$student->id ?? 'NA'}}</b></td>
+                      <td><b>{{$student->firstname ?? ''}} {{$student->lastname ?? ''}}</b></td>
+                      <td style="text-align:right;padding-right:20px"><b>{{$formFourLetter->letter_id ?? ''}}/{{$student->id ?? 'NA'}}</b></td>
                   </tr>
                   <tr>
                      <td colspan="2">
@@ -55,17 +55,20 @@
                      
                   </tr>
                   
-
+                  <tr>
+                      <p><b>Dear {{$student->firstname ?? ''}}</b></p>
+                  </tr>
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Admission into Techsphere's 2025 Skill Pathfinding Program - {{$formFourLetter->letter_id}}<u></b></h4>
+                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2025 Skill Pathfinding Program  - {{$formFourLetter->letter_id ?? ''}}<u></b></h4>
                      </td>
                   </tr>
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                         Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                         this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
+                              Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                              Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
+                              in-demand ICT skills through specialized training, mentorship, and project-based learning.
                          </p>
                       </td>
                   </tr>
@@ -73,13 +76,11 @@
                   <tr>
                     <td colspan="2" style="text-align: justify;">
                         <p>
-                            The <b>"Skill Pathfinding"</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
-                            identify and mentor close to more than 500 talented youth annually, to acquire and develop specialized tech skills 
-                            that are high in demand globally today. This is an effort to be part of the solution to the widening skill gap in 
-                            the global ICT industry. Consequently, Techspshere is set out to develop a futuristic approach to reskilling the 
-                            nation. Over time, we have grown to become a multi-stakeholder alliance representing both the academia and the ICT
-                            sector. Our focus is on three areas: <b>lifelong learning and upskilling, future-readiness and youth employability as
-                            well as innovation.</b>
+                            The Skill Pathfinding Training Program is an ICT talent-nurturing initiative that mentors over 500 youth 
+                            annually, equipping them with globally in-demand tech skills. It addresses the growing ICT skills gap by 
+                            fostering lifelong learning, future-readiness, youth employability, and innovation. Techsphere has evolved 
+                            into a multi-stakeholder alliance bridging academia and the ICT sector, with a mission to reskill the nation 
+                            through a forward-looking approach.
                         </p>
                       </td>
                   </tr>
@@ -87,13 +88,10 @@
                   <tr>
                       <td colspan="2" style="text-align: justify;">
                          <p>
-                             Having successfully qualified for the program, you will be taken through a series of trainings, mentorship 
-                             programs, and project-based learning. This will culminate in developing industry recognized skillsets in 
-                             your area of specialization as well as proper mentorship into the tech industry. For the 2025 program, 
-                             we have selected key courses that are in high demand, up-to-date and guaranteed to give participants 
-                             a cutting edge in the ICT industry. To make this dream come true, we have reduced down our fee charges 
-                             by almost 60% from the standard charges in order to impact more lives as cost can be a greater barrier 
-                             to such a predominant milestone. Attached below is the payable fee structure.
+                            Having qualified for the program, you will receive training, mentorship, and project-based learning to build 
+                            industry-recognized skills and gain guidance into the tech industry. The 2025 program features high-demand, 
+                            up-to-date courses designed to give you a competitive edge, with fees reduced by nearly 60% to make this 
+                            opportunity more accessible.Attached below is the payable fee structure.
                          </p>
                       </td>
                   </tr>
@@ -101,6 +99,7 @@
                </table>
 
                <br>
+               <br></br><br>
                <table style="width:100%" style="border:1px solid black !important">
                   <thead style="background-color:#07294d !important;color:white">
                        <th>CODE</th>
@@ -115,8 +114,8 @@
                        <td>FULL-STACK SOFTWARE ENGINEERING</td>
                        <td>6 WEEKS</td>
                        <td>30,500</td>
-                       <td>23,000</td>
-                       <td><b>7,500</b></td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
                   </tr>
 
                   <tr style="border:1px solid black !important">
@@ -124,8 +123,8 @@
                        <td>CYBERSECURITY AND ETHICAL HACKING</td>
                        <td>6 WEEKS</td>
                        <td>30,500</td>
-                       <td>23,000</td>
-                       <td><b>7,500</b></td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
                   </tr>
 
                   <tr>
@@ -133,26 +132,19 @@
                        <td>DIGITAL MARKETING AND SEO</td>
                        <td>6 WEEKS</td>
                        <td>30,500</td>
-                       <td>23,000</td>
-                       <td><b>7,500</b></td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
                   </tr>
                   <tr>
                       <td><b>CIT 104</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
                        <td>6 WEEKS</td>
                        <td>30,500</td>
-                       <td>23,000</td>
-                       <td><b>7,500</b></td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
                   </tr>
 
-                  <tr>
-                      <td><b>CIT 105</b></td>
-                       <td>GRAPHIC DESIGN</td>
-                       <td>6 WEEKS</td>
-                       <td>30,500</td>
-                       <td>23,000</td>
-                       <td><b>7,500</b></td>
-                  </tr>
+                  
 
                </table>
 

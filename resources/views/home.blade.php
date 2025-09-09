@@ -267,10 +267,10 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
  <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
 
         <div class="alert alert-success" role="alert">
-            <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
+            <strong> <h3>Dear {{Auth::user()->firstname ?? ''}} {{Auth::user()->lastname ?? ''}}</strong></h3>
             <p>
                 Techsphere Training Institute congratulates you for showing interest to be admitted this year student partial 
                 scholarship test. The test question are simple and any students can do it. After the test kindly remember to
@@ -285,7 +285,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
        <!-- end col-->
        <div class="col-sm-4">
-             <div class="card" style="border:1px solid #ffc600">
+             <div class="card">
                  <div class="card-header">
                          <h4 class="header-title mb-4">Assesment Analysis</h4>
                          <!--<p>This is your Avarage Assesment</p>-->

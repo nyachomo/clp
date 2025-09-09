@@ -905,9 +905,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 $('#updateCourseForm').on('submit', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
-    if (tinymce.get('what_to_learn')) {
-        tinymce.get('what_to_learn').save();
-    }
+   
     
     const formData = {
         course_id: $('#course_id').val(),

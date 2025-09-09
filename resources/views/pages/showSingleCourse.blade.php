@@ -27,7 +27,7 @@
 
 
      <!--====== COURSES SINGEl PART START ======-->
-     <section style="background: linear-gradient(135deg, #07295d 0%, #07294d 100%);">
+     <section style="background: linear-gradient(135deg, #00cc99 0%, #00cc99 100%);">
          <div class="container-fliud">
             <div class="row">
                         <div class="col-sm-8" style="padding:30px">
@@ -45,7 +45,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <button class="btn btnClickToEnrol"><a href="{{route('apply')}}">Enrol For this Course</a></button>
-                                    <button class="btn btnDownloadCourseOutline"> <i class="fa fa-download"></i> Download Course Outline</button>
+                                    <!--<button class="btn btnDownloadCourseOutline"> <i class="fa fa-download"></i> Download Course Outline</button>-->
                                 </div>
                             </div>
                            
@@ -59,13 +59,13 @@
          </div>
      </section>
 
-     <br>
+     <br>  <br><br>
 
      <section class="bg-light">
          <div class="container-fliud">
             <div class="row">
                 <div class="col-sm-8">
-                    <div class="card" style="border-radius:20px">
+                    <div class="card" style="border-radius:20px;background-color:white;">
                          <div class="card-body">
 
                             <table id="table2" class="table table-sm table-striped table-bordered">
@@ -110,6 +110,7 @@
          </div>
      </section>
 
+     <br><br><br><br>
 
     
     <!--ENROLMENT MODAL-->

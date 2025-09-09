@@ -55,41 +55,42 @@
                      
                   </tr>
                   
+                  <tr>
+                     <td colspan="2"><p><b>Dear {{$student->firstname ?? ''}}</b></p></td>
+                  </tr>
 
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Admission into Techsphere's 2025 Skill Pathfinding Program - {{$formFourLetter->letter_id}}<u></b></h4>
+                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2025 Skill Pathfinding Program ({{$formFourLetter->letter_id}})<u></b></h4>
                      </td>
                   </tr>
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                         Techsphere Training Institute congratulates you for being shortlisted to be admitted into 
-                         this year's 2025 Annual <b>"Skill Pathfinding"</b> training program having passed our assessment.
-                         </p>
-                      </td>
-                  </tr>
+                             Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                             Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
+                             in-demand ICT skills through specialized training, mentorship, and project-based learning.
+                             <br>
 
-                  <tr>
-                    <td colspan="2" style="text-align: justify;">
-                        <p>
-                            The <b>"Skill Pathfinding"</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
+                             The <b>"Skill Pathfinding"</b> Training Program is an ICT skill nurturing program for the youth, which is targeting to 
                             identify and mentor close to more than 500 talented youth annually, to acquire and develop specialized tech skills 
                             that are high in demand globally today. This is an effort to be part of the solution to the widening skill gap in 
                             the global ICT industry. Consequently, Techspshere is set out to develop a futuristic approach to reskilling the 
                             nation. Over time, we have grown to become a multi-stakeholder alliance representing both the academia and the ICT
                             sector. Our focus is on three areas: <b>lifelong learning and upskilling, future-readiness and youth employability as
                             well as innovation.</b>
-                        </p>
+                         </p>
                       </td>
                   </tr>
+
+                  
 
                   <tr>
                       <td colspan="2" style="text-align: justify;">
                          <p>
                              Having successfully qualified for the program, you will be taken through a series of trainings, mentorship 
                              programs, and project-based learning. This will culminate in developing industry recognized skillsets in 
-                             your area of specialization as well as proper mentorship into the tech industry. For the 2025 program, 
+                             your area of specialization as well as proper mentorship into the tech industry. For the 2026 program, 
                              we have selected key courses that are in high demand, up-to-date and guaranteed to give participants 
                              a cutting edge in the ICT industry. To make this dream come true, we have reduced down our fee charges 
                              by almost 60% from the standard charges in order to impact more lives as cost can be a greater barrier 
@@ -147,7 +148,7 @@
 
                   <tr>
                       <td><b>CIT 205</b></td>
-                       <td>GRAPHIC DESIGN</td>
+                       <td>GRAPHIC DESIGN AND ANIMATION</td>
                        <td>16 WEEKS</td>
                        <td>90,500</td>
                        <td>60,000</td>
@@ -165,8 +166,7 @@
                                you are required to visit <a href="https://techsphereinstitute.co.ke ">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
                                deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                                the program but students who have attended the program before will not be required to pay this fee. 
-                               The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. Please note, the program will be run 
-                               PURELY ONLINE. This will enable students to put focus to both the program and other activities.
+                               The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. 
                          </p>
                      </td>
                   </tr>
