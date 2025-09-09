@@ -77,7 +77,7 @@
                                     @foreach($modules as $key=>$module)
                                     <tr>
                                         <td>{{$module->module_name}}</td>
-                                        <td><?php echo$module->module_content?></td>
+                                        <td style="color:#75a3a3;"><?php echo$module->module_content?></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
