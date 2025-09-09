@@ -65,7 +65,7 @@
          <div class="container-fliud">
             <div class="row">
                 <div class="col-sm-8">
-                    <div class="card" style="border-radius:20px;background-color:white;">
+                    <div class="card" style="background: linear-gradient(135deg, #00cc99 0%, #00cc99 100%);">
                          <div class="card-body">
 
                             <table id="table2" class="table table-sm table-striped table-bordered">
