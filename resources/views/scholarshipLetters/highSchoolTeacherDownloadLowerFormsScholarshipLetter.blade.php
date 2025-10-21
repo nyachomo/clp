@@ -127,14 +127,7 @@
                        <td><b>8,500</b></td>
                   </tr>
 
-                  <tr>
-                       <td><b>CIT 103</b></td>
-                       <td>DIGITAL MARKETING AND SEO</td>
-                       <td>6 WEEKS</td>
-                       <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
-                  </tr>
+                 
                   <tr>
                       <td><b>CIT 104</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
@@ -147,6 +140,39 @@
                   
 
                </table>
+
+                   <center><h3>Time-table</h3></center>
+                     <table style="width:100%" class="table table-bordered table-striped">
+                        <thead style="background-color:#07294d !important;color:white">
+                            <th>CODE</th>
+                            <th>COURSE</th>
+                            <th>TIME</th>
+                           
+                        </thead>
+                        <tr>
+                            <td>CIT 101</td>
+                            <td>FULL-STACK SOFTWARE ENGINEERING</td>
+                            <td>8:00am-10:00am</td>
+                           
+                        </tr>
+
+                        <tr>
+                            <td>CIT 102</td>
+                            <td>CYBERSECURITY AND ETHICAL HACKING</td>
+                            <td>10:00am-12:00pm</td>
+                           
+                        </tr>
+
+                      
+                        <tr>
+                            <td>CIT 103</td>
+                            <td>DATASCIENCE MACHINE LEARNING AND AI</td>
+                            <td>12:00pm-2:00pm</td>
+                            
+                        </tr>
+
+                    </table>
+
 
                <table>
                   <tr>
@@ -162,6 +188,17 @@
                          </p>
                      </td>
                   </tr>
+
+                   <tr>
+                        <td colspan="2">
+                            <h3>Benefit of the program</h3>
+                            <ol>
+                                <li>Certificate awarded upon successful completion.</li>
+                                <!--<li> Top 5 students will each receive a laptop for further studies.</li>-->
+                                <li>Career coaching for all participants.</li>
+                            </ol>  
+                        </td>
+                    </tr>
 
                   <tr>
                       <td colspan="2" style="text-align: justify;">

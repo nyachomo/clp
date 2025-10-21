@@ -278,7 +278,7 @@
 
 
 
-            function fetchUsers(exam_id,page = 1, search = '', perPage = 10) {
+            function fetchUsers(exam_id,page = 1, search = '', perPage = 1000) {
                 $.ajax({
                     type: 'GET',
                     //url: "{{route('adminManageQuestions')}}",

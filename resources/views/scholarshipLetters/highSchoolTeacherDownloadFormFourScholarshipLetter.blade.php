@@ -61,13 +61,13 @@
 
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2025 Skill Pathfinding Program ({{$formFourLetter->letter_id}})<u></b></h4>
+                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2025/2026 Skill Pathfinding Program ({{$formFourLetter->letter_id}})<u></b></h4>
                      </td>
                   </tr>
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                             Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                             Techsphere Training Institute is pleased to award you a partial scholarship for the 2025/2026 Annual Skill 
                              Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
                              in-demand ICT skills through specialized training, mentorship, and project-based learning.
                              <br>
@@ -129,16 +129,9 @@
                        <td><b>30,500</b></td>
                   </tr>
 
+                 
                   <tr>
-                       <td><b>CIT 203</b></td>
-                       <td>DIGITAL MARKETING AND SEO</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
-                  </tr>
-                  <tr>
-                      <td><b>CIT 204</b></td>
+                      <td><b>CIT 203</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
                        <td>16 WEEKS</td>
                        <td>90,500</td>
@@ -146,14 +139,7 @@
                        <td><b>30,500</b></td>
                   </tr>
 
-                  <tr>
-                      <td><b>CIT 205</b></td>
-                       <td>GRAPHIC DESIGN AND ANIMATION</td>
-                       <td>16 WEEKS</td>
-                       <td>90,500</td>
-                       <td>60,000</td>
-                       <td><b>30,500</b></td>
-                  </tr>
+                 
 
                </table>
 

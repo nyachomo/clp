@@ -155,16 +155,16 @@
                        <td><b>30,500</b></td>
                   </tr>
 
-                  <tr>
+                  <!--<tr>
                        <td><b>CIT 203</b></td>
                        <td>DIGITAL MARKETING AND SEO</td>
                        <td>16 WEEKS</td>
                        <td>90,500</td>
                        <td>60,000</td>
                        <td><b>30,500</b></td>
-                  </tr>
+                  </tr>-->
                   <tr>
-                      <td><b>CIT 204</b></td>
+                      <td><b>CIT 203</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
                        <td>16 WEEKS</td>
                        <td>90,500</td>
@@ -172,14 +172,14 @@
                        <td><b>30,500</b></td>
                   </tr>
 
-                  <tr>
+                 <!-- <tr>
                       <td><b>CIT 205</b></td>
                        <td>GRAPHIC DESIGN AND ANIMATION</td>
                        <td>16 WEEKS</td>
                        <td>90,500</td>
                        <td>60,000</td>
                        <td><b>30,500</b></td>
-                  </tr>
+                  </tr>-->
 
                </table>
 

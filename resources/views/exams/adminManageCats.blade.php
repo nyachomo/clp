@@ -116,9 +116,6 @@
             <!--card-footer-->
              <div id="pagination-controls" style="float:right"></div>
 
-            
-
-
 
             <!--end of card-footer-->
         </div> <!-- end card -->

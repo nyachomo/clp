@@ -240,7 +240,7 @@ class ExamController extends Controller
         }
     
         // Get the number of records per page
-        $perPage = $request->input('per_page', 10); // Default is 10
+        $perPage = $request->input('per_page', 1000); // Default is 10
     
         $users = $query->paginate($perPage);
     
