@@ -89,7 +89,7 @@
                       <td colspan="2" style="text-align: justify;">
                          <p>
                             Having qualified for the program, you will receive training, mentorship, and project-based learning to build 
-                            industry-recognized skills and gain guidance into the tech industry. The 2025 program features high-demand, 
+                            industry-recognized skills and gain guidance into the tech industry. The 2025/2026 program features high-demand, 
                             up-to-date courses designed to give you a competitive edge, with fees reduced by nearly 60% to make this 
                             opportunity more accessible.Attached below is the payable fee structure.
                          </p>
@@ -112,7 +112,7 @@
                   <tr style="border:1px solid black !important">
                        <td><b>CIT 101</b></td>
                        <td>FULL-STACK SOFTWARE ENGINEERING</td>
-                       <td>6 WEEKS</td>
+                       <td>7 WEEKS</td>
                        <td>30,500</td>
                        <td>22,000</td>
                        <td><b>8,500</b></td>
@@ -121,7 +121,7 @@
                   <tr style="border:1px solid black !important">
                       <td><b>CIT 102</b></td>
                        <td>CYBERSECURITY AND ETHICAL HACKING</td>
-                       <td>6 WEEKS</td>
+                       <td>7 WEEKS</td>
                        <td>30,500</td>
                        <td>22,000</td>
                        <td><b>8,500</b></td>
@@ -129,9 +129,26 @@
 
                  
                   <tr>
-                      <td><b>CIT 104</b></td>
+                      <td><b>CIT 103</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
-                       <td>6 WEEKS</td>
+                       <td>7 WEEKS</td>
+                       <td>30,500</td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
+                  </tr>
+                  <tr>
+                      <td><b>CIT 104</b></td>
+                       <td>ROBOTICS AND IOT</td>
+                       <td>7 WEEKS</td>
+                       <td>30,500</td>
+                       <td>22,000</td>
+                       <td><b>8,500</b></td>
+                  </tr>
+
+                   <tr>
+                      <td><b>CIT 105</b></td>
+                       <td>DIGITAL MARKETING</td>
+                       <td>7 WEEKS</td>
                        <td>30,500</td>
                        <td>22,000</td>
                        <td><b>8,500</b></td>
@@ -170,6 +187,19 @@
                             <td>12:00pm-2:00pm</td>
                             
                         </tr>
+                        <tr>
+                            <td>CIT 104</td>
+                            <td>ROBOTICS AND IOT</td>
+                            <td>9:00am-11:00am</td>
+                            
+                        </tr>
+
+                        <tr>
+                            <td>CIT 105</td>
+                            <td>DIGITAL MARKETING</td>
+                            <td>4:00pm-5:30pm</td>
+                            
+                        </tr>
 
                     </table>
 
@@ -178,7 +208,7 @@
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                              For this program, select one course from the list above. The program will run for a period of 6 weeks, 
+                              For this program, select one course from the list above. The program will run for a period of 7 weeks, 
                               2hrs per day (MON-FRI) and a certificate will be issued upon completion. To accept this partial scholarship,
                                you are required to visit <a href="https://techsphereinstitute.co.ke">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
                                deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
@@ -206,7 +236,29 @@
                              Kindly call <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
                              </p>
                              <p>
-                             <b>For payment :</b> You can make payment either through direct transfer or through mpesa paybill option. The following are the payment option
+                             <b>For payment :</b> 
+                                 This scholarship covers part of the training fee, leaving <b>a student contribution of Ksh 8,500</b> for the entire <b>7-week training program.</b>
+                                 <br>
+                                 To make it flexible and affordable, students may choose from the following <b>payment options:</b>
+                                 <ol>
+                                    <li>
+                                        <b>Two Installments:</b>
+                                        <ul>
+                                              <li><b>First installment:</b> 50% (Ksh 4,250)</li>
+                                              <li><b>Second installment:</b> 50% (Ksh 4,250)</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <b>Weekly Payment Option:</b>
+                                        <ul>
+                                            <li>Ksh 1,215 per week for 7 weeks</li>
+                                        </ul>
+                                    </li>
+                                 </ol>
+                               
+
+                                You can make payment either through direct transfer or through mpesa paybill option. The following are the payment option
                              </p>
                       </td>
                   </tr>
