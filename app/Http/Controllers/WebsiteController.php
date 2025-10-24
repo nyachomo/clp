@@ -11,6 +11,7 @@ use App\Models\Fee;
 use App\Models\Clas;
 use App\Models\Exam;
 use App\Models\StudentAnswer;
+use App\Models\Setting;
 use App\Models\Topic;
 use App\Models\Question;
 use App\Models\CourseModule;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\ScholarshipLetter;
+use Dompdf\Dompdf; // Import the Dompdf class
+use Illuminate\Support\Facades\View;
 
 class WebsiteController extends Controller
 {
@@ -186,7 +189,7 @@ class WebsiteController extends Controller
         return view("pages.apply",compact('courses'));
     }
 
-    public function applicantDownloadAdmissionLetter(){
+    public function applicantDownloadAdmissionLetter2(){
         
                 $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
                 $imageData2 = base64_encode(file_get_contents($imagePath2));
@@ -196,5 +199,53 @@ class WebsiteController extends Controller
                 $imageData3 = base64_encode(file_get_contents($imagePath3));
                 $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
         return view('admissionletters.applicantDownloadAdmissionLetter',compact('imageSrc3','imageSrc2'));
+    }
+
+
+    public function applicantDownloadAdmissionLetter(Request $request){
+                    $firstname=Auth::user()->firstname;
+                     $setting=Setting::latest()->first();
+                    $imagePath = public_path('images/logo/' . $setting->company_logo);
+                    $imageData = base64_encode(file_get_contents($imagePath));
+                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            
+            
+                    $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                    $imageData2 = base64_encode(file_get_contents($imagePath2));
+                    $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+            
+                    $imagePath3 = public_path('images/stamp/official_stamp.png');
+                    $imageData3 = base64_encode(file_get_contents($imagePath3));
+                    $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+            
+            
+                    // Load the view and pass the data
+                    $html = View::make('admissionletters.applicantDownloadAdmissionLetter', compact('imageSrc','imageSrc2','imageSrc3'))->render();
+                    //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+            
+                    // Convert the view to a PDF
+                    $dompdf = new \Dompdf\Dompdf();
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'portrait');
+                    $dompdf->render();
+            
+                    // Stream or download the PDF
+                    return response($dompdf->output(), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'attachment; filename="' . $firstname . '_admission_letter.pdf"',
+                    ]);
+    }
+
+    
+    public function applicantAdmissionLetter(){
+        
+                $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                $imageData2 = base64_encode(file_get_contents($imagePath2));
+                $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+        
+                $imagePath3 = public_path('images/stamp/official_stamp.png');
+                $imageData3 = base64_encode(file_get_contents($imagePath3));
+                $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+        return view('admissionletters.applicantAdmissionLetter',compact('imageSrc3','imageSrc2'));
     }
 }

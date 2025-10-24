@@ -396,6 +396,7 @@ Route::get('/enrol_for_scholarship_test',[WebsiteController::class,'enrol_for_sc
 Route::get('/showScholarshipTest',[WebsiteController::class,'showScholarshipTest'])->name('showScholarshipTest');
 Route::get('/showFormFourScholarshipLetter',[WebsiteController::class,'showFormFourScholarshipLetter'])->name('showFormFourScholarshipLetter');
 Route::get('/applicantDownloadAdmissionLetter',[WebsiteController::class,'applicantDownloadAdmissionLetter'])->name('applicantDownloadAdmissionLetter');
+Route::get('/applicantAdmissionLetter',[WebsiteController::class,'applicantAdmissionLetter'])->name('applicantAdmissionLetter');
 
 
 //SCHOLARSHIP LETTERS

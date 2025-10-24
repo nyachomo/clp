@@ -565,7 +565,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
     
 
-    <section class="iconsSection">
+   <!-- <section class="iconsSection">
         <div class="icons-social2">
             <a href="#" style="background-color: #1877F2">
                 <i class="fa fa-facebook"></i>
@@ -587,7 +587,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                 <i class="fa-brands fa-tiktok"></i>
             </a>
         </div>
-    </section>
+    </section>-->
 
 
     <!--WATSUP SECTION-->
@@ -656,7 +656,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                 </div>
                             </div>
                            <div class="button float-left">
-                                <a href="{{route('apply')}}" class="main-btn"  style="padding-bottom:10px;padding-top:10px;">APPLY NOW</a>
+                                <a href="{{route('apply')}}" class="main-btn"  style="padding-bottom:10px;padding-top:10px;">ENROL NOW</a>
                             </div>
                         </div>
                     </div>

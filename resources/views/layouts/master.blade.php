@@ -631,15 +631,25 @@
                         </li>
 
 
+                     
+
+                        <li class="side-nav-item">
+                            <a href="{{route('applicantAdmissionLetter')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span>View Admission Letter</span>
+                            </a>
+                        </li>
+
                         <li class="side-nav-item">
                             <a href="{{route('applicantDownloadAdmissionLetter')}}" class="side-nav-link">
                                 <i class="uil-home-alt text-info"></i>
                                 <span class="menu-arrow"></span>
-                                <span>Admission Letter</span>
+                                <span>Download Admission Letter</span>
                             </a>
                         </li>
 
-
+                         
 
 
                        

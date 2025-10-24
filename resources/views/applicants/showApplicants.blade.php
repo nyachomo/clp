@@ -118,6 +118,7 @@
                                     <th>Email</th>
                                     <th>Course</th>
                                     <th>Gender</th>
+                                    <th>Paid Reg Fee</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -161,8 +162,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateUserModalLabel">Marked As Paid Registration Fee And Add Trainee to class</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <!--<span aria-hidden="true">&times;</span>-->
                 </button>
             </div>
             <div class="modal-body">
@@ -235,8 +236,8 @@
         <div class="modal-content">
             <div class="modal-header" style="border:1px solid white">
                 <h5 class="modal-title" id="deleteUserModalLabel">Are you sure you want to delete this record</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <!--<span aria-hidden="true">&times;</span>-->
                 </button>
             </div>
             <div class="modal-body" style="border:1px solid white">
@@ -346,6 +347,7 @@
                                     <td>' + item.email + '</td>\
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.gender + '</td>\
+                                    <td>' + item.has_paid_reg_fee + '</td>\
                                     <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
@@ -363,11 +365,11 @@
                                                         data-update_course_id="' + item.course.id + '" \
                                                         data-role="' + item.role + '" \
                                                         data-gender="' + item.gender + '" \
-                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Edit</span>\
+                                                        class="text-success dropdown-item jobDesBtn"><i class="fa fa-edit"></i> Marked As Paid Reg Fee</span>\
                                                 </li>\
                                                 <li>\
                                                     <span type="button" data-id="' + item.id + '" \
-                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete</span>\
+                                                        class="text-danger dropdown-item deleteBtn"><i class="fa fa-trash"></i> Delete From System</span>\
                                                 </li>\
                                             </ul>\
                                         </div>\

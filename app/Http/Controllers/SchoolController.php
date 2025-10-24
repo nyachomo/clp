@@ -639,9 +639,7 @@ class SchoolController extends Controller
                     ]);
     
                 }
-               
-
-        }
+    }
 
   
 

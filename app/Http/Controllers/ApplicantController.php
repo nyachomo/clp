@@ -12,19 +12,21 @@ class ApplicantController extends Controller
     //
 
     public function index(){
-        $clas=Clas::all();
+        $clas=Clas::whereIn('clas_status',['Active'])
+        ->where('clas_category','training_class')
+        ->get();
         return view('applicants.showApplicants',compact('clas'));
     }
 
 
 
     public function fetchApplicants(Request $request) {
-        $query = User::with('course',)->select('id', 'firstname',
+        $query = User::with('course',)->select('id', 'firstname','has_paid_reg_fee',
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(course_id, '') as course_id"),
         'email','phonenumber','course_id','status','gender',)
-        ->where('role','Trainee')
+        ->whereIn('role',['Trainee','Applicant'])
         ->where('has_paid_reg_fee','No')
         ->orderBy('created_at', 'desc');
     

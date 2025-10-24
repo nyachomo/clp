@@ -477,28 +477,14 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 @if(Auth::check() && Auth::user()->role=='Applicant')
 <div class="row">
+    
     <div class="col-sm-6">
 
         <div class="alert alert-success" role="alert">
-            <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
-            <p>Techsphere Training Institute congratulates you for showing interest to be admitted Data Analytics course. To complete your enrolment, kindly upload the following document:
-
-                <ol>
-                     <li>Passport Photo</li>
-                     <li>Next of kin details</li>
-                     <li>Registration Fee of Ksh : 1000 will be required to activate your account</li>
-                     <li>Admission Letter: Once registration fee is paid, a link to download admission letter will be activated. Download the admission letter and present it to the admission office</li>
-                </ol>
-            </p>
-        </div>
-
-    </div>
+             <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
+            <p>Techsphere Training Institute congratulates you for showing interest to be admitted Data Analytics course.
 
 
-
-    <div class="col-sm-6">
-
-        <div class="alert alert-warning" role="alert">
             <strong> <h3>How to pay registration Fee (Ksh 1000)</strong></h3>
             <p>Pay Ksh 1000 to techsphere training institute and send the payment details to : +254768919307. Choose one payment option</p>
             <p>Mpesa</p>
@@ -511,7 +497,8 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
             <li>Acc Name: Techsphere Institute</li>
             <li>Acc No: 1327338564</li>
 
-           
+           <br>
+            <a href="{{route('applicantDownloadAdmissionLetter')}}" class="btn btn-warning">Download Admission Letter</a>
         </div>
 
     </div>
