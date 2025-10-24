@@ -287,7 +287,7 @@ class WebsiteController extends Controller
                     // Stream or download the PDF
                     return response($dompdf->output(), 200, [
                         'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_Partial_scholarship_Letter.pdf"',
+                        'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_admission_Letter.pdf"',
                     ]);
     }
 
