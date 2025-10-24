@@ -119,6 +119,7 @@
                                     <th>Course</th>
                                     <th>Gender</th>
                                     <th>Paid Reg Fee</th>
+                                    <th>Download</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -348,6 +349,11 @@
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.gender + '</td>\
                                     <td>' + item.has_paid_reg_fee + '</td>\
+                                    <td>\
+                                        <a href="{{ route('adminDownloadAdmissionLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
+                                            <i class="fa fa-download"></i> Download Admission Letter\
+                                        </a>\
+                                    </td>\
                                     <td>\
                                         <div class="dropdown">\
                                             <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\

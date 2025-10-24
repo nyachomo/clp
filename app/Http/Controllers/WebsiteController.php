@@ -202,9 +202,11 @@ class WebsiteController extends Controller
     }
 
 
+   
+
     public function applicantDownloadAdmissionLetter(Request $request){
                     $firstname=Auth::user()->firstname;
-                     $setting=Setting::latest()->first();
+                    $setting=Setting::latest()->first();
                     $imagePath = public_path('images/logo/' . $setting->company_logo);
                     $imageData = base64_encode(file_get_contents($imagePath));
                     $imageSrc = 'data:image/jpeg;base64,' . $imageData;
@@ -248,4 +250,46 @@ class WebsiteController extends Controller
                 $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
         return view('admissionletters.applicantAdmissionLetter',compact('imageSrc3','imageSrc2'));
     }
+
+
+     public function adminDownloadAdmissionLetter(Request $request){
+
+                //$student = User::findOrFail($request->id);
+                $student=User::with('course')->where('id',$request->id)->first();
+                
+                $formFourLetter=ScholarshipLetter::where('category','Form Four')->select('id','form_four','date','letter_id','category','registration_deadline','start_date')->first();
+                    //GET NAME OF THE PERSON THAT LOGINS 
+                    $setting=Setting::latest()->first();
+                    $imagePath = public_path('images/logo/' . $setting->company_logo);
+                    $imageData = base64_encode(file_get_contents($imagePath));
+                    $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            
+            
+                    $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+                    $imageData2 = base64_encode(file_get_contents($imagePath2));
+                    $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+            
+                    $imagePath3 = public_path('images/stamp/official_stamp.png');
+                    $imageData3 = base64_encode(file_get_contents($imagePath3));
+                    $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+            
+            
+                    // Load the view and pass the data
+                    $html = View::make('admissionletters.adminDownloadAdmissionLetter', compact('imageSrc','imageSrc2','imageSrc3','formFourLetter','student'))->render();
+                    //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+            
+                    // Convert the view to a PDF
+                    $dompdf = new \Dompdf\Dompdf();
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'portrait');
+                    $dompdf->render();
+            
+                    // Stream or download the PDF
+                    return response($dompdf->output(), 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'attachment; filename="' . $student->firstname . '_Partial_scholarship_Letter.pdf"',
+                    ]);
+    }
+
+
 }

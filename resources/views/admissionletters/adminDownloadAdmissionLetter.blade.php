@@ -39,52 +39,40 @@
                      </p>
                 </center>
 
-               
-                 <table style="width:100%">
-                    <tr>
-                        <td>
-                            <p style="font-size:16px">
-                                <b>
-                                
-                                 {{Auth::user()->firstname}} {{Auth::user()->lastname ?? ''}}<br>
-                               </b>
-                            </p>
-                        </td>
-                        <td style="float:right">
-                            <b>AdmNo: TTI/<?php echo strtoupper(date('Y'));?>/{{Auth::user()->id}}</b>
-                        </td>
-                    </tr>
-
-                   
-                   
-                    <tr>
-                        <td>
-                            <p style="font-size:16px">
-                                 <b>
-                                {{Auth::user()->phonenumber ?? ''}}<br>
-                                {{Auth::user()->email ?? ''}}<br>
-                                <?php echo strtoupper(date('d M Y'));?> <br>
-                                 Dear {{Auth::user()->firstname}}
-                                 </b>
-                            </p>
-                        </td>
-                        
-                       
-                    </tr>
-
-                     <tr>
+                <table style="width:100%">
+                  <tr>
+                      <td><b>{{$student->firstname ?? ''}} {{$student->lastname ?? ''}}</b></td>
+                      <td style="text-align:right;padding-right:20px"><b>AdmNo: TTI/<?php echo strtoupper(date('Y'));?>/{{$student->id ?? 'NA'}}</b></td>
+                  </tr>
+                  <tr>
+                     <td colspan="2">
+                        <p>
+                            <b>{{$student->email ?? 'NA'}}</b><br>
+                            <b>{{$student->phonenumber ?? 'NA'}}</b><br>
+                            <b>{{$formFourLetter->date ?? 'NA'}}</b>
+                        </p>
+                     </td>
+                     
+                  </tr>
+                  
+                  <tr>
+                      <p><b>Dear {{$student->firstname ?? ''}}</b></p>
+                  </tr>
+                   <tr>
                          <td  colspan="2">
 
                             <h5 style="text-transform: uppercase; text-decoration: underline;">
-                                RE: ADMISSION INTO {{ Auth::user()->course->course_name }} COURSE !
+                                RE: ADMISSION INTO {{$student->course->course_name }} COURSE !
                             </h5>
                         </td>
                      </tr>
-                    <tr>
+
+
+                      <tr>
                         <td colspan="2">
                             <p>
                             Congratulations on being awarded a scholarship to join Techsphere Training Institute and  
-                            For expressing interest in our  <b style="text-transform: uppercase;">{{ Auth::user()->course->course_name }} COURSE ! </b> . 
+                            For expressing interest in our  <b style="text-transform: uppercase;">{{ $student->course->course_name }} COURSE ! </b> . 
                             We are excited about the possibility of having you in our learning community and commend  
                             your enthusiasm to gain valuable programming  skills.
                             </p>
@@ -151,26 +139,34 @@
                              <p>We look forward to having you on board and wish you success in your programming journey! </p>
                         </td>
                     </tr>
-                    
-                </table>
 
-               
-              
+
+                  
+                 
+
+                 
+
+                 
+
+               </table>
+
+                  
+
                <table>
-                
+              
 
                    <tr>
                         <td>
-                            <p>
-                                Yours Faithfully<br>
-                                        <img src="{{ $imageSrc2 }}" width="100px"><br>
-                                Director Techsphere Training Institute
-                            </p>
+                        <p>
+                            Yours Faithfully<br>
+                                    <img src="{{ $imageSrc2 }}" width="100px"><br>
+                            Director Techsphere Training Institute
+                        </p>
                         </td>
                         <td>
-                            <p style="float:right;">
+                        <p style="float:right;">
                                 <img src="{{ $imageSrc3 }}" width="270px" height="100px">
-                            </p>
+                        </p>
                         </td>
                    </tr>
 
