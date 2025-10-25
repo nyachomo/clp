@@ -203,6 +203,10 @@
 
                     </table>
 
+                     
+                       
+
+                   
 
                <table>
                   <tr>
@@ -219,6 +223,31 @@
                      </td>
                   </tr>
 
+                  <tr>
+                     <td colspan="2" style="text-align: justify;">
+                        
+                          <p><b>Orientation and Class Start Dates</b></p>
+                            <p>
+                                <ul>
+                                    <li> <b>Orientation:</b> Scheduled for November 3rd , 2025, at 10:00 a.m. (attendance is highly 
+                                            encouraged to get familiar with course logistics and expectations).
+                                    </li>
+                                    <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a></li>
+
+                                    <li><b>Classes Begin:</b> November 04, 2025. </li>
+                                </ul>
+                            </p>
+
+                            <p><b>Class Link</b></p>
+                            <ul>
+                                <li>
+                                        <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+                                </li>
+                            </ul>
+
+                     </td>
+                  </tr>
+
                    <tr>
                         <td colspan="2">
                             <h3>Benefit of the program</h3>
@@ -232,9 +261,7 @@
 
                   <tr>
                       <td colspan="2" style="text-align: justify;">
-                            <p>
-                             Kindly call <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
-                             </p>
+                           
                              <p>
                              <b>For payment :</b> 
                                  This scholarship covers part of the training fee, leaving <b>a student contribution of Ksh 8,500</b> for the entire <b>7-week training program.</b>
@@ -262,6 +289,7 @@
                              </p>
                       </td>
                   </tr>
+                  
 
                   <tr style="border:1px solid black">
                      <td style="border-right:1px solid black;padding-left:20px">
@@ -288,6 +316,21 @@
                             </p>
                      </td>
                   </tr>
+
+                  <tr>
+                     <td colspan="2">
+                            <p>
+                                    Kindly call <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
+                            </p>
+                     </td>
+                  </tr>
+                  
+
+                  <tr>
+                        <td colspan="2">
+                             <p>We look forward to having you on board and wish you success in your programming journey! </p>
+                        </td>
+                    </tr>
 
                    <tr>
                         <td>

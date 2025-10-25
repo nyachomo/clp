@@ -46,7 +46,7 @@ class TraineeController extends Controller
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee') ->where('has_paid_reg_fee','Yes')->orderBy('created_at', 'desc');
+        'email','phonenumber','course_id','status','gender','clas_id')->where('has_paid_reg_fee','Yes')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
