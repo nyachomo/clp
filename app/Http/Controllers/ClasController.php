@@ -110,7 +110,7 @@ class ClasController extends Controller
         $users = $query->paginate($perPage);
     
        
-         foreach ($users as $user) {
+         foreach ($users as $clas) {
             $clas->total_student = count(User::where('clas_id', $clas->id)->get());
             $clas->total_assignment=count(Exam::where('clas_id',$clas->id)->where('is_assignment','Yes')->get());
             $clas->total_cats=count(Exam::where('clas_id',$clas->id)->where('is_cat','Yes')->get());
