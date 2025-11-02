@@ -478,24 +478,42 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 @if(Auth::check() && Auth::user()->role=='Applicant')
 <div class="row">
     
-    <div class="col-sm-6">
+    <div class="col-sm-12">
 
         <div class="alert alert-success" role="alert">
-             <strong> <h3>Dear {{Auth::user()->firstname}} {{Auth::user()->lastname}}</strong></h3>
-            <p>Techsphere Training Institute congratulates you for showing interest to be admitted Data Analytics course.
+             <strong> <h3>Dear {{Auth::user()->firstname ?? 'NA'}} {{Auth::user()->lastname ?? 'NA'}}</strong></h3>
 
+             <h3 style="text-transform:uppercase"><u>RE: ADMISSION INTO {{Auth::user()->course->course_name ?? 'NA'}} COURSE !</u></h3>
 
+             <p>
+                Congratulations on being awarded a scholarship to join Techsphere Training Institute and For
+                expressing interest in our <b>{{Auth::user()->course->course_name}} COURSE !</b> . We are
+                excited about the possibility of having you in our learning community and commend your
+                enthusiasm to gain valuable programming skills.
+            </p>
+
+           
             <strong> <h3>How to pay registration Fee (Ksh 1000)</strong></h3>
             <p>Pay Ksh 1000 to techsphere training institute and send the payment details to : +254768919307. Choose one payment option</p>
-            <p>Mpesa</p>
-            <li>Business Name: Techsphere Institute</li>
-            <li>Paybill: 522533</li>
-            <li>Acc No: 7855887</li>
+            
+            <p><b>Mpesa</b></p>
+            <ul>
 
-            <p>Bank</p>
-            <li>Bank: Kenya Comercial Bank</li>
-            <li>Acc Name: Techsphere Institute</li>
-            <li>Acc No: 1327338564</li>
+                <li>Business Name: Techsphere Institute</li>
+                <li>Paybill: 522533</li>
+                <li>Acc No: 7855887</li>
+
+            </ul>
+           
+
+            <p><b>Bank</b></p>
+
+            <ul>
+                <li>Bank: Kenya Comercial Bank</li>
+                <li>Acc Name: Techsphere Institute</li>
+                <li>Acc No: 1327338564</li>
+            </ul>
+           
 
            <br>
             <a href="{{route('applicantDownloadAdmissionLetter')}}" class="btn btn-warning">Download Admission Letter</a>

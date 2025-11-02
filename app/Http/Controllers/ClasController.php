@@ -109,8 +109,8 @@ class ClasController extends Controller
     
         $users = $query->paginate($perPage);
     
-        // Append the number of students who attempted each exam
-        foreach ($users as $clas) {
+       
+         foreach ($users as $user) {
             $clas->total_student = count(User::where('clas_id', $clas->id)->get());
             $clas->total_assignment=count(Exam::where('clas_id',$clas->id)->where('is_assignment','Yes')->get());
             $clas->total_cats=count(Exam::where('clas_id',$clas->id)->where('is_cat','Yes')->get());

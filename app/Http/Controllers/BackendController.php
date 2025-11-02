@@ -30,6 +30,7 @@ use App\Models\CourseModule;
 use App\Models\ScholarshipLetter;
 use App\Models\Setting;
 use App\Models\Leed;
+
 use Dompdf\Dompdf; // Import the Dompdf class
 use Illuminate\Support\Facades\View;
 
@@ -827,7 +828,7 @@ public function adminUpdateUserPassword(Request $request){
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(clas_id, '') as clas_id"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','course_id','status','gender','clas_id')->where('role','Trainee') ->where('has_paid_reg_fee','Yes')->orderBy('created_at', 'desc');
+        'email','phonenumber','parent_phone','course_id','status','gender','clas_id')->where('has_paid_reg_fee','Yes')->orderBy('created_at', 'desc');
     
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
@@ -840,9 +841,20 @@ public function adminUpdateUserPassword(Request $request){
         }
     
         // Get the number of records per page
-        $perPage = $request->input('per_page', 10); // Default is 10
+        $perPage = $request->input('per_page', 500); // Default is 10
     
         $users = $query->paginate($perPage);
+
+         // Append the number of students who attempted each exam
+         // Append the number of students who attempted each exam
+        foreach ($users as $user) {
+            $user->total_debit = Course::where('id', $user->course_id)->value('course_price');
+            $user->total_credit = Fee::where('user_id',$user->id)->sum('amount_paid');
+            $user->balance= $user->total_debit-$user->total_credit;
+            
+           
+        }
+
     
         return response()->json([
             'users' => $users->items(),

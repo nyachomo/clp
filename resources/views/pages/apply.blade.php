@@ -81,8 +81,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
-                                            <label>Phonenumber</label>
-                                            <input name="phonenumber" type="text" class="form-control @error('phonenumber') is-invalid @enderror" value="{{ old('phonenumber') }}" placeholder="Phone eg +25470000000"  required="required">
+                                            <label>Student Phonenumber</label>
+                                            <input name="phonenumber" type="text" class="form-control @error('phonenumber') is-invalid @enderror" value="{{ old('phonenumber') }}"   required="required">
                                            
                                             @error('phonenumber')
                                                 <span class="invalid-feedback" role="alert">
@@ -96,7 +96,7 @@
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">
                                             <label>Parent/Sponsor Phonenumber</label>
-                                            <input name="parent_phone" type="text" class="form-control @error('parent_phone') is-invalid @enderror" value="{{ old('parent_phone') }}" placeholder="Phone eg +25470000000"  required="required">
+                                            <input name="parent_phone" type="text" class="form-control @error('parent_phone') is-invalid @enderror" value="{{ old('parent_phone') }}"   required="required">
                                            
                                             @error('phonenumber')
                                                 <span class="invalid-feedback" role="alert">

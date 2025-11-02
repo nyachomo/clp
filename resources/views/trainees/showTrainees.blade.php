@@ -120,11 +120,17 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <!--<th>Phonenumber</th>-->
-                                    <!--<th>Email</th>-->
+                                    <th>Student Phone</th>
+                                    <th>Parent Phone</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
                                     <th>Course</th>
                                     <th>Class</th>
-                                    <!--<th>Gender</th>-->
+                                    <th>Debit (Ksh)</th>
+                                    <th>Credit (Ksh)</th>
+                                    <th>Balance (Ksh)</th>
+                                  
+                                   
                                     <!--<th>Status</th>-->
                                     <th>Action</th>
                                 </tr>
@@ -607,7 +613,7 @@
 
 
 
-            function fetchUsers(page = 1, search = '', perPage = 10) {
+            function fetchUsers(page = 1, search = '', perPage = 500) {
                 $.ajax({
                     type: 'GET',
                     url: "{{route('fetchTrainees')}}",
@@ -629,11 +635,15 @@
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
-                                    <!--<td>' + item.phonenumber + '</td>-->\
-                                    <!--<td>' + item.email + '</td>-->\
+                                    <<td>' + item.phonenumber + '</td>\
+                                    <<td>' + item.parent_phone + '</td>\
+                                    <td>' + item.email + '</td>\
+                                    <td>' + item.gender + '</td>\
                                     <td>' + item.course.course_name + '</td>\
-                                    <td>' + item.clas.clas_name + '</td>\
-                                   <!-- <td>' + item.gender + '</td>-->\
+                                     <td>' + item.clas.clas_name + '</td>\
+                                    <td>' + item.course.course_price + '</td>\
+                                    <td>' + item.total_credit + '</td>\
+                                    <td>' + item.balance + '</td>\
                                     <!--<td>' + item.status + '</td>-->\
                                     <td><a href="#"><span class="badge bg-success jobDesBtn" data-id="' + item.id + '" \
                                                         data-firstname="' + item.firstname + '" \

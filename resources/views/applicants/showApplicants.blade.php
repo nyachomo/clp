@@ -114,7 +114,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Phonenumber</th>
+                                    <th>Student Phone</th>
+                                     <th>Parent Phone</th>
                                     <th>Email</th>
                                     <th>Course</th>
                                     <th>Gender</th>
@@ -345,6 +346,7 @@
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
                                     <td>' + item.phonenumber + '</td>\
+                                    <td>' + item.parent_phone + '</td>\
                                     <td>' + item.email + '</td>\
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.gender + '</td>\

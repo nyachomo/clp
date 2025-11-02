@@ -25,7 +25,7 @@ class ApplicantController extends Controller
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(course_id, '') as course_id"),
-        'email','phonenumber','course_id','status','gender',)
+        'email','phonenumber','parent_phone','course_id','status','gender',)
         ->whereIn('role',['Trainee','Applicant'])
         ->where('has_paid_reg_fee','No')
         ->orderBy('created_at', 'desc');
