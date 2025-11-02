@@ -238,7 +238,7 @@
                                  <option value="Deputy_principal">Deputy Principal</option>
                                  <option value="Registrar">Registrar</option>
                                  <option value="Trainer">Trainer</option>
-                                 <!--<option value="Trainee">Trainee</option>-->
+                                 <option value="Trainee">Trainee</option>
                                  <option value="High_school_teacher">High School Teacher</option>
                                  <option value="High_school_student">High School Student</option>
                                  <option value="Data_clerk">Data Clerk</option>
@@ -399,7 +399,7 @@
                                     <option value="Deputy_principal">Deputy Principal</option>
                                     <option value="Registrar">Registrar</option>
                                     <option value="Trainer">Trainer</option>
-                                   <!-- <option value="Trainee">Trainee</option>-->
+                                   <option value="Trainee">Trainee</option>
                                     <option value="High_school_teacher">High School Teacher</option>
                                     <option value="High_school_student">High School Student</option>
                                     <option value="Data_clerk">Data Clerk</option>
@@ -604,7 +604,7 @@
 
 
 
-        function fetchUsers(page = 1, search = '', perPage = 10) {
+        function fetchUsers(page = 1, search = '', perPage = 500) {
             $.ajax({
                 type: 'GET',
                 url: "{{route('adminFetchUsers')}}",
