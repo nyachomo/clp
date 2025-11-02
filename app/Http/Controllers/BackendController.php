@@ -835,6 +835,8 @@ public function adminUpdateUserPassword(Request $request){
             $query->where(function($q) use ($request) {
                 $q->where('firstname', 'like', '%' . $request->search . '%')
                 ->orWhere('secondname', 'like', '%' . $request->search . '%')
+                ->orWhere('phonenumber', 'like', '%' . $request->search . '%')
+                ->orWhere('parent_phone', 'like', '%' . $request->search . '%')
                 ->orWhere('lastname', 'like', '%' . $request->search . '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%');
             });
