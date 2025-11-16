@@ -397,6 +397,11 @@
                                 </a>
                                 <div class="collapse" id="sidebarPages">
                                     <ul class="side-nav-second-level">
+                                        
+                                        <li>
+                                            <a href="{{route('showPracticalPerClas')}}">Practicals</a>
+                                        </li>
+
                                         <li>
                                             <a href="{{route('showExams')}}">Assignment</a>
                                         </li>
@@ -583,9 +588,16 @@
                                     <li>
                                         <a href="{{route('traineeViewAssignment')}}">Assignment</a>
                                     </li>
+
+                                   
                                     <li>
-                                        <a href="{{route('traineeViewCats')}}">Cats</a>
+                                        <a href="{{route('studentViewPracticalScore')}}">Cats</a>
                                     </li>
+
+                                    <!--<li>
+                                        <a href="{{route('traineeViewCats')}}">Cats</a>
+                                    </li>-->
+
                                     <li>
                                         <a href="{{route('traineeViewFinalExam')}}">Final Exam</a>
                                     </li>

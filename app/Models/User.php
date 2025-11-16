@@ -90,6 +90,11 @@ class User extends Authenticatable
         return $this->hasMany(Fee::class); 
     }
 
+    public function practicalanswers()
+    {
+        return $this->hasMany(Practicalanswer::class); 
+    }
+
     public function studentAnswers()
     {
         return $this->hasMany(StudentAnswer::class, 'user_id');

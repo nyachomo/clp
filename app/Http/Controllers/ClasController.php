@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Course;
 use App\Models\Exam;
+use App\Models\Practical;
 use App\Models\StudentAnswer;
 use App\Models\JitsiMeeting;
+use App\Models\Practicalanswer;
+use Illuminate\Support\Facades\File;
 
 
 class ClasController extends Controller
@@ -112,6 +115,7 @@ class ClasController extends Controller
        
          foreach ($users as $clas) {
             $clas->total_student = count(User::where('clas_id', $clas->id)->get());
+            $clas->total_practical = count(Practical::where('clas_id', $clas->id)->get());
             $clas->total_assignment=count(Exam::where('clas_id',$clas->id)->where('is_assignment','Yes')->get());
             $clas->total_cats=count(Exam::where('clas_id',$clas->id)->where('is_cat','Yes')->get());
             $clas->total_final_exam=count(Exam::where('clas_id',$clas->id)->where('is_final_exam','Yes')->get());
@@ -443,6 +447,56 @@ public function getStudents(Request $request,$classId) {
             return view('exams.showAssignmentPerClas',compact('clas','clases'));
         }
 
+           public function showPracticalPerClas(){
+            $clas_id=$_GET['clas_id'];
+            $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
+            $clases=Clas::select('id','clas_name')->get();
+            return view('practicals.showPracticalPerClas',compact('clas','clases'));
+        }
+
+        public function addPracticalPerClas(Request $request){
+            /*
+            $create=Practical::create([
+                'clas_id'=>$request->clas_id,
+                'marks'=>$request->marks,
+                'question'=>$request->question,
+                'status'=>$request->status
+            ]);
+
+            if ($create) {
+                return redirect()->back()->with('success', 'Practical created successfully!');
+                } else {
+                return redirect()->back()->with('error', 'Failed to create .');
+            }
+            */
+
+
+            if($request->hasFile('question')){
+             $file=$request->file('question');
+             $extension=$file->getClientOriginalExtension();
+             $question=time().'.'.$extension;
+             $file->move(public_path('practicals'),$question);
+             
+                $create=Practical::create([
+                    'clas_id'=>$request->clas_id,
+                    'marks'=>$request->marks,
+                    'question'=>$question,
+                    'name'=>$request->name,
+                    'status'=>$request->status
+                ]);
+
+                if($create){
+                    return redirect()->back()->with('success', 'Practical created successfully!');
+                }else{
+                    return redirect()->back()->with('error', 'Failed to create .');
+                }
+         }else{
+             return redirect()->back()->with('error', 'No file selected .');
+         }
+
+
+        }
+
 
         public function showCatsPerClas(){
             $clas_id=$_GET['clas_id'];
@@ -456,6 +510,49 @@ public function getStudents(Request $request,$classId) {
             $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
             $clases=Clas::select('id','clas_name')->get();
             return view('exams.showFinalExamPerClas',compact('clas','clases'));
+        }
+
+
+        public function fetchPracticalPerClas(Request $request,$classId) {
+            $query = Practical::with('clas')
+            ->select( 'id',  'question','clas_id','marks','status','name')
+            ->where('clas_id',$classId)
+            ->orderBy('created_at', 'desc');
+    
+    
+            // Apply search filter if provided
+            if ($request->has('search') && !empty($request->search)) {
+                $query->where(function($q) use ($request) {
+                    $q->where('marks', 'like', '%' . $request->search . '%')
+                    ->orWhere('clas_id', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('question', 'like', '%' . $request->search . '%')
+                    ->orWhere('status', 'like', '%' . $request->search . '%');
+                });
+            }
+        
+            // Get the number of records per page
+            $perPage = $request->input('per_page', 10); // Default is 10
+        
+            $users = $query->paginate($perPage);
+    
+            // Append the number of students who attempted each exam
+            foreach ($users as $exam) {
+                $exam->attempted_students = Practicalanswer::where('practical_id', $exam->id)
+                    ->distinct('user_id')
+                    ->count();
+            }
+        
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page' => $users->lastPage(),
+                    'total' => $users->total(),
+                    'per_page' => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
         }
 
 
@@ -613,6 +710,74 @@ public function getStudents(Request $request,$classId) {
                 'total_users' => $users->total(),
             ]);
         }
+
+
+
+
+    public function updatePracticalPerClas(Request $request)
+    {
+       
+        $validated = $request->validate([
+            'practical_id' =>'required|exists:practicals,id',
+            'marks' =>'string|max:255',
+             'practical_name' =>'string|max:255',
+        ]);
+
+
+        $user = Practical::find($request->practical_id);
+
+        if ($user) {
+            // Update user details
+            $user->marks = $request->marks;
+            $user->name = $request->practical_name;
+           
+            $user->update();
+            return response()->json(['success' => true, 'message' => 'Exam updated successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Could not update !'], 404);
+   
+    }
+
+
+
+  
+
+
+
+    public function deletePracticalPerClas(Request $request)
+{
+    $validated = $request->validate([
+        'delete_practical_id' =>'required|exists:practicals,id',
+    ]);
+
+    $practical = Practical::find($request->delete_practical_id);
+
+    if ($practical) {
+
+        // Get the file name stored in DB (question column)
+        $fileName = $practical->question;
+
+        // Full path to the file inside public/practical/
+        $filePath = public_path('practicals/' . $fileName);
+
+        // Delete file if it exists
+        if (file_exists($filePath)) {
+            File::delete($filePath);
+           // unlink($filePath);  // OR use File::delete()
+        }
+
+        // Delete the database row
+        $practical->delete();
+
+        return response()->json(['success' => true, 'message' => 'Practical and PDF deleted successfully!']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Could not delete!'], 404);
+}
+
+
+
 
 
 

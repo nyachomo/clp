@@ -28,6 +28,7 @@ use App\Http\Controllers\ScholarshipLetterController;
 use App\Http\Controllers\ScholarshipTestCourseController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\JitsiMeetingController;
+use App\Http\Controllers\PracticalController;
 
 /*
 Route::get('/', function () {
@@ -112,10 +113,15 @@ Route::prefix('trainees')->group(function () {
     Route::get('/show', [BackendController::class, 'showTrainees'])->name('showTrainees');
     Route::get('/showTraineePerClas', [BackendController::class, 'showTraineePerClas'])->name('showTraineePerClas');
     Route::get('/showAssignmentPerClas', [ClasController::class, 'showAssignmentPerClas'])->name('showAssignmentPerClas');
+    
+    Route::get('/showPracticalPerClas', [ClasController::class, 'showPracticalPerClas'])->name('showPracticalPerClas');
     Route::get('/showCatsPerClas', [ClasController::class, 'showCatsPerClas'])->name('showCatsPerClas');
     Route::get('/showFinalExamPerClas', [ClasController::class, 'showFinalExamPerClas'])->name('showFinalExamPerClas');
     Route::get('/fetchFinalExamPerClas/{classId}', [ClasController::class, 'fetchFinalExamPerClas'])->name('fetchFinalExamPerClas');
     Route::get('/fetchAssignmentPerClas/{classId}', [ClasController::class, 'fetchAssignmentPerClas'])->name('fetchAssignmentPerClas');
+    Route::get('/fetchPracticalPerClas/{classId}', [ClasController::class, 'fetchPracticalPerClas'])->name('fetchPracticalPerClas');
+    Route::post('/updatePracticalPerClas', [ClasController::class, 'updatePracticalPerClas'])->name('updatePracticalPerClas');
+    Route::post('/deletePracticalPerClas', [ClasController::class, 'deletePracticalPerClas'])->name('deletePracticalPerClas');
     Route::get('/fetchCatsPerClas/{classId}', [ClasController::class, 'fetchCatsPerClas'])->name('fetchCatsPerClas');
 
 
@@ -280,7 +286,21 @@ Route::prefix('exams')->group(function () {
     Route::post('/notpublished', [ExamController::class, 'notpublishedExams'])->name('notpublishedExams');
 
     Route::get('/showExamAttempts', [ExamController::class, 'showExamAttempts'])->name('showExamAttempts');
+    Route::get('/showPracticalAttempts', [ExamController::class, 'showPracticalAttempts'])->name('showPracticalAttempts');
+    Route::get('/fetchPracticalAttempts/{exam_id}', [ExamController::class, 'fetchPracticalAttempts'])->name('fetchPracticalAttempts');
+
     Route::get('/fetchExamAttempts/{exam_id}', [ExamController::class, 'fetchExamAttempts'])->name('fetchExamAttempts');
+
+    Route::post('/adminAddStudentPracticalScore', [ExamController::class, 'adminAddStudentPracticalScore'])->name('adminAddStudentPracticalScore');
+    Route::post('/adminDeleteStudentPracticalScore', [ExamController::class, 'adminDeleteStudentPracticalScore'])->name('adminDeleteStudentPracticalScore');
+    Route::post('/adminUpdateStudentPracticalScore', [ExamController::class, 'adminUpdateStudentPracticalScore'])->name('adminUpdateStudentPracticalScore');
+    Route::get('/downloadPracticalScore/{exam_id}', [ExamController::class, 'downloadPracticalScore'])->name('downloadPracticalScore');
+    Route::get('/studentViewPracticalScore', [ExamController::class, 'studentViewPracticalScore'])->name('studentViewPracticalScore');
+
+    Route::get('/studentFetchPracticalScore', [ExamController::class, 'studentFetchPracticalScore'])->name('studentFetchPracticalScore');
+
+    Route::post('/studentUploadPracticalWork', [ExamController::class, 'studentUploadPracticalWork'])->name('studentUploadPracticalWork');
+
 
 
 
@@ -435,6 +455,9 @@ Route::prefix('jitsi-meeting')->group(function (){
 
 
 
+//PRACTICALS
+Route::get('/managePracticals',[ClasController::class,'showPracticalPerClas'])->name('showPracticalPerClas');
+Route::post('/addPracticalPerClas',[ClasController::class,'addPracticalPerClas'])->name('addPracticalPerClas');
 
 
 

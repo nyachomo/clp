@@ -119,6 +119,7 @@
                                     <th>Status</th>
                                     <th>Category</th>
                                     <th>Total Students</th>
+                                    <th>Practicals</th>
                                     <th>Total Assignment</th>
                                     <th>Total Cats</th>
                                     <th>Total Final Exam</th>
@@ -521,6 +522,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
             $.each(response.users, function(key, item) {
                 const baseUrl = "{{ route('showTraineePerClas') }}";
                 const classAssignmentUrl = "{{ route('showAssignmentPerClas') }}";
+                 const classPracticalUrl = "{{ route('showPracticalPerClas') }}";
                 const classCatsUrl = "{{ route('showCatsPerClas') }}";
                 const classFinalExamUrl = "{{ route('showFinalExamPerClas') }}";
                 const jitsiMeetingPerClasUrl="{{route('showJitsiMeetingPerClas')}}";
@@ -532,11 +534,12 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.clas_name + '</td>\
                         <td><span class="' + (item.clas_status && item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
                         <td>' + item.clas_category + '</td>\
-                        <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>' + item.total_assignment + 'Assignments<a class="text-info" href="' + classAssignmentUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>' + item.total_cats + 'Cats<a class="text-info" href="' + classCatsUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>' + item.total_final_exam + 'Exams<a class="text-info" href="' + classFinalExamUrl + '?clas_id=' + item.id + '" target="_blank"> View</a>\
-                        <td>' + item.total_jitsi_meeting +' Jitsi Meetings <a href="'+jitsiMeetingPerClasUrl+'?clas_id='+item.id+'" target="_blank">View</a> </td>\
+                        <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '"> View</a>\
+                        <td>' + item.total_practical + 'Practicals<a class="text-info" href="' + classPracticalUrl + '?clas_id=' + item.id + '"> View</a>\
+                         <td>' + item.total_assignment + 'Assignments<a class="text-info" href="' + classAssignmentUrl + '?clas_id=' + item.id + '"> View</a>\
+                        <td>' + item.total_cats + 'Cats<a class="text-info" href="' + classCatsUrl + '?clas_id=' + item.id + '"> View</a>\
+                        <td>' + item.total_final_exam + 'Exams<a class="text-info" href="' + classFinalExamUrl + '?clas_id=' + item.id + '"> View</a>\
+                        <td>' + item.total_jitsi_meeting +' Jitsi Meetings <a href="'+jitsiMeetingPerClasUrl+'?clas_id='+item.id+'">View</a> </td>\
                         <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
