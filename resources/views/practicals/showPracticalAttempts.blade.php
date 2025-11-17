@@ -385,7 +385,8 @@
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + fullName + '</td>\
-                                     <td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>\
+                                     <td><a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a></td>\
+                                     <!--<td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>-->\
                                      <td>' + scoreDisplay + '</td>\
                                      <td>' + scoreOutOfThirty + '</td>\
                                      <td>\

@@ -396,10 +396,10 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.clas.clas_name + '</td>\
                         <td>' + item.name + '</td>\
                         <!-- <td>' + item.question + '</td>-->\
-                       <td><a href="/practicals/' + item.question + '" download>' + item.question + '( Download)</a></td>\
+                       <td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download)</a></td>\
                         <td>' + item.student_score + '/' + item.marks + '</td>\
                         <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
-                        <td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>\
+                        <td><a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a></td>\
                         <td> <a href="#"><span  class="badge bg-success updateBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Upload</span></a>\</td>\
                     </tr>'
                 );

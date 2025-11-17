@@ -498,7 +498,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.clas.clas_name + '</td>\
                         <td>' + item.name + '</td>\
                         <!-- <td>' + item.question + '</td>-->\
-                       <td><a href="/practicals/' + item.question + '" download>' + item.question + '</a></td>\
+                        <td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download)</a></td>\
+                        <!--<td><a href="/practicals/' + item.question + '" download>' + item.question + '</a></td>-->\
                         <td>' + item.marks + '</td>\
                         <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
                         <td>' + item.attempted_students + '</td>\
