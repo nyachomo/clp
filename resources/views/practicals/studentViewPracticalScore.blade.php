@@ -38,7 +38,7 @@
                 <div class="row">
                       <div class="col-sm-12">
                          Total Assignment: <span id="total-users">0</span>
-                          <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="fa fa-plus"></i> Add New Practical</a>
+                          <!--<a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="fa fa-plus"></i> Add New Practical</a>-->
                       </div>
                 </div>
                 
