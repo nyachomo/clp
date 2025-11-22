@@ -210,6 +210,31 @@ class BackendController extends Controller
    
     }
 
+
+
+     public function updateUserPassword(Request $request)
+    {
+       
+
+        $validated = $request->validate([
+            'update_password_user_id' => 'required|exists:users,id',
+        ]);
+
+
+        $user = User::find($request->update_password_user_id);
+
+        if ($user) {
+            $user->password = Hash::make(12345678);
+            $user->update();
+
+            return response()->json(['success' => true, 'message' => 'User Password updated successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'User not found!'], 404);
+   
+    }
+
+
     public function suspend(Request $request)
     {
        

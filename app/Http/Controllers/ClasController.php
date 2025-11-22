@@ -497,6 +497,8 @@ public function getStudents(Request $request,$classId) {
 
         }
 
+       
+
 
         public function showCatsPerClas(){
             $clas_id=$_GET['clas_id'];
@@ -746,36 +748,89 @@ public function getStudents(Request $request,$classId) {
 
 
     public function deletePracticalPerClas(Request $request)
-{
-    $validated = $request->validate([
-        'delete_practical_id' =>'required|exists:practicals,id',
-    ]);
+    {
+        $validated = $request->validate([
+            'delete_practical_id' =>'required|exists:practicals,id',
+        ]);
 
-    $practical = Practical::find($request->delete_practical_id);
+        $practical = Practical::find($request->delete_practical_id);
 
-    if ($practical) {
+        if ($practical) {
 
-        // Get the file name stored in DB (question column)
-        $fileName = $practical->question;
+            // Get the file name stored in DB (question column)
+            $fileName = $practical->question;
 
-        // Full path to the file inside public/practical/
-        $filePath = public_path('practicals/' . $fileName);
+            // Full path to the file inside public/practical/
+            $filePath = public_path('practicals/' . $fileName);
 
-        // Delete file if it exists
-        if (file_exists($filePath)) {
-            File::delete($filePath);
-           // unlink($filePath);  // OR use File::delete()
+            // Delete file if it exists
+            if (file_exists($filePath)) {
+                File::delete($filePath);
+            // unlink($filePath);  // OR use File::delete()
+            }
+
+            // Delete the database row
+            $practical->delete();
+
+            return response()->json(['success' => true, 'message' => 'Practical and PDF deleted successfully!']);
         }
 
-        // Delete the database row
-        $practical->delete();
-
-        return response()->json(['success' => true, 'message' => 'Practical and PDF deleted successfully!']);
+        return response()->json(['success' => false, 'message' => 'Could not delete!'], 404);
     }
 
-    return response()->json(['success' => false, 'message' => 'Could not delete!'], 404);
-}
+    public function updatePracticalQuestion(Request $request)
+    {
+        $validated = $request->validate([
+            'update_question_id' =>'required|exists:practicals,id',
+        ]);
 
+        $practical = Practical::find($request->update_question_id);
+
+        if ($practical) {
+
+            // Get the file name stored in DB (question column)
+            $fileName = $practical->question;
+
+            // Full path to the file inside public/practical/
+            $filePath = public_path('practicals/' . $fileName);
+
+            // Delete file if it exists
+            if (file_exists($filePath)) {
+                File::delete($filePath);
+            
+            }
+
+            if($request->hasFile('update_question')){
+                $file=$request->file('update_question');
+                $extension=$file->getClientOriginalExtension();
+                $question=time().'.'.$extension;
+                $file->move(public_path('practicals'),$question);
+                
+                $delete=Practical::where('id',$request->update_question_id)->update([
+                    'question'=>$question,
+                ]);
+
+                if($delete){
+                    return redirect()->back()->with('success', 'Practical updated successfully!');
+                }else{
+                    return redirect()->back()->with('error', 'Failed to update .');
+                }
+            }else{
+                return redirect()->back()->with('error', 'No file selected .');
+            }
+
+
+
+            // Delete the database row
+            //$practical->delete();
+
+            return response()->json(['success' => true, 'message' => 'Practical and PDF deleted successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Could not delete!'], 404);
+    }
+
+    
 
 
 

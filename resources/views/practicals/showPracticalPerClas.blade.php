@@ -263,21 +263,55 @@
                 <div class="card-body">
                     
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label>Practical Id</label>
-                            <input type="text" class="form-control" name="practical_id" id="practical_id" readonly="true">
-                        </div>
-
-                        <div class="col-sm-6">
+                        
+                        <input type="text" class="form-control" name="practical_id" id="practical_id" hidden=true>
+                       
+                        <div class="col-sm-12">
                              <label>Name</label>
                              <input type="text" class="form-control"   id="practical_name" required>
                         </div>
 
-                         <div class="col-sm-6">
+                         <div class="col-sm-12">
                              <label>Marks</label>
                              <input type="number" class="form-control" name="marks"  id="marks" required>
                         </div>
 
+                    </div>
+
+                </div>
+                 <!-- /.card-body -->
+
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Add User modal -->
+<div id="updateQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Update Practical Question</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" action="updatePracticalQuestion" enctype="multipart/form-data">
+                @csrf
+               
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <label>Choose File</label>
+                        <input type="file" name="update_question" class="form-control" required>
+                        <input type="text" class="form-control" name="update_question_id" id="update_question_id" hidden="true">
                     </div>
 
                 </div>
@@ -498,7 +532,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.clas.clas_name + '</td>\
                         <td>' + item.name + '</td>\
                         <!-- <td>' + item.question + '</td>-->\
-                        <td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download)</a></td>\
+                        <td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download) <a href="#"><span  class="badge bg-danger updateQuestionBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Update Question</span></a></td>\
                         <!--<td><a href="/practicals/' + item.question + '" download>' + item.question + '</a></td>-->\
                         <td>' + item.marks + '</td>\
                         <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
@@ -540,6 +574,14 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 $('#updateExamModal').modal('show');
             });
 
+            // Attach event listener to Update button
+            $('.updateQuestionBtn').on('click', function() {
+                const update_question_id = $(this).data('id');
+                // Populate modal fields
+                $('#update_question_id').val(update_question_id);
+                // Show the modal
+                $('#updateQuestionModal').modal('show');
+            });
 
 
             // Attach event listener to Update button

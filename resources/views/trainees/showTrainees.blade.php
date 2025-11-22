@@ -496,6 +496,34 @@
 </div>
 
 
+<div class="modal fade" id="updatePasswordUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border:1px solid white">
+                <h5 class="modal-title" id="deleteUserModalLabel">Update this password to default 12345678</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                   
+                </button>
+            </div>
+            <div class="modal-body" style="border:1px solid white">
+                <form id="updatePasswordUserForm">
+                   
+                
+                    <input type="text" id="update_password_user_id" name="update_password_user_id" hidden="true">
+                    <!--<button type="submit" class="btn btn-primary">Delete</button>-->
+               
+            </div>
+
+            <div class="modal-footer justify-content-between" style="border:1px solid white">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Update</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
 
 <!-- Upload Excel Modal -->
@@ -645,7 +673,14 @@
                                     <td>' + item.total_credit + '</td>\
                                     <td>' + item.balance + '</td>\
                                     <!--<td>' + item.status + '</td>-->\
-                                    <td><a href="#"><span class="badge bg-success jobDesBtn" data-id="' + item.id + '" \
+                                    <td>\
+                                        <div class="dropdown">\
+                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_' + item.id + '" data-bs-toggle="dropdown" aria-expanded="false">\
+                                                Actions\
+                                            </button>\
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
+                                                <li>\
+                                                    <a href="#"><span class="dropdown-item jobDesBtn text-success" data-id="' + item.id + '" \
                                                         data-firstname="' + item.firstname + '" \
                                                         data-secondname="' + secondname + '" \
                                                         data-lastname="' + lastname + '" \
@@ -655,11 +690,21 @@
                                                         data-update_clas_id="' + item.clas.id + '" \
                                                         data-role="' + item.role + '" \
                                                         data-gender="' + item.gender + '" \
-                                                        data-status="' + item.status + '" \> <i class="fa fa-edit"></i> Update</span></a>\
-                                    <a href="#"><span class="badge bg-danger deleteBtn" data-id="' + item.id + '"> <i class="fa fa-trash"></i> Delete</span></a>\
-                                     <a class="viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
-                                        <span class="badge bg-secondary"> <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee<\span>\
-                                    </a>\
+                                                        data-status="' + item.status + '" \> <i class="fa fa-edit"></i> Update Student</span></a>\
+                                                </li>\
+                                                <li>\
+                                                   <a href="#"><span class="dropdown-item deleteBtn text-danger" data-id="' + item.id + '"> <i class="fa fa-trash"></i> Delete Students</span></a>\
+                                                </li>\
+                                                <li>\
+                                                     <a href="#"><span class="dropdown-item updatePasswordBtn text-warning" data-id="' + item.id + '"> <i class="fa fa-trash"></i> Update Password</span></a>\
+                                                </li>\
+                                                <li>\
+                                                   <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '">\
+                                                        <span class=""> <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee<\span>\
+                                                    </a>\
+                                                </li>\
+                                            </ul>\
+                                        </div>\
                                     </td>\
                                 </tr>'
                             );
@@ -706,6 +751,18 @@
                             // Show the modal
                             $('#deleteUserModal').modal('show');
                         });
+
+                        //Update password btn
+
+                        $('.updatePasswordBtn').on('click', function() {
+                            const update_password_user_id = $(this).data('id');
+                            // Populate modal fields
+                            $('#update_password_user_id').val(update_password_user_id);
+                            // Show the modal
+                            $('#updatePasswordUserModal').modal('show');
+                        });
+
+
                     }
                 });
             }
@@ -769,7 +826,48 @@
 
 
 
-        $('#deleteUserForm').on('submit', function(e) {
+        $('#updatePasswordUserForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const formData = {
+                update_password_user_id: $('#update_password_user_id').val(),
+                _token: "{{ csrf_token() }}" // Include CSRF token for security
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('updateUserPassword') }}",
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message); // Notify user of success
+                        $('#updatePasswordUserModal').modal('hide'); // Hide the modal
+                        displaySuccessMessage('User Password Updated Successfully');
+                        fetchUsers(); // Refresh the users table
+                    } else {
+                        alert('Failed to update user.');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        let errorMessages = '';
+                        $.each(errors, function(key, value) {
+                            errorMessages += value[0] + '\n';
+                        });
+                        alert(errorMessages); // Display validation errors
+                    } else {
+                        alert('An error occurred.');
+                    }
+                }
+            });
+
+        
+        });
+
+
+          $('#deleteUserForm').on('submit', function(e) {
             e.preventDefault(); // Prevent the default form submission
 
             const formData = {
@@ -808,6 +906,8 @@
 
         
         });
+
+
 
 
         $('#suspendUserForm').on('submit', function(e) {

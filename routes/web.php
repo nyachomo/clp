@@ -65,6 +65,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/add-new-user', [BackendController::class, 'adminAddNewUser2'])->name('adminAddNewUser2');
     Route::post('/update-user', [BackendController::class, 'update'])->name('updateUser');
     Route::post('/delete-user', [BackendController::class, 'delete'])->name('deleteUser');
+    Route::post('/update-user-password', [BackendController::class, 'updateUserPassword'])->name('updateUserPassword');
     Route::post('/suspend-user', [BackendController::class, 'suspend'])->name('suspendUser');
     Route::post('/users/upload', [BackendController::class, 'upload'])->name('users.upload');
     Route::get('/users/download', [BackendController::class, 'download'])->name('users.download');
@@ -458,6 +459,7 @@ Route::prefix('jitsi-meeting')->group(function (){
 //PRACTICALS
 Route::get('/managePracticals',[ClasController::class,'showPracticalPerClas'])->name('showPracticalPerClas');
 Route::post('/addPracticalPerClas',[ClasController::class,'addPracticalPerClas'])->name('addPracticalPerClas');
+Route::post('/updatePracticalQuestion',[ClasController::class,'updatePracticalQuestion'])->name('updatePracticalQuestion');
 
 
 
