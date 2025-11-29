@@ -206,6 +206,7 @@ Route::prefix('clases')->group(function () {
     Route::post('/add', [ClasController::class, 'addClas'])->name('addClas');
     Route::post('/update', [ClasController::class, 'updateClas'])->name('updateClas');
     Route::post('/delete', [ClasController::class, 'deleteClas'])->name('deleteClas');
+     Route::post('/downloadFeeBalance', [ClasController::class, 'downloadFeeBalance'])->name('downloadFeeBalance');
     Route::post('/suspend', [ClasController::class, 'suspendClas'])->name('suspendClas');
     Route::get('/fetch-program', [ClasController::class, 'fetchPrograms'])->name('fetchPrograms');
     Route::get('/programs', [ClasController::class, 'adminManagePrograms'])->name('adminManagePrograms');

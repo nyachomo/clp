@@ -73,6 +73,7 @@
                 <a type="button" href="{{route('showSuspendedClases')}}" class="btn btn-sm btn-warning rounded-pill" style="float:right"><span id="suspendedClasesButton"></span> Suspended Clases</a>
                
                 <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addClasModal"> <i class="fa fa-plus"></i>Add New Class</a>
+                 <a type="button" style="float:right" class="btn btn-sm btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#feeBalanceModal"> <i class="fa fa-plus"></i>Download Fee Balance</a>
                 <!--<a type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#activateAllClasModal"> <i class="fa fa-plus"></i>Activate All Clases</a>-->
             </div>
             <div class="card-body">
@@ -222,6 +223,50 @@
                                  <input type="text" name="clas_status" value="Active" hidden="true">
                             </div>
                         </div>
+
+
+                </div>
+                 <!-- /.card-body -->
+
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Add User modal -->
+<div id="feeBalanceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i>Download Fee Balance</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" action="{{route('downloadFeeBalance')}}">
+                @csrf
+               
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                       <div class="row">
+                          <div class="col-sm-12">
+                             <label>Choose Class</label>
+                             <ol>
+                                 @foreach($allclases as $key=>$clas)
+                                 <li>
+                                       <input type="checkbox" name="clas_id[]" value="{{ $clas->id }}">  {{$clas->clas_name ?? 'NA'}}
+                                 </li>
+                                  @endforeach
+                             </ol>
+
+                          </div>
+                       </div>
 
 
                 </div>

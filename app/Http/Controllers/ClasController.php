@@ -15,12 +15,18 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Course;
+use App\Models\Setting;
 use App\Models\Exam;
+use App\Models\Fee;
 use App\Models\Practical;
 use App\Models\StudentAnswer;
 use App\Models\JitsiMeeting;
 use App\Models\Practicalanswer;
 use Illuminate\Support\Facades\File;
+
+use Dompdf\Dompdf; // Import the Dompdf class
+use Illuminate\Support\Facades\View;
+
 
 
 class ClasController extends Controller
@@ -29,9 +35,11 @@ class ClasController extends Controller
 
     public function index(){
         $suspendedClases=Clas::where('clas_status','suspended')->select('id','clas_name','clas_status');
-        return view('clas.adminManageClas',compact('suspendedClases'));
+        $allclases=Clas::select('id','clas_name')->orderBy('id','DESC')->get();
+        return view('clas.adminManageClas',compact('suspendedClases','allclases'));
     }
 
+   
     public function showSuspendedClases(){
         $suspendedClases=Clas::where('clas_status','suspended')->select('id','clas_name','clas_status');
         return view('clas.adminManageSuspendedClases',compact('suspendedClases'));
@@ -832,6 +840,78 @@ public function getStudents(Request $request,$classId) {
 
     
 
+
+
+
+     public function downloadFeeBalance(Request $request){
+
+        //Validate at least one checkbox is selected
+            $request->validate([
+                'clas_id' => 'required|array',
+            ]);
+
+            // Get selected class IDs
+            $classIds = $request->clas_id;
+
+            // Fetch students whose class_id is in the selected list
+           // $students = User::with('clas')->whereIn('clas_id', $classIds)->get();
+
+          
+
+
+            //GET NAME OF THE PERSON THAT LOGINS 
+        $setting=Setting::latest()->first();
+        $imagePath = public_path('images/logo/' . $setting->company_logo);
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+
+
+        $imagePath2 = public_path('images/signature/hibrahim_signature.jpeg');
+        $imageData2 = base64_encode(file_get_contents($imagePath2));
+        $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+
+        $imagePath3 = public_path('images/stamp/official_stamp.png');
+        $imageData3 = base64_encode(file_get_contents($imagePath3));
+        $imageSrc3 = 'data:image/jpeg;base64,' . $imageData3;
+
+
+        // Fetch all records from the `fees` table
+       $trainees= User::with('course','clas','school')->whereIn('clas_id', $classIds)->select('id', 'firstname',
+        DB::raw("COALESCE(secondname, '') as secondname"),
+        DB::raw("COALESCE(lastname, '') as lastname"),
+        DB::raw("COALESCE(clas_id, '') as clas_id"),
+        DB::raw("COALESCE(course_id, '') as course_id"),
+        'email','phonenumber','course_id','gender','clas_id','parent_phone','clas_category')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+        
+        $total_students=$trainees->count();
+       
+        
+
+        // Load the view and pass the data
+        $html = View::make('clas.downloadFeeBalancePerClas', compact('imageSrc', 'trainees','imageSrc2','imageSrc3','total_students'))->render();
+        //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+
+        // Convert the view to a PDF
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Stream or download the PDF
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="students_Fee.pdf"',
+        ]);
+
+
+
+
+        
+
+    }
 
 
 
