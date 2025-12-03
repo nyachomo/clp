@@ -117,6 +117,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Debit</th>
                                     <th>Status</th>
                                     <th>Category</th>
                                     <th>Total Students</th>
@@ -175,6 +176,16 @@
                                 <div class="form-group">
                                     <label>Clas Name<sup>*</sup></label>
                                     <input type="text" class="form-control" name="clas_name" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Debit Amount<sup>*</sup></label>
+                                    <input type="number" class="form-control" name="debit" required>
                                 </div>
                             </div>
                         </div>
@@ -308,6 +319,16 @@
                                 </div>
                         </div>
                     </div>
+
+                     <div class="row">
+                        <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Debit Amount<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="clas_debit" id="clas_debit" required>
+                                </div>
+                        </div>
+                    </div>
+
 
                        <div class="row">
                             <div class="col-sm-12">
@@ -500,22 +521,22 @@
 
 
 
-// Automatically hide success and error messages after 5 seconds
-setTimeout(() => {
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        successAlert.style.transition = "opacity 0.5s";
-        successAlert.style.opacity = "0";
-        setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
-    }
-    
-    const errorAlert = document.getElementById('error-alert');
-    if (errorAlert) {
-        errorAlert.style.transition = "opacity 0.5s";
-        errorAlert.style.opacity = "0";
-        setTimeout(() => errorAlert.remove(), 500);
-    }
-}, 5000); // 5000 milliseconds = 5 seconds
+    // Automatically hide success and error messages after 5 seconds
+    setTimeout(() => {
+        const successAlert = document.getElementById('success-alert');
+        if (successAlert) {
+            successAlert.style.transition = "opacity 0.5s";
+            successAlert.style.opacity = "0";
+            setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
+        }
+        
+        const errorAlert = document.getElementById('error-alert');
+        if (errorAlert) {
+            errorAlert.style.transition = "opacity 0.5s";
+            errorAlert.style.opacity = "0";
+            setTimeout(() => errorAlert.remove(), 500);
+        }
+    }, 5000); // 5000 milliseconds = 5 seconds
 
 
 
@@ -577,6 +598,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                    '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas_name + '</td>\
+                        <td>' + item.debit + '</td>\
                         <td><span class="' + (item.clas_status && item.clas_status.toLowerCase() === 'active' ? 'text-success' : 'text-danger') + '">' + item.clas_status + '</span></td>\
                         <td>' + item.clas_category + '</td>\
                         <td>' + item.total_student + 'Student(s)<a class="text-info" href="' + baseUrl + '?clas_id=' + item.id + '"> View</a>\
@@ -592,6 +614,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a class="dropdown-item updateBtn text-success" href="#" \
                                         data-id="' + item.id + '" \
                                         data-clas_status="' + item.clas_status + '" \
+                                        data-debit="' + item.debit + '" \
                                         data-clas_category="' + item.clas_category + '" \
                                         data-clas_name="' + item.clas_name + '"><i class="uil-edit"></i> Update Class</a></li>\
                                     <li><a class="dropdown-item deleteBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-edit"></i> Delete Class</a></li>' +
@@ -620,9 +643,11 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const clas_name = $(this).data('clas_name');
                 const clas_category = $(this).data('clas_category');
                 const clas_status = $(this).data('clas_status');
+                const debit = $(this).data('debit');
                 // Populate modal fields
                 $('#clas_id').val(clas_id);
                 $('#clas_name').val(clas_name);
+                $('#clas_debit').val(debit);
                 $('#clas_category').val(clas_category);
                 $('#updateClasModal #clas_status').val(clas_status);
 
@@ -793,6 +818,7 @@ $('#updateClasForm').on('submit', function(e) {
     const formData = {
         clas_id: $('#clas_id').val(),
         clas_name: $('#clas_name').val(),
+        clas_debit: $('#clas_debit').val(),
         clas_category: $('#clas_category').val(),
         _token: "{{ csrf_token() }}" // Include CSRF token for security
     };

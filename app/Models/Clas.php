@@ -15,6 +15,7 @@ class Clas extends Model
        'is_scholarship_test_clas',
        'scholarship_test_category',
        'clas_category',
+       'debit'
     ];
 
     public function exams(){

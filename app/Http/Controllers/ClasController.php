@@ -35,7 +35,7 @@ class ClasController extends Controller
 
     public function index(){
         $suspendedClases=Clas::where('clas_status','suspended')->select('id','clas_name','clas_status');
-        $allclases=Clas::select('id','clas_name')->orderBy('id','DESC')->get();
+        $allclases=Clas::select('id','clas_name')->where('clas_category','training_class')->orderBy('id','DESC')->get();
         return view('clas.adminManageClas',compact('suspendedClases','allclases'));
     }
 
@@ -102,7 +102,7 @@ class ClasController extends Controller
 
     public function fetchClases(Request $request) {
         $query = Clas::where('clas_status','Active')->whereIn('clas_category', ['training_class',])->select( 'id', 'clas_name','clas_status', 'is_scholarship_test_clas',
-       'scholarship_test_category','clas_category')->orderBy('created_at', 'desc');
+       'scholarship_test_category','clas_category','debit')->orderBy('created_at', 'desc');
 
 
         // Apply search filter if provided
@@ -155,6 +155,7 @@ class ClasController extends Controller
         $validated = $request->validate([
             'clas_id' =>'required|exists:clas,id',
             'clas_name' =>'required|string|max:255',
+           
         ]);
 
 
@@ -164,6 +165,7 @@ class ClasController extends Controller
             // Update user details
             $user->clas_name = $request->clas_name;
             $user->clas_category = $request->clas_category;
+            $user->debit = $request->clas_debit;
             $user->update();
             return response()->json(['success' => true, 'message' => 'Clas updated successfully!']);
         }
