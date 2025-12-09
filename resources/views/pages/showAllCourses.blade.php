@@ -28,14 +28,14 @@
      <!--====== COURSES PART START ======-->
      <div class="row" style="max-width:100%; width:100%; margin:0;">
         <div class="col-sm-12" style="background-color:#07294d;padding-top:20px;padding-bottom:20px;">
-            <center><h1 style="color:white">Our Courses</h1></center>
+            <center><h1 style="color:white">Our AI Powered Courses</h1></center>
         </div>
     </div>
 
     <div class="row" style="max-width:100%; width:100%; margin:0;">
         <div class="col-sm-12" style="padding-top:20px;padding-bottom:20px;">
            <p>
-                 At Techsphere Training Institute, we offer a wide range of industry-driven courses designed to equip learners with practical, in-demand skills. Our programs include Full-Stack Software Engineering, Cybersecurity and Ethical Hacking, Graphic Design and Animation, Digital Marketing, Data Analysis, Data Science, and Machine Learning & Artificial Intelligence. Each course is carefully structured to prepare students for real-world challenges while opening doors to exciting career opportunities in the digital economy.
+                 At Techsphere Training Institute, we offer a wide range of industry-driven AI powered courses designed to equip learners with practical, in-demand skills. Our programs include Full-Stack Software Engineering, Cybersecurity and Ethical Hacking, Graphic Design and Animation, Digital Marketing, Data Analysis, Data Science, and Machine Learning & Artificial Intelligence. Each course is carefully structured to prepare students for real-world challenges while opening doors to exciting career opportunities in the digital economy.
            </p>
         </div>
     </div>
