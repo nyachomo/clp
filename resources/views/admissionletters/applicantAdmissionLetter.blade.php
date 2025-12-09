@@ -71,8 +71,8 @@
                             </p>
                             <p><b>Action Required: Complete Your Enrollment (Only those who have not enrolled)</b> </p>
                             <p>
-                                To secure your place in this course, please complete your enrollment by the end of ,November 3, 
-                                2025. This will ensure that you are ready to start along with your classmates. 
+                                To secure your place in this course, please complete your enrollment by the end of ,January 5, 
+                                2026. This will ensure that you are ready to start along with your classmates. 
                             </p>
                             <p><b>Orientation and Class Start Dates</b></p>
                             <p>
