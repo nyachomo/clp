@@ -90,18 +90,18 @@
                             </p>
                             <p><b>Action Required: Complete Your Enrollment (Only those who have not enrolled)</b> </p>
                             <p>
-                                To secure your place in this course, please complete your enrollment by the end of ,November 3, 
-                                2025. This will ensure that you are ready to start along with your classmates. 
+                                To secure your place in this course, please complete your enrollment by the end of ,January 5 2026 
+                                . This will ensure that you are ready to start along with your classmates. 
                             </p>
                             <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
-                                    <li> <b>Orientation:</b> Scheduled for November 3rd , 2025, at 10:00 a.m. (attendance is highly 
+                                    <li> <b>Orientation:</b> Scheduled for January 6, 2026, at 10:00 a.m. (attendance is highly 
                                          encouraged to get familiar with course logistics and expectations).
                                     </li>
                                     <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a></li>
 
-                                    <li><b>Classes Begin:</b> November 04, 2025. </li>
+                                    <li><b>Classes Begin:</b> January 06, 2026. </li>
                                 </ul>
                             </p>
 
@@ -130,16 +130,15 @@
                             <p><b>Course Duration</b></p>
                                 <ul>
                                     <li>
-                                          <b>Weeks: </b>7 Weeks 
+                                          <b>Weeks: </b> 16 Weeks 
                                     </li>
-                                    <li><b>Start Date:</b> 03/11/2025</li>
-                                    <li><b>End Date:</b> 22/12/2025</li>
+                                   
                                 </ul>
 
                             <p><b>Class Schedule</b></p>
                                 <ul>
                                     <li>
-                                          Monday-Friday 
+                                          Monday-Friday(2hrs per day)
                                     </li>
                                 </ul>
                            
