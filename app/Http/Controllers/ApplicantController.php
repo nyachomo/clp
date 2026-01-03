@@ -21,7 +21,7 @@ class ApplicantController extends Controller
 
 
     public function fetchApplicants(Request $request) {
-        $query = User::with('course',)->select('id', 'firstname','has_paid_reg_fee',
+        $query = User::with('course',)->select('id', 'firstname','has_paid_reg_fee','intake',
         DB::raw("COALESCE(secondname, '') as secondname"),
         DB::raw("COALESCE(lastname, '') as lastname"),
         DB::raw("COALESCE(course_id, '') as course_id"),
@@ -36,6 +36,7 @@ class ApplicantController extends Controller
                 $q->where('firstname', 'like', '%' . $request->search . '%')
                 ->orWhere('secondname', 'like', '%' . $request->search . '%')
                 ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                ->orWhere('intake', 'like', '%' . $request->search . '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         }

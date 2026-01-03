@@ -151,7 +151,7 @@
                     you are required to visit <a href="https://techsphereinstitute.co.ke ">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
                     deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                     the program but students who have attended the program before will not be required to pay this fee. 
-                    All courses will be delivered online, giving you
+                    The starting date for the program is on <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. All courses will be delivered online, giving you
                     the flexibility to learn from any location.  Attached below is the time-table.
                 </p>
 
@@ -216,35 +216,21 @@
                           <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
-                                    <li> 
-                                        <b>Orientation:</b>Scheduled for January 12 <sup>th</sup> 2026, at 10:00 a.m for January intake and February 2 <sup>nd</sup> 2026, at 10:00 a.m for february intake.  (attendance is highly 
-                                         encouraged to get familiar with course logistics and expectations).
+                                    <li> <b>Orientation:</b> Scheduled for {{$formFourLetter->start_date ?? 'NA'}} at 10:00 a.m. (attendance is highly 
+                                            encouraged to get familiar with course logistics and expectations).
                                     </li>
+                                    <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a></li>
 
-                                    <li> 
-                                        <b>Orientation Link (January Intake):</b>   <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a>
-
-                                    </li>
-
-                                    <li> 
-                                        <b>Orientation Link (February Intake):</b> <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;">https://meet.google.com/dqd-ezxa-poi</span></a>
-
-                                    </li>
-
-
-                                    <li><b>Classes Begin:</b>January 12 <sup>th</sup> 2026, (January Intake) And  </b>February 2 <sup>nd</sup> 2026,  (February Intake)</li>
+                                    <li><b>Classes Begin:</b> {{$formFourLetter->start_date ?? 'NA'}} </li>
                                 </ul>
                             </p>
 
                             <p><b>Class Link</b></p>
-                               <ul>
-                                    <li>
-                                         <b>January Intake: </b> <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
-                                    </li>
-                                     <li>
-                                         <b>February Intake: </b> <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;font-size:27px;">https://meet.google.com/dqd-ezxa-poi</span></a>
-                                    </li>
-                                </ul>
+                            <ul>
+                                <li>
+                                        <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+                                </li>
+                            </ul>
 
                      </td>
                   </tr>

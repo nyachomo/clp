@@ -43,6 +43,7 @@ class User extends Authenticatable
         'is_deputy_principal',
         'is_registrar',
         'password',
+        'intake',
     ];
 
 

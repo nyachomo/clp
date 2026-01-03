@@ -77,12 +77,23 @@
                             <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
-                                    <li> <b>Orientation:</b> Scheduled for January 12 <sup>th</sup> , 2026, at 10:00 a.m. (attendance is highly 
+                                   <li> 
+                                        <b>Orientation:</b>Scheduled for January 12 <sup>th</sup> 2026, at 10:00 a.m for January intake and February 2 <sup>nd</sup> 2026, at 10:00 a.m for february intake.  (attendance is highly 
                                          encouraged to get familiar with course logistics and expectations).
                                     </li>
-                                    <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a></li>
 
-                                    <li><b>Classes Begin:</b> January 12<sup>th</sup> , 2026. </li>
+                                    <li> 
+                                        <b>Orientation Link (January Intake):</b>   <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+
+                                    </li>
+
+                                    <li> 
+                                        <b>Orientation Link (February Intake):</b> <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;">https://meet.google.com/dqd-ezxa-poi</span></a>
+
+                                    </li>
+
+
+                                    <li><b>Classes Begin:</b>January 12 <sup>th</sup> 2026, (January Intake) And  </b>February 2 <sup>nd</sup> 2026,  (February Intake)</li>
                                 </ul>
                             </p>
 
@@ -97,7 +108,10 @@
                             <p><b>Class Link</b></p>
                                 <ul>
                                     <li>
-                                          <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+                                         <b>January Intake: </b> <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+                                    </li>
+                                     <li>
+                                         <b>February Intake: </b> <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;font-size:27px;">https://meet.google.com/dqd-ezxa-poi</span></a>
                                     </li>
                                 </ul>
                             

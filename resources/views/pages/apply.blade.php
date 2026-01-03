@@ -37,10 +37,11 @@
                         </div> <!-- section title -->
                        
                         <div class="main-form">
-                            <form method="POST" action="{{route('register')}}">
+                        <form method="POST" action="{{route('register')}}">
                             @csrf
-                                <div class="row">
-                                  <div class="col-md-12">
+                                
+                            <div class="row">
+                                   <div class="col-md-6">
                                         <div class="singel-form form-group">
                                             <label>Which Course Are You Interested In</label>
                                             <select class="form-control" name="course_id" required>
@@ -53,6 +54,21 @@
                                             </select>   
                                         </div>
                                     </div>
+
+                                     <div class="col-md-6">
+                                        <div class="singel-form form-group">
+                                            <label>Intake</label>
+                                            <select class="form-control" name="intake" required>
+                                                <option value="">Select Intake</option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                            </select>   
+                                        </div>
+                                    </div>
+
+                            </div>
+                            <div class="row">
+                                 
 
                                     <div class="col-md-6">
                                         <div class="singel-form form-group">

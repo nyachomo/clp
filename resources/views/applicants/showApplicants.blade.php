@@ -119,6 +119,7 @@
                                     <th>Email</th>
                                     <th>Course</th>
                                     <th>Gender</th>
+                                    <th>Intake</th>
                                     <th>Paid Reg Fee</th>
                                     <th>Download</th>
                                     <th>Action</th>
@@ -350,6 +351,7 @@
                                     <td>' + item.email + '</td>\
                                     <td>' + item.course.course_name + '</td>\
                                     <td>' + item.gender + '</td>\
+                                     <td>' + item.intake + '</td>\
                                     <td>' + item.has_paid_reg_fee + '</td>\
                                     <td>\
                                         <a href="{{ route('adminDownloadAdmissionLetter') }}?id=' + item.id + '" class="text-success" data-id="' + item.id + '">\
