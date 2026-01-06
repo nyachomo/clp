@@ -151,6 +151,7 @@
                                 </div>
 
                                     <div class="table-responsive">
+                                         <a style="float:right" href="{{ route('adminDownloadTraineeRegFee',['user_id'=>$user_id]) }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download Receipt For Registraion</a>
                                         <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addFeeModal"> <i class="uil-plus"></i>Add New Fee</a>
                                         <br> <br>
                                             <table class="table table-borderless table-nowrap mb-0">

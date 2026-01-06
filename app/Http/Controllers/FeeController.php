@@ -57,6 +57,7 @@ class FeeController extends Controller
             }
     }
 
+
     public function downloadReceipt($id){
         //GET NAME OF THE PERSON THAT LOGINS 
         if(Auth::check()){
@@ -221,7 +222,53 @@ class FeeController extends Controller
     
 
 
+public function adminDownloadTraineeRegFee($user_id){
 
+     if(Auth::check()){
+            if(Auth::user()->role=="Admin"){
+
+
+                $user=User::with('course','clas')->where('id',$user_id)->first();
+                $setting=Setting::latest()->first();
+                $imagePath = public_path('images/logo/' . $setting->company_logo);
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+
+
+                $imagePath2 = public_path('images/receipt/receipt.jpeg');
+                $imageData2 = base64_encode(file_get_contents($imagePath2));
+                $imageSrc2 = 'data:image/jpeg;base64,' . $imageData2;
+
+
+                // Fetch all records from the `fees` table
+                $fees = Fee::where('user_id', $user_id)
+                ->select('user_id', 'amount_paid', 'date_paid', 'payment_method', 'payment_ref_no')
+                ->orderBy('created_at', 'asc') // Orders by oldest first
+                ->get();
+
+                // Load the view and pass the data
+                $html = View::make('fees.traineePrintingReceiptForRegistration', compact('imageSrc', 'fees','user','imageSrc2'))->render();
+                //$html = View::make('fees.studentReceipt', compact(['imageSrc' => $imageSrc,'fees'=> $fees]))->render();
+
+                // Convert the view to a PDF
+                $dompdf = new \Dompdf\Dompdf();
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('A4', 'portrait');
+                $dompdf->render();
+
+                // Stream or download the PDF
+                return response($dompdf->output(), 200, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'attachment; filename="'.$user->firstname.'_Course_Registration_Receipt.pdf"',
+                ]);
+
+
+
+
+            }
+        }
+
+}
 
     public function traineePrintingReceiptForRegistration(){
                 //GET NAME OF THE PERSON THAT LOGINS 

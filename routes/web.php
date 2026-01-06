@@ -365,6 +365,9 @@ Route::prefix('fees')->group(function () {
     //ADMIN DOWNLOAD RECEIPT FOR TRAINEE
     Route::get('/admindownloadReceipt/{id}', [FeeController::class, 'admindownloadReceipt'])->name('admindownloadReceipt');
 
+    //ADMIN DOWNLOAD TRAINEE REGISTRATION FEE
+    Route::get('/adminDownloadTraineeRegFee/{user_id}',[FeeController::class,'adminDownloadTraineeRegFee'])->name('adminDownloadTraineeRegFee');
+
     Route::get('/traineePrintingReceiptForRegistration', [FeeController::class, 'traineePrintingReceiptForRegistration'])->name('traineePrintingReceiptForRegistration');
 });
 

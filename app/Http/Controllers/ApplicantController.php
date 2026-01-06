@@ -75,6 +75,7 @@ class ApplicantController extends Controller
             $user->date_paid_reg_fee = $request->date_paid_reg_fee;
             $user->reg_fee_ref_no=$request->reg_fee_ref_no;
             $user->clas_id=$request->clas_id;
+            $user->role="Trainee";
             $user->update();
 
             return response()->json(['success' => true, 'message' => 'User updated successfully!']);
