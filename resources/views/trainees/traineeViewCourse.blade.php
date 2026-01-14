@@ -2,86 +2,72 @@
 @section('content')
 
 <style>
-    .card{
-        border-radius:20px;
-    }
-
-    .user_account_card_heading{
-        
-         background: linear-gradient(to right, #00264d, #ff0080);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        display: inline-block; /* Optional: ensures proper sizing */
-    }
-
-    progress {
-        width: 300px;
-        height: 20px;
-        border: none;
-        border-radius: 10px;
-        background-color: #f0f0f0; /* Track color */
-    }
-
-        /* Webkit/Blink browsers (Chrome, Safari, Edge) */
-        progress::-webkit-progress-bar {
-        background-color: #f0f0f0;
-        border-radius: 10px;
-    }
-
-    progress::-webkit-progress-value {
-        background-color: #00cc99 !important;
-        border-radius: 10px;
-    }
-
-    /* Firefox */
-    progress::-moz-progress-bar {
-        background-color: #00cc99;
-        border-radius: 10px;
-    }
-
-    .course-outline-btn{
-        background-color:#00cc99;
-        color:white;
-    }
-
-     .course-outline-btn:hover{
-        background-color:#ff0080;
-        color:white;
-    }
-
-
-
-
-
-/* Card */
-.course-card {
+  /* ===== Global Card Styling ===== */
+.card {
+    border-radius: 22px;
     border: none;
-    border-radius: 20px;
+}
+
+/* ===== Page Header Card ===== */
+.user_account_card {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    color: #fff;
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.25);
+}
+
+.user_account_card p {
+    opacity: 0.92;
+    font-weight: 500;
+}
+
+/* Gradient Heading */
+.user_account_card_heading {
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    background: linear-gradient(to right, #ffffff, #ffd6ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== Download Button (Top) ===== */
+.course-outline-btn {
+    background: linear-gradient(135deg, #00cc99, #00e6b8);
+    color: #fff;
+    border-radius: 35px;
+    padding: 12px 22px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 22px rgba(0, 204, 153, 0.4);
+}
+
+.course-outline-btn:hover {
+    background: linear-gradient(135deg, #ff0080, #00264d);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 0, 128, 0.45);
+}
+
+/* ===== Course Card ===== */
+.course-card {
+    border-radius: 22px;
     overflow: hidden;
     background: #ffffff;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    margin-bottom: 30px;
+    transition: all 0.4s ease;
 }
 
 .course-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.28);
+    transform: translateY(-10px);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.3);
 }
 
-/* Animated Gradient Header */
+/* ===== Animated Gradient Header ===== */
 .course-card .card-header {
-    background: linear-gradient(
-        270deg,
-        #00264d,
-        #ff0080,
-        #00264d
-    );
+    background: linear-gradient(270deg, #00264d, #ff0080, #00264d);
     background-size: 400% 400%;
-    animation: gradientMove 8s ease infinite;
+    animation: gradientMove 9s ease infinite;
+    padding: 22px 25px;
     color: #fff;
-    padding: 20px 22px;
-    border-bottom: none;
 }
 
 /* Header layout */
@@ -89,48 +75,49 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
 
 .course-card .card-header h5 {
-    margin: 0;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== Progress Badge ===== */
+.progress-badge {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    padding: 7px 16px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
 }
 
-/* Progress badge */
-.progress-badge {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(6px);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* Body */
+/* ===== Card Body ===== */
 .course-card .card-body {
-    padding: 25px;
+    padding: 28px;
 }
 
 .course-card p {
     color: #444;
-    line-height: 1.7;
     font-size: 15px;
+    line-height: 1.8;
 }
 
-/* Progress bar */
+/* ===== Progress Bar ===== */
 .course-progress {
-    height: 8px;
+    height: 10px;
     border-radius: 30px;
     background: #e9ecef;
     overflow: hidden;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .course-progress .progress-bar {
@@ -139,42 +126,40 @@
     animation: progressGlow 2s ease-in-out infinite alternate;
 }
 
-/* Button footer */
+/* ===== Buttons Footer ===== */
 .course-outline-btn-footer {
     display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 25px;
+    gap: 18px;
+    margin-top: 28px;
 }
 
 /* Buttons */
 .course-outline-btn-footer .btn {
     flex: 1;
-    padding: 12px 18px;
-    border-radius: 30px;
-    font-weight: 600;
+    padding: 13px 20px;
+    border-radius: 35px;
+    font-weight: 700;
     font-size: 14px;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    transition: all 0.3s ease;
 }
 
-/* Outline button */
+/* Outline Button */
 .btn-outline-primary {
     border: 2px solid #00264d;
     color: #00264d;
-    background: transparent;
 }
 
 .btn-outline-primary:hover {
     background: #00264d;
     color: #fff;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
-/* Gradient button */
+/* Gradient Button */
 .btn-gradient {
     background: linear-gradient(135deg, #00264d, #ff0080);
     color: #fff;
@@ -183,11 +168,11 @@
 
 .btn-gradient:hover {
     background: linear-gradient(135deg, #ff0080, #00264d);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(255, 0, 128, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 0, 128, 0.45);
 }
 
-/* Animations */
+/* ===== Animations ===== */
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -197,6 +182,23 @@
 @keyframes progressGlow {
     from { opacity: 0.85; }
     to { opacity: 1; }
+}
+
+/* ===== Mobile Optimization ===== */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .course-outline-btn-footer {
+        flex-direction: column;
+    }
+
+    .course-outline-btn {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 </style>

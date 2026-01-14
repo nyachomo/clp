@@ -2,43 +2,173 @@
 @section('content')
 
 <style>
-    .card{
-        border-radius:20px;
+   
+
+
+
+
+
+    /* ===== Page background ===== */
+body {
+    background: #f4f7fb;
+}
+
+/* ===== Cards ===== */
+.card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    margin-bottom: 25px;
+}
+
+/* ===== Main Account Card ===== */
+.user_account_card {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    color: #fff;
+}
+
+.user_account_card p {
+    opacity: 0.9;
+}
+
+/* Gradient heading */
+.user_account_card_heading {
+    font-weight: 800;
+    background: linear-gradient(to right, #ffffff, #ffd6ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== Progress (completion bar) ===== */
+progress {
+    width: 100%;
+    height: 14px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(135deg, #00e6ac, #39ac73);
+}
+
+progress::-moz-progress-bar {
+    background: linear-gradient(135deg, #00e6ac, #39ac73);
+}
+
+/* ===== Profile Image ===== */
+.avatar-lg {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 4px solid #ff0080;
+}
+
+/* ===== User Info Table ===== */
+.table-bordered {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table th {
+    background: #00264d;
+    color: #fff;
+    font-weight: 600;
+    width: 40%;
+}
+
+.table td {
+    font-weight: 600;
+}
+
+/* ===== Nav Pills (Tabs) ===== */
+.nav-pills {
+    background: #f1f3f9;
+    padding: 8px;
+    border-radius: 50px;
+}
+
+.nav-pills .nav-link {
+    font-weight: 600;
+    border-radius: 40px;
+    color: #00264d;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    color: #fff;
+}
+
+/* ===== Forms ===== */
+.form-control,
+select.form-control {
+    border-radius: 30px;
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #ff0080;
+    box-shadow: 0 0 0 0.15rem rgba(255, 0, 128, 0.25);
+}
+
+/* ===== Buttons ===== */
+.btn {
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    border: none;
+}
+
+.btn-success:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* ===== Progress Bars (AJAX) ===== */
+.progress {
+    height: 16px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    font-weight: 600;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Mobile optimization ===== */
+@media (max-width: 768px) {
+    .nav-pills {
+        flex-direction: column;
+        gap: 8px;
     }
 
-    .user_account_card_heading{
-        
-         background: linear-gradient(to right, #00264d, #ff0080);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        display: inline-block; /* Optional: ensures proper sizing */
+    .nav-pills .nav-link {
+        text-align: center;
     }
 
-    progress {
-        width: 300px;
-        height: 20px;
-        border: none;
-        border-radius: 10px;
-        background-color: #f0f0f0; /* Track color */
+    .avatar-lg {
+        width: 100px;
+        height: 100px;
     }
+}
 
-        /* Webkit/Blink browsers (Chrome, Safari, Edge) */
-        progress::-webkit-progress-bar {
-        background-color: #f0f0f0;
-        border-radius: 10px;
-    }
 
-    progress::-webkit-progress-value {
-        background-color: #00cc99 !important;
-        border-radius: 10px;
-    }
 
-    /* Firefox */
-    progress::-moz-progress-bar {
-        background-color: #00cc99;
-        border-radius: 10px;
-    }
 
 </style>
 

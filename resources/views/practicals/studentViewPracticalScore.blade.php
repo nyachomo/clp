@@ -5,6 +5,40 @@
 <style>
 
 
+
+
+.card {
+    border-radius: 22px;
+    border: none;
+}
+
+/* ===== Page Header Card ===== */
+.user_account_card {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    color: #fff;
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.25);
+}
+
+.user_account_card p {
+    opacity: 0.92;
+    font-weight: 500;
+}
+
+/* Gradient Heading */
+.user_account_card_heading {
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    background: linear-gradient(to right, #ffffff, #ffd6ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+
+
+
+
     /* ===== Page spacing ===== */
 .content-wrapper, body {
     background: #f4f7fb;
@@ -176,6 +210,22 @@
 @endif
 
 <br>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card user_account_card">
+            <div class="card-body">
+                <h2 class="user_account_card_heading">My Assesment</h2>
+                <p>
+                    Manage Your Assesment<br>
+                    Avaragr Score: <span style="font-size:20px"><b>NA</b></span>
+                </p>
+                <a class="btn btn-primary" style="float:right"><i class="fa fa-download"></i> Download Certificate</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
 <div class="col-12">
 <div class="card">
