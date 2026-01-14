@@ -461,9 +461,10 @@ Route::prefix('jitsi-meeting')->group(function (){
 
 
 //PRACTICALS
-Route::get('/managePracticals',[ClasController::class,'showPracticalPerClas'])->name('showPracticalPerClas');
+Route::get('/showPracticals',[ClasController::class,'showPracticalPerClas'])->name('showPracticalPerClas');
 Route::post('/addPracticalPerClas',[ClasController::class,'addPracticalPerClas'])->name('addPracticalPerClas');
 Route::post('/updatePracticalQuestion',[ClasController::class,'updatePracticalQuestion'])->name('updatePracticalQuestion');
+Route::get('get-course-modules/{course_id}',[ClasController::class,'getCourseModules']);
 
 
 

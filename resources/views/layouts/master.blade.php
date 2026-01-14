@@ -122,7 +122,8 @@
         }
 
         .bodyColor{
-            background-color:#0044cc !important; 
+            /*background-color:#0044cc !important;*/
+            background-color:#00264d !important;
         }
 
         .time-button {
@@ -169,6 +170,10 @@
         ul li a{
             color:white !important;
            
+        }
+
+        .navBarColor{
+            background:linear-gradient(to right, #003366, #ff0080, #003366) !important;
         }
 
       
@@ -557,26 +562,34 @@
                         </li>
 
 
-                        <li class="side-nav-item">
+                        <!--<li class="side-nav-item">
                             <a href="{{route('showClassLink')}}" class="side-nav-link">
                                 <i class="uil-home-alt text-info"></i>
                                 <span class="menu-arrow"></span>
                                 <span> Class Link</span>
                             </a>
+                        </li>-->
+
+                         <li class="side-nav-item">
+                            <a href="{{route('studentViewPracticalScore')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Assesment</span>
+                            </a>
                         </li>
 
-                        <li class="side-nav-item">
+                        <!--<li class="side-nav-item">
                             <a href="{{route('showClassNotes')}}" class="side-nav-link">
                                 <i class="uil-home-alt text-info"></i>
                                 <span class="menu-arrow"></span>
                                 <span> Class Notes</span>
                             </a>
-                        </li>
+                        </li>-->
 
                         
                        
 
-
+                        <!--
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
                                 <i class="uil-clipboard-alt"></i>
@@ -594,16 +607,16 @@
                                         <a href="{{route('studentViewPracticalScore')}}">Cats</a>
                                     </li>
 
-                                    <!--<li>
+                                 
                                         <a href="{{route('traineeViewCats')}}">Cats</a>
-                                    </li>-->
+                                    </li>
 
                                     <li>
                                         <a href="{{route('traineeViewFinalExam')}}">Final Exam</a>
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li>-->
 
 
 
@@ -790,7 +803,7 @@
             <div class="content-page ">
                 <div class="content">
                     <!-- Topbar Start -->
-                    <div class="navbar-custom bodyColor">
+                    <div class="navbar-custom navBarColor">
                         <ul class="list-unstyled topbar-menu float-end mb-0">
                             <li class="dropdown notification-list d-lg-none">
                                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -830,7 +843,7 @@
                                         
                                     </span>
                                 </a>
-                                <div class="bodyColor dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                                <div class="navBarColor dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
                                     <!-- item-->
                                     <div class=" dropdown-header noti-title">
                                         <h6 class="text-overflow m-0" style="color:white">Welcome !</h6>

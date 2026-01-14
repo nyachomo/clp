@@ -102,7 +102,10 @@
                                 <tr>
                                    <th>#</th>
                                     <th>Class</th>
+                                    <th>Course Name</th>
+                                    <th>Module Name</th>
                                     <th>Name</th>
+                                     <th>Is Multiple Choice</th>
                                     <th>Question</th>
                                     <th>Marks</th>
                                     <th>Status</th>
@@ -171,6 +174,41 @@
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Select Course <sup>*</sup></label>
+                            <select class="form-control" name="course_id" id="course_id" required>
+                                <option value="">Select Course</option>
+                                @foreach($courses as $course)
+                                     <option value="{{$course->id}}">{{$course->course_name ?? 'NA'}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Course Module</label>
+                             <select class="form-control" name="course_module_id" id="course_module_id" required>
+                            <option value="">Select Course Module</option>
+                        </select>
+                        </div>
+                    </div>
+                   
+
+
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <label>Select Course <sup>*</sup></label>
+                            <select class="form-control" name="course_module_id" required>
+                                <option value="">Select Course Module</option>
+                                @foreach($course_modules as $course_module)
+                                     <option value="{{$course_module->id}}">{{$course_module->module_name ?? 'NA'}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>-->
+
 
                     <div class="row">
 
@@ -187,18 +225,27 @@
 
                     </div>
 
-
-
                     <div class="row">
-
                         <div class="col-sm-12">
-                            <!-- text input -->
                             <div class="form-group">
-                                <label>Question<sup>*</sup></label>
-                                <input type="file" class="form-control" name="question" required>
+                                 <label>Is Multiple Choice</label>
+                                 <select name="is_multiple_choice" id="is_multiple_choice" class="form-control">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
 
+
+
+                    <div class="row" id="questionRow">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Question<sup>*</sup></label>
+                                <input type="file" class="form-control" name="question" id="questionInput">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -221,9 +268,8 @@
                             <div class="form-group">
                                 <label>Exam Status<sup>*</sup></label>
                                 <select name="status" class="form-control">
-                                    <option value="Not Published">Not Published</option>
-                                     <option value="Published">Published</option>
-                                    
+                                    <option value="Published">Published</option>
+                                    <option value="Not Published">Not Published</option> 
                                 </select>
                             </div>
                         </div>
@@ -433,22 +479,22 @@
 
 
 
-// Automatically hide success and error messages after 5 seconds
-setTimeout(() => {
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        successAlert.style.transition = "opacity 0.5s";
-        successAlert.style.opacity = "0";
-        setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
-    }
-    
-    const errorAlert = document.getElementById('error-alert');
-    if (errorAlert) {
-        errorAlert.style.transition = "opacity 0.5s";
-        errorAlert.style.opacity = "0";
-        setTimeout(() => errorAlert.remove(), 500);
-    }
-}, 5000); // 5000 milliseconds = 5 seconds
+        // Automatically hide success and error messages after 5 seconds
+        setTimeout(() => {
+            const successAlert = document.getElementById('success-alert');
+            if (successAlert) {
+                successAlert.style.transition = "opacity 0.5s";
+                successAlert.style.opacity = "0";
+                setTimeout(() => successAlert.remove(), 500); // Fully remove the element after fade-out
+            }
+            
+            const errorAlert = document.getElementById('error-alert');
+            if (errorAlert) {
+                errorAlert.style.transition = "opacity 0.5s";
+                errorAlert.style.opacity = "0";
+                setTimeout(() => errorAlert.remove(), 500);
+            }
+        }, 5000); // 5000 milliseconds = 5 seconds
 
 
 
@@ -526,17 +572,39 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                     notPublishedBtn = 'd-none'; // Hide the "Not Published" button
                 }
 
+                let questionColumn = '';
+
+                if (item.is_multiple_choice === "Yes") {
+                    questionColumn =
+                        '<a class="text-success" href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank">' +
+                            '(' + item.total_questions + ' Questions) Manage  ' +
+                        '</a>';
+                } else {
+                    questionColumn =
+                        '<a href="{{ asset('practicals') }}/' + item.question + '" download>' +
+                            item.question + ' (Download)</a> ' +
+                        '<a href="#">' +
+                            '<span class="badge bg-danger updateQuestionBtn" data-id="' + item.id + '">' +
+                                '<i class="uil-trash"></i> Update Question' +
+                            '</span>' +
+                        '</a>';
+                }''
+
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
                         <td>' + item.clas.clas_name + '</td>\
-                        <td>' + item.name + '</td>\
+                        <td>' + (item.course?.course_name ?? 'N/A') + '</td>\
+                        <td>' + (item.coursemodule?.module_name ?? 'N/A') + '</td>\
+                         <td>' + item.name + '</td>\
+                        <td>' + item.is_multiple_choice + '</td>\
                         <!-- <td>' + item.question + '</td>-->\
-                        <td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download) <a href="#"><span  class="badge bg-danger updateQuestionBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Update Question</span></a></td>\
+                        <td>' + questionColumn + '</td>\
+                        <!--<td><a href="{{ asset('practicals') }}/' + item.question + '" download>' + item.question + ' (Download) <a href="#"><span  class="badge bg-danger updateQuestionBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Update Question</span></a></td>-->\
                         <!--<td><a href="/practicals/' + item.question + '" download>' + item.question + '</a></td>-->\
                         <td>' + item.marks + '</td>\
                         <td class="' + statusClass + '">' + statusText + '</td>\ <!-- This is where we add the conditional class for status --> \
-                        <td>' + item.attempted_students + '</td>\
+                        <td>' + item.attempted_students + '<a href="' + attemptsUrl + '?exam_id=' + item.id + '"><i class="fa fa-eye-slash" aria-hidden="true"></i> View </a> </td>\
                        <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Action</button>\
@@ -549,6 +617,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a  class="text-danger dropdown-item deleteBtn" href="#" data-id="' + item.id + '"><i class="fa fa-trash"></i>Delete</a></li>\
                                     <li><a class="text-info dropdown-item publishedBtn ' + publishedBtn + '" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Published</a></li>\
                                     <li><a class="text-success dropdown-item notpublishedBtn ' + notPublishedBtn + '" href="#" value="' + item.id + '"><i class="fa fa-check" aria-hidden="true"></i> Un Published</a></li>\
+                                    <!--<li><a class="text-warning dropdown-item " href="' + baseUrl + '?exam_id=' + item.id + '" target="_blank"><i class="fa fa-eye-slash" aria-hidden="true"></i> Manage Questions</a></li>-->\
                                    <li><a class="text-info dropdown-item viewQuestionsBtn" href="' + attemptsUrl + '?exam_id=' + item.id + '"><i class="fa fa-eye-slash" aria-hidden="true"></i> View Attempts</a></li>\
                                 </ul>\
                             </div>\
@@ -843,6 +912,61 @@ $(document).on('click', '.pagination-btn', function() {
     const perPage = $(this).data('per-page');
     fetchUsers(page, search, perPage);
 });
+
+
+
+
+
+
+
+
+
+        //HANDLING COURSE, WHEN SELECTED DISPLAY MODULE AS PER THE COURSE
+
+       document.getElementById('course_id').addEventListener('change', function () {
+            let courseId = this.value;
+            let moduleSelect = document.getElementById('course_module_id');
+
+            moduleSelect.innerHTML = '<option value="">Loading...</option>';
+
+            if (courseId) {
+                fetch(`/get-course-modules/${courseId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        moduleSelect.innerHTML = '<option value="">Select Course Module</option>';
+                        data.forEach(module => {
+                            moduleSelect.innerHTML += 
+                                `<option value="${module.id}">${module.module_name}</option>`;
+                        });
+                    });
+            } else {
+                moduleSelect.innerHTML = '<option value="">Select Course Module</option>';
+            }
+        });
+
+
+
+        //HANDLING IS MULTIPLE CHOICE FEATURE, WHEN CLICKED DISABLE FILE TEXT FIELD
+
+
+            document.addEventListener('change', function (e) {
+
+                if (e.target.id === 'is_multiple_choice') {
+                    const questionRow = document.getElementById('questionRow');
+                    const questionInput = document.getElementById('questionInput');
+
+                    if (e.target.value === 'Yes') {
+                        questionRow.style.display = 'none';
+                        questionInput.required = false;
+                    } else {
+                        questionRow.style.display = 'block';
+                        questionInput.required = true;
+                    }
+                }
+
+            });
+
+
 
 
 

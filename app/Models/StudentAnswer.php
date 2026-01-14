@@ -15,6 +15,7 @@ class StudentAnswer extends Model
         'question_id',
         'student_answer',
         'score',
+        'practical_id',
     ];
 
 

@@ -1,6 +1,47 @@
 @extends('layouts.master')
 @section('content')
 
+<style>
+    .card{
+        border-radius:20px;
+    }
+
+    .user_account_card_heading{
+        
+         background: linear-gradient(to right, #00264d, #ff0080);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block; /* Optional: ensures proper sizing */
+    }
+
+    progress {
+        width: 300px;
+        height: 20px;
+        border: none;
+        border-radius: 10px;
+        background-color: #f0f0f0; /* Track color */
+    }
+
+        /* Webkit/Blink browsers (Chrome, Safari, Edge) */
+        progress::-webkit-progress-bar {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+    }
+
+    progress::-webkit-progress-value {
+        background-color: #00cc99 !important;
+        border-radius: 10px;
+    }
+
+    /* Firefox */
+    progress::-moz-progress-bar {
+        background-color: #00cc99;
+        border-radius: 10px;
+    }
+
+</style>
+
 <br>
 <!-- start page title -->
 <!--<div class="row">
@@ -35,8 +76,20 @@
 @endif
 
 <div class="row">
+    <div class="col-sm-12">
+        <div class="card user_account_card">
+            <div class="card-body">
+                <h2 class="user_account_card_heading">User Account Management</h2>
+                <p>Manage Your Personal Account</p>
+               <progress value="70" max="100" style="background-color:#39ac73;border-radius:10px;"></progress>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xl-4 col-lg-5">
-        <div class="card text-center" style="border:2px solid #ffc600">
+        <div class="card text-center">
             @if(Auth::check())
             <div class="card-body">
             <img id="profile-image" src="{{ asset('images/profile/' . Auth::user()->profile_image) }}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
@@ -85,12 +138,12 @@
     </div> <!-- end col-->
 
     <div class="col-xl-8 col-lg-7">
-        <div class="card" style="border:2px solid #ffc600">
+        <div class="card">
             <div class="card-body">
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor" style="border-radius:50px">
                     <li class="nav-item">
                         <a href="#aboutme" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
-                            Personal Information
+                            Cahnge Personal Information
                         </a>
                     </li>
                     <li class="nav-item">

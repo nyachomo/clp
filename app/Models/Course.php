@@ -40,4 +40,8 @@ class Course extends Model
             return $this->hasMany(Exam::class,'course_id','id');
         }
 
+        public function practicals(){
+            return $this->hasMany(Practical::class);
+        }
+
 }

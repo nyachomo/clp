@@ -164,7 +164,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                    <!--<label>Exam Id</label>-->
-                   <input type="text" name="exam_id" class="form-control" value="{{$exam_id}}" hidden="true">
+                   <input type="text" name="practical_id" class="form-control" value="{{$exam_id}}" readonly=true>
 
                     <div class="row">
                         <div class="col-sm-12">
@@ -346,7 +346,7 @@
     $(document).ready(function(){
 
            // Get the exam_id from the URL query parameters
-           const urlParams = new URLSearchParams(window.location.search);
+            const urlParams = new URLSearchParams(window.location.search);
             const exam_id = urlParams.get('exam_id');
 
             // Fetch questions for this exam

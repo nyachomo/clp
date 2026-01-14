@@ -600,7 +600,7 @@ class ExamController extends Controller
     }
 
 
-    public function studentFetchPracticalScore(Request $request) {
+    public function studentFetchPracticalScore_old(Request $request) {
             $classId=Auth::user()->clas_id;
             $query = Practical::with('clas')
             ->select( 'id',  'question','clas_id','marks','status','name')
@@ -641,6 +641,17 @@ class ExamController extends Controller
 
                 $exam->student_answer = $record ? $record->student_answer : null;
                 $exam->student_score = $record ? $record->student_score : null;
+
+                $exam->student_multiple_choice_score=StudentAnswer::where('user_id', Auth::user()->id)->where('practical_id',$exam->id)->sum('score');
+
+                $exam->has_done_practical = Practicalanswer::where('practical_id', $exam->id)
+                    ->where('user_id', Auth::id())
+                    ->exists();
+
+                $exam->has_done_theory = StudentAnswer::where('practical_id', $exam->id)
+                    ->where('user_id', Auth::id())
+                    ->exists();
+                   
             }
 
         
@@ -655,6 +666,186 @@ class ExamController extends Controller
                 'total_users' => $users->total(),
             ]);
         }
+
+
+
+
+        public function studentFetchPracticalScore3(Request $request){
+
+            $userId  = Auth::id();
+            $classId = Auth::user()->clas_id;
+
+            $query = Practical::with('clas')
+                ->select('id', 'question', 'clas_id', 'marks', 'status', 'name')
+                ->where('clas_id', $classId)
+                ->orderBy('created_at', 'desc');
+
+            // Search filter
+            if (!empty($request->search)) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('marks', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('question', 'like', '%' . $request->search . '%')
+                    ->orWhere('status', 'like', '%' . $request->search . '%');
+                });
+            }
+
+            $perPage = $request->input('per_page', 10);
+            $users   = $query->paginate($perPage);
+
+            foreach ($users as $exam) {
+
+                // PRACTICAL ANSWER (one record)
+                $practical = Practicalanswer::where('practical_id', $exam->id)
+                    ->where('user_id', $userId)
+                    ->orderBy('id', 'asc')
+                    ->first();
+
+                // THEORY SCORE
+                $theoryScore = StudentAnswer::where('practical_id', $exam->id)
+                    ->where('user_id', $userId)
+                    ->sum('score');
+
+                // Attach student data
+                $exam->student_answer = $practical?->student_answer;
+                $exam->student_score  = $practical?->student_score;
+                $exam->student_multiple_choice_score = $theoryScore;
+
+                // Flags
+                $exam->has_done_practical = !is_null($practical);
+                $exam->has_done_theory    = $theoryScore > 0;
+
+                // FINAL STATUS (used by frontend)
+                if ($exam->question) {
+                    // Practical exam
+                    $exam->student_status = $exam->has_done_practical
+                        ? 'Submitted'
+                        : 'Pending';
+                } else {
+                    // Theory exam
+                    $exam->student_status = $exam->has_done_theory
+                        ? 'Attempted'
+                        : 'Pending';
+                }
+            }
+
+            return response()->json([
+                'users' => $users->items(),
+                'pagination' => [
+                    'current_page' => $users->currentPage(),
+                    'last_page'    => $users->lastPage(),
+                    'total'        => $users->total(),
+                    'per_page'     => $users->perPage(),
+                ],
+                'total_users' => $users->total(),
+            ]);
+            }
+
+
+            public function studentFetchPracticalScore(Request $request)
+{
+    $userId  = Auth::id();
+    $classId = Auth::user()->clas_id;
+
+    $query = Practical::with('clas')
+        ->select('id', 'question', 'clas_id', 'marks', 'status', 'name')
+        ->where('clas_id', $classId)
+        ->orderBy('created_at', 'desc');
+
+    // Search filter
+    if (!empty($request->search)) {
+        $query->where(function ($q) use ($request) {
+            $q->where('marks', 'like', '%' . $request->search . '%')
+              ->orWhere('name', 'like', '%' . $request->search . '%')
+              ->orWhere('question', 'like', '%' . $request->search . '%')
+              ->orWhere('status', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    $perPage = $request->input('per_page', 10);
+    $users   = $query->paginate($perPage);
+
+    foreach ($users as $exam) {
+
+        /*
+        |--------------------------------------------------------------------------
+        | PRACTICAL ANSWER
+        |--------------------------------------------------------------------------
+        */
+        $practical = Practicalanswer::where('practical_id', $exam->id)
+            ->where('user_id', $userId)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        /*
+        |--------------------------------------------------------------------------
+        | THEORY ANSWERS
+        |--------------------------------------------------------------------------
+        */
+        $theoryScore = StudentAnswer::where('practical_id', $exam->id)
+            ->where('user_id', $userId)
+            ->sum('score');
+
+        $hasTheoryAttempt = StudentAnswer::where('practical_id', $exam->id)
+            ->where('user_id', $userId)
+            ->exists();
+
+        /*
+        |--------------------------------------------------------------------------
+        | ATTACH STUDENT DATA
+        |--------------------------------------------------------------------------
+        */
+        $exam->student_answer = $practical?->student_answer;
+        $exam->student_score  = $practical?->student_score;
+        $exam->student_multiple_choice_score = $theoryScore;
+
+        /*
+        |--------------------------------------------------------------------------
+        | FLAGS
+        |--------------------------------------------------------------------------
+        */
+        $exam->has_done_practical = !is_null($practical);
+        $exam->has_done_theory    = $hasTheoryAttempt;
+
+        /*
+        |--------------------------------------------------------------------------
+        | DETECT THEORY vs PRACTICAL
+        |--------------------------------------------------------------------------
+        */
+        $isTheory = empty($exam->question) || $exam->question === 'NA';
+
+        /*
+        |--------------------------------------------------------------------------
+        | FINAL STATUS (USED BY FRONTEND)
+        |--------------------------------------------------------------------------
+        */
+        if ($isTheory) {
+            // THEORY EXAM
+            $exam->student_status = $exam->has_done_theory
+                ? 'Attempted'
+                : 'Pending';
+        } else {
+            // PRACTICAL EXAM
+            $exam->student_status = $exam->has_done_practical
+                ? 'Submitted'
+                : 'Pending';
+        }
+    }
+
+    return response()->json([
+        'users' => $users->items(),
+        'pagination' => [
+            'current_page' => $users->currentPage(),
+            'last_page'    => $users->lastPage(),
+            'total'        => $users->total(),
+            'per_page'     => $users->perPage(),
+        ],
+        'total_users' => $users->total(),
+    ]);
+}
+
+
+
 
 
 

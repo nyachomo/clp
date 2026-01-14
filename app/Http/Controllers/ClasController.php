@@ -22,7 +22,9 @@ use App\Models\Practical;
 use App\Models\StudentAnswer;
 use App\Models\JitsiMeeting;
 use App\Models\Practicalanswer;
+use App\Models\CourseModule;
 use Illuminate\Support\Facades\File;
+use App\Models\Question;
 
 use Dompdf\Dompdf; // Import the Dompdf class
 use Illuminate\Support\Facades\View;
@@ -459,9 +461,17 @@ public function getStudents(Request $request,$classId) {
 
            public function showPracticalPerClas(){
             $clas_id=$_GET['clas_id'];
+            $courses=Course::where('course_status','Active')->select('id','course_name')->get();
+            $course_modules=CourseModule::select('id','module_name')->get();
             $clas=Clas::where('id',$clas_id)->select('id','clas_name')->first();
             $clases=Clas::select('id','clas_name')->get();
-            return view('practicals.showPracticalPerClas',compact('clas','clases'));
+            return view('practicals.showPracticalPerClas',compact('clas','clases','courses','course_modules'));
+        }
+
+        public function getCourseModules($course_id){
+            $modules=CourseModule::where('course_id',$course_id)->select('id','module_name')->get();
+            return response()->json($modules);
+
         }
 
         public function addPracticalPerClas(Request $request){
@@ -489,10 +499,13 @@ public function getStudents(Request $request,$classId) {
              
                 $create=Practical::create([
                     'clas_id'=>$request->clas_id,
+                    'course_id'=>$request->course_id,
+                    'course_module_id'=>$request->course_module_id,
                     'marks'=>$request->marks,
                     'question'=>$question,
                     'name'=>$request->name,
-                    'status'=>$request->status
+                    'status'=>$request->status,
+                    'is_multiple_choice'=>$request->is_multiple_choice,
                 ]);
 
                 if($create){
@@ -501,7 +514,17 @@ public function getStudents(Request $request,$classId) {
                     return redirect()->back()->with('error', 'Failed to create .');
                 }
          }else{
-             return redirect()->back()->with('error', 'No file selected .');
+            $create=Practical::create([
+                    'clas_id'=>$request->clas_id,
+                    'course_id'=>$request->course_id,
+                    'course_module_id'=>$request->course_module_id,
+                    'marks'=>$request->marks,
+                    'question'=>'NA',
+                    'name'=>$request->name,
+                    'status'=>$request->status,
+                    'is_multiple_choice'=>$request->is_multiple_choice,
+                ]);
+             return redirect()->back()->with('success', 'Practical created successfully!');
          }
 
 
@@ -526,8 +549,8 @@ public function getStudents(Request $request,$classId) {
 
 
         public function fetchPracticalPerClas(Request $request,$classId) {
-            $query = Practical::with('clas')
-            ->select( 'id',  'question','clas_id','marks','status','name')
+            $query = Practical::with('clas','course','coursemodule')
+            ->select( 'id',  'question','clas_id','marks','status','name','course_id','course_module_id','is_multiple_choice')
             ->where('clas_id',$classId)
             ->orderBy('created_at', 'desc');
     
@@ -553,6 +576,7 @@ public function getStudents(Request $request,$classId) {
                 $exam->attempted_students = Practicalanswer::where('practical_id', $exam->id)
                     ->distinct('user_id')
                     ->count();
+                    $exam->total_questions=Question::where('practical_id', $exam->id)->count();
             }
         
             return response()->json([

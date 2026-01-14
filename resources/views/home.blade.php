@@ -83,10 +83,103 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 
 }
-
-
-
 ?>
+
+<style>
+    .welcome-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    border-radius: 20px;
+    color: #fff;
+    background: linear-gradient(
+        90deg,
+        #003366,
+        #6a11cb,
+        #ff9900,
+        #003366
+    );
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    max-width: 100%;
+}
+
+/* Gradient animation */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.card-content h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.info-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.info-pill {
+    background: rgba(255,255,255,0.15);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+.card-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.btn {
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: #2563eb;
+    color: #fff;
+}
+
+.btn.primary:hover {
+    background: #1d4ed8;
+}
+
+.btn.secondary {
+    background: #ffffff;
+    color: #2563eb;
+}
+
+.btn.secondary:hover {
+    background: #f1f5f9;
+}
+
+.alert-cards{
+    border-radius:20px
+}
+
+.strong-text{
+    font-size:20px;
+}
+</style>
 
 <!--
 <div class="row">
@@ -324,155 +417,91 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 @if(Auth::check() && Auth::user()->role=='Trainee' && Auth::user()->has_paid_reg_fee=='Yes')
 
-<!-- end page title --> 
+<div class="row">
+    <div class="col-sm-12">
+         
+    <div class="welcome-card">
+        <div class="card-content">
+            <h1>Welcome back, {{Auth::user()->firstname}} 👋</h1>
+            <p>Techsphere wishes to congratulate you on your 2025 KCSE results and thanks you for expressing interest in learning with us. We wish you a great learning experience with us.</p>
 
-    <div class="row">
-        <div class="col-xxl-3 col-sm-3">
-            <div class="card widget-flat bg-success text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-account-multiple widget-icon bg-white text-success"></i>
-                    </div>
-                    <h6 class="text-uppercase mt-0" title="Customers">Debit</h6>
-                    <h3 class="mt-3 mb-3">Ksh {{Auth::user()->course->course_price?? '0'}}.00</h3>
-                </div>
+            <div class="info-row">
+                <span class="info-pill">🟢 12:30 AM</span>
+                <span class="info-pill">📅 Wednesday, January 14</span>
             </div>
-        </div> <!-- end col-->
 
-        <div class="col-xxl-3 col-sm-3">
-            <div class="card widget-flat bg-primary text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">Credit</h5>
-                    <h3 class="mt-3 mb-3 text-white">{{$credit ?? 'NA'}}</h3>
-                    
-                </div>
+            <div class="info-row">
+                <span class="info-pill">🧳 4 Services</span>
+                <span class="info-pill">👥 40 Clients</span>
             </div>
-        </div> <!-- end col-->
+        </div>
+
+        <div class="card-actions">
+            @if(Auth::user()->has_paid_reg_fee=='Yes')
+            <a href="{{ route('traineePrintingReceiptForRegistration') }}" class="btn primary"><i class="fa fa-download"></i> Download Payment Receipt for Registration </a>
+            @endif
+            <button class="btn secondary">⚙️ Settings</button>
+        </div>
+    </div>
 
 
-        <div class="col-xxl-3 col-sm-3">
-            <div class="card widget-flat bg-warning text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">Balance</h5>
-                    <h3 class="mt-3 mb-3 text-white">{{$balance ?? 'NA'}}</h3>
-                    
-                </div>
-            </div>
-        </div> <!-- end col-->
-
-        <div class="col-xxl-3 col-sm-3">
-            <a href="{{route('traineeViewCourse')}}">
-            <div class="card widget-flat bg-danger text-white">
-                <div class="card-body">
-                    <div class="float-end">
-                        <i class="mdi mdi-currency-usd widget-icon bg-light-lighten rounded-circle text-white"></i>
-                    </div>
-                    <h5 class="fw-normal mt-0" title="Revenue">Course</h5>
-                    <h3 class="mt-3 mb-3 text-white">1</h3>
-                    
-                </div>
-            </div>
-            </a>
-        </div> <!-- end col-->
 
     </div>
-<!-- end row-->
-
-    <div class="row">
-
-            <div class="col-xl-8">
-                <div class="card">
-                    <div class="card-header">
-                            <h4 class="header-title mb-4">Fee Payments</h4>
-                            @if(Auth::user()->has_paid_reg_fee=='Yes')
-                            <a style="float:right" href="{{ route('traineePrintingReceiptForRegistration') }}" class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Download Receipt For Registraion</a>
-                            @endif
-                    </div>
-                    <div class="card-body">
-                        
-                        
-
-                        <table class="table table-sm table-centered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Amount (Ksh)</th>
-                                        <th>Date Paid</th>
-                                        <th>Menthod</th>
-                                        <th>Payment Ref No</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if(!empty($fees))
-                                        @foreach($fees as $key=>$fee)
-                                            <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$fee->amount_paid}}</td>
-                                            <td>{{$fee->date_paid}}</td>
-                                            <td>{{$fee->payment_method}}</td>
-                                            <td>{{$fee->payment_ref_no}}</td>
-                                            
-                                            <td>
-                                                <a href="{{ route('downloadReceipt', $fee->id) }}" class="btn btn-sm btn-primary">
-                                                    <i class="fa fa-download"></i> Download Receipt
-                                                </a>
-                                            </td>
-                                        </tr>
-                                            
-                                        @endforeach
-                                    @endif
-                                    
-                                </tbody>
-                        </table>
+</div>
 
 
+<br>
 
-
-
-                    </div>
-                    <!-- end card body-->
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col-->
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-header">
-                            <h4 class="header-title mb-4">Assesment Analysis</h4>
-                            <p>This is your Avarage Assesment</p>
+<div class="row" style="padding-left:12px;padding-right:12px;">
+        <div class="card" style="border-radius:20px">
+            <div class="card-body">
+                  
+                 <div class="row">
+                    <div class="col-sm-3">
+                            <div class="alert alert-success alert-cards" role="alert" >
+                                <strong class="strong-text">Total Debit (Ksh)</strong> 
+                                <h1>Ksh {{Auth::user()->course->course_price?? '0'}}.00</h1>
+                            </div>
                     </div>
 
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>Assignemt</td>
-                                    <td>{{$avgAssignment ?? 'NA'}}  ( <a href="{{route('traineeViewAssignment')}}"> View </a>)</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Cats</td>
-                                    <td>{{$avgCat}} (<a href="{{route('traineeViewCats')}}">View</a>) </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Final Exam</td>
-                                    <td>{{$avgFinalExam}} ( <a href="{{route('traineeViewFinalExam')}}"> View</a>)</td>
-                                </tr>
-                            </tbody>
-
-                        </table>
+                    <div class="col-sm-3">
+                            <div class="alert alert-info alert-cards" role="alert">
+                                <strong class="strong-text">Total Credit  (Ksh)</strong> 
+                                <h1>{{$credit ?? 'NA'}}.00</h1>
+                            </div>
                     </div>
-                </div>
-            </div>
-    </div>
+
+
+                    <div class="col-sm-3">
+                            <div class="alert alert-danger alert-cards" role="alert">
+                                <strong class="strong-text">Balance (Ksh)</strong> 
+                                <h1>{{$balance ?? 'NA'}} .00</h1>
+                            </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                            <div class="alert alert-warning alert-cards" role="alert">
+                                <strong class="strong-text">Total Course</strong> 
+                                <h1>1</h1>
+                            </div>
+                    </div>
+
+
+
+                   </div>
+
+
+
+
+             </div>
+
+        </div> <!-- end col -->
+
+</div>
+
+
+
+   
 @endif
 
 @if(Auth::check() && Auth::user()->role=='Applicant')

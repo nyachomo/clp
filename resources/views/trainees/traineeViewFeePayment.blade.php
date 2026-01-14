@@ -3,47 +3,148 @@
 
 <style>
 
-#pagination-controls {
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    margin-top: -2px;
-    padding-right:50px;
-    padding-top:-500px;
-    padding-bottom:10px;
-    gap: 10px; /* Spacing between buttons */
-  }
+/* ===== Page background ===== */
+body {
+    background: #f4f7fb;
+}
 
-     #pagination-controls button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  }
+/* ===== Page title box ===== */
+.page-title-box {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    padding: 20px 25px;
+    border-radius: 16px;
+    color: #fff;
+    margin-bottom: 25px;
+}
 
-  #pagination-controls .active {
-    background-color: #28a745; /* Green for active page */
-  }
+.page-title {
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: transparent;
+    margin-bottom: 0;
+}
+
+.breadcrumb-item a {
+    color: #fff;
+    font-weight: 600;
+}
+
+.breadcrumb-item.active {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== Alerts ===== */
+.alert {
+    border-radius: 14px;
+    border: none;
+    padding: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Cards ===== */
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    margin-bottom: 25px;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    color: #fff;
+    border-bottom: none;
+    padding: 18px 22px;
+}
+
+.header-title {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* ===== Fee summary boxes ===== */
+.card-body .alert {
+    height: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-body .alert:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.card-body .alert strong {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.card-body .alert p {
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+/* ===== Table ===== */
+.table {
+    font-size: 14px;
+}
+
+.table thead {
+    background: #00264d;
+    color: #fff;
+}
+
+.table thead th {
+    border: none;
+    padding: 14px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.table tbody tr {
+    transition: background 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 0, 128, 0.05);
+}
+
+.table td {
+    padding: 14px;
+    vertical-align: middle;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    border-radius: 30px;
+    font-weight: 600;
+    padding: 6px 16px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    border: none;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* ===== DataTable responsiveness ===== */
+.table-responsive {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
 </style>
 
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box">
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-                </ol>
-            </div>
-            <h4 class="page-title">Courses</h4>
-        </div>
-    </div>
-</div>
-<!-- end page title -->
+
 
 
 

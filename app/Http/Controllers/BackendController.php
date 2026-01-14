@@ -1448,25 +1448,25 @@ public function adminUpdateUserPassword(Request $request){
     public function fetchQuestionsForTrainee(Request $request, $exam_id) {
         $user_id = Auth::user()->id;
     
-        $total_questions=count(Question::where('exam_id', $exam_id)->get());
+        $total_questions=count(Question::where('practical_id', $exam_id)->get());
 
         //Answered Questions
         $answered_questions = StudentAnswer::where('user_id', $user_id)
-        ->where('exam_id', $exam_id)
+        ->where('practical_id', $exam_id)
         ->count();
 
         //Active Questions
         $active_questions=$total_questions-$answered_questions;
         //Total question marks
-        $total_question_marks = Question::where('exam_id', $exam_id)->sum('question_mark');
+        $total_question_marks = Question::where('practical_id', $exam_id)->sum('question_mark');
 
         $total_student_score = StudentAnswer::where('user_id', $user_id)
-        ->where('exam_id', $exam_id)
+        ->where('practical_id', $exam_id)
         ->sum('score');
 
         // Get question IDs that the student has already answered
         $answeredQuestionIds = StudentAnswer::where('user_id', $user_id)
-            ->where('exam_id', $exam_id)
+            ->where('practical_id', $exam_id)
             ->pluck('question_id');
     
         /*
@@ -1476,13 +1476,13 @@ public function adminUpdateUserPassword(Request $request){
          
         */
             $attempts = StudentAnswer::where('user_id', $user_id)
-            ->where('exam_id', $exam_id)
+            ->where('practical_id', $exam_id)
             ->with(['user', 'question', 'exam']) // Include user, question, and exam details
             ->get();
 
         // Fetch only unanswered questions
-        $query = Question::select('id', 'question_name', 'question_mark', 'question_answer', 'exam_id')
-            ->where('exam_id', $exam_id)
+        $query = Question::select('id', 'question_name', 'question_mark', 'question_answer', 'practical_id')
+            ->where('practical_id', $exam_id)
             ->whereNotIn('id', $answeredQuestionIds) // Exclude answered questions
             ->orderBy('created_at', 'ASC');
     
@@ -1548,7 +1548,7 @@ public function adminUpdateUserPassword(Request $request){
         // Save answer in student_answers table
         StudentAnswer::create([
             'user_id' => $request->user_id,
-            'exam_id' => $request->exam_id,
+            'practical_id' => $request->exam_id,
             'question_id' => $request->question_id,
             'student_answer'=>$request->selected_answer,
             'score' => $score

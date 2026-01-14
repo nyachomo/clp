@@ -148,7 +148,7 @@
                 <p>
                     For this program, select one course from the list above. The program will run for a period of 16 weeks, 
                     2hrs per day (MON-FRI). To accept this partial scholarship,
-                    you are required to visit <a href="https://techsphereinstitute.co.ke ">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
+                    you are required to visit <a href="https://techsphereinstitute.co.ke">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
                     deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
                     the program but students who have attended the program before will not be required to pay this fee. 
                     All courses will be delivered online, giving you
