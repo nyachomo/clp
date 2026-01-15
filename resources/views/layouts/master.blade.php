@@ -1012,8 +1012,6 @@
         <!-- demo app -->
         <script src="{{asset('jquery.min.js')}}"></script>
                 <!-- end demo js-->
-
-
         <script>
         $(function () {
             // Replace the <textarea id="editor1"> with a CKEditor
