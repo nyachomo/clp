@@ -1011,6 +1011,7 @@
 
         <!-- demo app -->
         <script src="{{asset('jquery.min.js')}}"></script>
+        <script src="{{asset('admin2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
                 <!-- end demo js-->
         <script>
         $(function () {
