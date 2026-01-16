@@ -145,7 +145,7 @@
 
                                         <!-- Add User modal -->
                                         <div id="updateModule{{$module->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
+                                            <div class="modal-dialog modal-xl">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Update Module</h4>
@@ -253,7 +253,7 @@
 
 <!-- Add User modal -->
 <div id="addModule" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="standard-modalLabel"><i class="uil-user-plus"></i> Add New Module</h4>
