@@ -285,7 +285,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>What to Learn<sup>*</sup></label>
-                                <textarea id="editor12" class="textarea" name="module_content"></textarea>
+                                <textarea  class="form-control" name="module_content"></textarea>
                                 
                             </div>
                         </div>
