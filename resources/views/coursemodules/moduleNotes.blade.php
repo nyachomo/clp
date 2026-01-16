@@ -125,7 +125,19 @@
                                 @if(!empty($topics))
                                      @foreach($topics as $key=>$topic)
                                          <tr>
+                                              
                                               <td>{{$key+1}}</td>
+                                              <td>
+                                                        <!-- Default dropup button -->
+                                                        <div class="btn-group dropdown">
+                                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" href="#"><center><b>More Action</b></center></a>
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateTopic{{$topic->id}}" ><i class="fa fa-edit text-success"></i> Edit</a>
+                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteTopic{{$topic->id}}" ><i class="fa fa-trash text-danger"></i> Delete</a>
+                                                            </div>
+                                                        </div>
+                                                </td>
                                               <td>{{$topic->topic_name ?? 'NA'}}</td>
                                               <td><?php echo$topic->topic_content ?? 'NA'?></td>
 
