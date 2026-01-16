@@ -108,7 +108,7 @@ class CourseModuleController extends Controller
     }
 
     public function fetchTopics($id) {
-        $topics = Topic::select('id','topic_name','topic_content','module_id','topic_video_link')->where('module_id',$id)->orderBy('created_at', 'desc')->get();
+        $topics = Topic::select('id','topic_name','topic_content','module_id','topic_video_link')->where('module_id',$id)->orderBy('id', 'asc')->get();
         return view('coursemodules.moduleNotes',compact('topics','id'));
 
     }
