@@ -171,7 +171,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <label>Topic Content</label>
-                                                                <textarea name="topic_content"><?php echo$topic->topic_content;?></textarea>
+                                                                <textarea name="topic_content" id="editor1"><?php echo$topic->topic_content;?></textarea>
                                                             </div>
                                                         </div>
 
@@ -273,7 +273,7 @@
                   <div class="row">
                       <div class="col-sm-12">
                           <label>Topic Content</label>
-                           <textarea name="topic_content"></textarea>
+                           <textarea class="form-control" name="topic_content"></textarea>
                       </div>
                   </div>
 
