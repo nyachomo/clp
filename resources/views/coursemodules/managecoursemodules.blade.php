@@ -177,7 +177,7 @@
                                                                     <!-- text input -->
                                                                     <div class="form-group">
                                                                         <label>What to Learn<sup>*</sup></label>
-                                                                        <textarea id="editor1" name="module_content"><?php echo$module->module_content?></textarea>
+                                                                        <textarea  name="module_content"><?php echo$module->module_content?></textarea>
                                                                     </div>
 
                                                                 </div>

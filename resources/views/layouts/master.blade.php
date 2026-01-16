@@ -59,6 +59,7 @@
         <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
 
 
+        <script src="https://cdn.tiny.cloud/1/krfz17eg92fzkqudwvql9jzu1xevin49e4qwz97unmaccw2m/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
 
             <!-- Smartsupp Live Chat script 
             <script type="text/javascript">
@@ -1025,6 +1026,15 @@
         })
         </script>
 
+
+
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+            });
+        </script>
 
 
 
