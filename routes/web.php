@@ -193,6 +193,10 @@ Route::prefix('courses')->group(function () {
     Route::post('/suspend', [BackendController::class, 'suspendCourse'])->name('suspendCourse');
     Route::post('/updateCourseImage', [BackendController::class, 'updateCourseImage'])->name('updateCourseImage');
 
+    Route::post('/upload-course-outline', [BackendController::class, 'uploadCourseOutline'])->name('uploadCourseOutline');
+    Route::get('/download-course-outline/{id}', [BackendController::class, 'downloadCourseOutline'])->name('downloadCourseOutline');
+    Route::post('/delete-course-outline', [BackendController::class, 'deleteCourseOutline'])->name('deleteCourseOutline');
+
    
 });
 

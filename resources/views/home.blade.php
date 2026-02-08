@@ -18,6 +18,12 @@ if(Auth::check() && Auth::user()->role=='Trainee' or Auth::user()->role=='schola
     $credit=Fee::where('user_id',$user_id)->sum('amount_paid');
     $balance=$debit-$credit;
 
+    $totalCoursesEnrolled = Auth::user()->course_id ? 1 : 0;
+    $totalAssessmentsDone = StudentAnswer::where('user_id', $user_id)
+        ->whereNotNull('exam_id')
+        ->distinct('exam_id')
+        ->count('exam_id');
+
 //Get all the scores of the assignment of the person that logins.
 $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     ->distinct()
@@ -178,6 +184,58 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 .strong-text{
     font-size:20px;
+}
+
+.finance-summary{
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.summary-card{
+    border-radius: 18px !important;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 18px 18px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.summary-card .summary-label{
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin-bottom: 10px;
+    color: rgba(15, 23, 42, 0.75);
+}
+
+.summary-card .summary-value{
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #0f172a;
+}
+
+.summary-card .summary-value{
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.summary-card.alert-success .summary-value{ background-image: linear-gradient(90deg, #15803d, #22c55e, #4ade80); }
+.summary-card.alert-info .summary-value{ background-image: linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa); }
+.summary-card.alert-danger .summary-value{ background-image: linear-gradient(90deg, #b91c1c, #ef4444, #fb7185); }
+.summary-card.alert-warning .summary-value{ background-image: linear-gradient(90deg, #b45309, #f59e0b, #fbbf24); }
+
+.summary-card.alert-success{ background: linear-gradient(180deg, rgba(34,197,94,0.18), rgba(34,197,94,0.10)); }
+.summary-card.alert-info{ background: linear-gradient(180deg, rgba(59,130,246,0.18), rgba(59,130,246,0.10)); }
+.summary-card.alert-danger{ background: linear-gradient(180deg, rgba(239,68,68,0.18), rgba(239,68,68,0.10)); }
+.summary-card.alert-warning{ background: linear-gradient(180deg, rgba(245,158,11,0.20), rgba(245,158,11,0.10)); }
+
+.summary-card:hover{
+    transform: translateY(-2px);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
 }
 </style>
 
@@ -426,13 +484,42 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
             <p>Techsphere wishes to congratulate you on your 2025 KCSE results and thanks you for expressing interest in learning with us. We wish you a great learning experience with us.</p>
 
             <div class="info-row">
-                <span class="info-pill">🟢 12:30 AM</span>
-                <span class="info-pill">📅 Wednesday, January 14</span>
+                @php
+                    $clockTimeId = 'clock-time-' . (Auth::id() ?? 'guest');
+                    $clockDateId = 'clock-date-' . (Auth::id() ?? 'guest');
+                    $now = now();
+                @endphp
+                <span class="info-pill" id="{{ $clockTimeId }}">🟢 {{ $now->format('h:i:s A') }}</span>
+                <span class="info-pill" id="{{ $clockDateId }}">📅 {{ $now->format('l, F j') }}</span>
             </div>
 
+            <script>
+                (function () {
+                    var timeEl = document.getElementById(@json($clockTimeId));
+                    var dateEl = document.getElementById(@json($clockDateId));
+                    if (!timeEl || !dateEl) return;
+
+                    function pad(n) { return String(n).padStart(2, '0'); }
+
+                    function update() {
+                        var d = new Date();
+                        var hours = d.getHours();
+                        var ampm = hours >= 12 ? 'PM' : 'AM';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12;
+
+                        timeEl.textContent = '🟢 ' + pad(hours) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + ' ' + ampm;
+                        dateEl.textContent = '📅 ' + d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+                    }
+
+                    update();
+                    setInterval(update, 1000);
+                })();
+            </script>
+
             <div class="info-row">
-                <span class="info-pill">🧳 4 Services</span>
-                <span class="info-pill">👥 40 Clients</span>
+                <span class="info-pill">🧳 {{ $totalCoursesEnrolled }} Course(s)</span>
+                <span class="info-pill">👥 {{ $totalAssessmentsDone }} Assesment(s)</span>
             </div>
         </div>
 
@@ -440,7 +527,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
             @if(Auth::user()->has_paid_reg_fee=='Yes')
             <a href="{{ route('traineePrintingReceiptForRegistration') }}" class="btn primary"><i class="fa fa-download"></i> Download Payment Receipt for Registration </a>
             @endif
-            <button class="btn secondary">⚙️ Settings</button>
+            <a href="{{ route('userAccount') }}" class="btn secondary">⚙️Settings</a>
         </div>
     </div>
 
@@ -452,38 +539,38 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 <br>
 
-<div class="row" style="padding-left:12px;padding-right:12px;">
-        <div class="card" style="border-radius:20px">
+<div class="finance-summary">
+    <div class="card" style="border-radius:20px">
             <div class="card-body">
                   
                  <div class="row">
-                    <div class="col-sm-3">
-                            <div class="alert alert-success alert-cards" role="alert" >
-                                <strong class="strong-text">Total Debit (Ksh)</strong> 
-                                <h1>Ksh {{Auth::user()->course->course_price?? '0'}}.00</h1>
-                            </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                        <div class="alert alert-success alert-cards summary-card" role="alert">
+                            <span class="summary-label">Total Debit (Ksh)</span>
+                            <h1 class="summary-value">Ksh {{ Auth::user()->course->course_price ?? '0' }}.00</h1>
+                        </div>
                     </div>
 
-                    <div class="col-sm-3">
-                            <div class="alert alert-info alert-cards" role="alert">
-                                <strong class="strong-text">Total Credit  (Ksh)</strong> 
-                                <h1>{{$credit ?? 'NA'}}.00</h1>
-                            </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                        <div class="alert alert-info alert-cards summary-card" role="alert">
+                            <span class="summary-label">Total Credit (Ksh)</span>
+                            <h1 class="summary-value">{{ $credit ?? 'NA' }}.00</h1>
+                        </div>
                     </div>
 
 
-                    <div class="col-sm-3">
-                            <div class="alert alert-danger alert-cards" role="alert">
-                                <strong class="strong-text">Balance (Ksh)</strong> 
-                                <h1>{{$balance ?? 'NA'}} .00</h1>
-                            </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                        <div class="alert alert-danger alert-cards summary-card" role="alert">
+                            <span class="summary-label">Balance (Ksh)</span>
+                            <h1 class="summary-value">{{ $balance ?? 'NA' }}.00</h1>
+                        </div>
                     </div>
 
-                    <div class="col-sm-3">
-                            <div class="alert alert-warning alert-cards" role="alert">
-                                <strong class="strong-text">Total Course</strong> 
-                                <h1>1</h1>
-                            </div>
+                    <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                        <div class="alert alert-warning alert-cards summary-card" role="alert">
+                            <span class="summary-label">Total Course</span>
+                            <h1 class="summary-value">{{ $totalCoursesEnrolled ?? 0 }}</h1>
+                        </div>
                     </div>
 
 

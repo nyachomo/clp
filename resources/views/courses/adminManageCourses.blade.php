@@ -53,11 +53,67 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                     <li class="breadcrumb-item active">Manage Courses</li>
                 </ol>
             </div>
+
             <h4 class="page-title">Courses</h4>
         </div>
     </div>
 </div>
  --> 
+
+
+<!-- Delete Course Outline modal -->
+<div id="deleteCourseOutlineModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteCourseOutlineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteCourseOutlineModalLabel">Delete Course Outline</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" action="{{ route('deleteCourseOutline') }}">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="course_id" id="delete_course_outline_course_id">
+                    <p>Are you sure you want to delete this course outline PDF?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Upload Course Outline modal -->
+<div id="uploadCourseOutlineModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadCourseOutlineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadCourseOutlineModalLabel">Upload Course Outline (PDF)</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" action="{{ route('uploadCourseOutline') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="course_id" id="course_outline_course_id">
+
+                    <div class="form-group">
+                        <label>Course Outline (PDF only)</label>
+                        <input type="file" name="course_outline" class="form-control" accept="application/pdf" required>
+                        <small class="text-muted">Only PDF files are allowed.</small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -177,6 +233,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name','cou
                                     <th>Price</th>
                                     <th>Status</th>
                                     <th>Enrolled Students</th>
+                                    <th>Course Outline</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -790,6 +847,16 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const baseUrl = "{{ route('manageCourseModule') }}";
                 const imagePath = "{{ asset('images/courses/') }}" + '/' + item.course_image;
                 const viewStudent="{{route('adminManageTraineePerCourse')}}"
+                const downloadOutlineBaseUrl = "{{ url('/courses/download-course-outline') }}";
+                const outlineLink = item.course_outline
+                    ? '<a class="text-primary" href="' + downloadOutlineBaseUrl + '/' + item.id + '" target="_blank"><i class="fa fa-download"></i> Download</a>'
+                    : '<span class="text-muted">No outline</span>';
+
+                const outlineActionLabel = item.course_outline ? 'Update Outline' : 'Upload Outline';
+                const outlineActionIcon = item.course_outline ? 'fa-refresh' : 'fa-upload';
+                const outlineDeleteAction = item.course_outline
+                    ? '<li><a class="dropdown-item deleteOutlineBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-trash"></i> Delete Outline</a></li>'
+                    : '';
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
@@ -802,7 +869,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                         <td>' + item.course_duration + '</td>\
                         <td>' + item.course_price + '</td>\
                          <td><span class="font-weight-bold ' + statusClass + '">' + statusText + '</span></td>\
-                        <td>' + item.total_students + 'Exams<a class="text-info" href="' + viewStudent + '?course_id=' + item.id + '" target="_blank"> View</a>\
+                        <td>' + item.total_students + 'Exams<a class="text-info" href="' + viewStudent + '?course_id=' + item.id + '" target="_blank"> View</a></td>\
+                        <td>' + outlineLink + '</td>\
                         <td>\
                             <div class="dropdown">\
                                 <button class="btn btn-success btn-sm rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">More Actions</button>\
@@ -820,6 +888,8 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a  class="dropdown-item deleteBtn text-danger" href="#" value="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                     <li><a  class="dropdown-item suspendBtn text-warning" href="#" value="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
                                     <li><a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?course_id=' + item.id + '" target="_blank"><i class="fa fa-bars" aria-hidden="true"></i> Manage Modules</a></li>\
+                                    <li><a class="dropdown-item uploadOutlineBtn text-primary" href="#" data-id="' + item.id + '"><i class="fa ' + outlineActionIcon + '"></i> ' + outlineActionLabel + '</a></li>\
+                                    ' + outlineDeleteAction + '\
                                 </ul>\
                             </div>\
                         </td>\
@@ -871,6 +941,22 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
 
                 // Show the modal
                 $('#updateCourseImageModal').modal('show');
+            });
+
+
+            $('.uploadOutlineBtn').on('click', function(e) {
+                e.preventDefault();
+                const course_id = $(this).data('id');
+                $('#course_outline_course_id').val(course_id);
+                $('#uploadCourseOutlineModal').modal('show');
+            });
+
+
+            $('.deleteOutlineBtn').on('click', function(e) {
+                e.preventDefault();
+                const course_id = $(this).data('id');
+                $('#delete_course_outline_course_id').val(course_id);
+                $('#deleteCourseOutlineModal').modal('show');
             });
 
 

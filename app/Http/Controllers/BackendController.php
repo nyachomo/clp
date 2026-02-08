@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-namespace App\Http\Controllers;
-
 use App\Models\User;
 use App\Models\School;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,7 +17,6 @@ use Illuminate\Support\Str;
 use App\Models\Clas;
 use App\Models\TimeTable;
 use App\Models\ClassNotes;
-use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Fee;
 use App\Models\Exam;
@@ -40,6 +37,79 @@ class BackendController extends Controller
     public function index(){
         $schools=School::select("id","school_name")->get();
         return view('users.showAdministrators',compact('schools'));
+    }
+
+
+    public function uploadCourseOutline(Request $request)
+    {
+        $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'course_outline' => 'required|file|mimes:pdf',
+        ]);
+
+        $course = Course::findOrFail($validated['course_id']);
+
+        if (!empty($course->course_outline)) {
+            $oldPath = public_path('course_outline/' . $course->course_outline);
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
+        }
+
+        $file = $request->file('course_outline');
+        $fileName = 'course_outline_' . $course->id . '_' . time() . '.pdf';
+        $destinationPath = public_path('course_outline');
+
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
+        }
+
+        $file->move($destinationPath, $fileName);
+
+        $course->course_outline = $fileName;
+        $course->save();
+
+        return redirect()->back()->with('success', 'Course outline uploaded successfully');
+    }
+
+
+    public function deleteCourseOutline(Request $request)
+    {
+        $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $course = Course::findOrFail($validated['course_id']);
+
+        if (!empty($course->course_outline)) {
+            $path = public_path('course_outline/' . $course->course_outline);
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+        }
+
+        $course->course_outline = null;
+        $course->save();
+
+        return redirect()->back()->with('success', 'Course outline deleted successfully');
+    }
+
+
+    public function downloadCourseOutline($id)
+    {
+        $course = Course::findOrFail($id);
+
+        if (empty($course->course_outline)) {
+            abort(404);
+        }
+
+        $path = public_path('course_outline/' . $course->course_outline);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        return response()->download($path, $course->course_outline);
     }
 
     public function fetchUserProfile(){
@@ -1011,7 +1081,10 @@ public function adminUpdateUserPassword(Request $request){
         if(Auth::check()&&Auth::user()->role=='Trainee'){
           $user=Auth::user();
           $course=$user->course;
-          $modules=CourseModule::select('id','module_name','module_content')->where('course_id',$course->id)->get();
+          $modules=CourseModule::select('id','module_name','module_content')
+            ->where('course_id',$course->id)
+            ->orderBy('id')
+            ->paginate(1);
           return view('trainees.traineeViewCourse',compact('course','modules'));
         }
         return redirect()->route('login');
@@ -2004,7 +2077,7 @@ public function adminUpdateUserPassword(Request $request){
 
     
     public function fetchCourses(Request $request) {
-        $query = Course::where('course_status','Active')->select( 'id', 'course_name', 'course_level','is_scholarship_test_course','course_description','course_duration','course_price','course_status','what_to_learn','course_image')->orderBy('created_at', 'desc');
+        $query = Course::where('course_status','Active')->select( 'id', 'course_name', 'course_level','is_scholarship_test_course','course_description','course_duration','course_price','course_status','what_to_learn','course_image','course_outline')->orderBy('created_at', 'desc');
 
         $suspended_courses = count(Course::where('course_status','Suspended')->get());
         $active_courses= count(Course::where('course_status','Active')->get());

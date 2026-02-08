@@ -28,6 +28,7 @@ class Course extends Model
         'course_publisher_image',
         'course_outline',
         'is_scholarship_test_course',
+        
 
     ];
 

@@ -201,6 +201,43 @@
     }
 }
 
+.module-pagination{
+    margin-top: 14px;
+}
+
+.module-pagination .pagination{
+    gap: 10px;
+}
+
+.module-pagination .page-item .page-link{
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-weight: 700;
+    color: #00264d;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.module-pagination .page-item .page-link:hover{
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+}
+
+.module-pagination .page-item.active .page-link{
+    color: #fff;
+    background: linear-gradient(135deg, #00264d, #ff0080);
+    box-shadow: 0 16px 32px rgba(255, 0, 128, 0.28);
+}
+
+.module-pagination .page-item.disabled .page-link{
+    color: rgba(0, 38, 77, 0.35);
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: none;
+}
+
 </style>
 
 <br>
@@ -235,7 +272,13 @@
                      </div>
                      <div class="col-sm-3">
                         <div class="course-outline-download" style="margin-top:70px">
-                            <a class="btn course-outline-btn"><i class="fa fa-download"></i> <b>Download Course Outline</b></a>
+                            @if(!empty($course->course_outline))
+                                <a href="{{ route('downloadCourseOutline', $course->id) }}" class="btn course-outline-btn" target="_blank">
+                                    <i class="fa fa-download"></i> <b>Download Course Outline</b>
+                                </a>
+                            @else
+                                <span class="text-white"><b>course outline not avalibale</b></span>
+                            @endif
                         </div>
                          
                      </div>
@@ -251,25 +294,30 @@
     
 
 
-   @if(!empty($modules))
+   @if($modules->count() > 0)
       @foreach($modules as $key=>$module)
         <div class="card course-card">
             <div class="card-header">
                 <div class="header-content">
-                    <h5><i class="fa fa-layer-group"></i> {{$key+1}}. {{$module->module_name}}</h5>
+                    <h5><i class="fa fa-layer-group"></i> {{ ($modules->firstItem() ?? 1) + $key }}. {{$module->module_name}}</h5>
 
-                    <!-- Progress Badge -->
-                    <span class="progress-badge">
-                        <i class="fa fa-chart-line"></i> 65% Complete
-                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="{{ $modules->previousPageUrl() ?? '#' }}" class="btn btn-sm btn-outline-light {{ $modules->onFirstPage() ? 'disabled' : '' }}">
+                            <i class="fa fa-arrow-left"></i> Back
+                        </a>
+
+                        <a href="{{ $modules->nextPageUrl() ?? '#' }}" class="btn btn-sm btn-light {{ $modules->hasMorePages() ? '' : 'disabled' }}">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
             <div class="card-body">
                 <!-- Progress bar -->
-                <div class="progress course-progress">
+                <!--<div class="progress course-progress">
                     <div class="progress-bar" style="width:65%"></div>
-                </div>
+                </div>-->
 
                 <p>
                     <?php echo$module->module_content?>
@@ -287,7 +335,10 @@
             </div>
         </div>
       @endforeach
-    @endif
+      <div class="d-flex justify-content-center module-pagination">
+          {{ $modules->links('pagination::bootstrap-4') }}
+      </div>
+   @endif
 
 
 

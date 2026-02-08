@@ -234,16 +234,16 @@ select.form-control {
                 <table class="table table-sm table-centered mb-0 .table-hover table-bordered">
                    
                     <tbody>
-                        <tr><th>Name</th><td id="user-name"></td></tr>
+                        <tr><th><b style="color:#00264d;">Name</b></th><td id="user-name"></td></tr>
 
                         @if(Auth::user()->role=="Trainee")
-                        <tr><th>Course</th><td id="user-course"></td></tr>
-                        <tr><th>Class</th><td id="user-class"></td></tr>
+                        <tr><th><b style="color:#00264d;">Course</b></th><td id="user-course"></td></tr>
+                        <tr><th><b style="color:#00264d;">Class</b></th><td id="user-class"></td></tr>
                         @endif
 
-                        <tr><th>Gender</th><td id="user-gender"></td></tr>
-                        <tr><th>Phonenumber</th><td id="user-phone"></td></tr>
-                        <tr><th>Role</th><td id="user-role"></td></tr>
+                        <tr><th><b style="color:#00264d;">Gender</b></th><td id="user-gender"></td></tr>
+                        <tr><th><b style="color:#00264d;">Phonenumber</b></th><td id="user-phone"></td></tr>
+                        <tr><th><b style="color:#00264d;">Role</b></th><td id="user-role"></td></tr>
                     </tbody>
 
                 </table>
@@ -273,7 +273,7 @@ select.form-control {
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3 bodyColor" style="border-radius:50px">
                     <li class="nav-item">
                         <a href="#aboutme" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
-                            Cahnge Personal Information
+                            Personal Information
                         </a>
                     </li>
                     <li class="nav-item">
