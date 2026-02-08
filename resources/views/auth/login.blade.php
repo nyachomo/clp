@@ -40,6 +40,12 @@
                                     <!--<p class="text-muted mb-4">Enter your email address and password to access Your account.</p>-->
                                 </div>
 
+                                @if (session('status'))
+                                    <div class="alert {{ session('status') === 'Password updated successfully. Please log in.' ? 'alert-success' : 'alert-danger' }}" role="alert">
+                                        <strong>{{ session('status') }}</strong>
+                                    </div>
+                                @endif
+
                                 <form method="POST" action="{{ route('login') }}">
                                  @csrf
 
@@ -58,7 +64,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <a href="#" class="text-muted float-end">Forgot your password?</a>
+                                        <a href="{{ route('quick.password.forgot') }}" class="text-muted float-end">Forgot your password?</a>
                                         <label for="password" class="form-label">Password</label>
                                         <div class="input-group input-group-merge">
                                            

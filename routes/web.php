@@ -38,9 +38,14 @@ Route::get('/', function () {
 
 */
 Route::get('/',[WelcomeController::class,'welcome'])->name('welcome');
-
+ 
 Auth::routes();
 
+Route::get('/forgot-password', [App\Http\Controllers\Auth\QuickPasswordResetController::class, 'showForgotForm'])->name('quick.password.forgot');
+Route::post('/forgot-password', [App\Http\Controllers\Auth\QuickPasswordResetController::class, 'startReset'])->name('quick.password.start');
+Route::get('/reset-password', [App\Http\Controllers\Auth\QuickPasswordResetController::class, 'showResetForm'])->name('quick.password.reset');
+Route::post('/reset-password', [App\Http\Controllers\Auth\QuickPasswordResetController::class, 'updatePassword'])->name('quick.password.update');
+ 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
