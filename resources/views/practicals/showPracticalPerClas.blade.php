@@ -930,14 +930,22 @@ $(document).on('click', '.pagination-btn', function() {
             moduleSelect.innerHTML = '<option value="">Loading...</option>';
 
             if (courseId) {
-                fetch(`/get-course-modules/${courseId}`)
-                    .then(response => response.json())
+                fetch(`{{ url('get-course-modules') }}/${courseId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Request failed');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         moduleSelect.innerHTML = '<option value="">Select Course Module</option>';
                         data.forEach(module => {
                             moduleSelect.innerHTML += 
                                 `<option value="${module.id}">${module.module_name}</option>`;
                         });
+                    })
+                    .catch(() => {
+                        moduleSelect.innerHTML = '<option value="">Failed to load modules</option>';
                     });
             } else {
                 moduleSelect.innerHTML = '<option value="">Select Course Module</option>';
