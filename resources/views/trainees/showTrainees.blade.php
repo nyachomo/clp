@@ -658,13 +658,14 @@
                             const secondname = item.secondname || ''; // Fallback for null or undefined
                             const lastname = item.lastname || ''; // Fallback for null or undefined
                             const baseUrl = "{{ route('showFees') }}";
+                            const profileBaseUrl = "{{ url('trainees') }}";
 
                             $('#table1').append(
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + item.firstname + ' ' + secondname + ' ' + lastname + '</td>\
-                                    <<td>' + item.phonenumber + '</td>\
-                                    <<td>' + item.parent_phone + '</td>\
+                                    <td>' + item.phonenumber + '</td>\
+                                    <td>' + item.parent_phone + '</td>\
                                     <td>' + item.email + '</td>\
                                     <td>' + item.gender + '</td>\
                                     <td>' + item.course.course_name + '</td>\
@@ -679,6 +680,11 @@
                                                 Actions\
                                             </button>\
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_' + item.id + '">\
+                                                <li>\
+                                                   <a class="dropdown-item text-primary" href="' + profileBaseUrl + '/' + item.id + '">\
+                                                        <span class=""> <i class="fa fa-user" aria-hidden="true"></i> Profile</span>\
+                                                    </a>\
+                                                </li>\
                                                 <li>\
                                                     <a href="#"><span class="dropdown-item jobDesBtn text-success" data-id="' + item.id + '" \
                                                         data-firstname="' + item.firstname + '" \
@@ -700,7 +706,7 @@
                                                 </li>\
                                                 <li>\
                                                    <a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '">\
-                                                        <span class=""> <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee<\span>\
+                                                        <span class=""> <i class="fa fa-bars" aria-hidden="true"></i> Manage Fee</span>\
                                                     </a>\
                                                 </li>\
                                             </ul>\

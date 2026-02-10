@@ -29,6 +29,7 @@ use App\Http\Controllers\ScholarshipTestCourseController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\JitsiMeetingController;
 use App\Http\Controllers\PracticalController;
+use App\Http\Controllers\CourseNoteController;
 
 /*
 Route::get('/', function () {
@@ -141,6 +142,7 @@ Route::prefix('trainees')->group(function () {
     //trainee view course
 
     Route::get('/view-course', [BackendController::class, 'traineeViewCourse'])->name('traineeViewCourse');
+    Route::get('/course-notes', [BackendController::class, 'traineeCourseNotes'])->name('traineeCourseNotes');
     Route::get('/viewFeePayments', [BackendController::class, 'traineeViewFeePayment'])->name('traineeViewFeePayment');
     Route::get('/viewAssignment', [BackendController::class, 'traineeViewAssignment'])->name('traineeViewAssignment');
     Route::get('/fetch-assignments', [BackendController::class, 'traineeFetchAssignments'])->name('traineeFetchAssignments');
@@ -196,6 +198,12 @@ Route::prefix('courses')->group(function () {
     Route::post('/update', [BackendController::class, 'updateCourse'])->name('updateCourse');
     Route::post('/delete', [BackendController::class, 'deleteCourse'])->name('deleteCourse');
     Route::post('/suspend', [BackendController::class, 'suspendCourse'])->name('suspendCourse');
+
+    Route::get('/{courseId}/notes', [CourseNoteController::class, 'index'])->name('courseNotes.index');
+    Route::post('/{courseId}/notes', [CourseNoteController::class, 'store'])->name('courseNotes.store');
+    Route::post('/{courseId}/notes/{noteId}', [CourseNoteController::class, 'update'])->name('courseNotes.update');
+    Route::post('/{courseId}/notes/{noteId}/delete', [CourseNoteController::class, 'destroy'])->name('courseNotes.destroy');
+
     Route::post('/updateCourseImage', [BackendController::class, 'updateCourseImage'])->name('updateCourseImage');
 
     Route::post('/upload-course-outline', [BackendController::class, 'uploadCourseOutline'])->name('uploadCourseOutline');

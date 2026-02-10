@@ -857,6 +857,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                 const outlineDeleteAction = item.course_outline
                     ? '<li><a class="dropdown-item deleteOutlineBtn text-danger" href="#" data-id="' + item.id + '"><i class="fa fa-trash"></i> Delete Outline</a></li>'
                     : '';
+                const notesBaseUrl = "{{ url('/courses') }}";
                 $('#table1').append(
                     '<tr>\
                         <td>' + (key + 1) + '</td>\
@@ -888,6 +889,7 @@ function fetchUsers(page = 1, search = '', perPage = 10) {
                                     <li><a  class="dropdown-item deleteBtn text-danger" href="#" value="' + item.id + '"><i class="uil-trash"></i> Delete</a></li>\
                                     <li><a  class="dropdown-item suspendBtn text-warning" href="#" value="' + item.id + '"><i class="uil-cancel"> </i>Suspend</a></li>\
                                     <li><a class="dropdown-item viewQuestionsBtn text-info" href="' + baseUrl + '?course_id=' + item.id + '" target="_blank"><i class="fa fa-bars" aria-hidden="true"></i> Manage Modules</a></li>\
+                                    <li><a class="dropdown-item text-primary" href="' + notesBaseUrl + '/' + item.id + '/notes" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Manage Notes</a></li>\
                                     <li><a class="dropdown-item uploadOutlineBtn text-primary" href="#" data-id="' + item.id + '"><i class="fa ' + outlineActionIcon + '"></i> ' + outlineActionLabel + '</a></li>\
                                     ' + outlineDeleteAction + '\
                                 </ul>\

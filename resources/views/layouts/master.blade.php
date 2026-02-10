@@ -562,6 +562,14 @@
                             </a>
                         </li>
 
+                        <li class="side-nav-item">
+                            <a href="{{route('traineeCourseNotes')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Course Notes</span>
+                            </a>
+                        </li>
+
 
                         <!--<li class="side-nav-item">
                             <a href="{{route('showClassLink')}}" class="side-nav-link">

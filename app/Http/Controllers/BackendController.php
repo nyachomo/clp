@@ -18,6 +18,7 @@ use App\Models\Clas;
 use App\Models\TimeTable;
 use App\Models\ClassNotes;
 use App\Models\Course;
+use App\Models\CourseNote;
 use App\Models\Fee;
 use App\Models\Exam;
 use App\Models\StudentAnswer;
@@ -1672,17 +1673,62 @@ public function adminUpdateUserPassword(Request $request){
         return view('trainees.showClassNotes');
     }
 
+    public function traineeCourseNotes()
+    {
+        if (Auth::check() && Auth::user()->role == 'Trainee') {
+            $user = Auth::user();
+            $course = $user->course;
+
+            if (!$course) {
+                return redirect()->back()->with('error', 'No course found for your account');
+            }
+
+            $notes = CourseNote::where('course_id', $course->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return view('trainees.traineeCourseNotes', compact('course', 'notes'));
+        }
+
+        return redirect()->route('login');
+    }
+
 
 
 
     public function showTraineeProfile($id)
         {
-            $student = User::with('course')->findOrFail($id); // eager load course relationship
+            $student = User::with(['course','clas'])->findOrFail($id);
 
-            // If you need fee information, you can also load it:
-            $fees = Fee::where('user_id', $id)->get();
+            $fees = Fee::where('user_id', $id)
+                ->orderBy('date_paid', 'desc')
+                ->get();
 
-            return view('trainees.traineeProfile', compact('student', 'fees'));
+            $examAnswers = StudentAnswer::with('exam')
+                ->where('user_id', $id)
+                ->whereNotNull('exam_id')
+                ->get();
+
+            $examSummaries = $examAnswers
+                ->groupBy('exam_id')
+                ->map(function ($items) {
+                    $first = $items->first();
+                    return [
+                        'exam' => $first ? $first->exam : null,
+                        'questions' => $items->count(),
+                        'total_score' => $items->sum(function ($x) {
+                            return (float) ($x->score ?? 0);
+                        }),
+                    ];
+                })
+                ->values();
+
+            $practicalAnswers = \App\Models\Practicalanswer::with(['practical.coursemodule','practical.course'])
+                ->where('user_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers'));
         }
 
 

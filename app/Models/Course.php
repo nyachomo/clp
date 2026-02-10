@@ -45,4 +45,9 @@ class Course extends Model
             return $this->hasMany(Practical::class);
         }
 
+        public function notes()
+        {
+            return $this->hasMany(CourseNote::class, 'course_id');
+        }
+
 }

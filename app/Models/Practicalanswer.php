@@ -20,4 +20,9 @@ class Practicalanswer extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function practical()
+    {
+        return $this->belongsTo(Practical::class, 'practical_id');
+    }
 }
