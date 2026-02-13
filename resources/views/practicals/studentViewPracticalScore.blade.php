@@ -191,6 +191,10 @@
     padding: 8px 18px;
 }
 
+.uploadBtn {
+    cursor: pointer;
+}
+
 </style>
 
 <div id="response"></div>
@@ -360,11 +364,15 @@ $(document).ready(function () {
                             ${item.student_answer}
                           </a>`;
                 score = `${item.student_score} / ${item.marks}`;
+                action = `<button type="button" class="btn btn-sm btn-warning uploadBtn"
+                            data-id="${item.id}">
+                            Update
+                          </button>`;
             } else {
-                action = `<span class="badge bg-success uploadBtn"
+                action = `<button type="button" class="btn btn-sm btn-success uploadBtn"
                             data-id="${item.id}">
                             Upload Work
-                          </span>`;
+                          </button>`;
             }
         }
 
