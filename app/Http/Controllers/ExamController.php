@@ -1179,7 +1179,7 @@ class ExamController extends Controller
 
             $validated = $request->validate([
                 'practical_id' => ['required', 'exists:practicals,id'],
-                'student_answer' => ['required', 'file', 'mimes:pdf,doc,docx,zip,rar', 'max:20480'],
+                'student_answer' => ['required', 'file', 'max:20480'],
             ]);
 
             if ($request->hasFile('student_answer')) {
