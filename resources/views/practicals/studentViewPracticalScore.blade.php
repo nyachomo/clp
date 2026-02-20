@@ -222,7 +222,7 @@
                 <h2 class="user_account_card_heading">My Assesment</h2>
                 <p>
                     Manage Your Assesment<br>
-                    Avaragr Score: <span style="font-size:20px"><b>NA</b></span>
+                    Avaragr Score: <span style="font-size:20px"><b><span id="average-score">NA</span>%</b></span>
                 </p>
                 <a class="btn btn-primary" style="float:right"><i class="fa fa-download"></i> Download Certificate</a>
             </div>
@@ -286,11 +286,17 @@
         <h4>Upload Practical Work</h4>
         <button class="btn-close" data-bs-dismiss="modal"></button>
     </div>
-    <form method="POST" action="{{ route('studentUploadPracticalWork') }}" enctype="multipart/form-data">
+    <form method="POST" id="studentPracticalUploadForm" action="{{ route('studentUploadPracticalWork') }}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="practical_id" id="practical_id">
         <div class="modal-body">
             <input type="file" name="student_answer" class="form-control" required>
+
+            <div id="studentUploadError" class="alert alert-danger mt-2" style="display:none"></div>
+
+            <div class="progress mt-2" style="height: 18px; display:none;" id="studentUploadProgressWrap">
+                <div class="progress-bar" id="studentUploadProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -315,6 +321,9 @@ $(document).ready(function () {
         }, function (response) {
 
             $('#total-users').text(response.total_users);
+            if (typeof response.average_score_percent !== 'undefined') {
+                $('#average-score').text(response.average_score_percent ?? 0);
+            }
             $('#table-body').empty();
 
             $.each(response.users, function (i, item) {
@@ -391,7 +400,75 @@ $(document).ready(function () {
 
     $(document).on('click', '.uploadBtn', function () {
         $('#practical_id').val($(this).data('id'));
+        $('#studentUploadError').hide().text('');
         $('#updateExamModal').modal('show');
+    });
+
+    $('#studentPracticalUploadForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const form = this;
+        const actionUrl = $(form).attr('action');
+        const progressWrap = document.getElementById('studentUploadProgressWrap');
+        const progressBar = document.getElementById('studentUploadProgress');
+        const errorBox = document.getElementById('studentUploadError');
+
+        errorBox.style.display = 'none';
+        errorBox.textContent = '';
+
+        progressBar.style.width = '0%';
+        progressBar.setAttribute('aria-valuenow', '0');
+        progressBar.textContent = '0%';
+        progressWrap.style.display = 'block';
+
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData(form);
+
+        xhr.open('POST', actionUrl, true);
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        xhr.upload.onprogress = function (event) {
+            if (event.lengthComputable) {
+                const percent = Math.round((event.loaded / event.total) * 100);
+                progressBar.style.width = percent + '%';
+                progressBar.setAttribute('aria-valuenow', String(percent));
+                progressBar.textContent = percent + '%';
+            }
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) return;
+
+            let payload = null;
+            try {
+                payload = JSON.parse(xhr.responseText);
+            } catch (err) {
+                payload = null;
+            }
+
+            if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                $('#updateExamModal').modal('hide');
+                fetchUsers(1, $('#search').val(), $('#select').val());
+                form.reset();
+            } else {
+                let msg = 'Upload failed';
+                if (payload && payload.message) msg = payload.message;
+                if (payload && payload.errors) {
+                    const firstKey = Object.keys(payload.errors)[0];
+                    if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                        msg = payload.errors[firstKey][0];
+                    }
+                }
+                errorBox.style.display = 'block';
+                errorBox.textContent = msg;
+            }
+
+            setTimeout(function () {
+                progressWrap.style.display = 'none';
+            }, 600);
+        };
+
+        xhr.send(formData);
     });
 
     $('#search').on('input', function () {

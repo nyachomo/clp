@@ -15,6 +15,8 @@ use App\Models\Setting;
 use Dompdf\Dompdf; // Import the Dompdf class
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExamController extends Controller
 {
@@ -260,6 +262,139 @@ class ExamController extends Controller
         return view('practicals.showPracticalAttempts', compact('exam_id', 'students'));
     }
 
+    public function downloadMissingPracticalStudents(Request $request, $exam_id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $exam = Practical::with('clas')->findOrFail($exam_id);
+
+        $submittedStudentIds = Practicalanswer::where('practical_id', $exam_id)
+            ->pluck('user_id')
+            ->toArray();
+
+        $students = User::where('clas_id', $exam->clas->id)
+            ->whereNotIn('id', $submittedStudentIds)
+            ->orderBy('firstname')
+            ->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="missing_practical_students_' . $exam_id . '.csv"',
+        ];
+
+        $callback = function () use ($students) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#', 'Firstname', 'Secondname', 'Lastname', 'Email', 'Phone']);
+
+            $i = 1;
+            foreach ($students as $s) {
+                fputcsv($out, [
+                    $i++,
+                    $s->firstname,
+                    $s->secondname,
+                    $s->lastname,
+                    $s->email,
+                    $s->phonenumber,
+                ]);
+            }
+
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function downloadMissingPracticalStudentsPdf(Request $request, $exam_id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $exam = Practical::with('clas')->findOrFail($exam_id);
+
+        $submittedStudentIds = Practicalanswer::where('practical_id', $exam_id)
+            ->pluck('user_id')
+            ->toArray();
+
+        $students = User::where('clas_id', $exam->clas->id)
+            ->whereNotIn('id', $submittedStudentIds)
+            ->orderBy('firstname')
+            ->get();
+
+        $html = View::make('practicals.missingPracticalStudentsPdf', compact('exam', 'students'))->render();
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="missing_practical_students_' . $exam_id . '.pdf"',
+        ]);
+    }
+
+    public function downloadMissingPracticalStudentsExcel(Request $request, $exam_id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $exam = Practical::with('clas')->findOrFail($exam_id);
+
+        $submittedStudentIds = Practicalanswer::where('practical_id', $exam_id)
+            ->pluck('user_id')
+            ->toArray();
+
+        $students = User::where('clas_id', $exam->clas->id)
+            ->whereNotIn('id', $submittedStudentIds)
+            ->orderBy('firstname')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Not Submitted');
+
+        $sheet->fromArray(['#', 'Firstname', 'Secondname', 'Lastname', 'Email', 'Phone'], null, 'A1');
+
+        $row = 2;
+        $i = 1;
+        foreach ($students as $s) {
+            $sheet->fromArray([
+                $i++,
+                $s->firstname,
+                $s->secondname,
+                $s->lastname,
+                $s->email,
+                $s->phonenumber,
+            ], null, 'A' . $row);
+            $row++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'missing_practical_students_' . $exam_id . '.xlsx';
+
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+    }
+
 
 
     public function fetchExamAttempts(Request $request,$exam_id){
@@ -497,15 +632,61 @@ class ExamController extends Controller
 
 
     public function adminAddStudentPracticalScore(Request $request){
-        $create=Practicalanswer::create([
-            'practical_id'=>$request->practical_id,
-            'user_id'=>$request->user_id,
-            'student_answer'=>$request->student_answer ?? 'NA',
-            'student_score'=>$request->student_score,
+        if (!Auth::check()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+            }
+
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            }
+
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'practical_id' => ['required'],
+            'user_id' => ['required'],
+            'student_score' => ['required', 'numeric'],
+            'student_answer' => ['nullable', 'file', 'mimes:pdf,doc,docx,zip,rar', 'max:20480'],
         ]);
+
+        $studentAnswer = 'NA';
+        if ($request->hasFile('student_answer')) {
+            $file = $request->file('student_answer');
+            $extension = $file->getClientOriginalExtension();
+            $studentAnswer = time() . '.' . $extension;
+            $file->move(public_path('practicals'), $studentAnswer);
+        }
+
+        $create = Practicalanswer::create([
+            'practical_id' => $validated['practical_id'],
+            'user_id' => $validated['user_id'],
+            'student_answer' => $studentAnswer,
+            'student_score' => $validated['student_score'],
+        ]);
+
         if ($create) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Score added succesfully',
+                    'answer_id' => $create->id,
+                    'student_answer' => $create->student_answer,
+                ]);
+            }
+
             return redirect()->back()->with('success','Score added succesfully');
         }
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => false, 'message' => 'Could not add score'], 500);
+        }
+
         return redirect()->back()->with('error','Could not add score');
     }
 
@@ -537,6 +718,74 @@ class ExamController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Could not update!'], 404);
    
+    }
+
+    public function adminUpdateStudentPracticalAnswer(Request $request)
+    {
+        if (!Auth::check()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+            }
+
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            }
+
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'answer_id' => ['required', 'exists:practicalanswers,id'],
+            'student_answer' => ['required', 'file', 'mimes:pdf,doc,docx,zip,rar', 'max:20480'],
+        ]);
+
+        $answer = Practicalanswer::find($validated['answer_id']);
+        if (!$answer) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+            }
+
+            return redirect()->back()->with('error', 'Record not found');
+        }
+
+        if ($request->hasFile('student_answer')) {
+            $file = $request->file('student_answer');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move(public_path('practicals'), $fileName);
+
+            if (!empty($answer->student_answer)) {
+                $oldFile = public_path('practicals/' . $answer->student_answer);
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+
+            $answer->update([
+                'student_answer' => $fileName,
+            ]);
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Student answer updated successfully',
+                    'answer_id' => $answer->id,
+                    'student_answer' => $fileName,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Student answer updated successfully');
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => false, 'message' => 'No file selected'], 422);
+        }
+
+        return redirect()->back()->with('error', 'No file selected');
     }
 
 
@@ -747,6 +996,9 @@ class ExamController extends Controller
     $userId  = Auth::id();
     $classId = Auth::user()->clas_id;
 
+    $totalScored = 0;
+    $totalPossible = 0;
+
     $query = Practical::with('clas')
         ->select('id', 'question', 'clas_id', 'marks', 'status', 'name')
         ->where('clas_id', $classId)
@@ -814,6 +1066,19 @@ class ExamController extends Controller
         */
         $isTheory = empty($exam->question) || $exam->question === 'NA';
 
+        if ($isTheory) {
+            if ($hasTheoryAttempt) {
+                $possible = Question::where('practical_id', $exam->id)->sum('question_mark');
+                $totalScored += (float) ($theoryScore ?? 0);
+                $totalPossible += (float) ($possible ?? 0);
+            }
+        } else {
+            if (!is_null($practical) && !is_null($practical?->student_score)) {
+                $totalScored += (float) ($practical->student_score ?? 0);
+                $totalPossible += (float) ($exam->marks ?? 0);
+            }
+        }
+
         /*
         |--------------------------------------------------------------------------
         | FINAL STATUS (USED BY FRONTEND)
@@ -832,8 +1097,14 @@ class ExamController extends Controller
         }
     }
 
+    $averageScorePercent = 0;
+    if ($totalPossible > 0) {
+        $averageScorePercent = round(($totalScored / $totalPossible) * 100, 2);
+    }
+
     return response()->json([
         'users' => $users->items(),
+        'average_score_percent' => $averageScorePercent,
         'pagination' => [
             'current_page' => $users->currentPage(),
             'last_page'    => $users->lastPage(),
@@ -890,47 +1161,82 @@ class ExamController extends Controller
 
 
         public function studentUploadPracticalWork(Request $request){
-           
-                if ($request->hasFile('student_answer')) {
+            if (!Auth::check()) {
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+                }
 
-                    // Handle file upload
-                    $file = $request->file('student_answer');
-                    $extension = $file->getClientOriginalExtension();
-                    $student_answer = time().'.'.$extension;
-                    $file->move(public_path('practicals'), $student_answer);
+                return redirect()->route('login');
+            }
 
-                    // Check if the record exists
-                    $record = Practicalanswer::where('practical_id', $request->practical_id)
-                        ->where('user_id', Auth::user()->id)
-                        ->first();
+            if (Auth::user()->role != 'Trainee') {
+                if ($request->expectsJson()) {
+                    return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+                }
 
-                    if ($record) {
-                        // Delete old file if exists
-                        $oldFile = public_path('practicals/'.$record->student_answer);
-                        if (file_exists($oldFile)) {
-                            unlink($oldFile);
-                        }
+                return redirect()->back()->with('error', 'Unauthorized');
+            }
 
-                        // Update existing record
-                        $record->update([
-                            'student_answer' => $student_answer,
-                        ]);
+            $validated = $request->validate([
+                'practical_id' => ['required', 'exists:practicals,id'],
+                'student_answer' => ['required', 'file', 'mimes:pdf,doc,docx,zip,rar', 'max:20480'],
+            ]);
 
-                        return redirect()->back()->with('success', 'Practical updated successfully!');
-                    } else {
-                        // Create a new record
-                        Practicalanswer::create([
-                            'practical_id' => $request->practical_id,
-                            'user_id' => Auth::user()->id,
-                            'student_answer' => $student_answer,
-                        ]);
+            if ($request->hasFile('student_answer')) {
+                $file = $request->file('student_answer');
+                $extension = $file->getClientOriginalExtension();
+                $student_answer = time() . '.' . $extension;
+                $file->move(public_path('practicals'), $student_answer);
 
-                        return redirect()->back()->with('success', 'Practical submitted successfully!');
+                $record = Practicalanswer::where('practical_id', $validated['practical_id'])
+                    ->where('user_id', Auth::user()->id)
+                    ->first();
+
+                if ($record) {
+                    $oldFile = public_path('practicals/' . $record->student_answer);
+                    if (!empty($record->student_answer) && file_exists($oldFile)) {
+                        unlink($oldFile);
                     }
 
-                } else {
-                    return redirect()->back()->with('error', 'No file selected.');
+                    $record->update([
+                        'student_answer' => $student_answer,
+                    ]);
+
+                    if ($request->expectsJson()) {
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Practical updated successfully!',
+                            'practical_id' => (int) $validated['practical_id'],
+                            'student_answer' => $student_answer,
+                        ]);
+                    }
+
+                    return redirect()->back()->with('success', 'Practical updated successfully!');
                 }
+
+                Practicalanswer::create([
+                    'practical_id' => $validated['practical_id'],
+                    'user_id' => Auth::user()->id,
+                    'student_answer' => $student_answer,
+                ]);
+
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Practical submitted successfully!',
+                        'practical_id' => (int) $validated['practical_id'],
+                        'student_answer' => $student_answer,
+                    ]);
+                }
+
+                return redirect()->back()->with('success', 'Practical submitted successfully!');
+            }
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'No file selected'], 422);
+            }
+
+            return redirect()->back()->with('error', 'No file selected.');
         }
 
 

@@ -72,7 +72,9 @@
                 <div class="card-header">
                     <p style="font-size:20px"><b>Exam Name:</b> <span id="exam_name"> NA</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Class Name:</b>  <span id="clas_name">NA</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Course Name:</b> <span id="course_name"> NA</span> </p>
                     <a href="{{route('downloadPracticalScore',['exam_id'=>$exam_id])}}" type="button" style="float:right" class="btn btn-sm btn-secondary rounded-pill"> <i class="fa fa-plus"></i> Download</a>
-                     <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="fa fa-plus"></i> Add New Practical</a>
+                     <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addExamModal"> <i class="fa fa-plus"></i> Add New Student Practical Score</a>
+                     <a href="{{ url()->previous() }}" type="button" style="float:right" class="btn btn-sm btn-info rounded-pill">Back</a>
+                     <a type="button" style="float:right" class="btn btn-sm btn-warning rounded-pill" data-bs-toggle="modal" data-bs-target="#missingStudentsModal">Not Submitted</a>
                      
                 </div>
                 <div class="card-body">
@@ -153,7 +155,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel">Add New Practical</h4>
+                <h4 class="modal-title" id="standard-modalLabel">Add Student Practical Score</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <form method="POST" action="{{route('adminAddStudentPracticalScore')}}" enctype="multipart/form-data">
@@ -215,6 +217,20 @@
                     </div>
 
 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Student Answer (Optional)</label>
+                                <input type="file" class="form-control" name="student_answer">
+
+                                <div class="progress mt-2" style="height: 18px; display:none;" id="addAnswerProgressWrap">
+                                    <div class="progress-bar" id="addAnswerProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                  <!-- /.card-body -->
 
@@ -224,6 +240,89 @@
                 <button type="submit"  class="btn btn-success rounded-pill">Save</button>
             </div>
         </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Missing Students Modal -->
+<div id="missingStudentsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Students Not Submitted</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fullname</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($students as $k => $student)
+                                <tr>
+                                    <td>{{ $k + 1 }}</td>
+                                    <td>{{ $student->firstname }} {{ $student->secondname }} {{ $student->lastname }}</td>
+                                    <td>{{ $student->email }}</td>
+                                    <td>{{ $student->phonenumber }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">All students have submitted</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+                <div>
+                    <a href="{{ route('downloadMissingPracticalStudentsPdf', ['exam_id' => $exam_id]) }}" class="btn btn-success rounded-pill">Download PDF</a>
+                    <a href="{{ route('downloadMissingPracticalStudentsExcel', ['exam_id' => $exam_id]) }}" class="btn btn-success rounded-pill">Download Excel</a>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--end of modal-->
+
+
+<!-- Update Answer modal -->
+<div id="updateAnswerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Update Student Answer</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <form method="POST" id="updateAnswerForm" action="{{ route('adminUpdateStudentPracticalAnswer') }}" enctype="multipart/form-data">
+                @csrf
+
+                <div class="card-body" style="border:1px solid white">
+                    <input type="hidden" class="form-control" name="answer_id" id="update_answer_file_id">
+                    <label>Upload New Answer File</label>
+                    <input type="file" class="form-control" name="student_answer" required>
+
+                    <div class="progress mt-2" style="height: 18px; display:none;" id="updateAnswerProgressWrap">
+                        <div class="progress-bar" id="updateAnswerProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-between" style="border:1px solid white">
+                    <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success rounded-pill">Update</button>
+                </div>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
@@ -346,6 +445,70 @@
             }
 
 
+            $('#addExamModal form').on('submit', function(e) {
+                e.preventDefault();
+
+                const form = this;
+                const actionUrl = $(form).attr('action');
+                const progressWrap = document.getElementById('addAnswerProgressWrap');
+                const progressBar = document.getElementById('addAnswerProgress');
+
+                progressBar.style.width = '0%';
+                progressBar.setAttribute('aria-valuenow', '0');
+                progressBar.textContent = '0%';
+                progressWrap.style.display = 'block';
+
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData(form);
+
+                xhr.open('POST', actionUrl, true);
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.upload.onprogress = function (event) {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressBar.setAttribute('aria-valuenow', String(percent));
+                        progressBar.textContent = percent + '%';
+                    }
+                };
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) return;
+
+                    let payload = null;
+                    try {
+                        payload = JSON.parse(xhr.responseText);
+                    } catch (err) {
+                        payload = null;
+                    }
+
+                    if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                        $('#addExamModal').modal('hide');
+                        displaySuccessMessage(payload.message || 'Score added succesfully');
+                        fetchUsers(exam_id);
+                        form.reset();
+                    } else {
+                        let msg = 'Upload failed';
+                        if (payload && payload.message) msg = payload.message;
+                        if (payload && payload.errors) {
+                            const firstKey = Object.keys(payload.errors)[0];
+                            if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                                msg = payload.errors[firstKey][0];
+                            }
+                        }
+                        alert(msg);
+                    }
+
+                    setTimeout(function () {
+                        progressWrap.style.display = 'none';
+                    }, 600);
+                };
+
+                xhr.send(formData);
+            });
+
+
 
 
             function fetchUsers(exam_id,page = 1, search = '', perPage = 1000) {
@@ -365,7 +528,7 @@
                         
                         let max_score=response.ovaral_score;
                         // Clear and repopulate the table
-                        $('tbody').html("");
+                        $('#table1').html("");
                         $.each(response.users, function(key, item) {
                            
                             
@@ -385,7 +548,10 @@
                                 '<tr>\
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + fullName + '</td>\
-                                     <td><a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a></td>\
+                                     <td>\
+                                        <a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a>\
+                                        <button type="button" class="btn btn-sm btn-warning ms-1 updateAnswerBtn" data-id="' + item.id + '">Update</button>\
+                                     </td>\
                                      <!--<td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>-->\
                                      <td>' + scoreDisplay + '</td>\
                                      <td>' + scoreOutOfThirty + '</td>\
@@ -422,11 +588,81 @@
                             // Show the modal
                             $('#updateClasModal').modal('show');
                         });
+
+                        $('.updateAnswerBtn').on('click', function() {
+                            const answer_id = $(this).data('id');
+                            $('#update_answer_file_id').val(answer_id);
+                            $('#updateAnswerModal').modal('show');
+                        });
                        
 
                     }
                 });
             }
+
+
+            $('#updateAnswerForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const form = this;
+                const actionUrl = $(form).attr('action');
+                const progressWrap = document.getElementById('updateAnswerProgressWrap');
+                const progressBar = document.getElementById('updateAnswerProgress');
+
+                progressBar.style.width = '0%';
+                progressBar.setAttribute('aria-valuenow', '0');
+                progressBar.textContent = '0%';
+                progressWrap.style.display = 'block';
+
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData(form);
+
+                xhr.open('POST', actionUrl, true);
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.upload.onprogress = function (event) {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressBar.setAttribute('aria-valuenow', String(percent));
+                        progressBar.textContent = percent + '%';
+                    }
+                };
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) return;
+
+                    let payload = null;
+                    try {
+                        payload = JSON.parse(xhr.responseText);
+                    } catch (err) {
+                        payload = null;
+                    }
+
+                    if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                        $('#updateAnswerModal').modal('hide');
+                        displaySuccessMessage(payload.message || 'Student answer updated successfully');
+                        fetchUsers(exam_id);
+                        form.reset();
+                    } else {
+                        let msg = 'Upload failed';
+                        if (payload && payload.message) msg = payload.message;
+                        if (payload && payload.errors) {
+                            const firstKey = Object.keys(payload.errors)[0];
+                            if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                                msg = payload.errors[firstKey][0];
+                            }
+                        }
+                        alert(msg);
+                    }
+
+                    setTimeout(function () {
+                        progressWrap.style.display = 'none';
+                    }, 600);
+                };
+
+                xhr.send(formData);
+            });
 
 
 
