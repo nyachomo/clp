@@ -102,6 +102,7 @@
                                     <!--<th>Phonenumber</th>-->
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>School</th>
                                     <th>Gender</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -619,9 +620,9 @@
                   
 
                     $.each(response.users, function(key, item) {
-                        let roleSchool = item.role;
-                        if (item.school_id && item.school) {
-                            roleSchool += ' - ' + item.school.school_name;
+                        let schoolName = 'NA';
+                        if (item.school && item.school.school_name) {
+                            schoolName = item.school.school_name;
                         }
                         const baseUrl = "{{ route('showFees') }}";
                         $('#table1').append(
@@ -630,12 +631,12 @@
                                 <td>' + item.firstname + ' ' + item.secondname + ' ' + item.lastname + '</td>\
                                <!-- <td>' + item.phonenumber + '</td>-->\
                                 <td>' + item.email + '</td>\
-                                <td>' + roleSchool + '</td>\
-                                <!--<td>' + item.role + '</td>-->\
+                                <td>' + item.role + '</td>\
+                                <td>' + schoolName + '</td>\
                                 <td>' + item.gender + '</td>\
                                 <td>' + item.status + '</td>\
                                 <td>\
-                                        <a href="#"><span class="badge bg-success jobDesBtn href="#" data-id="' + item.id + '" \
+                                        <a href="#"><span class="badge bg-success jobDesBtn href=#" data-id="' + item.id + '" \
                                                 data-firstname="' + item.firstname + '" \
                                                 data-secondname="' + item.secondname + '" \
                                                 data-lastname="' + item.lastname + '" \
@@ -647,7 +648,7 @@
                                                 data-school-id="' + (item.school ? item.school.id : '') + '" \
                                                 data-school-name="' + (item.school ? item.school.school_name : '') + '" \
                                         "><i class="uil-edit"></i> Update</span></a>\
-                                        <a href="#"><span  class="badge bg-danger deleteBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</span></a>\
+                                        <a href="#"><span  class="badge bg-danger deleteBtn" href=#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</span></a>\
                                         <a class="viewQuestionsBtn text-info" href="' + baseUrl + '?user_id=' + item.id + '" target="_blank">\
                                         <span class="badge bg-warning"> <i class="fa fa-eye"></i>View Profile<\span>\
                                     </a>\
