@@ -168,6 +168,9 @@ Route::prefix('trainees')->group(function () {
     Route::get('/show-class-notes', [BackendController::class, 'viewClassNotes'])->name('viewClassNotes');
 
 
+    Route::get('/download-practical-scores-pdf/{id}', [BackendController::class, 'downloadTraineePracticalScoresPdf'])->name('downloadTraineePracticalScoresPdf');
+
+
     Route::get('/{id}', [BackendController::class, 'showTraineeProfile'])->name('showTraineeProfile');
 
     //MARKED ALL STUDENTS AS ALUMNI

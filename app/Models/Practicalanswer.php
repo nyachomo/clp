@@ -14,6 +14,7 @@ class Practicalanswer extends Model
             'user_id',
             'student_answer',
             'student_score',
+            'comment',
             'status',
     ];
 

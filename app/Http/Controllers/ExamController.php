@@ -451,7 +451,7 @@ class ExamController extends Controller
         $exam=Practical::with(['clas'])->where('id',$exam_id)->first();
         $ovaral_score=Practical::where('id',$exam_id)->sum('marks');
         $query = Practicalanswer::with('user')->where('practical_id', $exam_id)
-        ->select('id','user_id', 'practical_id','student_answer','student_score') // Get total score per user
+        ->select('id','user_id', 'practical_id','student_answer','student_score','comment') // Get total score per user
         ->with('user:id,firstname,secondname,lastname') // Ensure user details are fetched
         ->orderBy('created_at', 'asc');
 
@@ -652,6 +652,7 @@ class ExamController extends Controller
             'practical_id' => ['required'],
             'user_id' => ['required'],
             'student_score' => ['required', 'numeric'],
+            'comment' => ['required', 'string'],
             'student_answer' => ['nullable', 'file', 'mimes:pdf,doc,docx,zip,rar', 'max:20480'],
         ]);
 
@@ -668,6 +669,7 @@ class ExamController extends Controller
             'user_id' => $validated['user_id'],
             'student_answer' => $studentAnswer,
             'student_score' => $validated['student_score'],
+            'comment' => $validated['comment'],
         ]);
 
         if ($create) {
@@ -710,10 +712,18 @@ class ExamController extends Controller
       
     public function adminUpdateStudentPracticalScore(Request $request)
     {
-       
-        $user = Practicalanswer::find($request->update_answer_id);
+        $validated = $request->validate([
+            'update_answer_id' => ['required', 'exists:practicalanswers,id'],
+            'student_score' => ['required', 'numeric'],
+            'comment' => ['required', 'string'],
+        ]);
+
+        $user = Practicalanswer::find($validated['update_answer_id']);
         if ($user) {
-            $user->update(['student_score'=>$request->student_score]);
+            $user->update([
+                'student_score' => $validated['student_score'],
+                'comment' => $validated['comment'],
+            ]);
             return response()->json(['success' => true, 'message' => 'Score Updated successfully!']);
         }
         return response()->json(['success' => false, 'message' => 'Could not update!'], 404);

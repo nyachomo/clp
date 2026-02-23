@@ -125,6 +125,7 @@
                                                         <td>Student Answer</td>
                                                         <th>Score (Row Max)</th>
                                                         <th>Score (30)</th>
+                                                        <th>Comment</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -214,6 +215,16 @@
                             </div>
                         </div>
 
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Comment<sup>*</sup></label>
+                                <input type="text" class="form-control" name="comment" required>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -372,6 +383,13 @@
                     <input type="text" class="form-control" name="update_answer_id" id="update_answer_id">
                     <label>Student Score</label>
                      <input type="number" class="form-control"  id="update_student_score">
+
+                     <label class="mt-2">Comment</label>
+                     <input type="text" class="form-control" id="update_comment" required>
+
+                     <div class="progress mt-2" style="height: 18px; display:none;" id="updateMarksProgressWrap">
+                        <div class="progress-bar" id="updateMarksProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                     </div>
                 </div>
 
                 
@@ -484,6 +502,9 @@
                     }
 
                     if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                        progressBar.style.width = '100%';
+                        progressBar.setAttribute('aria-valuenow', '100');
+                        progressBar.textContent = '100%';
                         $('#addExamModal').modal('hide');
                         displaySuccessMessage(payload.message || 'Score added succesfully');
                         fetchUsers(exam_id);
@@ -533,8 +554,9 @@
                            
                             
                             let fullName = item.user.firstname; // Start with first name
-                            let scoreDisplay = item.student_score + " / " + max_score;
-                            let scoreOutOfThirty = Math.round((item.student_score / max_score) * 30);
+                            let hasScore = item.student_score !== null && item.student_score !== undefined && String(item.student_score).trim() !== '';
+                            let scoreDisplay = hasScore ? (item.student_score + " / " + max_score) : ('null/' + max_score + ' (Not yet marked)');
+                            let scoreOutOfThirty = hasScore ? Math.round((item.student_score / max_score) * 30) : 'NA';
                 
                             if (item.user.secondname) {
                                 fullName += " " + item.user.secondname; // Add second name if available
@@ -542,6 +564,21 @@
                             
                             if (item.user.lastname) {
                                 fullName += " " + item.user.lastname; // Add last name if available
+                            }
+
+                            let commentText = 'NA';
+                            if (item.comment) {
+                                commentText = item.comment;
+                            }
+
+                            let gradeButtonText = 'Grade Student';
+                            if (item.student_score !== null && item.student_score !== undefined && String(item.student_score).trim() !== '') {
+                                gradeButtonText = 'Update Marks/Grade';
+                            }
+
+                            let gradeButtonClass = 'bg-success';
+                            if (gradeButtonText === 'Update Marks/Grade') {
+                                gradeButtonClass = 'bg-secondary';
                             }
 
                             $('#table1').append(
@@ -555,9 +592,10 @@
                                      <!--<td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>-->\
                                      <td>' + scoreDisplay + '</td>\
                                      <td>' + scoreOutOfThirty + '</td>\
+                                     <td>' + commentText + '</td>\
                                      <td>\
                                         <a href="#"><span  class="badge bg-danger deleteBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i> Delete</span></a>\
-                                        <a href="#"><span  class="badge bg-success updateBtn" href="#" data-id="' + item.id + '"><i class="uil-trash"></i>Grade Student</span></a>\
+                                        <a href="#"><span  class="badge ' + gradeButtonClass + ' updateBtn" href="#" data-id="' + item.id + '" data-student-score="' + (item.student_score ?? '') + '" data-comment="' + (item.comment ?? '') + '"><i class="uil-trash"></i>' + gradeButtonText + '</span></a>\
                                     </a>\
                                 </td>\
                                 </tr>'
@@ -583,8 +621,12 @@
                          // Attach event listener to Update button
                         $('.updateBtn').on('click', function() {
                             const update_answer_id = $(this).data('id');
+                            const existingScore = $(this).data('student-score');
+                            const existingComment = $(this).data('comment');
                             // Populate modal fields
                             $('#update_answer_id').val(update_answer_id);
+                            $('#update_student_score').val(existingScore !== null && existingScore !== undefined ? existingScore : '');
+                            $('#update_comment').val(existingComment ? existingComment : '');
                             // Show the modal
                             $('#updateClasModal').modal('show');
                         });
@@ -758,40 +800,74 @@
             $('#updateClasForm').on('submit', function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
-                const formData = {
-                    update_answer_id: $('#update_answer_id').val(),
-                    student_score: $('#update_student_score').val(),
-                    _token: "{{ csrf_token() }}" // Include CSRF token for security
+                const progressWrap = document.getElementById('updateMarksProgressWrap');
+                const progressBar = document.getElementById('updateMarksProgress');
+
+                progressBar.style.width = '0%';
+                progressBar.setAttribute('aria-valuenow', '0');
+                progressBar.textContent = '0%';
+                progressWrap.style.display = 'block';
+
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append('update_answer_id', $('#update_answer_id').val());
+                formData.append('student_score', $('#update_student_score').val());
+                formData.append('comment', $('#update_comment').val());
+                formData.append('_token', "{{ csrf_token() }}");
+
+                xhr.open('POST', "{{ route('adminUpdateStudentPracticalScore') }}", true);
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.upload.onprogress = function (event) {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressBar.setAttribute('aria-valuenow', String(percent));
+                        progressBar.textContent = percent + '%';
+                    } else {
+                        progressBar.style.width = '60%';
+                        progressBar.setAttribute('aria-valuenow', '60');
+                        progressBar.textContent = '60%';
+                    }
                 };
 
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('adminUpdateStudentPracticalScore') }}",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message); // Notify user of success
-                            $('#updateClasModal').modal('hide'); // Hide the modal
-                            displaySuccessMessage('Score updated Successfully');
-                            fetchUsers(exam_id); // Refresh the users table
-                        } else {
-                            alert('Failed to update user.');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            let errorMessages = '';
-                            $.each(errors, function(key, value) {
-                                errorMessages += value[0] + '\n';
-                            });
-                            alert(errorMessages); // Display validation errors
-                        } else {
-                            alert('An error occurred.');
-                        }
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) return;
+
+                    let payload = null;
+                    try {
+                        payload = JSON.parse(xhr.responseText);
+                    } catch (err) {
+                        payload = null;
                     }
-                });
+
+                    if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                        progressBar.style.width = '100%';
+                        progressBar.setAttribute('aria-valuenow', '100');
+                        progressBar.textContent = '100%';
+
+                        alert(payload.message || 'Score Updated successfully!');
+                        $('#updateClasModal').modal('hide');
+                        displaySuccessMessage('Score updated Successfully');
+                        fetchUsers(exam_id);
+                    } else {
+                        let msg = 'An error occurred.';
+                        if (payload && payload.message) msg = payload.message;
+                        if (payload && payload.errors) {
+                            const firstKey = Object.keys(payload.errors)[0];
+                            if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                                msg = payload.errors[firstKey][0];
+                            }
+                        }
+                        alert(msg);
+                    }
+
+                    setTimeout(function () {
+                        progressWrap.style.display = 'none';
+                    }, 600);
+                };
+
+                xhr.send(formData);
 
            });
 

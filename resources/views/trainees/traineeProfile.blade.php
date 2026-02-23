@@ -209,6 +209,9 @@
                         </div>
 
                         <div class="tab-pane" id="practicals">
+                            <div class="mb-2">
+                                <a class="btn btn-sm btn-secondary" href="{{ route('downloadTraineePracticalScoresPdf', $student->id) }}">Download Practical Scores</a>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped">
                                     <thead>

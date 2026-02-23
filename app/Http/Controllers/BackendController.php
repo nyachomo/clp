@@ -25,6 +25,7 @@ use App\Models\StudentAnswer;
 use App\Models\Topic;
 use App\Models\Question;
 use App\Models\CourseModule;
+use App\Models\Practicalanswer;
 use App\Models\ScholarshipLetter;
 use App\Models\Setting;
 use App\Models\Leed;
@@ -1730,6 +1731,57 @@ public function adminUpdateUserPassword(Request $request){
 
             return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers'));
         }
+
+
+    public function downloadTraineePracticalScoresPdf(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $setting = Setting::latest()->first();
+        $imageSrc = null;
+        if ($setting && !empty($setting->company_logo)) {
+            $imagePath = public_path('images/logo/' . $setting->company_logo);
+            if (file_exists($imagePath)) {
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            }
+        }
+
+        $student = User::with(['course', 'clas'])->findOrFail($id);
+
+        $practicalAnswers = Practicalanswer::with(['practical.coursemodule', 'practical.course'])
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $grouped = $practicalAnswers->groupBy(function ($ans) {
+            return $ans->practical?->coursemodule?->module_name ?? 'NA';
+        });
+
+        $html = View::make('trainees.traineePracticalScoresPdf', compact('student', 'grouped', 'imageSrc'))->render();
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $safeName = preg_replace(
+            '/[^a-zA-Z0-9_\-]/',
+            '_',
+            (string) trim($student->firstname . ' ' . $student->secondname . ' ' . $student->lastname)
+        );
+
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $safeName . '_progress_report.pdf"',
+        ]);
+    }
 
 
 
