@@ -587,6 +587,14 @@
                             </a>
                         </li>
 
+                        <li class="side-nav-item">
+                            <a href="{{route('traineeProgressReport')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Progress Report</span>
+                            </a>
+                        </li>
+
                         <!--<li class="side-nav-item">
                             <a href="{{route('showClassNotes')}}" class="side-nav-link">
                                 <i class="uil-home-alt text-info"></i>

@@ -1108,8 +1108,36 @@ class ExamController extends Controller
     }
 
     $averageScorePercent = 0;
-    if ($totalPossible > 0) {
-        $averageScorePercent = round(($totalScored / $totalPossible) * 100, 2);
+    $moduleAvgSum = 0;
+    $moduleAvgCount = 0;
+
+    $allPracticalAnswers = Practicalanswer::with(['practical.coursemodule'])
+        ->where('user_id', $userId)
+        ->get();
+
+    $groupedByModule = $allPracticalAnswers->groupBy(function ($ans) {
+        return $ans->practical?->coursemodule?->module_name ?? 'NA';
+    });
+
+    foreach ($groupedByModule as $items) {
+        $sum = 0;
+        $count = 0;
+        foreach ($items as $x) {
+            $max = $x->practical->marks ?? null;
+            $score = $x->student_score ?? null;
+            if (!is_null($max) && (float) $max > 0 && $score !== null && $score !== '' && is_numeric($score)) {
+                $sum += (((float) $score) / (float) $max) * 100;
+                $count++;
+            }
+        }
+        if ($count > 0) {
+            $moduleAvgSum += ($sum / $count);
+            $moduleAvgCount++;
+        }
+    }
+
+    if ($moduleAvgCount > 0) {
+        $averageScorePercent = round($moduleAvgSum / $moduleAvgCount, 2);
     }
 
     return response()->json([

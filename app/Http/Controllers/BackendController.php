@@ -42,6 +42,82 @@ class BackendController extends Controller
     }
 
 
+    public function traineeProgressReport(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $student = User::with(['course', 'clas'])->findOrFail(Auth::id());
+
+        $practicalAnswers = Practicalanswer::with(['practical.coursemodule', 'practical.course'])
+            ->where('user_id', $student->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $grouped = $practicalAnswers->groupBy(function ($ans) {
+            return $ans->practical?->coursemodule?->module_name ?? 'NA';
+        });
+
+        return view('trainees.traineeProgressReport', compact('student', 'grouped'));
+    }
+
+
+    public function downloadMyProgressReportPdf(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Trainee') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $setting = Setting::latest()->first();
+        $imageSrc = null;
+        if ($setting && !empty($setting->company_logo)) {
+            $imagePath = public_path('images/logo/' . $setting->company_logo);
+            if (file_exists($imagePath)) {
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            }
+        }
+
+        $student = User::with(['course', 'clas'])->findOrFail(Auth::id());
+
+        $practicalAnswers = Practicalanswer::with(['practical.coursemodule', 'practical.course'])
+            ->where('user_id', $student->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $grouped = $practicalAnswers->groupBy(function ($ans) {
+            return $ans->practical?->coursemodule?->module_name ?? 'NA';
+        });
+
+        $html = View::make('trainees.traineePracticalScoresPdf', compact('student', 'grouped', 'imageSrc'))->render();
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $safeName = preg_replace(
+            '/[^a-zA-Z0-9_\-]/',
+            '_',
+            (string) trim($student->firstname . ' ' . $student->secondname . ' ' . $student->lastname)
+        );
+
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $safeName . '_progress_report.pdf"',
+        ]);
+    }
+
+
     public function uploadCourseOutline(Request $request)
     {
         $validated = $request->validate([

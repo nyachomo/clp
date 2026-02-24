@@ -170,6 +170,9 @@ Route::prefix('trainees')->group(function () {
 
     Route::get('/download-practical-scores-pdf/{id}', [BackendController::class, 'downloadTraineePracticalScoresPdf'])->name('downloadTraineePracticalScoresPdf');
 
+    Route::get('/progress-report', [BackendController::class, 'traineeProgressReport'])->name('traineeProgressReport');
+    Route::get('/progress-report/download-pdf', [BackendController::class, 'downloadMyProgressReportPdf'])->name('downloadMyProgressReportPdf');
+
 
     Route::get('/{id}', [BackendController::class, 'showTraineeProfile'])->name('showTraineeProfile');
 
