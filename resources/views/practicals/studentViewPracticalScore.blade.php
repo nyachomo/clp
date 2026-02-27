@@ -426,6 +426,10 @@ $(document).ready(function () {
 
         xhr.open('POST', actionUrl, true);
         xhr.setRequestHeader('Accept', 'application/json');
+        const csrfTokenEl = document.querySelector('meta[name="csrf-token"]');
+        if (csrfTokenEl) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfTokenEl.getAttribute('content'));
+        }
 
         xhr.upload.onprogress = function (event) {
             if (event.lengthComputable) {
