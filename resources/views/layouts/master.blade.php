@@ -244,6 +244,7 @@
                                         </li>
                                         
                                         <li><a href="{{route('showTrainees')}}">Trainees</a></li>
+                                        <li><a href="{{route('showTeachers')}}">Teachers</a></li>
                                         <li><a href="{{route('showApplicants')}}">Applicants</a></li>
                                     </ul>
                                 </div>
@@ -649,6 +650,46 @@
                        
 
                     </ul> 
+                    @endif
+
+                    @if(Auth::check() && Auth::user()->role=='techsphere_teacher')
+                    <ul class="side-nav">
+
+                       <li class="side-nav-title side-nav-item linkHead"><b>HOME</b></li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('teacherDashboard')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-warning"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('userAccount')}}" class="side-nav-link">
+                                <i class="uil-comments-alt text-danger"></i>
+                                <span class="menu-arrow"></span>
+                                <span> My Account</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('teacherStudents')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Students</span>
+                            </a>
+                        </li>
+
+                        <li class="side-nav-item">
+                            <a href="{{route('teacherPracticals')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Practicals</span>
+                            </a>
+                        </li>
+
+                    </ul>
                     @endif
 
                     @if(Auth::check() && Auth::user()->role=='Applicant')

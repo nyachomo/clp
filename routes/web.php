@@ -96,6 +96,13 @@ Route::prefix('admin')->group(function () {
     Route::post('create-class-notes',[BackendController::class, 'addClassNotes'])->name('addClassNotes');
     Route::post('update-class-notes',[BackendController::class, 'updateClassNotes'])->name('updateClassNotes');
     Route::post('delete-class-notes',[BackendController::class, 'deleteClassNotes'])->name('deleteClassNotes');
+
+    //TECHSPHERE TEACHERS
+    Route::get('/teachers', [BackendController::class, 'showTeachers'])->name('showTeachers');
+    Route::get('/fetch-teachers', [BackendController::class, 'fetchTeachers'])->name('fetchTeachers');
+    Route::post('/add-teacher', [BackendController::class, 'addTeacher'])->name('addTeacher');
+    Route::post('/update-teacher', [BackendController::class, 'updateTeacher'])->name('updateTeacher');
+    Route::post('/delete-teacher', [BackendController::class, 'deleteTeacher'])->name('deleteTeacher');
     
 });
 
@@ -189,6 +196,28 @@ Route::prefix('trainees')->group(function () {
     Route::get('/downloadLowerFormsTraineePerClassPdf/{id}',[BackendController::class,'downloadLowerFormsTraineePerClassPdf'])->name('downloadLowerFormsTraineePerClassPdf');
     
 
+});
+
+
+Route::prefix('teachers')->group(function () {
+    Route::get('/dashboard', [BackendController::class, 'teacherDashboard'])->name('teacherDashboard');
+
+    Route::get('/students', [BackendController::class, 'teacherStudents'])->name('teacherStudents');
+    Route::get('/fetch-students', [BackendController::class, 'teacherFetchStudents'])->name('teacherFetchStudents');
+
+    Route::get('/students/{id}/progress-report', [BackendController::class, 'teacherStudentProgressReport'])->name('teacherStudentProgressReport');
+    Route::get('/students/{id}/progress-report/download-pdf', [BackendController::class, 'teacherDownloadStudentProgressReportPdf'])->name('teacherDownloadStudentProgressReportPdf');
+
+    Route::get('/practicals', [BackendController::class, 'teacherPracticals'])->name('teacherPracticals');
+    Route::get('/fetch-practicals', [BackendController::class, 'teacherFetchPracticals'])->name('teacherFetchPracticals');
+    Route::post('/add-practical', [BackendController::class, 'teacherAddPractical'])->name('teacherAddPractical');
+    Route::post('/update-practical', [BackendController::class, 'teacherUpdatePractical'])->name('teacherUpdatePractical');
+    Route::post('/delete-practical', [BackendController::class, 'teacherDeletePractical'])->name('teacherDeletePractical');
+    Route::post('/update-practical-question', [BackendController::class, 'teacherUpdatePracticalQuestion'])->name('teacherUpdatePracticalQuestion');
+
+    Route::get('/practicals/{id}/submissions', [BackendController::class, 'teacherPracticalSubmissions'])->name('teacherPracticalSubmissions');
+    Route::get('/practicals/{id}/fetch-submissions', [BackendController::class, 'teacherFetchPracticalSubmissions'])->name('teacherFetchPracticalSubmissions');
+    Route::post('/practicals/mark-submission', [BackendController::class, 'teacherMarkPracticalSubmission'])->name('teacherMarkPracticalSubmission');
 });
 
 

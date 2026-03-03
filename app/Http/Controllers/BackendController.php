@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use App\Models\Clas;
 use App\Models\TimeTable;
 use App\Models\ClassNotes;
@@ -25,6 +26,7 @@ use App\Models\StudentAnswer;
 use App\Models\Topic;
 use App\Models\Question;
 use App\Models\CourseModule;
+use App\Models\Practical;
 use App\Models\Practicalanswer;
 use App\Models\ScholarshipLetter;
 use App\Models\Setting;
@@ -39,6 +41,720 @@ class BackendController extends Controller
     public function index(){
         $schools=School::select("id","school_name")->get();
         return view('users.showAdministrators',compact('schools'));
+    }
+
+
+    public function showTeachers()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Admin') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $courses = Course::where('course_status', 'Active')->select('course_name', 'id')->get();
+        $clases = Clas::select('clas_name', 'id')->get();
+        return view('users.showTeachers', compact('courses', 'clases'));
+    }
+
+
+    public function fetchTeachers(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Admin') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $query = User::with(['course', 'clas'])
+            ->select(
+                'users.id',
+                'users.firstname',
+                DB::raw("COALESCE(users.secondname, '') as secondname"),
+                DB::raw("COALESCE(users.lastname, '') as lastname"),
+                'users.email',
+                'users.phonenumber',
+                'users.gender',
+                'users.status',
+                'users.course_id',
+                'users.clas_id'
+            )
+            ->where('users.role', 'techsphere_teacher')
+            ->orderBy('users.created_at', 'desc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function ($q) use ($request) {
+                $q->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.secondname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.phonenumber', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $perPage = $request->input('per_page', 10);
+        $users = $query->paginate($perPage);
+
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+
+    public function addTeacher(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Admin') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'secondname' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phonenumber' => 'nullable|string|max:50',
+            'email' => 'required|email|max:255|unique:users,email',
+            'gender' => 'nullable|string|max:50',
+            'course_id' => [
+                'required',
+                Rule::exists('courses', 'id')->where(function ($q) {
+                    $q->where('course_status', 'Active');
+                }),
+            ],
+            'clas_id' => 'required|exists:clas,id',
+        ]);
+
+        $user = new User;
+        $user->firstname = $validated['firstname'];
+        $user->secondname = $validated['secondname'] ?? null;
+        $user->lastname = $validated['lastname'];
+        $user->phonenumber = $validated['phonenumber'] ?? null;
+        $user->email = $validated['email'];
+        $user->role = 'techsphere_teacher';
+        $user->gender = $validated['gender'] ?? null;
+        $user->course_id = $validated['course_id'];
+        $user->clas_id = $validated['clas_id'];
+        $user->password = Hash::make('12345678');
+        $save = $user->save();
+
+        if ($save) {
+            return response()->json(['success' => true, 'message' => 'Teacher created successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to create teacher.'], 500);
+    }
+
+
+    public function updateTeacher(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Admin') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'firstname' => 'required|string|max:255',
+            'secondname' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phonenumber' => 'nullable|string|max:50',
+            'email' => 'required|email|max:255|unique:users,email,' . $request->user_id,
+            'gender' => 'nullable|string|max:50',
+            'course_id' => [
+                'required',
+                Rule::exists('courses', 'id')->where(function ($q) {
+                    $q->where('course_status', 'Active');
+                }),
+            ],
+            'clas_id' => 'required|exists:clas,id',
+        ]);
+
+        $user = User::where('id', $validated['user_id'])
+            ->where('role', 'techsphere_teacher')
+            ->first();
+
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Teacher not found!'], 404);
+        }
+
+        $user->firstname = $validated['firstname'];
+        $user->secondname = $validated['secondname'] ?? null;
+        $user->lastname = $validated['lastname'];
+        $user->phonenumber = $validated['phonenumber'] ?? null;
+        $user->email = $validated['email'];
+        $user->gender = $validated['gender'] ?? null;
+        $user->course_id = $validated['course_id'];
+        $user->clas_id = $validated['clas_id'];
+        $user->update();
+
+        return response()->json(['success' => true, 'message' => 'Teacher updated successfully!']);
+    }
+
+
+    public function deleteTeacher(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'Admin') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::where('id', $validated['user_id'])
+            ->where('role', 'techsphere_teacher')
+            ->first();
+
+        if ($user) {
+            $user->delete();
+            return response()->json(['success' => true, 'message' => 'Teacher deleted successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Teacher not found!'], 404);
+    }
+
+
+    public function teacherDashboard(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::with(['course', 'clas'])->findOrFail(Auth::id());
+        return view('teachers.dashboard', compact('teacher'));
+    }
+
+
+    public function teacherStudents(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::with(['course', 'clas'])->findOrFail(Auth::id());
+        return view('teachers.students', compact('teacher'));
+    }
+
+
+    public function teacherFetchStudents(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $query = User::with(['course', 'clas'])
+            ->select(
+                'id',
+                'firstname',
+                DB::raw("COALESCE(secondname, '') as secondname"),
+                DB::raw("COALESCE(lastname, '') as lastname"),
+                'email',
+                'phonenumber',
+                'gender',
+                'status',
+                'course_id',
+                'clas_id'
+            )
+            ->where('role', 'Trainee')
+            ->where('clas_id', $teacher->clas_id)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function ($q) use ($request) {
+                $q->where('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('secondname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('phonenumber', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $perPage = $request->input('per_page', 10);
+        $users = $query->paginate($perPage);
+
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+
+    public function teacherStudentProgressReport(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $student = User::with(['course', 'clas'])->findOrFail($id);
+        if ((int) $student->clas_id !== (int) $teacher->clas_id) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $practicalAnswers = Practicalanswer::with(['practical.coursemodule', 'practical.course'])
+            ->where('user_id', $student->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $grouped = $practicalAnswers->groupBy(function ($ans) {
+            return $ans->practical?->coursemodule?->module_name ?? 'NA';
+        });
+
+        return view('teachers.studentProgressReport', compact('student', 'grouped'));
+    }
+
+
+    public function teacherDownloadStudentProgressReportPdf(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $student = User::with(['course', 'clas'])->findOrFail($id);
+
+        if ((int) $student->clas_id !== (int) $teacher->clas_id) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $setting = Setting::latest()->first();
+        $imageSrc = null;
+        if ($setting && !empty($setting->company_logo)) {
+            $imagePath = public_path('images/logo/' . $setting->company_logo);
+            if (file_exists($imagePath)) {
+                $imageData = base64_encode(file_get_contents($imagePath));
+                $imageSrc = 'data:image/jpeg;base64,' . $imageData;
+            }
+        }
+
+        $practicalAnswers = Practicalanswer::with(['practical.coursemodule', 'practical.course'])
+            ->where('user_id', $student->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $grouped = $practicalAnswers->groupBy(function ($ans) {
+            return $ans->practical?->coursemodule?->module_name ?? 'NA';
+        });
+
+        $html = View::make('trainees.traineePracticalScoresPdf', compact('student', 'grouped', 'imageSrc'))->render();
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $safeName = preg_replace(
+            '/[^a-zA-Z0-9_\-]/',
+            '_',
+            (string) trim($student->firstname . ' ' . $student->secondname . ' ' . $student->lastname)
+        );
+
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $safeName . '_progress_report.pdf"',
+        ]);
+    }
+
+
+    public function teacherPracticals(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::with(['course', 'clas'])->findOrFail(Auth::id());
+        $course_modules = CourseModule::where('course_id', $teacher->course_id)
+            ->select('id', 'module_name')
+            ->get();
+
+        return view('teachers.practicals', compact('teacher', 'course_modules'));
+    }
+
+
+    public function teacherFetchPracticals(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $query = Practical::with(['coursemodule'])
+            ->select('id', 'question', 'clas_id', 'marks', 'status', 'name', 'course_id', 'course_module_id', 'is_multiple_choice')
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->orderBy('created_at', 'desc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where(function ($q) use ($request) {
+                $q->where('marks', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('question', 'like', '%' . $request->search . '%')
+                    ->orWhere('status', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $perPage = $request->input('per_page', 10);
+        $users = $query->paginate($perPage);
+
+        foreach ($users as $exam) {
+            $exam->attempted_students = Practicalanswer::where('practical_id', $exam->id)
+                ->distinct('user_id')
+                ->count();
+            $exam->total_questions = Question::where('practical_id', $exam->id)->count();
+        }
+
+        return response()->json([
+            'users' => $users->items(),
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+
+    public function teacherAddPractical(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'course_module_id' => ['required', 'exists:course_modules,id'],
+            'marks' => ['required', 'numeric'],
+            'status' => ['required', 'string', 'max:255'],
+            'is_multiple_choice' => ['nullable', 'string', 'max:255'],
+            'question' => ['nullable', 'file', 'max:20480'],
+        ]);
+
+        $questionFile = 'NA';
+        if ($request->hasFile('question')) {
+            $file = $request->file('question');
+            $extension = $file->getClientOriginalExtension();
+            $questionFile = time() . '.' . $extension;
+            $file->move(public_path('practicals'), $questionFile);
+        }
+
+        Practical::create([
+            'clas_id' => $teacher->clas_id,
+            'course_id' => $teacher->course_id,
+            'course_module_id' => $validated['course_module_id'],
+            'marks' => $validated['marks'],
+            'question' => $questionFile,
+            'name' => $validated['name'],
+            'status' => $validated['status'],
+            'is_multiple_choice' => $validated['is_multiple_choice'] ?? null,
+        ]);
+
+        return redirect()->back()->with('success', 'Practical created successfully!');
+    }
+
+
+    public function teacherUpdatePractical(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'practical_id' => ['required', 'exists:practicals,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'course_module_id' => ['required', 'exists:course_modules,id'],
+            'marks' => ['required', 'numeric'],
+            'status' => ['required', 'string', 'max:255'],
+            'is_multiple_choice' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $practical = Practical::where('id', $validated['practical_id'])
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->first();
+
+        if (!$practical) {
+            return response()->json(['success' => false, 'message' => 'Practical not found!'], 404);
+        }
+
+        $practical->update([
+            'name' => $validated['name'],
+            'course_module_id' => $validated['course_module_id'],
+            'marks' => $validated['marks'],
+            'status' => $validated['status'],
+            'is_multiple_choice' => $validated['is_multiple_choice'] ?? null,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Practical updated successfully!']);
+    }
+
+
+    public function teacherDeletePractical(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'practical_id' => ['required', 'exists:practicals,id'],
+        ]);
+
+        $practical = Practical::where('id', $validated['practical_id'])
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->first();
+
+        if (!$practical) {
+            return response()->json(['success' => false, 'message' => 'Practical not found!'], 404);
+        }
+
+        $fileName = $practical->question;
+        if (!empty($fileName) && $fileName !== 'NA') {
+            $filePath = public_path('practicals/' . $fileName);
+            if (file_exists($filePath)) {
+                File::delete($filePath);
+            }
+        }
+
+        $practical->delete();
+        return response()->json(['success' => true, 'message' => 'Practical deleted successfully!']);
+    }
+
+
+    public function teacherUpdatePracticalQuestion(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'practical_id' => ['required', 'exists:practicals,id'],
+            'question' => ['required', 'file', 'max:20480'],
+        ]);
+
+        $practical = Practical::where('id', $validated['practical_id'])
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->first();
+
+        if (!$practical) {
+            return redirect()->back()->with('error', 'Practical not found');
+        }
+
+        if (!empty($practical->question) && $practical->question !== 'NA') {
+            $oldFile = public_path('practicals/' . $practical->question);
+            if (file_exists($oldFile)) {
+                File::delete($oldFile);
+            }
+        }
+
+        $file = $request->file('question');
+        $extension = $file->getClientOriginalExtension();
+        $questionFile = time() . '.' . $extension;
+        $file->move(public_path('practicals'), $questionFile);
+
+        $practical->update(['question' => $questionFile]);
+
+        return redirect()->back()->with('success', 'Practical question updated successfully!');
+    }
+
+
+    public function teacherPracticalSubmissions(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $practical = Practical::with(['coursemodule', 'clas', 'course'])
+            ->where('id', $id)
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        return view('teachers.practicalSubmissions', compact('teacher', 'practical'));
+    }
+
+
+    public function teacherFetchPracticalSubmissions(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $practical = Practical::where('id', $id)
+            ->where('clas_id', $teacher->clas_id)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        $query = Practicalanswer::with(['user'])
+            ->where('practical_id', $practical->id)
+            ->whereHas('user', function ($q) use ($teacher) {
+                $q->where('clas_id', $teacher->clas_id)->where('role', 'Trainee');
+            })
+            ->select('id', 'user_id', 'practical_id', 'student_answer', 'student_score', 'comment', 'created_at')
+            ->orderBy('created_at', 'asc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('secondname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $perPage = $request->input('per_page', 1000);
+        $users = $query->paginate($perPage);
+
+        return response()->json([
+            'success' => true,
+            'users' => $users->items(),
+            'practical' => [
+                'id' => $practical->id,
+                'name' => $practical->name,
+                'marks' => $practical->marks,
+            ],
+            'pagination' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+            ],
+            'total_users' => $users->total(),
+        ]);
+    }
+
+
+    public function teacherMarkPracticalSubmission(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'answer_id' => ['required', 'exists:practicalanswers,id'],
+            'student_score' => ['required', 'numeric'],
+            'comment' => ['required', 'string'],
+        ]);
+
+        $answer = Practicalanswer::with(['practical', 'user'])
+            ->where('id', $validated['answer_id'])
+            ->firstOrFail();
+
+        if (!$answer->practical || (int) $answer->practical->clas_id !== (int) $teacher->clas_id || (int) $answer->practical->course_id !== (int) $teacher->course_id) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        if (!$answer->user || (int) $answer->user->clas_id !== (int) $teacher->clas_id) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $answer->update([
+            'student_score' => $validated['student_score'],
+            'comment' => $validated['comment'],
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Marked successfully!']);
     }
 
 

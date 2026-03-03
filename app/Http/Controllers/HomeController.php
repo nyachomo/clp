@@ -23,6 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (auth()->check() && auth()->user()->role === 'techsphere_teacher') {
+            return redirect()->route('teacherDashboard');
+        }
         return view('home');
     }
 }
