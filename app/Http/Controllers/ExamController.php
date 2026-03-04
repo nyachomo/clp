@@ -750,7 +750,7 @@ class ExamController extends Controller
 
         $validated = $request->validate([
             'answer_id' => ['required', 'exists:practicalanswers,id'],
-            'student_answer' => ['required', 'file', 'max:2048'],
+            'student_answer' => ['required', 'file', 'max:10240'],
         ]);
 
         $answer = Practicalanswer::find($validated['answer_id']);
