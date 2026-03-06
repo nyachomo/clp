@@ -218,6 +218,16 @@ Route::prefix('teachers')->group(function () {
     Route::get('/practicals/{id}/submissions', [BackendController::class, 'teacherPracticalSubmissions'])->name('teacherPracticalSubmissions');
     Route::get('/practicals/{id}/fetch-submissions', [BackendController::class, 'teacherFetchPracticalSubmissions'])->name('teacherFetchPracticalSubmissions');
     Route::post('/practicals/mark-submission', [BackendController::class, 'teacherMarkPracticalSubmission'])->name('teacherMarkPracticalSubmission');
+
+    Route::get('/modules', [BackendController::class, 'teacherModules'])->name('teacherModules');
+    Route::post('/modules/add', [BackendController::class, 'teacherAddModule'])->name('teacherAddModule');
+    Route::post('/modules/update', [BackendController::class, 'teacherUpdateModule'])->name('teacherUpdateModule');
+    Route::post('/modules/delete', [BackendController::class, 'teacherDeleteModule'])->name('teacherDeleteModule');
+
+    Route::get('/modules/{moduleId}/notes', [BackendController::class, 'teacherModuleNotes'])->name('teacherModuleNotes');
+    Route::post('/modules/{moduleId}/notes/add', [BackendController::class, 'teacherAddModuleNote'])->name('teacherAddModuleNote');
+    Route::post('/modules/{moduleId}/notes/update', [BackendController::class, 'teacherUpdateModuleNote'])->name('teacherUpdateModuleNote');
+    Route::post('/modules/{moduleId}/notes/delete', [BackendController::class, 'teacherDeleteModuleNote'])->name('teacherDeleteModuleNote');
 });
 
 

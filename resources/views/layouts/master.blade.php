@@ -689,6 +689,14 @@
                             </a>
                         </li>
 
+                        <li class="side-nav-item">
+                            <a href="{{route('teacherModules')}}" class="side-nav-link">
+                                <i class="uil-home-alt text-info"></i>
+                                <span class="menu-arrow"></span>
+                                <span> Modules & Notes</span>
+                            </a>
+                        </li>
+
                     </ul>
                     @endif
 

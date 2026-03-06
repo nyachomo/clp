@@ -758,6 +758,243 @@ class BackendController extends Controller
     }
 
 
+    public function teacherModules(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::with(['course'])->findOrFail(Auth::id());
+        $modules = CourseModule::where('course_id', $teacher->course_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('teachers.modules', compact('teacher', 'modules'));
+    }
+
+
+    public function teacherAddModule(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'module_name' => ['required', 'string', 'max:255'],
+            'module_content' => ['required', 'string'],
+        ]);
+
+        CourseModule::create([
+            'course_id' => $teacher->course_id,
+            'module_name' => $validated['module_name'],
+            'module_content' => $validated['module_content'],
+        ]);
+
+        return redirect()->back()->with('success', 'Module created successfully!');
+    }
+
+
+    public function teacherUpdateModule(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'id' => ['required', 'exists:course_modules,id'],
+            'module_name' => ['required', 'string', 'max:255'],
+            'module_content' => ['required', 'string'],
+        ]);
+
+        $module = CourseModule::where('id', $validated['id'])
+            ->where('course_id', $teacher->course_id)
+            ->first();
+
+        if (!$module) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $module->update([
+            'module_name' => $validated['module_name'],
+            'module_content' => $validated['module_content'],
+        ]);
+
+        return redirect()->back()->with('success', 'Module updated successfully!');
+    }
+
+
+    public function teacherDeleteModule(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+
+        $validated = $request->validate([
+            'id' => ['required', 'exists:course_modules,id'],
+        ]);
+
+        $module = CourseModule::where('id', $validated['id'])
+            ->where('course_id', $teacher->course_id)
+            ->first();
+
+        if (!$module) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $module->delete();
+        return redirect()->back()->with('success', 'Module deleted successfully!');
+    }
+
+
+    public function teacherModuleNotes(Request $request, $moduleId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $module = CourseModule::where('id', $moduleId)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        $topics = Topic::where('module_id', $module->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('teachers.moduleNotes', compact('teacher', 'module', 'topics'));
+    }
+
+
+    public function teacherAddModuleNote(Request $request, $moduleId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $module = CourseModule::where('id', $moduleId)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'topic_name' => ['required', 'string', 'max:255'],
+            'topic_content' => ['required', 'string'],
+            'topic_video_link' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        Topic::create([
+            'module_id' => $module->id,
+            'topic_name' => $validated['topic_name'],
+            'topic_content' => $validated['topic_content'],
+            'topic_video_link' => $validated['topic_video_link'] ?? null,
+        ]);
+
+        return redirect()->back()->with('success', 'Note added successfully!');
+    }
+
+
+    public function teacherUpdateModuleNote(Request $request, $moduleId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $module = CourseModule::where('id', $moduleId)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'id' => ['required', 'exists:topics,id'],
+            'topic_name' => ['required', 'string', 'max:255'],
+            'topic_content' => ['required', 'string'],
+            'topic_video_link' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $topic = Topic::where('id', $validated['id'])
+            ->where('module_id', $module->id)
+            ->first();
+
+        if (!$topic) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $topic->update([
+            'topic_name' => $validated['topic_name'],
+            'topic_content' => $validated['topic_content'],
+            'topic_video_link' => $validated['topic_video_link'] ?? null,
+        ]);
+
+        return redirect()->back()->with('success', 'Note updated successfully!');
+    }
+
+
+    public function teacherDeleteModuleNote(Request $request, $moduleId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role != 'techsphere_teacher') {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $teacher = User::findOrFail(Auth::id());
+        $module = CourseModule::where('id', $moduleId)
+            ->where('course_id', $teacher->course_id)
+            ->firstOrFail();
+
+        $validated = $request->validate([
+            'id' => ['required', 'exists:topics,id'],
+        ]);
+
+        $topic = Topic::where('id', $validated['id'])
+            ->where('module_id', $module->id)
+            ->first();
+
+        if (!$topic) {
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $topic->delete();
+        return redirect()->back()->with('success', 'Note deleted successfully!');
+    }
+
+
     public function traineeProgressReport(Request $request)
     {
         if (!Auth::check()) {
