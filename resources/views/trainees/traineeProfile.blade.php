@@ -159,7 +159,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xl-4 col-lg-5">
+        <div class="col-xl-3 col-lg-4">
             <div class="card text-center">
                 <div class="card-body">
                     <!-- Profile -->
@@ -199,7 +199,7 @@
             </div>
         </div>
 
-        <div class="col-xl-8 col-lg-7">
+        <div class="col-xl-9 col-lg-8">
             <div class="card">
                 <div class="card-body">
                     <ul class="nav nav-pills nav-justified mb-3" style="background-color:#000033">
