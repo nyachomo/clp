@@ -2726,7 +2726,7 @@ public function adminUpdateUserPassword(Request $request){
 
 
 
-    public function showTraineeProfile($id)
+    public function showTraineeProfile(Request $request, $id)
         {
             $student = User::with(['course','clas'])->findOrFail($id);
 
@@ -2793,6 +2793,18 @@ public function adminUpdateUserPassword(Request $request){
                     'submitted' => !is_null($ans) && (!empty($ans?->student_answer) || !is_null($ans?->student_score) || !empty($ans?->comment)),
                 ];
             });
+
+            if ($request->boolean('ajax') && $request->expectsJson()) {
+                $html = view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList') + [
+                    'ajaxOnly' => true,
+                ])->render();
+
+                return response()->json([
+                    'success' => true,
+                    'html' => $html,
+                    'student_id' => $student->id,
+                ]);
+            }
 
             return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList'));
         }

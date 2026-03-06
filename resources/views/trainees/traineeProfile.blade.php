@@ -189,7 +189,7 @@
 </style>
 
 <br>
-<div class="trainee-profile-page">
+<div class="trainee-profile-page" id="traineeProfileAjaxRoot">
 
     <div id="message-container" class="mt-3"></div>
 
@@ -210,12 +210,17 @@
     <div class="row">
         <div class="col-sm-12 mb-3">
             <div class="trainee-switch-wrap">
-                <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
+                    <span class="input-group-text" id="traineeSwitchLoading" style="display:none;">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </span>
+                </div>
                 <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
                     @foreach(($traineeSwitchList ?? collect()) as $ts)
                         <a
                             href="{{ route('showTraineeProfile', $ts->id) }}"
-                            class="list-group-item list-group-item-action {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
+                            class="list-group-item list-group-item-action trainee-switch-link {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
                             data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
                         >
                             <div class="d-flex justify-content-between">
@@ -632,11 +637,14 @@
 
 @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const buttons = document.querySelectorAll('.updateTraineeAnswerBtn');
-            const input = document.getElementById('update_trainee_answer_id');
+        function initTraineeProfilePage() {
+            const root = document.getElementById('traineeProfileAjaxRoot');
+            if (!root) return;
 
-            const messageContainer = document.getElementById('message-container');
+            const buttons = root.querySelectorAll('.updateTraineeAnswerBtn');
+            const input = root.querySelector('#update_trainee_answer_id');
+
+            const messageContainer = root.querySelector('#message-container');
 
             function displayMessage(type, message) {
                 if (!messageContainer) return;
@@ -673,20 +681,21 @@
                 return 'Request failed';
             }
 
-            const marksButtons = document.querySelectorAll('.updateTraineeMarksBtn');
-            const marksIdInput = document.getElementById('update_trainee_marks_answer_id');
-            const marksScoreInput = document.getElementById('update_trainee_marks_score');
-            const marksCommentInput = document.getElementById('update_trainee_marks_comment');
-            const marksForm = document.getElementById('updateTraineeMarksForm');
-            const answerForm = document.getElementById('updateTraineeAnswerForm');
+            const marksButtons = root.querySelectorAll('.updateTraineeMarksBtn');
+            const marksIdInput = root.querySelector('#update_trainee_marks_answer_id');
+            const marksScoreInput = root.querySelector('#update_trainee_marks_score');
+            const marksCommentInput = root.querySelector('#update_trainee_marks_comment');
+            const marksForm = root.querySelector('#updateTraineeMarksForm');
+            const answerForm = root.querySelector('#updateTraineeAnswerForm');
 
-            const submitButtons = document.querySelectorAll('.submitTraineeAnswerBtn');
-            const submitForm = document.getElementById('submitTraineeAnswerForm');
-            const submitPracticalInput = document.getElementById('submit_trainee_practical_id');
-            const submitUserInput = document.getElementById('submit_trainee_user_id');
+            const submitButtons = root.querySelectorAll('.submitTraineeAnswerBtn');
+            const submitForm = root.querySelector('#submitTraineeAnswerForm');
+            const submitPracticalInput = root.querySelector('#submit_trainee_practical_id');
+            const submitUserInput = root.querySelector('#submit_trainee_user_id');
 
-            const traineeSwitchInput = document.getElementById('traineeSwitchInput');
-            const traineeSwitchDropdown = document.getElementById('traineeSwitchDropdown');
+            const traineeSwitchInput = root.querySelector('#traineeSwitchInput');
+            const traineeSwitchDropdown = root.querySelector('#traineeSwitchDropdown');
+            const traineeSwitchLoading = root.querySelector('#traineeSwitchLoading');
 
             function setTraineeSwitchDropdownVisible(visible) {
                 if (!traineeSwitchDropdown) return;
@@ -707,6 +716,46 @@
                 setTraineeSwitchDropdownVisible(visibleCount > 0);
             }
 
+            async function ajaxSwitchTrainee(url) {
+                if (traineeSwitchLoading) traineeSwitchLoading.style.display = 'flex';
+                setTraineeSwitchDropdownVisible(false);
+
+                try {
+                    const joiner = url.indexOf('?') === -1 ? '?' : '&';
+                    const res = await fetch(url + joiner + 'ajax=1', {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        credentials: 'same-origin',
+                    });
+
+                    const payload = await res.json().catch(() => null);
+                    if (!res.ok || !payload || !payload.success || !payload.html) {
+                        displayMessage('error', extractErrorMessage(payload));
+                        return;
+                    }
+
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(payload.html, 'text/html');
+                    const nextRoot = doc.querySelector('#traineeProfileAjaxRoot');
+                    if (!nextRoot) {
+                        displayMessage('error', 'Failed to load trainee profile');
+                        return;
+                    }
+
+                    root.outerHTML = nextRoot.outerHTML;
+                    window.history.pushState({ traineeUrl: url }, '', url);
+                    initTraineeProfilePage();
+                } catch (e) {
+                    displayMessage('error', 'Request failed');
+                } finally {
+                    const currentRoot = document.getElementById('traineeProfileAjaxRoot');
+                    const loader = currentRoot ? currentRoot.querySelector('#traineeSwitchLoading') : null;
+                    if (loader) loader.style.display = 'none';
+                }
+            }
+
             if (traineeSwitchInput && traineeSwitchDropdown) {
                 traineeSwitchInput.addEventListener('focus', function () {
                     filterTraineeSwitchList(traineeSwitchInput.value);
@@ -717,11 +766,23 @@
                 });
 
                 document.addEventListener('click', function (e) {
-                    if (!traineeSwitchDropdown) return;
-                    if (!traineeSwitchInput) return;
+                    const currentRoot = document.getElementById('traineeProfileAjaxRoot');
+                    if (!currentRoot) return;
+                    const dd = currentRoot.querySelector('#traineeSwitchDropdown');
+                    const inp = currentRoot.querySelector('#traineeSwitchInput');
+                    if (!dd || !inp) return;
                     const target = e.target;
-                    if (traineeSwitchDropdown.contains(target) || traineeSwitchInput.contains(target)) return;
-                    setTraineeSwitchDropdownVisible(false);
+                    if (dd.contains(target) || inp.contains(target)) return;
+                    dd.style.display = 'none';
+                });
+
+                traineeSwitchDropdown.querySelectorAll('a.trainee-switch-link').forEach(function (a) {
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const href = this.getAttribute('href');
+                        if (!href) return;
+                        ajaxSwitchTrainee(href);
+                    });
                 });
             }
 
@@ -961,7 +1022,19 @@
                     xhr.send(formData);
                 });
             }
+
+            if (!window.__traineeProfilePopstateBound) {
+                window.__traineeProfilePopstateBound = true;
+                window.addEventListener('popstate', function (event) {
+                    if (event && event.state && event.state.traineeUrl) {
+                        ajaxSwitchTrainee(event.state.traineeUrl);
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initTraineeProfilePage();
         });
     </script>
 @endsection
-
