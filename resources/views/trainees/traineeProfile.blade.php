@@ -280,13 +280,20 @@
                 <div class="card-body">
                     <ul class="nav nav-pills nav-justified mb-3" style="background-color:#000033">
                         <li class="nav-item">
-                            <a href="#personal" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
-                                Personal Info
+                            <a href="#practicals" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                                Practicals
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="#payments" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
                                 Fee Payments
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#personal" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                                Personal Info
                             </a>
                         </li>
 
@@ -296,51 +303,76 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#practicals" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
-                                Practicals
-                            </a>
-                        </li>
-
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane show active" id="personal">
-                            <div class="table-responsive">
-                                <table class="table table-sm table-striped">
+                        <div class="tab-pane show active" id="practicals">
+                            <div class="mb-2">
+                                <a class="btn btn-sm btn-secondary" href="{{ route('downloadTraineePracticalScoresPdf', $student->id) }}">Download Practical Scores</a>
+                            </div>
+                            <div class="table-responsive practicals-table-wrap">
+                                <table class="table table-sm table-striped practicals-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Module</th>
+                                            <th>Practical</th>
+                                            <th>Student Answer</th>
+                                            <th>Score</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        <tr>
-                                            <th>Full Name</th>
-                                            <td>{{ $student->firstname }} {{ $student->secondname }} {{ $student->lastname }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Email</th>
-                                            <td>{{ $student->email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Phone</th>
-                                            <td>{{ $student->phonenumber }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Parent Phone</th>
-                                            <td>{{ $student->parent_phone }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Gender</th>
-                                            <td>{{ $student->gender }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Course</th>
-                                            <td>{{ $student->course->course_name ?? 'NA' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Class</th>
-                                            <td>{{ $student->clas->clas_name ?? 'NA' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Status</th>
-                                            <td>{{ $student->status }}</td>
-                                        </tr>
+                                        @foreach(($practicalItems ?? []) as $k => $row)
+                                            <tr>
+                                                <td>{{ $k + 1 }}</td>
+                                                <td>{{ $row->practical->coursemodule->module_name ?? 'NA' }}</td>
+                                                <td>{{ $row->practical->name ?? 'NA' }}</td>
+                                                <td class="cell-nowrap">
+                                                    @if(!empty($row->student_answer))
+                                                        <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
+                                                            {{ $row->student_answer }}
+                                                        </a>
+                                                    @else
+                                                        @if(!empty($row->answer_id))
+                                                            <span class="text-muted">NA</span>
+                                                        @else
+                                                            <span class="text-muted">Not Submitted</span>
+                                                        @endif
+                                                    @endif
+
+                                                    @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                        @if(!empty($row->answer_id))
+                                                            <span role="button"
+                                                                class="badge bg-danger ms-1 updateTraineeAnswerBtn"
+                                                                data-id="{{ $row->answer_id }}"
+                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
+                                                        @else
+                                                            <span role="button"
+                                                                class="badge bg-success ms-1 submitTraineeAnswerBtn"
+                                                                data-practical-id="{{ $row->practical->id }}"
+                                                                data-user-id="{{ $student->id }}"
+                                                                data-bs-toggle="modal" data-bs-target="#submitTraineeAnswerModal">Submit</span>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="cell-nowrap">
+                                                    {{ $row->student_score }}
+
+                                                    @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                        @if(!empty($row->answer_id))
+                                                            <span role="button"
+                                                                class="badge bg-primary ms-1 updateTraineeMarksBtn"
+                                                                data-id="{{ $row->answer_id }}"
+                                                                data-score="{{ $row->student_score }}"
+                                                                data-comment="{{ $row->comment }}"
+                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Marks</span>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>{{ $row->comment }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -422,6 +454,47 @@
                             </div>
                         </div>
 
+                        <div class="tab-pane" id="personal">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <td>{{ $student->firstname }} {{ $student->secondname }} {{ $student->lastname }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $student->email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone</th>
+                                            <td>{{ $student->phonenumber }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Parent Phone</th>
+                                            <td>{{ $student->parent_phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Gender</th>
+                                            <td>{{ $student->gender }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Course</th>
+                                            <td>{{ $student->course->course_name ?? 'NA' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Class</th>
+                                            <td>{{ $student->clas->clas_name ?? 'NA' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>{{ $student->status }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="tab-pane" id="assessments">
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped">
@@ -449,79 +522,10 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="practicals">
-                            <div class="mb-2">
-                                <a class="btn btn-sm btn-secondary" href="{{ route('downloadTraineePracticalScoresPdf', $student->id) }}">Download Practical Scores</a>
-                            </div>
-                            <div class="table-responsive practicals-table-wrap">
-                                <table class="table table-sm table-striped practicals-table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Module</th>
-                                            <th>Practical</th>
-                                            <th>Student Answer</th>
-                                            <th>Score</th>
-                                            <th>Comment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach(($practicalItems ?? []) as $k => $row)
-                                            <tr>
-                                                <td>{{ $k + 1 }}</td>
-                                                <td>{{ $row->practical->coursemodule->module_name ?? 'NA' }}</td>
-                                                <td>{{ $row->practical->name ?? 'NA' }}</td>
-                                                <td class="cell-nowrap">
-                                                    @if(!empty($row->student_answer))
-                                                        <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
-                                                            {{ $row->student_answer }}
-                                                        </a>
-                                                    @else
-                                                        @if(!empty($row->answer_id))
-                                                            <span class="text-muted">NA</span>
-                                                        @else
-                                                            <span class="text-muted">Not Submitted</span>
-                                                        @endif
-                                                    @endif
-
-                                                    @if(Auth::check() && Auth::user()->role != 'Trainee')
-                                                        @if(!empty($row->answer_id))
-                                                            <span role="button"
-                                                                class="badge bg-danger ms-1 updateTraineeAnswerBtn"
-                                                                data-id="{{ $row->answer_id }}"
-                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
-                                                        @else
-                                                            <span role="button"
-                                                                class="badge bg-success ms-1 submitTraineeAnswerBtn"
-                                                                data-practical-id="{{ $row->practical->id }}"
-                                                                data-user-id="{{ $student->id }}"
-                                                                data-bs-toggle="modal" data-bs-target="#submitTraineeAnswerModal">Submit</span>
-                                                        @endif
-                                                    @endif
-                                                </td>
-                                                <td class="cell-nowrap">
-                                                    {{ $row->student_score }}
-                                                    @if(Auth::check() && Auth::user()->role != 'Trainee' && !empty($row->answer_id))
-                                                        <span role="button"
-                                                            class="badge bg-secondary ms-1 updateTraineeMarksBtn"
-                                                            data-id="{{ $row->answer_id }}"
-                                                            data-score="{{ $row->student_score }}"
-                                                            data-comment="{{ $row->comment }}"
-                                                            data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Update</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ !empty($row->comment) ? $row->comment : 'NA' }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                     </div> <!-- end tab-content -->
                 </div> <!-- end card body -->
             </div> <!-- end card -->
-        </div> <!-- end col -->
+            </div> <!-- end col -->
     </div>
     <!-- end row -->
 
