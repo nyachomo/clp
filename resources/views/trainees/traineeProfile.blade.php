@@ -209,26 +209,101 @@
 
     <div class="row">
         <div class="col-sm-12 mb-3">
-            <div class="trainee-switch-wrap">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
-                    <span class="input-group-text" id="traineeSwitchLoading" style="display:none;">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    </span>
+            <div class="row g-2 align-items-start">
+                <div class="col-lg-7">
+                    <div class="trainee-switch-wrap">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
+                            <span class="input-group-text" id="traineeSwitchLoading" style="display:none;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </span>
+                        </div>
+                        <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
+                            @foreach(($traineeSwitchList ?? collect()) as $ts)
+                                <a
+                                    href="{{ route('showTraineeProfile', $ts->id) }}"
+                                    class="list-group-item list-group-item-action trainee-switch-link {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
+                                    data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
+                                >
+                                    <div class="d-flex justify-content-between">
+                                        <span>{{ $ts->firstname }} {{ $ts->secondname }} {{ $ts->lastname }}</span>
+                                        <span class="ms-3">{{ $ts->clas->clas_name ?? 'NA' }}</span>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
-                <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
-                    @foreach(($traineeSwitchList ?? collect()) as $ts)
-                        <a
-                            href="{{ route('showTraineeProfile', $ts->id) }}"
-                            class="list-group-item list-group-item-action trainee-switch-link {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
-                            data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
-                        >
-                            <div class="d-flex justify-content-between">
-                                <span>{{ $ts->firstname }} {{ $ts->secondname }} {{ $ts->lastname }}</span>
-                                <span class="ms-3">{{ $ts->clas->clas_name ?? 'NA' }}</span>
-                            </div>
-                        </a>
-                    @endforeach
+
+                <div class="col-lg-5">
+                    @php
+                        $quickNav = collect();
+                        if (Auth::check() && Auth::user()->role == 'Admin') {
+                            $quickNav = collect([
+                                ['label' => 'Administrators', 'route' => 'showAdministrator'],
+                                ['label' => 'Applicants', 'route' => 'showApplicants'],
+                                ['label' => 'Assignments', 'route' => 'showExams'],
+                                ['label' => 'Cats', 'route' => 'adminManageCats'],
+                                ['label' => 'Class Room', 'route' => 'classRoom'],
+                                ['label' => 'Classes', 'route' => 'showClases'],
+                                ['label' => 'Contact Messages', 'route' => 'showContactMessages'],
+                                ['label' => 'Courses', 'route' => 'showCourses'],
+                                ['label' => 'Dashboard', 'route' => 'home'],
+                                ['label' => 'Final Exam', 'route' => 'adminManageFinalExam'],
+                                ['label' => 'Manage Account', 'route' => 'userAccount'],
+                                ['label' => 'Manage Settings', 'route' => 'ShowSettings'],
+                                ['label' => 'Practicals', 'route' => 'showPracticalPerClas'],
+                                ['label' => 'Programs', 'route' => 'adminManagePrograms'],
+                                ['label' => 'Scholarship Letters', 'route' => 'adminManageFormFourScholarshipLetter'],
+                                ['label' => 'Scholarship Test Courses', 'route' => 'adminManageScholarshipTestCourse'],
+                                ['label' => 'Schools', 'route' => 'showSchools'],
+                                ['label' => 'Suspended Classes', 'route' => 'showSuspendedClases'],
+                                ['label' => 'Suspended Courses', 'route' => 'showSuspendedCourses'],
+                                ['label' => 'Teachers', 'route' => 'showTeachers'],
+                                ['label' => 'Trainees', 'route' => 'showTrainees'],
+                            ])->filter(function ($x) {
+                                return isset($x['route']) && \Illuminate\Support\Facades\Route::has($x['route']);
+                            })->map(function ($x) {
+                                return ['label' => $x['label'], 'url' => route($x['route'])];
+                            })->sortBy('label')->values();
+                        } elseif (Auth::check() && Auth::user()->role == 'Trainee') {
+                            $quickNav = collect([
+                                ['label' => 'Assesment', 'route' => 'studentViewPracticalScore'],
+                                ['label' => 'Course Notes', 'route' => 'traineeCourseNotes'],
+                                ['label' => 'Dashboard', 'route' => 'home'],
+                                ['label' => 'Fee Payment', 'route' => 'traineeViewFeePayment'],
+                                ['label' => 'My Account', 'route' => 'userAccount'],
+                                ['label' => 'Progress Report', 'route' => 'traineeProgressReport'],
+                            ])->filter(function ($x) {
+                                return isset($x['route']) && \Illuminate\Support\Facades\Route::has($x['route']);
+                            })->map(function ($x) {
+                                return ['label' => $x['label'], 'url' => route($x['route'])];
+                            })->sortBy('label')->values();
+                        } elseif (Auth::check() && Auth::user()->role == 'techsphere_teacher') {
+                            $quickNav = collect([
+                                ['label' => 'Dashboard', 'route' => 'teacherDashboard'],
+                                ['label' => 'Modules & Notes', 'route' => 'teacherModules'],
+                                ['label' => 'My Account', 'route' => 'userAccount'],
+                                ['label' => 'Practicals', 'route' => 'teacherPracticals'],
+                                ['label' => 'Students', 'route' => 'teacherStudents'],
+                            ])->filter(function ($x) {
+                                return isset($x['route']) && \Illuminate\Support\Facades\Route::has($x['route']);
+                            })->map(function ($x) {
+                                return ['label' => $x['label'], 'url' => route($x['route'])];
+                            })->sortBy('label')->values();
+                        }
+                    @endphp
+
+                    <div class="dropdown w-100">
+                        <button class="btn btn-outline-secondary w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Quick Navigation
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            @foreach($quickNav as $item)
+                                <li><a class="dropdown-item" href="{{ $item['url'] }}">{{ $item['label'] }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
