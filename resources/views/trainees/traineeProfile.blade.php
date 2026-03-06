@@ -294,12 +294,20 @@
                         }
                     @endphp
 
-                    <select class="form-select" id="quickNavSelect">
-                        <option value="">Quick Navigation...</option>
-                        @foreach($quickNav as $item)
-                            <option value="{{ $item['url'] }}">{{ $item['label'] }}</option>
-                        @endforeach
-                    </select>
+                    <div class="trainee-switch-wrap">
+                        <input type="text" class="form-control" id="quickNavInput" placeholder="Search module..." autocomplete="off">
+                        <div class="list-group trainee-switch-dropdown" id="quickNavDropdown">
+                            @foreach($quickNav as $item)
+                                <a
+                                    href="{{ $item['url'] }}"
+                                    class="list-group-item list-group-item-action quick-nav-link"
+                                    data-search="{{ strtolower(trim($item['label'] ?? '')) }}"
+                                >
+                                    {{ $item['label'] }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -795,7 +803,8 @@
             const submitPracticalInput = root.querySelector('#submit_trainee_practical_id');
             const submitUserInput = root.querySelector('#submit_trainee_user_id');
 
-            const quickNavSelect = root.querySelector('#quickNavSelect');
+            const quickNavInput = root.querySelector('#quickNavInput');
+            const quickNavDropdown = root.querySelector('#quickNavDropdown');
 
             const traineeSwitchInput = root.querySelector('#traineeSwitchInput');
             const traineeSwitchDropdown = root.querySelector('#traineeSwitchDropdown');
@@ -818,6 +827,25 @@
                     if (show) visibleCount++;
                 });
                 setTraineeSwitchDropdownVisible(visibleCount > 0);
+            }
+
+            function setQuickNavDropdownVisible(visible) {
+                if (!quickNavDropdown) return;
+                quickNavDropdown.style.display = visible ? 'block' : 'none';
+            }
+
+            function filterQuickNavList(query) {
+                if (!quickNavDropdown) return;
+                const q = String(query || '').trim().toLowerCase();
+                const items = quickNavDropdown.querySelectorAll('a[data-search]');
+                let visibleCount = 0;
+                items.forEach(function (a) {
+                    const hay = (a.getAttribute('data-search') || '').toLowerCase();
+                    const show = q.length === 0 ? true : hay.indexOf(q) !== -1;
+                    a.style.display = show ? '' : 'none';
+                    if (show) visibleCount++;
+                });
+                setQuickNavDropdownVisible(visibleCount > 0);
             }
 
             async function ajaxSwitchTrainee(url) {
@@ -890,11 +918,30 @@
                 });
             }
 
-            if (quickNavSelect) {
-                quickNavSelect.addEventListener('change', function () {
-                    const url = this.value;
-                    if (!url) return;
-                    window.location.href = url;
+            if (quickNavInput && quickNavDropdown) {
+                quickNavInput.addEventListener('focus', function () {
+                    filterQuickNavList(quickNavInput.value);
+                });
+
+                quickNavInput.addEventListener('input', function () {
+                    filterQuickNavList(quickNavInput.value);
+                });
+
+                document.addEventListener('click', function (e) {
+                    const currentRoot = document.getElementById('traineeProfileAjaxRoot');
+                    if (!currentRoot) return;
+                    const dd = currentRoot.querySelector('#quickNavDropdown');
+                    const inp = currentRoot.querySelector('#quickNavInput');
+                    if (!dd || !inp) return;
+                    const target = e.target;
+                    if (dd.contains(target) || inp.contains(target)) return;
+                    dd.style.display = 'none';
+                });
+
+                quickNavDropdown.querySelectorAll('a.quick-nav-link').forEach(function (a) {
+                    a.addEventListener('click', function () {
+                        setQuickNavDropdownVisible(false);
+                    });
                 });
             }
 
