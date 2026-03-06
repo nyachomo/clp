@@ -2758,7 +2758,36 @@ public function adminUpdateUserPassword(Request $request){
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers'));
+            $practicalsQuery = \App\Models\Practical::with(['coursemodule','course'])
+                ->where('clas_id', $student->clas_id);
+
+            if (!is_null($student->course_id)) {
+                $practicalsQuery->where('course_id', $student->course_id);
+            }
+
+            $allPracticals = $practicalsQuery
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $answersByPracticalId = \App\Models\Practicalanswer::where('user_id', $id)
+                ->orderBy('id', 'asc')
+                ->get()
+                ->keyBy('practical_id');
+
+            $practicalItems = $allPracticals->map(function ($practical) use ($answersByPracticalId) {
+                $ans = $answersByPracticalId->get($practical->id);
+                return (object) [
+                    'practical' => $practical,
+                    'answer' => $ans,
+                    'answer_id' => $ans?->id,
+                    'student_answer' => $ans?->student_answer,
+                    'student_score' => $ans?->student_score,
+                    'comment' => $ans?->comment,
+                    'submitted' => !is_null($ans) && !empty($ans?->student_answer),
+                ];
+            });
+
+            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems'));
         }
 
 

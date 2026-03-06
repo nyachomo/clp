@@ -359,6 +359,7 @@ Route::prefix('exams')->group(function () {
     Route::post('/adminDeleteStudentPracticalScore', [ExamController::class, 'adminDeleteStudentPracticalScore'])->name('adminDeleteStudentPracticalScore');
     Route::post('/adminUpdateStudentPracticalScore', [ExamController::class, 'adminUpdateStudentPracticalScore'])->name('adminUpdateStudentPracticalScore');
     Route::post('/adminUpdateStudentPracticalAnswer', [ExamController::class, 'adminUpdateStudentPracticalAnswer'])->name('adminUpdateStudentPracticalAnswer');
+    Route::post('/adminSubmitStudentPracticalAnswer', [ExamController::class, 'adminSubmitStudentPracticalAnswer'])->name('adminSubmitStudentPracticalAnswer');
     Route::get('/downloadMissingPracticalStudents/{exam_id}', [ExamController::class, 'downloadMissingPracticalStudents'])->name('downloadMissingPracticalStudents');
     Route::get('/downloadMissingPracticalStudentsPdf/{exam_id}', [ExamController::class, 'downloadMissingPracticalStudentsPdf'])->name('downloadMissingPracticalStudentsPdf');
     Route::get('/downloadMissingPracticalStudentsExcel/{exam_id}', [ExamController::class, 'downloadMissingPracticalStudentsExcel'])->name('downloadMissingPracticalStudentsExcel');

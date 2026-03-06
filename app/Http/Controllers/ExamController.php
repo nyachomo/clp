@@ -840,6 +840,79 @@ class ExamController extends Controller
         return redirect()->back()->with('error', 'No file selected');
     }
 
+    public function adminSubmitStudentPracticalAnswer(Request $request)
+    {
+        if (!Auth::check()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+            }
+
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            }
+
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'practical_id' => ['required', 'exists:practicals,id'],
+            'user_id' => ['required', 'exists:users,id'],
+            'student_answer' => ['required', 'file', 'max:10240'],
+        ]);
+
+        $answer = Practicalanswer::where('practical_id', $validated['practical_id'])
+            ->where('user_id', $validated['user_id'])
+            ->orderBy('id', 'asc')
+            ->first();
+
+        if ($request->hasFile('student_answer')) {
+            $file = $request->file('student_answer');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move(public_path('practicals'), $fileName);
+
+            if ($answer && !empty($answer->student_answer)) {
+                $oldFile = public_path('practicals/' . $answer->student_answer);
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+
+            if (!$answer) {
+                $answer = Practicalanswer::create([
+                    'practical_id' => $validated['practical_id'],
+                    'user_id' => $validated['user_id'],
+                    'student_answer' => $fileName,
+                ]);
+            } else {
+                $answer->update([
+                    'student_answer' => $fileName,
+                ]);
+            }
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Student answer submitted successfully',
+                    'answer_id' => $answer->id,
+                    'student_answer' => $fileName,
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Student answer submitted successfully');
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => false, 'message' => 'No file selected'], 422);
+        }
+
+        return redirect()->back()->with('error', 'No file selected');
+    }
+
 
 
      public function downloadPracticalScore($exam_id){

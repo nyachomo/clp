@@ -429,39 +429,47 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($practicalAnswers as $k => $ans)
+                                        @foreach(($practicalItems ?? []) as $k => $row)
                                             <tr>
                                                 <td>{{ $k + 1 }}</td>
-                                                <td>{{ $ans->practical->coursemodule->module_name ?? 'NA' }}</td>
-                                                <td>{{ $ans->practical->name ?? 'NA' }}</td>
+                                                <td>{{ $row->practical->coursemodule->module_name ?? 'NA' }}</td>
+                                                <td>{{ $row->practical->name ?? 'NA' }}</td>
                                                 <td class="cell-nowrap">
-                                                    @if(!empty($ans->student_answer))
-                                                        <a class="answer-link" href="{{ asset('practicals/' . $ans->student_answer) }}" download>
-                                                            {{ $ans->student_answer }}
+                                                    @if(!empty($row->student_answer))
+                                                        <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
+                                                            {{ $row->student_answer }}
                                                         </a>
                                                     @else
-                                                        <span class="text-muted">NA</span>
+                                                        <span class="text-muted">Not Submitted</span>
                                                     @endif
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
-                                                        <span role="button"
-                                                            class="badge bg-danger ms-1 updateTraineeAnswerBtn"
-                                                            data-id="{{ $ans->id }}"
-                                                            data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
+                                                        @if(!empty($row->answer_id))
+                                                            <span role="button"
+                                                                class="badge bg-danger ms-1 updateTraineeAnswerBtn"
+                                                                data-id="{{ $row->answer_id }}"
+                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
+                                                        @else
+                                                            <span role="button"
+                                                                class="badge bg-success ms-1 submitTraineeAnswerBtn"
+                                                                data-practical-id="{{ $row->practical->id }}"
+                                                                data-user-id="{{ $student->id }}"
+                                                                data-bs-toggle="modal" data-bs-target="#submitTraineeAnswerModal">Submit</span>
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td class="cell-nowrap">
-                                                    {{ $ans->student_score }}
-                                                    @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                    {{ $row->student_score }}
+                                                    @if(Auth::check() && Auth::user()->role != 'Trainee' && !empty($row->answer_id))
                                                         <span role="button"
                                                             class="badge bg-secondary ms-1 updateTraineeMarksBtn"
-                                                            data-id="{{ $ans->id }}"
-                                                            data-score="{{ $ans->student_score }}"
-                                                            data-comment="{{ $ans->comment }}"
+                                                            data-id="{{ $row->answer_id }}"
+                                                            data-score="{{ $row->student_score }}"
+                                                            data-comment="{{ $row->comment }}"
                                                             data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Update</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ !empty($ans->comment) ? $ans->comment : 'NA' }}</td>
+                                                <td>{{ !empty($row->comment) ? $row->comment : 'NA' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -479,6 +487,36 @@
 </div>
 
 @if(Auth::check() && Auth::user()->role != 'Trainee')
+    <div id="submitTraineeAnswerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="submitTraineeAnswerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="submitTraineeAnswerModalLabel">Submit Student Answer</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <form method="POST" id="submitTraineeAnswerForm" action="{{ route('adminSubmitStudentPracticalAnswer') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="practical_id" id="submit_trainee_practical_id">
+                        <input type="hidden" name="user_id" id="submit_trainee_user_id">
+                        <div class="mb-3">
+                            <label class="form-label">Upload Answer File</label>
+                            <input type="file" class="form-control" name="student_answer" required>
+                        </div>
+
+                        <div class="progress mt-2" style="height: 18px; display:none;" id="submitTraineeAnswerProgressWrap">
+                            <div class="progress-bar" id="submitTraineeAnswerProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="updateTraineeAnswerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateTraineeAnswerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -596,6 +634,11 @@
             const marksForm = document.getElementById('updateTraineeMarksForm');
             const answerForm = document.getElementById('updateTraineeAnswerForm');
 
+            const submitButtons = document.querySelectorAll('.submitTraineeAnswerBtn');
+            const submitForm = document.getElementById('submitTraineeAnswerForm');
+            const submitPracticalInput = document.getElementById('submit_trainee_practical_id');
+            const submitUserInput = document.getElementById('submit_trainee_user_id');
+
             buttons.forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     if (input) {
@@ -611,6 +654,83 @@
                     if (marksCommentInput) marksCommentInput.value = this.getAttribute('data-comment') || '';
                 });
             });
+
+            submitButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (submitPracticalInput) submitPracticalInput.value = this.getAttribute('data-practical-id') || '';
+                    if (submitUserInput) submitUserInput.value = this.getAttribute('data-user-id') || '';
+                });
+            });
+
+            if (submitForm) {
+                submitForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const actionUrl = submitForm.getAttribute('action');
+                    const progressWrap = document.getElementById('submitTraineeAnswerProgressWrap');
+                    const progressBar = document.getElementById('submitTraineeAnswerProgress');
+
+                    if (progressBar) {
+                        progressBar.style.width = '0%';
+                        progressBar.setAttribute('aria-valuenow', '0');
+                        progressBar.textContent = '0%';
+                    }
+                    if (progressWrap) progressWrap.style.display = 'block';
+
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData(submitForm);
+
+                    xhr.open('POST', actionUrl, true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                    xhr.upload.onprogress = function (event) {
+                        if (!progressBar) return;
+                        if (event.lengthComputable) {
+                            const percent = Math.round((event.loaded / event.total) * 100);
+                            progressBar.style.width = percent + '%';
+                            progressBar.setAttribute('aria-valuenow', String(percent));
+                            progressBar.textContent = percent + '%';
+                        }
+                    };
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) return;
+
+                        let payload = null;
+                        try {
+                            payload = JSON.parse(xhr.responseText);
+                        } catch (err) {
+                            payload = null;
+                        }
+
+                        if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                            if (progressBar) {
+                                progressBar.style.width = '100%';
+                                progressBar.setAttribute('aria-valuenow', '100');
+                                progressBar.textContent = '100%';
+                            }
+
+                            const modalEl = document.getElementById('submitTraineeAnswerModal');
+                            if (modalEl && window.bootstrap) {
+                                const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                if (inst) inst.hide();
+                            }
+
+                            displayMessage('success', payload.message || 'Student answer submitted successfully');
+                            setTimeout(() => window.location.reload(), 600);
+                        } else {
+                            displayMessage('error', extractErrorMessage(payload));
+                        }
+
+                        setTimeout(function () {
+                            if (progressWrap) progressWrap.style.display = 'none';
+                        }, 700);
+                    };
+
+                    xhr.send(formData);
+                });
+            }
 
             if (answerForm) {
                 answerForm.addEventListener('submit', function (e) {
