@@ -381,11 +381,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Practical</th>
-                                            <th>Course</th>
                                             <th>Module</th>
                                             <th>Student Answer</th>
                                             <th>Score</th>
-                                            <th>Status</th>
                                             <th>Date</th>
                                             @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                 <th>Action</th>
@@ -397,7 +395,6 @@
                                             <tr>
                                                 <td>{{ $k + 1 }}</td>
                                                 <td>{{ $ans->practical->name ?? 'NA' }}</td>
-                                                <td>{{ $ans->practical->course->course_name ?? 'NA' }}</td>
                                                 <td>{{ $ans->practical->coursemodule->module_name ?? 'NA' }}</td>
                                                 <td>
                                                     @if(!empty($ans->student_answer))
@@ -409,7 +406,6 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $ans->student_score }}</td>
-                                                <td>{{ $ans->status }}</td>
                                                 <td>{{ $ans->created_at }}</td>
                                                 @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                     <td>
