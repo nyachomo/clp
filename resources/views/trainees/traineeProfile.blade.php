@@ -414,6 +414,11 @@
                                                 @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                     <td>
                                                         <button type="button" class="btn btn-sm btn-warning updateTraineeAnswerBtn" data-id="{{ $ans->id }}" data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update Answer</button>
+                                                        <button type="button" class="btn btn-sm btn-secondary ms-1 updateTraineeMarksBtn"
+                                                            data-id="{{ $ans->id }}"
+                                                            data-score="{{ $ans->student_score }}"
+                                                            data-comment="{{ $ans->comment }}"
+                                                            data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Update Marks</button>
                                                     </td>
                                                 @endif
                                             </tr>
@@ -457,6 +462,37 @@
             </div>
         </div>
     </div>
+
+    <div id="updateTraineeMarksModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateTraineeMarksModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateTraineeMarksModalLabel">Update Marks</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <form method="POST" id="updateTraineeMarksForm" action="{{ route('adminUpdateStudentPracticalScore') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="update_answer_id" id="update_trainee_marks_answer_id">
+
+                        <div class="mb-3">
+                            <label class="form-label">Student Score</label>
+                            <input type="number" class="form-control" name="student_score" id="update_trainee_marks_score" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <input type="text" class="form-control" name="comment" id="update_trainee_marks_comment" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endif
 
 @endsection
@@ -467,6 +503,12 @@
             const buttons = document.querySelectorAll('.updateTraineeAnswerBtn');
             const input = document.getElementById('update_trainee_answer_id');
 
+            const marksButtons = document.querySelectorAll('.updateTraineeMarksBtn');
+            const marksIdInput = document.getElementById('update_trainee_marks_answer_id');
+            const marksScoreInput = document.getElementById('update_trainee_marks_score');
+            const marksCommentInput = document.getElementById('update_trainee_marks_comment');
+            const marksForm = document.getElementById('updateTraineeMarksForm');
+
             buttons.forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     if (input) {
@@ -474,6 +516,61 @@
                     }
                 });
             });
+
+            marksButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (marksIdInput) marksIdInput.value = this.getAttribute('data-id') || '';
+                    if (marksScoreInput) marksScoreInput.value = this.getAttribute('data-score') || '';
+                    if (marksCommentInput) marksCommentInput.value = this.getAttribute('data-comment') || '';
+                });
+            });
+
+            if (marksForm) {
+                marksForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const actionUrl = marksForm.getAttribute('action');
+                    const formData = new FormData(marksForm);
+
+                    fetch(actionUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: formData,
+                    })
+                        .then(async (res) => {
+                            let payload = null;
+                            try {
+                                payload = await res.json();
+                            } catch (e) {
+                                payload = null;
+                            }
+                            if (res.ok && payload && payload.success) {
+                                const modalEl = document.getElementById('updateTraineeMarksModal');
+                                if (modalEl && window.bootstrap) {
+                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                    if (inst) inst.hide();
+                                }
+                                window.location.reload();
+                                return;
+                            }
+
+                            let msg = 'Could not update marks';
+                            if (payload && payload.message) msg = payload.message;
+                            if (payload && payload.errors) {
+                                const firstKey = Object.keys(payload.errors)[0];
+                                if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                                    msg = payload.errors[firstKey][0];
+                                }
+                            }
+                            alert(msg);
+                        })
+                        .catch(() => {
+                            alert('Could not update marks');
+                        });
+                });
+            }
         });
     </script>
 @endsection
