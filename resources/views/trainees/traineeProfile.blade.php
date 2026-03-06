@@ -409,7 +409,12 @@
                                                 <td>{{ $row->practical->name ?? 'NA' }}</td>
                                                 <td class="cell-nowrap">
                                                     @if(!empty($row->student_answer))
-                                                        <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
+                                                        <a
+                                                            class="answer-link student-answer-preview"
+                                                            href="#"
+                                                            data-file-url="{{ asset('practicals/' . $row->student_answer) }}"
+                                                            data-download-url="{{ asset('practicals/' . $row->student_answer) }}"
+                                                        >
                                                             {{ $row->student_answer }}
                                                         </a>
                                                     @else
@@ -635,6 +640,21 @@
     </div>
     <!-- end row -->
 
+    <div class="modal fade" id="studentAnswerPreviewModal" tabindex="-1" aria-labelledby="studentAnswerPreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentAnswerPreviewModalLabel">Student Answer Preview</h5>
+                    <a class="btn btn-sm btn-success" id="studentAnswerDownloadBtn" href="#" download>Download</a>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height: 75vh;">
+                    <iframe id="studentAnswerPreviewFrame" src="" style="width:100%;height:100%;border:0;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @if(Auth::check() && Auth::user()->role != 'Trainee')
@@ -806,6 +826,10 @@
             const quickNavInput = root.querySelector('#quickNavInput');
             const quickNavDropdown = root.querySelector('#quickNavDropdown');
 
+            const studentAnswerPreviewLinks = root.querySelectorAll('a.student-answer-preview');
+            const studentAnswerPreviewFrame = root.querySelector('#studentAnswerPreviewFrame');
+            const studentAnswerDownloadBtn = root.querySelector('#studentAnswerDownloadBtn');
+
             const traineeSwitchInput = root.querySelector('#traineeSwitchInput');
             const traineeSwitchDropdown = root.querySelector('#traineeSwitchDropdown');
             const traineeSwitchLoading = root.querySelector('#traineeSwitchLoading');
@@ -941,6 +965,30 @@
                 quickNavDropdown.querySelectorAll('a.quick-nav-link').forEach(function (a) {
                     a.addEventListener('click', function () {
                         setQuickNavDropdownVisible(false);
+                    });
+                });
+            }
+
+            if (studentAnswerPreviewLinks && studentAnswerPreviewLinks.length > 0) {
+                studentAnswerPreviewLinks.forEach(function (a) {
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const fileUrl = this.getAttribute('data-file-url');
+                        const downloadUrl = this.getAttribute('data-download-url') || fileUrl;
+                        if (!fileUrl) return;
+
+                        if (studentAnswerPreviewFrame) {
+                            studentAnswerPreviewFrame.src = fileUrl;
+                        }
+                        if (studentAnswerDownloadBtn) {
+                            studentAnswerDownloadBtn.href = downloadUrl;
+                        }
+
+                        const modalEl = root.querySelector('#studentAnswerPreviewModal');
+                        if (modalEl && window.bootstrap) {
+                            const inst = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+                            inst.show();
+                        }
                     });
                 });
             }
