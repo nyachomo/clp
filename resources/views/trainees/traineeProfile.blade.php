@@ -383,9 +383,13 @@
                                             <th>Practical</th>
                                             <th>Course</th>
                                             <th>Module</th>
+                                            <th>Student Answer</th>
                                             <th>Score</th>
                                             <th>Status</th>
                                             <th>Date</th>
+                                            @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                <th>Action</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -395,9 +399,23 @@
                                                 <td>{{ $ans->practical->name ?? 'NA' }}</td>
                                                 <td>{{ $ans->practical->course->course_name ?? 'NA' }}</td>
                                                 <td>{{ $ans->practical->coursemodule->module_name ?? 'NA' }}</td>
+                                                <td>
+                                                    @if(!empty($ans->student_answer))
+                                                        <a href="{{ asset('practicals/' . $ans->student_answer) }}" download>
+                                                            {{ $ans->student_answer }}
+                                                        </a>
+                                                    @else
+                                                        <span class="text-muted">NA</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $ans->student_score }}</td>
                                                 <td>{{ $ans->status }}</td>
                                                 <td>{{ $ans->created_at }}</td>
+                                                @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-warning updateTraineeAnswerBtn" data-id="{{ $ans->id }}" data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update Answer</button>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -414,5 +432,49 @@
 
 </div>
 
+@if(Auth::check() && Auth::user()->role != 'Trainee')
+    <div id="updateTraineeAnswerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateTraineeAnswerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateTraineeAnswerModalLabel">Update Student Answer</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <form method="POST" id="updateTraineeAnswerForm" action="{{ route('adminUpdateStudentPracticalAnswer') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="answer_id" id="update_trainee_answer_id">
+                        <div class="mb-3">
+                            <label class="form-label">Upload New Answer File</label>
+                            <input type="file" class="form-control" name="student_answer" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.updateTraineeAnswerBtn');
+            const input = document.getElementById('update_trainee_answer_id');
+
+            buttons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (input) {
+                        input.value = this.getAttribute('data-id') || '';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
 
