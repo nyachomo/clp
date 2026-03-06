@@ -130,6 +130,8 @@
 <br>
 <div class="trainee-profile-page">
 
+    <div id="message-container" class="mt-3"></div>
+
     @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
@@ -453,6 +455,10 @@
                             <label class="form-label">Upload New Answer File</label>
                             <input type="file" class="form-control" name="student_answer" required>
                         </div>
+
+                        <div class="progress mt-2" style="height: 18px; display:none;" id="updateTraineeAnswerProgressWrap">
+                            <div class="progress-bar" id="updateTraineeAnswerProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -484,6 +490,10 @@
                             <label class="form-label">Comment</label>
                             <input type="text" class="form-control" name="comment" id="update_trainee_marks_comment" required>
                         </div>
+
+                        <div class="progress mt-2" style="height: 18px; display:none;" id="updateTraineeMarksProgressWrap">
+                            <div class="progress-bar" id="updateTraineeMarksProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -503,11 +513,49 @@
             const buttons = document.querySelectorAll('.updateTraineeAnswerBtn');
             const input = document.getElementById('update_trainee_answer_id');
 
+            const messageContainer = document.getElementById('message-container');
+
+            function displayMessage(type, message) {
+                if (!messageContainer) return;
+
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                messageContainer.innerHTML = `
+                    <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    const alertEl = messageContainer.querySelector('.alert');
+                    if (alertEl) {
+                        alertEl.classList.remove('show');
+                        alertEl.classList.add('hide');
+                        setTimeout(() => {
+                            if (messageContainer) messageContainer.innerHTML = '';
+                        }, 500);
+                    }
+                }, 6000);
+            }
+
+            function extractErrorMessage(payload) {
+                if (!payload) return 'Request failed';
+                if (payload.message) return payload.message;
+                if (payload.errors) {
+                    const firstKey = Object.keys(payload.errors)[0];
+                    if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                        return payload.errors[firstKey][0];
+                    }
+                }
+                return 'Request failed';
+            }
+
             const marksButtons = document.querySelectorAll('.updateTraineeMarksBtn');
             const marksIdInput = document.getElementById('update_trainee_marks_answer_id');
             const marksScoreInput = document.getElementById('update_trainee_marks_score');
             const marksCommentInput = document.getElementById('update_trainee_marks_comment');
             const marksForm = document.getElementById('updateTraineeMarksForm');
+            const answerForm = document.getElementById('updateTraineeAnswerForm');
 
             buttons.forEach(function (btn) {
                 btn.addEventListener('click', function () {
@@ -525,50 +573,147 @@
                 });
             });
 
+            if (answerForm) {
+                answerForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const actionUrl = answerForm.getAttribute('action');
+                    const progressWrap = document.getElementById('updateTraineeAnswerProgressWrap');
+                    const progressBar = document.getElementById('updateTraineeAnswerProgress');
+
+                    if (progressBar) {
+                        progressBar.style.width = '0%';
+                        progressBar.setAttribute('aria-valuenow', '0');
+                        progressBar.textContent = '0%';
+                    }
+                    if (progressWrap) progressWrap.style.display = 'block';
+
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData(answerForm);
+
+                    xhr.open('POST', actionUrl, true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                    xhr.upload.onprogress = function (event) {
+                        if (!progressBar) return;
+                        if (event.lengthComputable) {
+                            const percent = Math.round((event.loaded / event.total) * 100);
+                            progressBar.style.width = percent + '%';
+                            progressBar.setAttribute('aria-valuenow', String(percent));
+                            progressBar.textContent = percent + '%';
+                        }
+                    };
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) return;
+
+                        let payload = null;
+                        try {
+                            payload = JSON.parse(xhr.responseText);
+                        } catch (err) {
+                            payload = null;
+                        }
+
+                        if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                            if (progressBar) {
+                                progressBar.style.width = '100%';
+                                progressBar.setAttribute('aria-valuenow', '100');
+                                progressBar.textContent = '100%';
+                            }
+
+                            const modalEl = document.getElementById('updateTraineeAnswerModal');
+                            if (modalEl && window.bootstrap) {
+                                const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                if (inst) inst.hide();
+                            }
+
+                            displayMessage('success', payload.message || 'Student answer updated successfully');
+                            setTimeout(() => window.location.reload(), 600);
+                        } else {
+                            displayMessage('error', extractErrorMessage(payload));
+                        }
+
+                        setTimeout(function () {
+                            if (progressWrap) progressWrap.style.display = 'none';
+                        }, 700);
+                    };
+
+                    xhr.send(formData);
+                });
+            }
+
             if (marksForm) {
                 marksForm.addEventListener('submit', function (e) {
                     e.preventDefault();
+
                     const actionUrl = marksForm.getAttribute('action');
+                    const progressWrap = document.getElementById('updateTraineeMarksProgressWrap');
+                    const progressBar = document.getElementById('updateTraineeMarksProgress');
+
+                    if (progressBar) {
+                        progressBar.style.width = '0%';
+                        progressBar.setAttribute('aria-valuenow', '0');
+                        progressBar.textContent = '0%';
+                    }
+                    if (progressWrap) progressWrap.style.display = 'block';
+
+                    const xhr = new XMLHttpRequest();
                     const formData = new FormData(marksForm);
 
-                    fetch(actionUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                        },
-                        body: formData,
-                    })
-                        .then(async (res) => {
-                            let payload = null;
-                            try {
-                                payload = await res.json();
-                            } catch (e) {
-                                payload = null;
-                            }
-                            if (res.ok && payload && payload.success) {
-                                const modalEl = document.getElementById('updateTraineeMarksModal');
-                                if (modalEl && window.bootstrap) {
-                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
-                                    if (inst) inst.hide();
-                                }
-                                window.location.reload();
-                                return;
+                    xhr.open('POST', actionUrl, true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                    xhr.upload.onprogress = function (event) {
+                        if (!progressBar) return;
+                        if (event.lengthComputable) {
+                            const percent = Math.round((event.loaded / event.total) * 100);
+                            progressBar.style.width = percent + '%';
+                            progressBar.setAttribute('aria-valuenow', String(percent));
+                            progressBar.textContent = percent + '%';
+                        } else {
+                            progressBar.style.width = '60%';
+                            progressBar.setAttribute('aria-valuenow', '60');
+                            progressBar.textContent = '60%';
+                        }
+                    };
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) return;
+
+                        let payload = null;
+                        try {
+                            payload = JSON.parse(xhr.responseText);
+                        } catch (err) {
+                            payload = null;
+                        }
+
+                        if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                            if (progressBar) {
+                                progressBar.style.width = '100%';
+                                progressBar.setAttribute('aria-valuenow', '100');
+                                progressBar.textContent = '100%';
                             }
 
-                            let msg = 'Could not update marks';
-                            if (payload && payload.message) msg = payload.message;
-                            if (payload && payload.errors) {
-                                const firstKey = Object.keys(payload.errors)[0];
-                                if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
-                                    msg = payload.errors[firstKey][0];
-                                }
+                            const modalEl = document.getElementById('updateTraineeMarksModal');
+                            if (modalEl && window.bootstrap) {
+                                const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                if (inst) inst.hide();
                             }
-                            alert(msg);
-                        })
-                        .catch(() => {
-                            alert('Could not update marks');
-                        });
+
+                            displayMessage('success', payload.message || 'Marks updated successfully');
+                            setTimeout(() => window.location.reload(), 600);
+                        } else {
+                            displayMessage('error', extractErrorMessage(payload));
+                        }
+
+                        setTimeout(function () {
+                            if (progressWrap) progressWrap.style.display = 'none';
+                        }, 700);
+                    };
+
+                    xhr.send(formData);
                 });
             }
         });
