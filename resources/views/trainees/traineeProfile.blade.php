@@ -208,30 +208,22 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-12">
-            <div class="card trainee_profile_header_card">
-                <div class="card-body">
-                    <h2 class="trainee_profile_header_heading">Trainee Profile</h2>
-                    <p>Manage Trainee Details</p>
-                    <progress value="70" max="100" style="background-color:#39ac73;border-radius:10px;"></progress>
-
-                    <div class="mt-3 trainee-switch-wrap">
-                        <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
-                        <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
-                            @foreach(($traineeSwitchList ?? collect()) as $ts)
-                                <a
-                                    href="{{ route('showTraineeProfile', $ts->id) }}"
-                                    class="list-group-item list-group-item-action {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
-                                    data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
-                                >
-                                    <div class="d-flex justify-content-between">
-                                        <span>{{ $ts->firstname }} {{ $ts->secondname }} {{ $ts->lastname }}</span>
-                                        <span class="ms-3">{{ $ts->clas->clas_name ?? 'NA' }}</span>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
+        <div class="col-sm-12 mb-3">
+            <div class="trainee-switch-wrap">
+                <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
+                <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
+                    @foreach(($traineeSwitchList ?? collect()) as $ts)
+                        <a
+                            href="{{ route('showTraineeProfile', $ts->id) }}"
+                            class="list-group-item list-group-item-action {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
+                            data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
+                        >
+                            <div class="d-flex justify-content-between">
+                                <span>{{ $ts->firstname }} {{ $ts->secondname }} {{ $ts->lastname }}</span>
+                                <span class="ms-3">{{ $ts->clas->clas_name ?? 'NA' }}</span>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
