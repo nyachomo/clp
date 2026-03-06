@@ -124,6 +124,27 @@
         vertical-align: middle;
     }
 
+    .trainee-profile-page .practicals-table td {
+        padding-top: 0.35rem;
+        padding-bottom: 0.35rem;
+        line-height: 1.15;
+    }
+
+    .trainee-profile-page .practicals-table .badge {
+        padding: 0.28em 0.55em;
+        font-size: 11px;
+        line-height: 1.1;
+        border-radius: 14px;
+    }
+
+    .trainee-profile-page .practicals-table .answer-link {
+        display: inline-block;
+        max-width: 260px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
     .trainee-profile-page .practicals-table .cell-nowrap {
         white-space: nowrap;
     }
@@ -415,7 +436,7 @@
                                                 <td>{{ $ans->practical->name ?? 'NA' }}</td>
                                                 <td class="cell-nowrap">
                                                     @if(!empty($ans->student_answer))
-                                                        <a href="{{ asset('practicals/' . $ans->student_answer) }}" download>
+                                                        <a class="answer-link" href="{{ asset('practicals/' . $ans->student_answer) }}" download>
                                                             {{ $ans->student_answer }}
                                                         </a>
                                                     @else
