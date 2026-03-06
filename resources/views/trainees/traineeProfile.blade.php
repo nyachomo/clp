@@ -110,6 +110,24 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
+    .trainee-profile-page .practicals-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .trainee-profile-page .practicals-table {
+        min-width: 820px;
+    }
+
+    .trainee-profile-page .practicals-table th,
+    .trainee-profile-page .practicals-table td {
+        vertical-align: middle;
+    }
+
+    .trainee-profile-page .practicals-table .cell-nowrap {
+        white-space: nowrap;
+    }
+
     @media (max-width: 768px) {
         .trainee-profile-page .nav-pills {
             flex-direction: column;
@@ -377,8 +395,8 @@
                             <div class="mb-2">
                                 <a class="btn btn-sm btn-secondary" href="{{ route('downloadTraineePracticalScoresPdf', $student->id) }}">Download Practical Scores</a>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-sm table-striped">
+                            <div class="table-responsive practicals-table-wrap">
+                                <table class="table table-sm table-striped practicals-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -395,7 +413,7 @@
                                                 <td>{{ $k + 1 }}</td>
                                                 <td>{{ $ans->practical->coursemodule->module_name ?? 'NA' }}</td>
                                                 <td>{{ $ans->practical->name ?? 'NA' }}</td>
-                                                <td>
+                                                <td class="cell-nowrap">
                                                     @if(!empty($ans->student_answer))
                                                         <a href="{{ asset('practicals/' . $ans->student_answer) }}" download>
                                                             {{ $ans->student_answer }}
@@ -411,7 +429,7 @@
                                                             data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td class="cell-nowrap">
                                                     {{ $ans->student_score }}
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                         <span role="button"
