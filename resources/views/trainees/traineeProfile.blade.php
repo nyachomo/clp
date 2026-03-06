@@ -119,6 +119,28 @@
         min-width: 820px;
     }
 
+    .trainee-profile-page .trainee-switch-wrap {
+        position: relative;
+        max-width: 520px;
+    }
+
+    .trainee-profile-page .trainee-switch-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        z-index: 20;
+        max-height: 320px;
+        overflow: auto;
+        border-radius: 14px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        display: none;
+    }
+
+    .trainee-profile-page .trainee-switch-dropdown a {
+        text-decoration: none;
+    }
+
     .trainee-profile-page .practicals-table th,
     .trainee-profile-page .practicals-table td {
         vertical-align: middle;
@@ -192,6 +214,24 @@
                     <h2 class="trainee_profile_header_heading">Trainee Profile</h2>
                     <p>Manage Trainee Details</p>
                     <progress value="70" max="100" style="background-color:#39ac73;border-radius:10px;"></progress>
+
+                    <div class="mt-3 trainee-switch-wrap">
+                        <input type="text" class="form-control" id="traineeSwitchInput" placeholder="Search trainee (name / class)..." autocomplete="off">
+                        <div class="list-group trainee-switch-dropdown" id="traineeSwitchDropdown">
+                            @foreach(($traineeSwitchList ?? collect()) as $ts)
+                                <a
+                                    href="{{ route('showTraineeProfile', $ts->id) }}"
+                                    class="list-group-item list-group-item-action {{ (isset($student) && $student->id == $ts->id) ? 'active' : '' }}"
+                                    data-search="{{ strtolower(trim(($ts->firstname ?? '') . ' ' . ($ts->secondname ?? '') . ' ' . ($ts->lastname ?? '') . ' ' . ($ts->clas->clas_name ?? ''))) }}"
+                                >
+                                    <div class="d-flex justify-content-between">
+                                        <span>{{ $ts->firstname }} {{ $ts->secondname }} {{ $ts->lastname }}</span>
+                                        <span class="ms-3">{{ $ts->clas->clas_name ?? 'NA' }}</span>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -652,6 +692,46 @@
             const submitForm = document.getElementById('submitTraineeAnswerForm');
             const submitPracticalInput = document.getElementById('submit_trainee_practical_id');
             const submitUserInput = document.getElementById('submit_trainee_user_id');
+
+            const traineeSwitchInput = document.getElementById('traineeSwitchInput');
+            const traineeSwitchDropdown = document.getElementById('traineeSwitchDropdown');
+
+            function setTraineeSwitchDropdownVisible(visible) {
+                if (!traineeSwitchDropdown) return;
+                traineeSwitchDropdown.style.display = visible ? 'block' : 'none';
+            }
+
+            function filterTraineeSwitchList(query) {
+                if (!traineeSwitchDropdown) return;
+                const q = String(query || '').trim().toLowerCase();
+                const items = traineeSwitchDropdown.querySelectorAll('a[data-search]');
+                let visibleCount = 0;
+                items.forEach(function (a) {
+                    const hay = (a.getAttribute('data-search') || '').toLowerCase();
+                    const show = q.length === 0 ? true : hay.indexOf(q) !== -1;
+                    a.style.display = show ? '' : 'none';
+                    if (show) visibleCount++;
+                });
+                setTraineeSwitchDropdownVisible(visibleCount > 0);
+            }
+
+            if (traineeSwitchInput && traineeSwitchDropdown) {
+                traineeSwitchInput.addEventListener('focus', function () {
+                    filterTraineeSwitchList(traineeSwitchInput.value);
+                });
+
+                traineeSwitchInput.addEventListener('input', function () {
+                    filterTraineeSwitchList(traineeSwitchInput.value);
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!traineeSwitchDropdown) return;
+                    if (!traineeSwitchInput) return;
+                    const target = e.target;
+                    if (traineeSwitchDropdown.contains(target) || traineeSwitchInput.contains(target)) return;
+                    setTraineeSwitchDropdownVisible(false);
+                });
+            }
 
             buttons.forEach(function (btn) {
                 btn.addEventListener('click', function () {

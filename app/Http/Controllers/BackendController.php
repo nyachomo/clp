@@ -2730,6 +2730,13 @@ public function adminUpdateUserPassword(Request $request){
         {
             $student = User::with(['course','clas'])->findOrFail($id);
 
+            $traineeSwitchList = User::with('clas')
+                ->where('role', 'Trainee')
+                ->orderBy('firstname', 'asc')
+                ->orderBy('secondname', 'asc')
+                ->orderBy('lastname', 'asc')
+                ->get();
+
             $fees = Fee::where('user_id', $id)
                 ->orderBy('date_paid', 'desc')
                 ->get();
@@ -2787,7 +2794,7 @@ public function adminUpdateUserPassword(Request $request){
                 ];
             });
 
-            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems'));
+            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList'));
         }
 
 
