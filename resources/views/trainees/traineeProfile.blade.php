@@ -382,8 +382,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Practical</th>
                                             <th>Module</th>
+                                            <th>Practical</th>
                                             <th>Student Answer</th>
                                             <th>Score</th>
                                             <th>Comment</th>
@@ -393,8 +393,8 @@
                                         @foreach($practicalAnswers as $k => $ans)
                                             <tr>
                                                 <td>{{ $k + 1 }}</td>
-                                                <td>{{ $ans->practical->name ?? 'NA' }}</td>
                                                 <td>{{ $ans->practical->coursemodule->module_name ?? 'NA' }}</td>
+                                                <td>{{ $ans->practical->name ?? 'NA' }}</td>
                                                 <td>
                                                     @if(!empty($ans->student_answer))
                                                         <a href="{{ asset('practicals/' . $ans->student_answer) }}" download>
