@@ -403,21 +403,23 @@
                                                     @endif
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
-                                                        <div class="mt-1">
-                                                            <span role="button"
-                                                                class="badge bg-danger updateTraineeAnswerBtn"
-                                                                data-id="{{ $ans->id }}"
-                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update Answer</span>
-                                                            <span role="button"
-                                                                class="badge bg-secondary updateTraineeMarksBtn"
-                                                                data-id="{{ $ans->id }}"
-                                                                data-score="{{ $ans->student_score }}"
-                                                                data-comment="{{ $ans->comment }}"
-                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Update Marks</span>
-                                                        </div>
+                                                        <span role="button"
+                                                            class="badge bg-danger ms-1 updateTraineeAnswerBtn"
+                                                            data-id="{{ $ans->id }}"
+                                                            data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
                                                     @endif
                                                 </td>
-                                                <td>{{ $ans->student_score }}</td>
+                                                <td>
+                                                    {{ $ans->student_score }}
+                                                    @if(Auth::check() && Auth::user()->role != 'Trainee')
+                                                        <span role="button"
+                                                            class="badge bg-secondary ms-1 updateTraineeMarksBtn"
+                                                            data-id="{{ $ans->id }}"
+                                                            data-score="{{ $ans->student_score }}"
+                                                            data-comment="{{ $ans->comment }}"
+                                                            data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Update</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ !empty($ans->comment) ? $ans->comment : 'NA' }}</td>
                                             </tr>
                                         @endforeach
