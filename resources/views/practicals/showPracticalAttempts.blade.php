@@ -359,7 +359,7 @@
 
             <div class="modal-footer justify-content-between" style="border:1px solid white">
                 <button type="button" class="btn btn-danger rounded-pill"  data-bs-dismiss="modal">Close</button>
-                <button type="submit"  class="btn btn-success rounded-pill">Delete</button>
+                <button type="submit"  class="btn btn-success rounded-pill">Save</button>
             </div>
         </form>
         </div><!-- /.modal-content -->
@@ -380,12 +380,12 @@
                 @csrf
 
                 <div class="card-body" style="border:1px solid white">
-                    <input type="text" class="form-control" name="update_answer_id" id="update_answer_id">
+                    <input type="hidden" class="form-control" name="update_answer_id" id="update_answer_id">
                     <label>Student Score</label>
-                     <input type="number" class="form-control"  id="update_student_score">
+                     <input type="number" class="form-control" name="student_score" id="update_student_score" required>
 
                      <label class="mt-2">Comment</label>
-                     <input type="text" class="form-control" id="update_comment" required>
+                     <input type="text" class="form-control" name="comment" id="update_comment" required>
 
                      <div class="progress mt-2" style="height: 18px; display:none;" id="updateMarksProgressWrap">
                         <div class="progress-bar" id="updateMarksProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
@@ -586,7 +586,7 @@
                                     <td>' + (key + 1) + '</td>\
                                     <td>' + fullName + '</td>\
                                      <td>\
-                                        <a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a>\
+                                        ' + (item.student_answer ? ('<a href="{{ asset('practicals') }}/' + item.student_answer + '" download>' + item.student_answer + ' (Download)</a>') : '<span class="text-muted">NA</span>') + '\
                                         <button type="button" class="btn btn-sm btn-warning ms-1 updateAnswerBtn" data-id="' + item.id + '">Update</button>\
                                      </td>\
                                      <!--<td><a href="/practicals/' + item.student_answer + '" download>' + item.student_answer + '</a></td>-->\

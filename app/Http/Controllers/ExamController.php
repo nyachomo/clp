@@ -712,21 +712,63 @@ class ExamController extends Controller
       
     public function adminUpdateStudentPracticalScore(Request $request)
     {
+        if (!Auth::check()) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+            }
+
+            return redirect()->route('login');
+        }
+
+        if (Auth::user()->role == 'Trainee') {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            }
+
+            return redirect()->back()->with('error', 'Unauthorized');
+        }
+
         $validated = $request->validate([
             'update_answer_id' => ['required', 'exists:practicalanswers,id'],
-            'student_score' => ['required', 'numeric'],
+            'student_score' => ['required', 'numeric', 'min:0'],
             'comment' => ['required', 'string'],
         ]);
 
-        $user = Practicalanswer::find($validated['update_answer_id']);
-        if ($user) {
-            $user->update([
-                'student_score' => $validated['student_score'],
-                'comment' => $validated['comment'],
-            ]);
+        $answer = Practicalanswer::find($validated['update_answer_id']);
+        if (!$answer) {
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+            }
+
+            return redirect()->back()->with('error', 'Record not found');
+        }
+
+        $practicalMarks = Practical::where('id', $answer->practical_id)->value('marks');
+        if (!is_null($practicalMarks) && is_numeric($practicalMarks)) {
+            $score = (float) $validated['student_score'];
+            $max = (float) $practicalMarks;
+            if ($score > $max) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Score cannot be greater than the practical max marks (' . $max . ')',
+                    ], 422);
+                }
+
+                return redirect()->back()->with('error', 'Score cannot be greater than the practical max marks (' . $max . ')');
+            }
+        }
+
+        $answer->update([
+            'student_score' => $validated['student_score'],
+            'comment' => $validated['comment'],
+        ]);
+
+        if ($request->expectsJson()) {
             return response()->json(['success' => true, 'message' => 'Score Updated successfully!']);
         }
-        return response()->json(['success' => false, 'message' => 'Could not update!'], 404);
+
+        return redirect()->back()->with('success', 'Score Updated successfully!');
    
     }
 
