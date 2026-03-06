@@ -294,16 +294,12 @@
                         }
                     @endphp
 
-                    <div class="dropdown w-100">
-                        <button class="btn btn-outline-secondary w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Quick Navigation
-                        </button>
-                        <ul class="dropdown-menu w-100">
-                            @foreach($quickNav as $item)
-                                <li><a class="dropdown-item" href="{{ $item['url'] }}">{{ $item['label'] }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    <select class="form-select" id="quickNavSelect">
+                        <option value="">Quick Navigation...</option>
+                        @foreach($quickNav as $item)
+                            <option value="{{ $item['url'] }}">{{ $item['label'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -799,6 +795,8 @@
             const submitPracticalInput = root.querySelector('#submit_trainee_practical_id');
             const submitUserInput = root.querySelector('#submit_trainee_user_id');
 
+            const quickNavSelect = root.querySelector('#quickNavSelect');
+
             const traineeSwitchInput = root.querySelector('#traineeSwitchInput');
             const traineeSwitchDropdown = root.querySelector('#traineeSwitchDropdown');
             const traineeSwitchLoading = root.querySelector('#traineeSwitchLoading');
@@ -889,6 +887,14 @@
                         if (!href) return;
                         ajaxSwitchTrainee(href);
                     });
+                });
+            }
+
+            if (quickNavSelect) {
+                quickNavSelect.addEventListener('change', function () {
+                    const url = this.value;
+                    if (!url) return;
+                    window.location.href = url;
                 });
             }
 
