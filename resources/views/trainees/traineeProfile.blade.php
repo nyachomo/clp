@@ -384,6 +384,7 @@
                                             <th>Module</th>
                                             <th>Student Answer</th>
                                             <th>Score</th>
+                                            <th>Comment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -417,6 +418,7 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $ans->student_score }}</td>
+                                                <td>{{ !empty($ans->comment) ? $ans->comment : 'NA' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
