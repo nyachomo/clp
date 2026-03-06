@@ -384,7 +384,6 @@
                                             <th>Module</th>
                                             <th>Student Answer</th>
                                             <th>Score</th>
-                                            <th>Date</th>
                                             @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                 <th>Action</th>
                                             @endif
@@ -406,7 +405,6 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $ans->student_score }}</td>
-                                                <td>{{ $ans->created_at }}</td>
                                                 @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                     <td>
                                                         <button type="button" class="btn btn-sm btn-warning updateTraineeAnswerBtn" data-id="{{ $ans->id }}" data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update Answer</button>
