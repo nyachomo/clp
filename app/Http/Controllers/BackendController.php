@@ -2783,7 +2783,7 @@ public function adminUpdateUserPassword(Request $request){
                     'student_answer' => $ans?->student_answer,
                     'student_score' => $ans?->student_score,
                     'comment' => $ans?->comment,
-                    'submitted' => !is_null($ans) && !empty($ans?->student_answer),
+                    'submitted' => !is_null($ans) && (!empty($ans?->student_answer) || !is_null($ans?->student_score) || !empty($ans?->comment)),
                 ];
             });
 

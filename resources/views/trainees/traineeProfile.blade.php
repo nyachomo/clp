@@ -440,7 +440,11 @@
                                                             {{ $row->student_answer }}
                                                         </a>
                                                     @else
-                                                        <span class="text-muted">Not Submitted</span>
+                                                        @if(!empty($row->answer_id))
+                                                            <span class="text-muted">NA</span>
+                                                        @else
+                                                            <span class="text-muted">Not Submitted</span>
+                                                        @endif
                                                     @endif
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
@@ -501,7 +505,17 @@
                         <input type="hidden" name="user_id" id="submit_trainee_user_id">
                         <div class="mb-3">
                             <label class="form-label">Upload Answer File</label>
-                            <input type="file" class="form-control" name="student_answer" required>
+                            <input type="file" class="form-control" name="student_answer">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Student Score</label>
+                            <input type="number" class="form-control" name="student_score" id="submit_trainee_student_score">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <input type="text" class="form-control" name="comment" id="submit_trainee_comment">
                         </div>
 
                         <div class="progress mt-2" style="height: 18px; display:none;" id="submitTraineeAnswerProgressWrap">

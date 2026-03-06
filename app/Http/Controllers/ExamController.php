@@ -861,7 +861,9 @@ class ExamController extends Controller
         $validated = $request->validate([
             'practical_id' => ['required', 'exists:practicals,id'],
             'user_id' => ['required', 'exists:users,id'],
-            'student_answer' => ['required', 'file', 'max:10240'],
+            'student_answer' => ['nullable', 'file', 'max:10240'],
+            'student_score' => ['nullable', 'numeric', 'min:0'],
+            'comment' => ['nullable', 'string'],
         ]);
 
         $answer = Practicalanswer::where('practical_id', $validated['practical_id'])
@@ -869,6 +871,23 @@ class ExamController extends Controller
             ->orderBy('id', 'asc')
             ->first();
 
+        $practicalMarks = Practical::where('id', $validated['practical_id'])->value('marks');
+        if (!is_null($validated['student_score']) && !is_null($practicalMarks) && is_numeric($practicalMarks)) {
+            $score = (float) $validated['student_score'];
+            $max = (float) $practicalMarks;
+            if ($score > $max) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Score cannot be greater than the practical max marks (' . $max . ')',
+                    ], 422);
+                }
+
+                return redirect()->back()->with('error', 'Score cannot be greater than the practical max marks (' . $max . ')');
+            }
+        }
+
+        $fileName = null;
         if ($request->hasFile('student_answer')) {
             $file = $request->file('student_answer');
             $extension = $file->getClientOriginalExtension();
@@ -881,36 +900,38 @@ class ExamController extends Controller
                     unlink($oldFile);
                 }
             }
+        }
 
-            if (!$answer) {
-                $answer = Practicalanswer::create([
-                    'practical_id' => $validated['practical_id'],
-                    'user_id' => $validated['user_id'],
-                    'student_answer' => $fileName,
-                ]);
-            } else {
-                $answer->update([
-                    'student_answer' => $fileName,
-                ]);
-            }
+        $payloadToSave = [];
+        if (!is_null($fileName)) {
+            $payloadToSave['student_answer'] = $fileName;
+        }
+        if (array_key_exists('student_score', $validated)) {
+            $payloadToSave['student_score'] = $validated['student_score'];
+        }
+        if (array_key_exists('comment', $validated)) {
+            $payloadToSave['comment'] = $validated['comment'];
+        }
 
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Student answer submitted successfully',
-                    'answer_id' => $answer->id,
-                    'student_answer' => $fileName,
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Student answer submitted successfully');
+        if (!$answer) {
+            $answer = Practicalanswer::create(array_merge([
+                'practical_id' => $validated['practical_id'],
+                'user_id' => $validated['user_id'],
+            ], $payloadToSave));
+        } else {
+            $answer->update($payloadToSave);
         }
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => false, 'message' => 'No file selected'], 422);
+            return response()->json([
+                'success' => true,
+                'message' => 'Submission saved successfully',
+                'answer_id' => $answer->id,
+                'student_answer' => $answer->student_answer,
+            ]);
         }
 
-        return redirect()->back()->with('error', 'No file selected');
+        return redirect()->back()->with('success', 'Submission saved successfully');
     }
 
 
