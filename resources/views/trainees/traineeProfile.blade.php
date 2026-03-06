@@ -379,6 +379,33 @@
                         </div>
 
                         <div class="tab-pane" id="payments">
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-4">
+                                    <div class="card mb-0">
+                                        <div class="card-body p-2">
+                                            <div class="text-muted">Total Fee</div>
+                                            <div class="fw-bold">{{ $debit ?? 0 }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-0">
+                                        <div class="card-body p-2">
+                                            <div class="text-muted">Total Paid</div>
+                                            <div class="fw-bold">{{ $credit ?? 0 }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-0">
+                                        <div class="card-body p-2">
+                                            <div class="text-muted">Balance</div>
+                                            <div class="fw-bold">{{ $balance ?? 0 }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="mb-2">
                                 <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
                             </div>

@@ -2741,6 +2741,10 @@ public function adminUpdateUserPassword(Request $request){
                 ->orderBy('date_paid', 'desc')
                 ->get();
 
+            $debit = (float) ($student->course?->course_price ?? 0);
+            $credit = (float) Fee::where('user_id', $id)->sum('amount_paid');
+            $balance = $debit - $credit;
+
             $examAnswers = StudentAnswer::with('exam')
                 ->where('user_id', $id)
                 ->whereNotNull('exam_id')
@@ -2795,7 +2799,7 @@ public function adminUpdateUserPassword(Request $request){
             });
 
             if ($request->boolean('ajax') && $request->expectsJson()) {
-                $html = view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList') + [
+                $html = view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance') + [
                     'ajaxOnly' => true,
                 ])->render();
 
@@ -2806,7 +2810,7 @@ public function adminUpdateUserPassword(Request $request){
                 ]);
             }
 
-            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList'));
+            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance'));
         }
 
 
