@@ -97,9 +97,15 @@
                         if (textarea) {
                             const value = textarea.value;
                             if (getCleanText(value).length === 0) {
-                                textarea.focus();
+                                displayMessage('error', 'Module content is required');
                                 return;
                             }
+                        }
+
+                        const modalEl = form.closest('.modal');
+                        if (modalEl && window.bootstrap) {
+                            const inst = window.bootstrap.Modal.getInstance(modalEl);
+                            if (inst) inst.hide();
                         }
 
                         if (progressWrap) progressWrap.style.display = 'block';
@@ -136,12 +142,6 @@
                                 setProgress(100);
                                 if (payload.html) {
                                     root.innerHTML = payload.html;
-                                }
-
-                                const modalEl = form.closest('.modal');
-                                if (modalEl && window.bootstrap) {
-                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
-                                    if (inst) inst.hide();
                                 }
 
                                 displayMessage('success', payload.message || 'Saved successfully');
