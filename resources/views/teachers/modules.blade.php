@@ -102,12 +102,6 @@
                             }
                         }
 
-                        const modalEl = form.closest('.modal');
-                        if (modalEl && window.bootstrap) {
-                            const inst = window.bootstrap.Modal.getInstance(modalEl);
-                            if (inst) inst.hide();
-                        }
-
                         if (progressWrap) progressWrap.style.display = 'block';
                         setProgress(0);
 
@@ -140,12 +134,33 @@
 
                             if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
                                 setProgress(100);
-                                if (payload.html) {
-                                    root.innerHTML = payload.html;
-                                }
+                                const modalEl = form.closest('.modal');
+                                const doSwap = function () {
+                                    if (payload.html) {
+                                        root.innerHTML = payload.html;
+                                    }
+                                    displayMessage('success', payload.message || 'Saved successfully');
+                                    initTeacherModulesAjax();
+                                };
 
-                                displayMessage('success', payload.message || 'Saved successfully');
-                                initTeacherModulesAjax();
+                                if (modalEl && window.bootstrap) {
+                                    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+                                        document.activeElement.blur();
+                                    }
+
+                                    modalEl.addEventListener('hidden.bs.modal', function () {
+                                        doSwap();
+                                    }, { once: true });
+
+                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                    if (inst) {
+                                        inst.hide();
+                                    } else {
+                                        doSwap();
+                                    }
+                                } else {
+                                    doSwap();
+                                }
                             } else {
                                 displayMessage('error', extractErrorMessage(payload));
                             }
