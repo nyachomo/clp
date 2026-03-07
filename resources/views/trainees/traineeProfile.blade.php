@@ -440,12 +440,24 @@
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                         @if(!empty($row->answer_id))
-                                                            <span role="button"
-                                                                class="badge bg-primary ms-1 updateTraineeMarksBtn"
-                                                                data-id="{{ $row->answer_id }}"
-                                                                data-score="{{ $row->student_score }}"
-                                                                data-comment="{{ $row->comment }}"
-                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Marks</span>
+                                                            @php
+                                                                $marksNotSet = is_null($row->student_score) && (is_null($row->comment) || $row->comment === '');
+                                                                $answerSubmitted = !empty($row->student_answer);
+                                                            @endphp
+
+                                                            @if($answerSubmitted && $marksNotSet)
+                                                                <span role="button"
+                                                                    class="badge bg-success ms-1 addTraineeMarksBtn"
+                                                                    data-id="{{ $row->answer_id }}"
+                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Add New Mark</span>
+                                                            @else
+                                                                <span role="button"
+                                                                    class="badge bg-primary ms-1 updateTraineeMarksBtn"
+                                                                    data-id="{{ $row->answer_id }}"
+                                                                    data-score="{{ $row->student_score }}"
+                                                                    data-comment="{{ $row->comment }}"
+                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Marks</span>
+                                                            @endif
                                                         @endif
                                                     @endif
                                                 </td>
@@ -793,7 +805,7 @@
                 return 'Request failed';
             }
 
-            const marksButtons = root.querySelectorAll('.updateTraineeMarksBtn');
+            const marksButtons = root.querySelectorAll('.updateTraineeMarksBtn, .addTraineeMarksBtn');
             const marksIdInput = root.querySelector('#update_trainee_marks_answer_id');
             const marksScoreInput = root.querySelector('#update_trainee_marks_score');
             const marksCommentInput = root.querySelector('#update_trainee_marks_comment');
@@ -959,11 +971,13 @@
             marksButtons.forEach(function (btn) {
                 btn.addEventListener('click', function () {
                     if (marksIdInput) marksIdInput.value = this.getAttribute('data-id') || '';
-                    if (marksScoreInput) marksScoreInput.value = this.getAttribute('data-score') || '';
-                    if (marksCommentInput) marksCommentInput.value = this.getAttribute('data-comment') || '';
 
-                    const existingScore = (this.getAttribute('data-score') || '').toString().trim();
-                    const existingComment = (this.getAttribute('data-comment') || '').toString().trim();
+                    const isAdd = this.classList.contains('addTraineeMarksBtn');
+                    if (marksScoreInput) marksScoreInput.value = isAdd ? '' : (this.getAttribute('data-score') || '');
+                    if (marksCommentInput) marksCommentInput.value = isAdd ? '' : (this.getAttribute('data-comment') || '');
+
+                    const existingScore = isAdd ? '' : (this.getAttribute('data-score') || '').toString().trim();
+                    const existingComment = isAdd ? '' : (this.getAttribute('data-comment') || '').toString().trim();
                     if (marksModalTitle) {
                         marksModalTitle.textContent = (existingScore === '' && existingComment === '') ? 'Add Marks' : 'Update Marks';
                     }
@@ -1189,8 +1203,13 @@
                                     commentCell.textContent = marksCommentInput.value;
                                 }
 
-                                const btn = root.querySelector('.updateTraineeMarksBtn[data-id="' + answerId + '"]');
+                                const btn = root.querySelector('.updateTraineeMarksBtn[data-id="' + answerId + '"], .addTraineeMarksBtn[data-id="' + answerId + '"]');
                                 if (btn && marksScoreInput && marksCommentInput) {
+                                    btn.classList.remove('addTraineeMarksBtn');
+                                    btn.classList.add('updateTraineeMarksBtn');
+                                    btn.classList.remove('bg-success');
+                                    btn.classList.add('bg-primary');
+                                    btn.textContent = 'Marks';
                                     btn.setAttribute('data-score', marksScoreInput.value);
                                     btn.setAttribute('data-comment', marksCommentInput.value);
                                 }
