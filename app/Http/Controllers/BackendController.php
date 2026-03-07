@@ -800,6 +800,21 @@ class BackendController extends Controller
             'module_content' => $validated['module_content'],
         ]);
 
+        if ($request->expectsJson()) {
+            $teacher = User::with(['course'])->findOrFail(Auth::id());
+            $modules = CourseModule::where('course_id', $teacher->course_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $html = view('teachers.partials.modulesAjax', compact('teacher', 'modules'))->render();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Module created successfully!',
+                'html' => $html,
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Module created successfully!');
     }
 
@@ -835,6 +850,21 @@ class BackendController extends Controller
             'module_content' => $validated['module_content'],
         ]);
 
+        if ($request->expectsJson()) {
+            $teacher = User::with(['course'])->findOrFail(Auth::id());
+            $modules = CourseModule::where('course_id', $teacher->course_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $html = view('teachers.partials.modulesAjax', compact('teacher', 'modules'))->render();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Module updated successfully!',
+                'html' => $html,
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Module updated successfully!');
     }
 
@@ -864,6 +894,22 @@ class BackendController extends Controller
         }
 
         $module->delete();
+
+        if ($request->expectsJson()) {
+            $teacher = User::with(['course'])->findOrFail(Auth::id());
+            $modules = CourseModule::where('course_id', $teacher->course_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $html = view('teachers.partials.modulesAjax', compact('teacher', 'modules'))->render();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Module deleted successfully!',
+                'html' => $html,
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Module deleted successfully!');
     }
 

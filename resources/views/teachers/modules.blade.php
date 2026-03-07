@@ -15,140 +15,16 @@
     </div>
 @endif
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                Modules - {{ $teacher->course->course_name ?? 'NA' }}
-                <button type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addModuleModal">
-                    Add New Module
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-sm table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Content</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($modules as $key => $module)
-                                <tr>
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $module->module_name }}</td>
-                                    <td><?php echo $module->module_content; ?></td>
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateModule{{ $module->id }}">Edit</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModule{{ $module->id }}">Delete</a>
-                                                <a class="dropdown-item" href="{{ route('teacherModuleNotes', ['moduleId' => $module->id]) }}">Manage Notes</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+<div id="teacher-modules-message" class="mt-2"></div>
 
-                                <div id="updateModule{{ $module->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Update Module</h4>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                                            </div>
-                                            <form method="POST" action="{{ route('teacherUpdateModule') }}">
-                                                @csrf
-                                                <div class="card-body">
-                                                    <input type="text" name="id" class="form-control" value="{{ $module->id }}" hidden>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <label>Module Name<sup>*</sup></label>
-                                                            <input type="text" class="form-control" name="module_name" value="{{ $module->module_name }}" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-2">
-                                                        <div class="col-sm-12">
-                                                            <label>What to Learn<sup>*</sup></label>
-                                                            <textarea name="module_content" class="form-control" rows="6"><?php echo $module->module_content; ?></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success rounded-pill">Save</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="deleteModule{{ $module->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Delete Module</h4>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                                            </div>
-                                            <form method="POST" action="{{ route('teacherDeleteModule') }}">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="id" value="{{ $module->id }}">
-                                                    <p>Delete this module?</p>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success rounded-pill">Delete</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center">No modules found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="progress mt-2" style="height: 18px; display:none;" id="teacherModulesProgressWrap">
+    <div class="progress-bar" id="teacherModulesProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
 </div>
 
-<div id="addModuleModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Add New Module</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-            </div>
-            <form method="POST" action="{{ route('teacherAddModule') }}">
-                @csrf
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <label>Module Name<sup>*</sup></label>
-                            <input type="text" class="form-control" name="module_name" required>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-sm-12">
-                            <label>What to Learn<sup>*</sup></label>
-                            <textarea name="module_content" class="form-control" rows="6"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success rounded-pill">Save</button>
-                </div>
-            </form>
+<div class="row">
+    <div class="col-12">
+        <div id="teacherModulesAjaxRoot">
+            @include('teachers.partials.modulesAjax')
         </div>
     </div>
 </div>
@@ -165,22 +41,124 @@
                     .trim();
             }
 
-            document.querySelectorAll('form[action="{{ route('teacherAddModule') }}"], form[action="{{ route('teacherUpdateModule') }}"]').forEach(function (form) {
-                form.addEventListener('submit', function (e) {
-                    if (window.tinymce && typeof window.tinymce.triggerSave === 'function') {
-                        window.tinymce.triggerSave();
+            const messageWrap = document.getElementById('teacher-modules-message');
+            const progressWrap = document.getElementById('teacherModulesProgressWrap');
+            const progressBar = document.getElementById('teacherModulesProgress');
+
+            function displayMessage(type, message) {
+                if (!messageWrap) return;
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                messageWrap.innerHTML = `
+                    <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+            }
+
+            function extractErrorMessage(payload) {
+                if (!payload) return 'Request failed';
+                if (payload.message) return payload.message;
+                if (payload.errors) {
+                    const firstKey = Object.keys(payload.errors)[0];
+                    if (firstKey && payload.errors[firstKey] && payload.errors[firstKey][0]) {
+                        return payload.errors[firstKey][0];
                     }
+                }
+                return 'Request failed';
+            }
 
-                    const textarea = form.querySelector('textarea[name="module_content"]');
-                    if (!textarea) return;
+            function setProgress(percent) {
+                if (!progressBar) return;
+                progressBar.style.width = percent + '%';
+                progressBar.setAttribute('aria-valuenow', String(percent));
+                progressBar.textContent = percent + '%';
+            }
 
-                    const value = textarea.value;
-                    if (getCleanText(value).length === 0) {
+            function hideProgressSoon() {
+                setTimeout(function () {
+                    if (progressWrap) progressWrap.style.display = 'none';
+                }, 600);
+            }
+
+            function initTeacherModulesAjax() {
+                const root = document.getElementById('teacherModulesAjaxRoot');
+                if (!root) return;
+
+                root.querySelectorAll('form.js-module-form').forEach(function (form) {
+                    form.addEventListener('submit', function (e) {
                         e.preventDefault();
-                        textarea.focus();
-                    }
+
+                        if (window.tinymce && typeof window.tinymce.triggerSave === 'function') {
+                            window.tinymce.triggerSave();
+                        }
+
+                        const textarea = form.querySelector('textarea[name="module_content"]');
+                        if (textarea) {
+                            const value = textarea.value;
+                            if (getCleanText(value).length === 0) {
+                                textarea.focus();
+                                return;
+                            }
+                        }
+
+                        if (progressWrap) progressWrap.style.display = 'block';
+                        setProgress(0);
+
+                        const xhr = new XMLHttpRequest();
+                        const actionUrl = form.getAttribute('action');
+                        const formData = new FormData(form);
+
+                        xhr.open('POST', actionUrl, true);
+                        xhr.setRequestHeader('Accept', 'application/json');
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                        xhr.upload.onprogress = function (event) {
+                            if (event && event.lengthComputable) {
+                                const percent = Math.round((event.loaded / event.total) * 100);
+                                setProgress(percent);
+                            } else {
+                                setProgress(60);
+                            }
+                        };
+
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState !== 4) return;
+
+                            let payload = null;
+                            try {
+                                payload = JSON.parse(xhr.responseText);
+                            } catch (err) {
+                                payload = null;
+                            }
+
+                            if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                                setProgress(100);
+                                if (payload.html) {
+                                    root.innerHTML = payload.html;
+                                }
+
+                                const modalEl = form.closest('.modal');
+                                if (modalEl && window.bootstrap) {
+                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                    if (inst) inst.hide();
+                                }
+
+                                displayMessage('success', payload.message || 'Saved successfully');
+                                initTeacherModulesAjax();
+                            } else {
+                                displayMessage('error', extractErrorMessage(payload));
+                            }
+
+                            hideProgressSoon();
+                        };
+
+                        xhr.send(formData);
+                    });
                 });
-            });
+            }
+
+            initTeacherModulesAjax();
         });
     </script>
 @endsection
