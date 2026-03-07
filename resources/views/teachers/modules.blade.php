@@ -73,7 +73,7 @@
                                                     <div class="row mt-2">
                                                         <div class="col-sm-12">
                                                             <label>What to Learn<sup>*</sup></label>
-                                                            <textarea name="module_content" class="form-control" rows="6" required><?php echo $module->module_content; ?></textarea>
+                                                            <textarea name="module_content" class="form-control" rows="6"><?php echo $module->module_content; ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,7 +140,7 @@
                     <div class="row mt-2">
                         <div class="col-sm-12">
                             <label>What to Learn<sup>*</sup></label>
-                            <textarea name="module_content" class="form-control" rows="6" required></textarea>
+                            <textarea name="module_content" class="form-control" rows="6"></textarea>
                         </div>
                     </div>
                 </div>
@@ -153,4 +153,34 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function getCleanText(html) {
+                return String(html || '')
+                    .replace(/<[^>]*>/g, '')
+                    .replace(/&nbsp;/g, ' ')
+                    .trim();
+            }
+
+            document.querySelectorAll('form[action="{{ route('teacherAddModule') }}"], form[action="{{ route('teacherUpdateModule') }}"]').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                    if (window.tinymce && typeof window.tinymce.triggerSave === 'function') {
+                        window.tinymce.triggerSave();
+                    }
+
+                    const textarea = form.querySelector('textarea[name="module_content"]');
+                    if (!textarea) return;
+
+                    const value = textarea.value;
+                    if (getCleanText(value).length === 0) {
+                        e.preventDefault();
+                        textarea.focus();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
