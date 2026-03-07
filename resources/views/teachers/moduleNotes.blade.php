@@ -21,7 +21,7 @@
             <div class="card-header">
                 Notes - {{ $module->module_name ?? 'NA' }}
                 <a href="{{ url()->previous() }}" type="button" style="float:right" class="btn btn-sm btn-info rounded-pill">Back</a>
-                <a type="button" style="float:right; margin-right:10px" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addNoteModal">Add Note</a>
+                <button type="button" style="float:right; margin-right:10px" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addNoteModal">Add Note</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

@@ -20,9 +20,9 @@
         <div class="card">
             <div class="card-header">
                 Modules - {{ $teacher->course->course_name ?? 'NA' }}
-                <a type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addModuleModal">
+                <button type="button" style="float:right" class="btn btn-sm btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#addModuleModal">
                     Add New Module
-                </a>
+                </button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
