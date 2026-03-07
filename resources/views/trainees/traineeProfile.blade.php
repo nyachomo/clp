@@ -436,7 +436,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="cell-nowrap">
-                                                    {{ $row->student_score }}
+                                                    <span class="js-practical-score" data-answer-id="{{ $row->answer_id }}">{{ $row->student_score }}</span>
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
                                                         @if(!empty($row->answer_id))
@@ -449,7 +449,9 @@
                                                         @endif
                                                     @endif
                                                 </td>
-                                                <td>{{ $row->comment }}</td>
+                                                <td>
+                                                    <span class="js-practical-comment" data-answer-id="{{ $row->answer_id }}">{{ $row->comment }}</span>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -796,6 +798,7 @@
             const marksScoreInput = root.querySelector('#update_trainee_marks_score');
             const marksCommentInput = root.querySelector('#update_trainee_marks_comment');
             const marksForm = root.querySelector('#updateTraineeMarksForm');
+            const marksModalTitle = root.querySelector('#updateTraineeMarksModalLabel');
             const answerForm = root.querySelector('#updateTraineeAnswerForm');
 
             const submitButtons = root.querySelectorAll('.submitTraineeAnswerBtn');
@@ -958,6 +961,12 @@
                     if (marksIdInput) marksIdInput.value = this.getAttribute('data-id') || '';
                     if (marksScoreInput) marksScoreInput.value = this.getAttribute('data-score') || '';
                     if (marksCommentInput) marksCommentInput.value = this.getAttribute('data-comment') || '';
+
+                    const existingScore = (this.getAttribute('data-score') || '').toString().trim();
+                    const existingComment = (this.getAttribute('data-comment') || '').toString().trim();
+                    if (marksModalTitle) {
+                        marksModalTitle.textContent = (existingScore === '' && existingComment === '') ? 'Add Marks' : 'Update Marks';
+                    }
                 });
             });
 
@@ -1168,7 +1177,24 @@
                             }
 
                             displayMessage('success', payload.message || 'Marks updated successfully');
-                            setTimeout(() => window.location.reload(), 600);
+
+                            const answerId = (marksIdInput && marksIdInput.value) ? String(marksIdInput.value) : '';
+                            if (answerId) {
+                                const scoreCell = root.querySelector('.js-practical-score[data-answer-id="' + answerId + '"]');
+                                const commentCell = root.querySelector('.js-practical-comment[data-answer-id="' + answerId + '"]');
+                                if (scoreCell && marksScoreInput) {
+                                    scoreCell.textContent = marksScoreInput.value;
+                                }
+                                if (commentCell && marksCommentInput) {
+                                    commentCell.textContent = marksCommentInput.value;
+                                }
+
+                                const btn = root.querySelector('.updateTraineeMarksBtn[data-id="' + answerId + '"]');
+                                if (btn && marksScoreInput && marksCommentInput) {
+                                    btn.setAttribute('data-score', marksScoreInput.value);
+                                    btn.setAttribute('data-comment', marksCommentInput.value);
+                                }
+                            }
                         } else {
                             displayMessage('error', extractErrorMessage(payload));
                         }
