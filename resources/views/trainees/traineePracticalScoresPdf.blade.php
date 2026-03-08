@@ -14,6 +14,7 @@
     </style>
 </head>
 <body>
+    {{--------------------
     <center>
         @if(!empty($imageSrc))
             <img src="{{ $imageSrc }}" width="120px">
@@ -25,6 +26,7 @@
             Phone: <b style="color:#33d6ff">+254768919307</b>
         </p>
     </center>
+    --------------------}}
 
     @php
         $moduleAvgSum = 0;
