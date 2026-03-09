@@ -403,36 +403,40 @@
                                     </thead>
                                     <tbody>
                                         @foreach(($practicalItems ?? []) as $k => $row)
-                                            <tr>
+                                            <tr data-practical-id="{{ $row->practical->id }}">
                                                 <td>{{ $k + 1 }}</td>
                                                 <td>{{ $row->practical->coursemodule->module_name ?? 'NA' }}</td>
                                                 <td>{{ $row->practical->name ?? 'NA' }}</td>
                                                 <td class="cell-nowrap">
-                                                    @if(!empty($row->student_answer))
-                                                        <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
-                                                            {{ $row->student_answer }}
-                                                        </a>
-                                                    @else
-                                                        @if(!empty($row->answer_id))
-                                                            <span class="text-muted">NA</span>
+                                                    <span class="js-practical-answer" data-practical-id="{{ $row->practical->id }}" data-answer-id="{{ $row->answer_id }}">
+                                                        @if(!empty($row->student_answer))
+                                                            <a class="answer-link" href="{{ asset('practicals/' . $row->student_answer) }}" download>
+                                                                {{ $row->student_answer }}
+                                                            </a>
                                                         @else
-                                                            <span class="text-muted">Not Submitted</span>
+                                                            @if(!empty($row->answer_id))
+                                                                <span class="text-muted">NA</span>
+                                                            @else
+                                                                <span class="text-muted">Not Submitted</span>
+                                                            @endif
                                                         @endif
-                                                    @endif
+                                                    </span>
 
                                                     @if(Auth::check() && Auth::user()->role != 'Trainee')
-                                                        @if(!empty($row->answer_id))
-                                                            <span role="button"
-                                                                class="badge bg-danger ms-1 updateTraineeAnswerBtn"
-                                                                data-id="{{ $row->answer_id }}"
-                                                                data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
-                                                        @else
-                                                            <span role="button"
-                                                                class="badge bg-success ms-1 submitTraineeAnswerBtn"
-                                                                data-practical-id="{{ $row->practical->id }}"
-                                                                data-user-id="{{ $student->id }}"
-                                                                data-bs-toggle="modal" data-bs-target="#submitTraineeAnswerModal">Submit</span>
-                                                        @endif
+                                                        <span class="js-practical-answer-actions" data-practical-id="{{ $row->practical->id }}">
+                                                            @if(!empty($row->answer_id))
+                                                                <span role="button"
+                                                                    class="badge bg-danger ms-1 updateTraineeAnswerBtn"
+                                                                    data-id="{{ $row->answer_id }}"
+                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>
+                                                            @else
+                                                                <span role="button"
+                                                                    class="badge bg-success ms-1 submitTraineeAnswerBtn"
+                                                                    data-practical-id="{{ $row->practical->id }}"
+                                                                    data-user-id="{{ $student->id }}"
+                                                                    data-bs-toggle="modal" data-bs-target="#submitTraineeAnswerModal">Submit</span>
+                                                            @endif
+                                                        </span>
                                                     @endif
                                                 </td>
                                                 <td class="cell-nowrap">
@@ -765,6 +769,8 @@
             const root = document.getElementById('traineeProfileAjaxRoot');
             if (!root) return;
 
+            const practicalBaseUrl = "{{ asset('practicals') }}";
+
             const buttons = root.querySelectorAll('.updateTraineeAnswerBtn');
             const input = root.querySelector('#update_trainee_answer_id');
 
@@ -817,6 +823,8 @@
             const submitForm = root.querySelector('#submitTraineeAnswerForm');
             const submitPracticalInput = root.querySelector('#submit_trainee_practical_id');
             const submitUserInput = root.querySelector('#submit_trainee_user_id');
+            const submitScoreInput = root.querySelector('#submit_trainee_student_score');
+            const submitCommentInput = root.querySelector('#submit_trainee_comment');
 
             const quickNavInput = root.querySelector('#quickNavInput');
             const quickNavDropdown = root.querySelector('#quickNavDropdown');
@@ -988,8 +996,42 @@
                 btn.addEventListener('click', function () {
                     if (submitPracticalInput) submitPracticalInput.value = this.getAttribute('data-practical-id') || '';
                     if (submitUserInput) submitUserInput.value = this.getAttribute('data-user-id') || '';
+                    if (submitScoreInput) submitScoreInput.value = '';
+                    if (submitCommentInput) submitCommentInput.value = '';
                 });
             });
+
+            function updateAnswerDisplay(practicalId, answerId, filename) {
+                const wrap = root.querySelector('.js-practical-answer[data-practical-id="' + practicalId + '"]');
+                if (!wrap) return;
+                if (answerId !== null && answerId !== undefined) {
+                    wrap.setAttribute('data-answer-id', String(answerId));
+                }
+                if (filename) {
+                    wrap.innerHTML = '<a class="answer-link" href="' + practicalBaseUrl + '/' + encodeURIComponent(filename) + '" download>' + filename + '</a>';
+                } else {
+                    wrap.innerHTML = '<span class="text-muted">NA</span>';
+                }
+            }
+
+            function ensureUpdateAnswerButton(practicalId, answerId) {
+                const actions = root.querySelector('.js-practical-answer-actions[data-practical-id="' + practicalId + '"]');
+                if (!actions) return;
+                const updateBtn = actions.querySelector('.updateTraineeAnswerBtn');
+                if (updateBtn) {
+                    if (answerId) updateBtn.setAttribute('data-id', String(answerId));
+                    return;
+                }
+
+                actions.innerHTML = '<span role="button" class="badge bg-danger ms-1 updateTraineeAnswerBtn" data-id="' + String(answerId) + '" data-bs-toggle="modal" data-bs-target="#updateTraineeAnswerModal">Update</span>';
+
+                const newBtn = actions.querySelector('.updateTraineeAnswerBtn');
+                if (newBtn) {
+                    newBtn.addEventListener('click', function () {
+                        if (input) input.value = this.getAttribute('data-id') || '';
+                    });
+                }
+            }
 
             if (submitForm) {
                 submitForm.addEventListener('submit', function (e) {
@@ -1047,7 +1089,76 @@
                             }
 
                             displayMessage('success', payload.message || 'Student answer submitted successfully');
-                            setTimeout(() => window.location.reload(), 600);
+
+                            const practicalId = submitPracticalInput ? String(submitPracticalInput.value || '') : '';
+                            const answerId = payload.answer_id ? String(payload.answer_id) : '';
+                            const filename = payload.student_answer ? String(payload.student_answer) : '';
+
+                            if (practicalId) {
+                                updateAnswerDisplay(practicalId, answerId, filename);
+                                if (answerId) {
+                                    ensureUpdateAnswerButton(practicalId, answerId);
+                                }
+                            }
+
+                            if (practicalId && answerId) {
+                                const row = root.querySelector('tr[data-practical-id="' + practicalId + '"]');
+                                const scoreWrap = row ? row.querySelector('.js-practical-score') : null;
+                                const commentWrap = row ? row.querySelector('.js-practical-comment') : null;
+
+                                if (scoreWrap) {
+                                    scoreWrap.setAttribute('data-answer-id', answerId);
+                                    if (submitScoreInput) {
+                                        scoreWrap.textContent = submitScoreInput.value;
+                                    }
+                                }
+                                if (commentWrap) {
+                                    commentWrap.setAttribute('data-answer-id', answerId);
+                                    if (submitCommentInput) {
+                                        commentWrap.textContent = submitCommentInput.value;
+                                    }
+                                }
+
+                                const scoreTd = row ? row.querySelector('td:nth-child(5)') : null;
+                                if (scoreTd) {
+                                    const existing = scoreTd.querySelector('.updateTraineeMarksBtn, .addTraineeMarksBtn');
+                                    if (!existing) {
+                                        const scoreVal = submitScoreInput ? String(submitScoreInput.value || '').trim() : '';
+                                        const commentVal = submitCommentInput ? String(submitCommentInput.value || '').trim() : '';
+                                        const hasMarks = scoreVal !== '' || commentVal !== '';
+
+                                        const btn = document.createElement('span');
+                                        btn.setAttribute('role', 'button');
+                                        btn.setAttribute('data-id', answerId);
+                                        btn.setAttribute('data-bs-toggle', 'modal');
+                                        btn.setAttribute('data-bs-target', '#updateTraineeMarksModal');
+
+                                        if (hasMarks) {
+                                            btn.className = 'badge bg-primary ms-1 updateTraineeMarksBtn';
+                                            btn.textContent = 'Marks';
+                                            btn.setAttribute('data-score', scoreVal);
+                                            btn.setAttribute('data-comment', commentVal);
+                                        } else {
+                                            btn.className = 'badge bg-success ms-1 addTraineeMarksBtn';
+                                            btn.textContent = 'Add New Mark';
+                                        }
+
+                                        btn.addEventListener('click', function () {
+                                            if (marksIdInput) marksIdInput.value = answerId;
+                                            const isAdd = btn.classList.contains('addTraineeMarksBtn');
+                                            if (marksScoreInput) marksScoreInput.value = isAdd ? '' : (btn.getAttribute('data-score') || '');
+                                            if (marksCommentInput) marksCommentInput.value = isAdd ? '' : (btn.getAttribute('data-comment') || '');
+                                            const existingScore = isAdd ? '' : (btn.getAttribute('data-score') || '').toString().trim();
+                                            const existingComment = isAdd ? '' : (btn.getAttribute('data-comment') || '').toString().trim();
+                                            if (marksModalTitle) {
+                                                marksModalTitle.textContent = (existingScore === '' && existingComment === '') ? 'Add Marks' : 'Update Marks';
+                                            }
+                                        });
+
+                                        scoreTd.appendChild(btn);
+                                    }
+                                }
+                            }
                         } else {
                             displayMessage('error', extractErrorMessage(payload));
                         }
@@ -1117,7 +1228,18 @@
                             }
 
                             displayMessage('success', payload.message || 'Student answer updated successfully');
-                            setTimeout(() => window.location.reload(), 600);
+                            const answerId = payload.answer_id ? String(payload.answer_id) : (input ? String(input.value || '') : '');
+                            const filename = payload.student_answer ? String(payload.student_answer) : '';
+                            if (answerId) {
+                                const practicalWrap = root.querySelector('.js-practical-answer[data-answer-id="' + answerId + '"]');
+                                if (practicalWrap) {
+                                    const practicalId = practicalWrap.getAttribute('data-practical-id');
+                                    if (practicalId) {
+                                        updateAnswerDisplay(practicalId, answerId, filename);
+                                        ensureUpdateAnswerButton(practicalId, answerId);
+                                    }
+                                }
+                            }
                         } else {
                             displayMessage('error', extractErrorMessage(payload));
                         }
