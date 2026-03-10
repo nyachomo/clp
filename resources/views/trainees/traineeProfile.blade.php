@@ -1190,7 +1190,11 @@
                                 }
                             }
                         } else {
-                            displayMessage('error', extractErrorMessage(payload));
+                            if (!payload) {
+                                displayMessage('error', 'Request failed (' + xhr.status + ')');
+                            } else {
+                                displayMessage('error', extractErrorMessage(payload));
+                            }
                         }
 
                         setTimeout(function () {
