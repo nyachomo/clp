@@ -397,6 +397,7 @@
                                             <th>Module</th>
                                             <th>Practical</th>
                                             <th>Student Answer</th>
+                                            <th>Row Marks</th>
                                             <th>Score</th>
                                             <th>Comment</th>
                                         </tr>
@@ -439,6 +440,7 @@
                                                         </span>
                                                     @endif
                                                 </td>
+                                                <td>{{ $row->practical->marks ?? 'NA' }}</td>
                                                 <td class="cell-nowrap">
                                                     <span class="js-practical-score" data-answer-id="{{ $row->answer_id }}">{{ $row->student_score }}</span>
 
@@ -1119,7 +1121,7 @@
                                     }
                                 }
 
-                                const scoreTd = row ? row.querySelector('td:nth-child(5)') : null;
+                                const scoreTd = scoreWrap ? scoreWrap.closest('td') : null;
                                 if (scoreTd) {
                                     const existing = scoreTd.querySelector('.updateTraineeMarksBtn, .addTraineeMarksBtn');
                                     if (!existing) {
