@@ -452,17 +452,17 @@
                                                             @endphp
 
                                                             @if($answerSubmitted && $marksNotSet)
-                                                                <span role="button"
-                                                                    class="badge bg-success ms-1 addTraineeMarksBtn"
+                                                                <button type="button"
+                                                                    class="badge bg-success ms-1 border-0 addTraineeMarksBtn"
                                                                     data-id="{{ $row->answer_id }}"
-                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Add New Mark</span>
+                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Add New Mark</button>
                                                             @else
-                                                                <span role="button"
-                                                                    class="badge bg-primary ms-1 updateTraineeMarksBtn"
+                                                                <button type="button"
+                                                                    class="badge bg-primary ms-1 border-0 updateTraineeMarksBtn"
                                                                     data-id="{{ $row->answer_id }}"
                                                                     data-score="{{ $row->student_score }}"
                                                                     data-comment="{{ $row->comment }}"
-                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Marks</span>
+                                                                    data-bs-toggle="modal" data-bs-target="#updateTraineeMarksModal">Marks</button>
                                                             @endif
                                                         @endif
                                                     @endif
@@ -976,6 +976,34 @@
                         input.value = this.getAttribute('data-id') || '';
                     }
                 });
+            });
+
+            root.addEventListener('click', function (e) {
+                const btn = e.target && e.target.closest ? e.target.closest('.updateTraineeMarksBtn, .addTraineeMarksBtn') : null;
+                if (!btn) return;
+
+                e.preventDefault();
+
+                const answerId = btn.getAttribute('data-id') || '';
+                const isAdd = btn.classList.contains('addTraineeMarksBtn');
+                const score = isAdd ? '' : (btn.getAttribute('data-score') || '');
+                const comment = isAdd ? '' : (btn.getAttribute('data-comment') || '');
+
+                if (marksIdInput) marksIdInput.value = answerId;
+                if (marksScoreInput) marksScoreInput.value = score;
+                if (marksCommentInput) marksCommentInput.value = comment;
+
+                const existingScore = String(score || '').trim();
+                const existingComment = String(comment || '').trim();
+                if (marksModalTitle) {
+                    marksModalTitle.textContent = (existingScore === '' && existingComment === '') ? 'Add Marks' : 'Update Marks';
+                }
+
+                const modalEl = document.getElementById('updateTraineeMarksModal');
+                if (modalEl && window.bootstrap) {
+                    const inst = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
+                    inst.show();
+                }
             });
 
             marksButtons.forEach(function (btn) {
