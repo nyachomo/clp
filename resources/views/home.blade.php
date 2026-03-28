@@ -92,6 +92,146 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 ?>
 
 <style>
+    /* ===== ADMIN DASHBOARD STYLES ===== */
+    :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+        --purple: #8b5cf6;
+        --pink: #ec4899;
+    }
+
+    .admin-dashboard { font-family: 'Inter', sans-serif; }
+
+    /* Hero Welcome Banner */
+    .admin-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #312e81 70%, #4c1d95 100%);
+        border-radius: 24px;
+        padding: 36px 40px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 28px;
+        box-shadow: 0 20px 60px rgba(79, 70, 229, 0.4);
+    }
+    .admin-hero::before {
+        content: '';
+        position: absolute;
+        top: -60px; right: -60px;
+        width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(139,92,246,0.35) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .admin-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -80px; left: 30%;
+        width: 250px; height: 250px;
+        background: radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .hero-title { font-size: 2rem; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.5px; }
+    .hero-subtitle { font-size: 1rem; opacity: 0.75; margin: 0 0 20px; }
+    .hero-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero-pill {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        backdrop-filter: blur(8px);
+    }
+    .hero-badge {
+        position: absolute; top: 28px; right: 36px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 14px 20px;
+        text-align: center;
+    }
+    .hero-badge .time-display { font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
+    .hero-badge .date-display { font-size: 0.75rem; opacity: 0.7; margin-top: 2px; }
+
+    /* Stat Cards */
+    .stat-card {
+        border-radius: 20px;
+        padding: 24px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        cursor: default;
+    }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 24px 48px rgba(0,0,0,0.15) !important; }
+    .stat-card .icon-wrap {
+        width: 54px; height: 54px;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+    }
+    .stat-card .stat-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 6px; }
+    .stat-card .stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1; margin-bottom: 10px; }
+    .stat-card .stat-footer { font-size: 0.78rem; font-weight: 600; opacity: 0.7; }
+    .stat-card .stat-footer a { color: inherit; text-decoration: underline; opacity: 0.8; }
+    .stat-card .shimmer-bar {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        height: 4px;
+        border-radius: 0 0 20px 20px;
+        background: rgba(255,255,255,0.3);
+    }
+
+    .stat-indigo { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; box-shadow: 0 10px 30px rgba(99,102,241,0.35); }
+    .stat-emerald { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 10px 30px rgba(16,185,129,0.35); }
+    .stat-rose { background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; box-shadow: 0 10px 30px rgba(244,63,94,0.35); }
+    .stat-amber { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 10px 30px rgba(245,158,11,0.35); }
+    .stat-sky { background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; box-shadow: 0 10px 30px rgba(14,165,233,0.35); }
+    .stat-violet { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; box-shadow: 0 10px 30px rgba(139,92,246,0.35); }
+
+    /* Chart Cards */
+    .chart-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        border: 1px solid rgba(0,0,0,0.05);
+        height: 100%;
+    }
+    .chart-card .chart-title { font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+    .chart-card .chart-subtitle { font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px; }
+
+    /* Quick Action Buttons */
+    .quick-action {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: block;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .quick-action:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); text-decoration: none; }
+    .quick-action .qa-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .quick-action .qa-label { font-size: 0.82rem; font-weight: 700; color: #475569; }
+    .quick-action.qa-indigo:hover { border-color: #6366f1; background: linear-gradient(135deg, #eef2ff, #fff); }
+    .quick-action.qa-emerald:hover { border-color: #10b981; background: linear-gradient(135deg, #ecfdf5, #fff); }
+    .quick-action.qa-amber:hover { border-color: #f59e0b; background: linear-gradient(135deg, #fffbeb, #fff); }
+    .quick-action.qa-rose:hover { border-color: #f43f5e; background: linear-gradient(135deg, #fff1f2, #fff); }
+    .quick-action.qa-sky:hover { border-color: #0ea5e9; background: linear-gradient(135deg, #f0f9ff, #fff); }
+    .quick-action.qa-violet:hover { border-color: #8b5cf6; background: linear-gradient(135deg, #f5f3ff, #fff); }
+
+    /* Section headings */
+    .section-heading { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-heading::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+
+    /* Welcome card (student) */
     .welcome-card {
     display: flex;
     justify-content: space-between;
@@ -264,121 +404,184 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
  <!-- end page title -->
  @if(Auth::check() && Auth::user()->role=='Admin')
 
+<div class="admin-dashboard">
 
-<div class="row">
-    <div class="col-sm-4">
-            <div class="alert alert-success" role="alert">
-                <strong>Total Debit (Ksh)</strong> 
-                <h1 id="totalExpectedFee">Loading ...</h1>
+    {{-- ===== HERO BANNER ===== --}}
+    <div class="admin-hero">
+        <div style="position:relative;z-index:2;">
+            <div class="hero-title">Welcome back, {{ Auth::user()->firstname }} 👋</div>
+            <div class="hero-subtitle">Here's what's happening at Techsphere Training Institute today.</div>
+            <div class="hero-pills">
+                <span class="hero-pill">🎓 Admin Panel</span>
+                <span class="hero-pill" id="admin-live-time">--:-- --</span>
+                <span class="hero-pill" id="admin-live-date">--- --, ----</span>
             </div>
+        </div>
+        <div class="hero-badge" style="z-index:2;">
+            <div class="time-display" id="admin-clock">--:--</div>
+            <div class="date-display" id="admin-date-short">Loading...</div>
+        </div>
     </div>
 
-    <div class="col-sm-4">
-            <div class="alert alert-info" role="alert">
-                <strong>Total Credit  (Ksh)</strong> 
-                <h1 id="totalFeePaid">Loading ..</h1>
+    {{-- ===== STAT CARDS ===== --}}
+    <div class="section-heading">Overview Statistics</div>
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-emerald">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">💰</div>
+                <div class="stat-label">Total Debit</div>
+                <div class="stat-value" id="totalExpectedFee" style="font-size:1.2rem;">—</div>
+                <div class="stat-footer">Expected Revenue</div>
+                <div class="shimmer-bar"></div>
             </div>
-    </div>
+        </div>
 
-
-    <div class="col-sm-4">
-            <div class="alert alert-danger" role="alert">
-                <strong>Balance (Ksh)</strong> 
-                <h1 id="balanceToPay">Loading ....</h1>
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-sky">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">💳</div>
+                <div class="stat-label">Total Credit</div>
+                <div class="stat-value" id="totalFeePaid" style="font-size:1.2rem;">—</div>
+                <div class="stat-footer">Collected So Far</div>
+                <div class="shimmer-bar"></div>
             </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-rose">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">📉</div>
+                <div class="stat-label">Balance</div>
+                <div class="stat-value" id="balanceToPay" style="font-size:1.2rem;">—</div>
+                <div class="stat-footer">Outstanding Amount</div>
+                <div class="shimmer-bar"></div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-indigo">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">🧑‍💼</div>
+                <div class="stat-label">Administrators</div>
+                <div class="stat-value" id="total_admin">—</div>
+                <div class="stat-footer"><a href="{{route('showAdministrator')}}">View All</a></div>
+                <div class="shimmer-bar"></div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-amber">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">🎓</div>
+                <div class="stat-label">Trainees</div>
+                <div class="stat-value" id="total_trainees">—</div>
+                <div class="stat-footer"><a href="{{route('showTrainees')}}">View All</a></div>
+                <div class="shimmer-bar"></div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <div class="stat-card stat-violet">
+                <div class="icon-wrap" style="background:rgba(255,255,255,0.2);">📚</div>
+                <div class="stat-label">Courses</div>
+                <div class="stat-value" id="total_courses">—</div>
+                <div class="stat-footer"><a href="{{route('showCourses')}}">View All</a></div>
+                <div class="shimmer-bar"></div>
+            </div>
+        </div>
+
     </div>
 
+    {{-- ===== CHARTS ROW 1 ===== --}}
+    <div class="section-heading">Analytics & Insights</div>
+    <div class="row g-3 mb-4">
 
-</div>
- <!-- end page title -->
+        {{-- Fee Collections Area Chart --}}
+        <div class="col-lg-8">
+            <div class="chart-card">
+                <div class="chart-title">Monthly Fee Collections</div>
+                <div class="chart-subtitle">Revenue collected per month — last 12 months</div>
+                <div id="feeCollectionsChart"></div>
+            </div>
+        </div>
 
-   <div class="row">
-        <div class="col-xl-5 col-lg-6">
+        {{-- User Distribution Donut --}}
+        <div class="col-lg-4">
+            <div class="chart-card">
+                <div class="chart-title">User Distribution</div>
+                <div class="chart-subtitle">Breakdown by role</div>
+                <div id="userDistributionChart"></div>
+            </div>
+        </div>
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card widget-flat">
-                        <div class="card-body">
-                            <div class="float-end">
-                                <i class="mdi mdi-account-multiple widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Administrators</h5>
-                            <h3 class="mt-3 mb-3" id="total_admin">Loading ...</h3>
-                            <p class="mb-0 text-muted">
-                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 5.27%</span>
-                               <span class="text-nowrap">
-                                     <a href="{{route('showAdministrator')}}">More Info </a>
-                               </span>
-                            </p>
-                        </div> <!-- end card-body-->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
-
-                <div class="col-sm-6">
-                    <div class="card widget-flat">
-                        <div class="card-body">
-                            <div class="float-end">
-                                <i class="mdi mdi-cart-plus widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Trainees</h5>
-                            <h3 class="mt-3 mb-3" id="total_trainees">Loading ...</h3>
-                            <p class="mb-0 text-muted">
-                                <span class="text-danger me-2" ><i class="mdi mdi-arrow-down-bold"></i> 1.08%</span>
-                                <span class="text-nowrap">
-                                     <a href="{{route('showTrainees')}}">More Info</a>
-                                </span>
-                            </p>
-                        </div> <!-- end card-body-->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
-            </div> <!-- end row -->
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card widget-flat">
-                        <div class="card-body">
-                            <div class="float-end">
-                                <i class="mdi mdi-currency-usd widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Traineer</h5>
-                            <h3 class="mt-3 mb-3" id="total_trainer">Loading ...</h3>
-                            <p class="mb-0 text-muted">
-                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i> 7.00%</span>
-                                <span class="text-nowrap"> <a href="{{route('showTrainees')}}">More Info</a></span>
-                            </p>
-                        </div> <!-- end card-body-->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
-
-                <div class="col-sm-6">
-                    <div class="card widget-flat">
-                        <div class="card-body">
-                            <div class="float-end">
-                                <i class="mdi mdi-pulse widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted fw-normal mt-0" title="Growth">Courses</h5>
-                            <h3 class="mt-3 mb-3" id="total_courses">Loading ...</h3>
-                            <p class="mb-0 text-muted">
-                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 4.87%</span>
-                                <span class="text-nowrap">
-                                      <a href="{{route('showCourses')}}">More Info</a>
-                                </span>
-                               
-                            </p>
-                        </div> <!-- end card-body-->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
-            </div> <!-- end row -->
-
-        </div> <!-- end col -->
-
-        <div class="col-xl-7 col-lg-6">
-        <canvas id="enrollmentChart" width="400" height="200"></canvas>
-
-        </div> <!-- end col -->
     </div>
-    <!-- end row -->
 
+    {{-- ===== CHARTS ROW 2 ===== --}}
+    <div class="row g-3 mb-4">
+
+        {{-- Monthly Enrollments Bar Chart --}}
+        <div class="col-lg-8">
+            <div class="chart-card">
+                <div class="chart-title">Monthly Enrollments</div>
+                <div class="chart-subtitle">New trainee registrations over time</div>
+                <div id="enrollmentsBarChart"></div>
+            </div>
+        </div>
+
+        {{-- Fee Collection Progress Radial --}}
+        <div class="col-lg-4">
+            <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <div class="chart-title" style="text-align:center;width:100%;">Fee Collection Rate</div>
+                <div class="chart-subtitle" style="text-align:center;width:100%;">Percentage of total fees collected</div>
+                <div id="feeRadialChart" style="width:100%;"></div>
+                <div style="text-align:center;margin-top:10px;">
+                    <span style="font-size:0.8rem;color:#64748b;">Collected: <strong id="radial-collected">Ksh —</strong></span><br>
+                    <span style="font-size:0.8rem;color:#64748b;">Target: <strong id="radial-target">Ksh —</strong></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- ===== QUICK ACTIONS ===== --}}
+    <div class="section-heading">Quick Actions</div>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showAdministrator')}}" class="quick-action qa-indigo">
+                <span class="qa-icon">🧑‍💼</span>
+                <span class="qa-label">Administrators</span>
+            </a>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showTrainees')}}" class="quick-action qa-emerald">
+                <span class="qa-icon">🎓</span>
+                <span class="qa-label">Trainees</span>
+            </a>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showCourses')}}" class="quick-action qa-amber">
+                <span class="qa-icon">📚</span>
+                <span class="qa-label">Courses</span>
+            </a>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showClases')}}" class="quick-action qa-rose">
+                <span class="qa-icon">🏫</span>
+                <span class="qa-label">Classes</span>
+            </a>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showExams')}}" class="quick-action qa-sky">
+                <span class="qa-icon">📝</span>
+                <span class="qa-label">Assessments</span>
+            </a>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-2">
+            <a href="{{route('showSchools')}}" class="quick-action qa-violet">
+                <span class="qa-icon">🏛️</span>
+                <span class="qa-label">Schools</span>
+            </a>
+        </div>
+    </div>
+
+</div>{{-- end admin-dashboard --}}
 
  @endif
 
@@ -696,83 +899,218 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
 @section('scripts')
 
-
 <script>
-        /*Function to check company settings and show modal if necessary
-        function fetchFeeBalance() {
-            $.ajax({
-                url: "{{ route('fetchFeeBalance') }}",
-                method: 'GET',
-                success: function(response) {
-                    // Check the conditions for showing the modal
-                    if (response.balance > 0) {
-                        $('#feeBalance').text(response.balance);
-                        $('#payment').text(response.payment);
-                        $('#endOfMonth').text(response.endOfMonth);
-                        // Show the modal if both statuses are 1
-                        $('#feeReminderModal').modal('show');
+/* ===== LIVE CLOCK ===== */
+(function () {
+    function pad(n) { return String(n).padStart(2, '0'); }
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var longMonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function updateClock() {
+        var d = new Date();
+        var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+        var ampm = h >= 12 ? 'PM' : 'AM';
+        var h12 = h % 12 || 12;
+
+        var clockEl = document.getElementById('admin-clock');
+        var dateShortEl = document.getElementById('admin-date-short');
+        var liveTimeEl = document.getElementById('admin-live-time');
+        var liveDateEl = document.getElementById('admin-live-date');
+
+        if (clockEl) clockEl.textContent = pad(h12) + ':' + pad(m);
+        if (dateShortEl) dateShortEl.textContent = days[d.getDay()].substring(0,3) + ', ' + months[d.getMonth()] + ' ' + d.getDate();
+        if (liveTimeEl) liveTimeEl.textContent = '🟢 ' + pad(h12) + ':' + pad(m) + ':' + pad(s) + ' ' + ampm;
+        if (liveDateEl) liveDateEl.textContent = '📅 ' + days[d.getDay()] + ', ' + longMonths[d.getMonth()] + ' ' + d.getDate();
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+})();
+
+/* ===== CHART INSTANCES ===== */
+var feeCollectionsChart, userDistributionChart, enrollmentsBarChart, feeRadialChart;
+
+/* ===== NUMBER FORMATTING ===== */
+function formatKsh(num) {
+    if (num >= 1000000) return 'Ksh ' + (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return 'Ksh ' + (num / 1000).toFixed(1) + 'K';
+    return 'Ksh ' + Number(num).toLocaleString();
+}
+
+/* ===== INIT USER DISTRIBUTION DONUT ===== */
+function initUserDistributionChart(admins, trainees, trainers, courses) {
+    var opts = {
+        series: [admins, trainees, trainers, courses],
+        labels: ['Admins', 'Trainees', 'Trainers', 'Courses'],
+        chart: { type: 'donut', height: 280, fontFamily: 'Inter, sans-serif' },
+        colors: ['#6366f1', '#f59e0b', '#10b981', '#8b5cf6'],
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '70%',
+                    labels: {
+                        show: true,
+                        total: {
+                            show: true, label: 'Total', color: '#374151',
+                            fontSize: '14px', fontWeight: 700,
+                            formatter: function (w) {
+                                return w.globals.seriesTotals.reduce(function(a, b) { return a + b; }, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        legend: { position: 'bottom', fontSize: '12px' },
+        dataLabels: { enabled: false },
+        tooltip: { theme: 'light' },
+        stroke: { width: 0 }
+    };
+    var el = document.querySelector('#userDistributionChart');
+    if (!el) return;
+    if (userDistributionChart) { userDistributionChart.destroy(); }
+    userDistributionChart = new ApexCharts(el, opts);
+    userDistributionChart.render();
+}
+
+/* ===== INIT FEE RADIAL CHART ===== */
+function initFeeRadialChart(collected, total) {
+    var pct = total > 0 ? Math.round((collected / total) * 100) : 0;
+    var opts = {
+        series: [pct],
+        chart: { type: 'radialBar', height: 240, fontFamily: 'Inter, sans-serif' },
+        plotOptions: {
+            radialBar: {
+                startAngle: -135, endAngle: 135,
+                hollow: { size: '60%' },
+                dataLabels: {
+                    name: { show: true, fontSize: '13px', color: '#64748b', offsetY: -10, fontWeight: 600 },
+                    value: { show: true, fontSize: '2rem', fontWeight: 800, color: '#1e293b', offsetY: 6,
+                        formatter: function (val) { return val + '%'; }
                     }
                 },
-                error: function(error) {
-                    console.log('Error fetching company details:', error);
-                }
-            });
-        }
-
-        // Call the function immediately when the page loads
-        fetchFeeBalance();
-
-        // Set an interval to run the check every 5 seconds (5000 milliseconds)
-        setInterval(fetchFeeBalance, 5000);
-        */
-
-
-
-
-
-        $(document).ready(function(){
-
-            fetchadminDashboardUpdates();
-
-
-            function fetchadminDashboardUpdates(){
-                    $.ajax({
-                        type:'GET',
-                        url:"{{route('fetchAdminDashboardUpdates')}}",
-                        dataType:'json',
-                        success:function(response){
-
-                            //Update ui with the fee collected
-                            $('#totalExpectedFee').text('Ksh ' + response.totalExpectedFee);
-                            $('#totalFeePaid').text('Ksh ' + response.totalFeePaid);
-                            $('#balanceToPay').text('Ksh '+  response.balanceToPay);
-                            $('#total_trainees').text(response.total_trainees);
-                            $('#total_admin').text(response.total_admin);
-                            $('#total_courses').text(response.total_courses);
-                            $('#total_trainer').text(response.total_trainer);
-                        },
-
-                        error:function(err){
-                            console.error('Error fetching total fee:', err);
-                        }
-                    });
+                track: { background: '#e2e8f0', strokeWidth: '100%' }
             }
+        },
+        fill: {
+            type: 'gradient',
+            gradient: { shade: 'dark', type: 'horizontal', gradientToColors: ['#10b981'], stops: [0, 100] }
+        },
+        colors: ['#6366f1'],
+        labels: ['Collected'],
+        stroke: { lineCap: 'round' }
+    };
+    var el = document.querySelector('#feeRadialChart');
+    if (!el) return;
+    if (feeRadialChart) { feeRadialChart.destroy(); }
+    feeRadialChart = new ApexCharts(el, opts);
+    feeRadialChart.render();
+    document.getElementById('radial-collected').textContent = formatKsh(collected);
+    document.getElementById('radial-target').textContent = formatKsh(total);
+}
 
-            setInterval(fetchadminDashboardUpdates, 3000);
-            fetchadminDashboardUpdates();
+/* ===== INIT FEE COLLECTIONS AREA CHART ===== */
+function initFeeCollectionsChart(labels, data) {
+    var opts = {
+        series: [{ name: 'Fee Collected (Ksh)', data: data }],
+        chart: { type: 'area', height: 280, fontFamily: 'Inter, sans-serif', toolbar: { show: false }, zoom: { enabled: false } },
+        colors: ['#6366f1'],
+        fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0.05, stops: [0, 100] } },
+        stroke: { curve: 'smooth', width: 3 },
+        xaxis: { categories: labels, labels: { style: { fontSize: '11px', colors: '#94a3b8' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { labels: { formatter: function(v) { return 'Ksh ' + (v/1000).toFixed(0) + 'K'; }, style: { colors: '#94a3b8', fontSize: '11px' } } },
+        grid: { borderColor: '#f1f5f9', strokeDashArray: 4 },
+        tooltip: { y: { formatter: function(v) { return 'Ksh ' + Number(v).toLocaleString(); } } },
+        markers: { size: 4, colors: ['#fff'], strokeColors: '#6366f1', strokeWidth: 3, hover: { size: 6 } },
+        dataLabels: { enabled: false }
+    };
+    var el = document.querySelector('#feeCollectionsChart');
+    if (!el) return;
+    if (feeCollectionsChart) { feeCollectionsChart.destroy(); }
+    feeCollectionsChart = new ApexCharts(el, opts);
+    feeCollectionsChart.render();
+}
 
+/* ===== INIT ENROLLMENTS BAR CHART ===== */
+function initEnrollmentsBarChart(labels, data) {
+    var opts = {
+        series: [{ name: 'New Trainees', data: data }],
+        chart: { type: 'bar', height: 280, fontFamily: 'Inter, sans-serif', toolbar: { show: false } },
+        colors: ['#f59e0b'],
+        plotOptions: { bar: { borderRadius: 8, columnWidth: '50%' } },
+        fill: { type: 'gradient', gradient: { shade: 'light', type: 'vertical', gradientToColors: ['#fbbf24'], stops: [0, 100] } },
+        xaxis: { categories: labels, labels: { style: { fontSize: '11px', colors: '#94a3b8' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { labels: { style: { colors: '#94a3b8', fontSize: '11px' } } },
+        grid: { borderColor: '#f1f5f9', strokeDashArray: 4 },
+        tooltip: { y: { formatter: function(v) { return v + ' trainees'; } } },
+        dataLabels: { enabled: false }
+    };
+    var el = document.querySelector('#enrollmentsBarChart');
+    if (!el) return;
+    if (enrollmentsBarChart) { enrollmentsBarChart.destroy(); }
+    enrollmentsBarChart = new ApexCharts(el, opts);
+    enrollmentsBarChart.render();
+}
 
-    });
+/* ===== FETCH & POPULATE DASHBOARD ===== */
+$(document).ready(function () {
 
+    /* Only run admin chart code when the admin dashboard containers exist */
+    if (!document.getElementById('feeCollectionsChart')) return;
 
+    function fetchAdminStats() {
+        $.ajax({
+            type: 'GET', url: "{{ route('fetchAdminDashboardUpdates') }}", dataType: 'json',
+            success: function (res) {
+                $('#totalExpectedFee').text(formatKsh(res.totalExpectedFee));
+                $('#totalFeePaid').text(formatKsh(res.totalFeePaid));
+                $('#balanceToPay').text(formatKsh(res.balanceToPay));
+                $('#total_admin').text(res.total_admin);
+                $('#total_trainees').text(res.total_trainees);
+                $('#total_trainer').text(res.total_trainer);
+                $('#total_courses').text(res.total_courses);
+                if (document.getElementById('userDistributionChart')) {
+                    initUserDistributionChart(parseInt(res.total_admin)||0, parseInt(res.total_trainees)||0, parseInt(res.total_trainer)||0, parseInt(res.total_courses)||0);
+                }
+                if (document.getElementById('feeRadialChart')) {
+                    initFeeRadialChart(parseFloat(res.totalFeePaid)||0, parseFloat(res.totalExpectedFee)||0);
+                }
+            },
+            error: function (err) { console.error('Dashboard stats error:', err); }
+        });
+    }
 
+    function fetchFeeCollections() {
+        $.ajax({
+            type: 'GET', url: "{{ route('monthly.fee.collections') }}", dataType: 'json',
+            success: function (data) {
+                var labels = data.map(function(d) { return d.month; });
+                var values = data.map(function(d) { return parseFloat(d.total) || 0; });
+                if (labels.length === 0) { labels = ['No Data']; values = [0]; }
+                initFeeCollectionsChart(labels, values);
+            },
+            error: function () { initFeeCollectionsChart(['No Data'], [0]); }
+        });
+    }
 
+    function fetchEnrollments() {
+        $.ajax({
+            type: 'GET', url: "{{ route('monthly.enrollments') }}", dataType: 'json',
+            success: function (data) {
+                var labels = data.map(function(d) { return d.month; });
+                var values = data.map(function(d) { return parseInt(d.total) || 0; });
+                if (labels.length === 0) { labels = ['No Data']; values = [0]; }
+                initEnrollmentsBarChart(labels, values);
+            },
+            error: function () { initEnrollmentsBarChart(['No Data'], [0]); }
+        });
+    }
 
-
-
-
+    fetchAdminStats();
+    fetchFeeCollections();
+    fetchEnrollments();
+    setInterval(fetchAdminStats, 30000);
+});
 </script>
-
-
 
 @endsection

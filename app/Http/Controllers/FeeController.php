@@ -26,35 +26,35 @@ class FeeController extends Controller
     }
 
     public function addFees(Request $request){
-        $add=Fee::create($request->all());
-        if($add){
-            return redirect()->back()->with('success','Data saved succesfully');
-            }else{
-                return redirect()->back()->with('Failed','Could not  saved');
-            }
+        $add = Fee::create($request->all());
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => (bool) $add,
+                'fee'     => $add,
+            ]);
+        }
+        return redirect()->back()->with('success', 'Data saved successfully');
     }
 
     public function updateFees(Request $request){
-        
-        $fee=Fee::find($request->id);
-        $update=$fee->update($request->all());
-        if($update){
-            return redirect()->back()->with('success','Data updated succesfully');
-            }else{
-                return redirect()->back()->with('Failed','Could not  update');
-            }
+        $fee = Fee::find($request->id);
+        $update = $fee->update($request->all());
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => (bool) $update,
+                'fee' => $fee->fresh(),
+            ]);
+        }
+        return redirect()->back()->with('success', 'Data updated successfully');
     }
 
-    
     public function deleteFees(Request $request){
-        
-        $fee=Fee::find($request->id);
-        $delete=$fee->delete();
-        if($delete){
-            return redirect()->back()->with('success','Data deleted succesfully');
-            }else{
-                return redirect()->back()->with('Failed','Could not  delete');
-            }
+        $fee = Fee::find($request->id);
+        $delete = $fee->delete();
+        if ($request->ajax()) {
+            return response()->json(['success' => (bool) $delete]);
+        }
+        return redirect()->back()->with('success', 'Data deleted successfully');
     }
 
 

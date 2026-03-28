@@ -1843,6 +1843,21 @@ public function adminUpdateUserPassword(Request $request){
         return response()->json($monthlyData);
     }
 
+    public function getMonthlyFeeCollections()
+    {
+        $monthlyData = DB::table('fees')
+            ->select(
+                DB::raw("DATE_FORMAT(created_at, '%b %Y') as month"),
+                DB::raw('SUM(amount_paid) as total')
+            )
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"))
+            ->orderBy(DB::raw("MIN(created_at)"))
+            ->limit(12)
+            ->get();
+
+        return response()->json($monthlyData);
+    }
+
 
 
 
@@ -2806,46 +2821,58 @@ public function adminUpdateUserPassword(Request $request){
                         'total_score' => $items->sum(function ($x) {
                             return (float) ($x->score ?? 0);
                         }),
+                        'attempted' => true,
                     ];
                 })
                 ->values();
+
+            // Exams assigned to the student's class that they haven't attempted yet
+            $attemptedExamIds = $examAnswers->pluck('exam_id')->filter()->unique()->values();
+            $pendingExams = Exam::where('clas_id', $student->clas_id)
+                ->where('exam_status', 'Published')
+                ->whereNotIn('id', $attemptedExamIds)
+                ->orderBy('exam_start_date', 'desc')
+                ->get();
+
+            $pendingSummaries = $pendingExams->map(function ($exam) {
+                return [
+                    'exam'        => $exam,
+                    'questions'   => 0,
+                    'total_score' => 0,
+                    'attempted'   => false,
+                ];
+            });
 
             $practicalAnswers = \App\Models\Practicalanswer::with(['practical.coursemodule','practical.course'])
                 ->where('user_id', $id)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $practicalsQuery = \App\Models\Practical::with(['coursemodule','course'])
-                ->where('clas_id', $student->clas_id);
-
-            if (!is_null($student->course_id)) {
-                $practicalsQuery->where('course_id', $student->course_id);
-            }
-
-            $allPracticals = $practicalsQuery
-                ->orderBy('created_at', 'desc')
+            // All practicals assigned to the student's class
+            $allClassPracticals = Practical::with(['coursemodule', 'course'])
+                ->where('clas_id', $student->clas_id)
+                ->orderBy('created_at', 'asc')
                 ->get();
 
-            $answersByPracticalId = \App\Models\Practicalanswer::where('user_id', $id)
-                ->orderBy('id', 'asc')
-                ->get()
-                ->keyBy('practical_id');
+            // Index answers by practical_id for quick lookup
+            $answersByPracticalId = $practicalAnswers->keyBy('practical_id');
 
-            $practicalItems = $allPracticals->map(function ($practical) use ($answersByPracticalId) {
+            // Merge: answered practicals + unanswered ones from the class
+            $practicalItems = $allClassPracticals->map(function ($practical) use ($answersByPracticalId) {
                 $ans = $answersByPracticalId->get($practical->id);
                 return (object) [
-                    'practical' => $practical,
-                    'answer' => $ans,
-                    'answer_id' => $ans?->id,
-                    'student_answer' => $ans?->student_answer,
-                    'student_score' => $ans?->student_score,
-                    'comment' => $ans?->comment,
-                    'submitted' => !is_null($ans) && (!empty($ans?->student_answer) || !is_null($ans?->student_score) || !empty($ans?->comment)),
+                    'practical'      => $practical,
+                    'answer'         => $ans,
+                    'answer_id'      => $ans ? $ans->id : null,
+                    'student_answer' => $ans ? $ans->student_answer : null,
+                    'student_score'  => $ans ? $ans->student_score : null,
+                    'comment'        => $ans ? $ans->comment : null,
+                    'submitted'      => $ans && (!empty($ans->student_answer) || !is_null($ans->student_score) || !empty($ans->comment)),
                 ];
             });
 
             if ($request->boolean('ajax') && $request->expectsJson()) {
-                $html = view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance') + [
+                $html = view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'pendingSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance') + [
                     'ajaxOnly' => true,
                 ])->render();
 
@@ -2856,7 +2883,7 @@ public function adminUpdateUserPassword(Request $request){
                 ]);
             }
 
-            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance'));
+            return view('trainees.traineeProfile', compact('student', 'fees', 'examSummaries', 'pendingSummaries', 'practicalAnswers', 'practicalItems', 'traineeSwitchList', 'debit', 'credit', 'balance'));
         }
 
 

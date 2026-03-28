@@ -112,6 +112,7 @@ Route::prefix('admin')->group(function () {
 Route::prefix('Dashboard-Updates')->group(function (){
    Route::get('admin',[BackendController::class,'fetchAdminDashboardUpdates'])->name('fetchAdminDashboardUpdates');
    Route::get('/monthly-enrollments', [BackendController::class, 'getMonthlyEnrollments'])->name('monthly.enrollments');
+   Route::get('/monthly-fee-collections', [BackendController::class, 'getMonthlyFeeCollections'])->name('monthly.fee.collections');
 
 });
 

@@ -475,6 +475,39 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            {{-- Not-attempted exams for this student's class --}}
+                            @if(!empty($pendingSummaries) && $pendingSummaries->count())
+                                <div class="mt-3">
+                                    <h6 class="fw-bold text-danger mb-2">Exams Not Yet Attempted</h6>
+                                    <div class="table-responsive practicals-table-wrap">
+                                        <table class="table table-sm table-bordered practicals-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Exam Name</th>
+                                                    <th>Type</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($pendingSummaries as $k => $ps)
+                                                    <tr class="table-warning">
+                                                        <td>{{ $k + 1 }}</td>
+                                                        <td>{{ $ps['exam']->exam_name ?? 'NA' }}</td>
+                                                        <td>{{ $ps['exam']->exam_type ?? 'NA' }}</td>
+                                                        <td>{{ $ps['exam']->exam_start_date ?? '—' }}</td>
+                                                        <td>{{ $ps['exam']->exam_end_date ?? '—' }}</td>
+                                                        <td><span class="badge bg-danger">Not Attempted</span></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="tab-pane" id="payments">
@@ -483,7 +516,7 @@
                                     <div class="card mb-0">
                                         <div class="card-body p-2">
                                             <div class="text-muted">Total Fee</div>
-                                            <div class="fw-bold">{{ $debit ?? 0 }}</div>
+                                            <div class="fw-bold" id="summary_total_fee">{{ $debit ?? 0 }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -491,7 +524,7 @@
                                     <div class="card mb-0">
                                         <div class="card-body p-2">
                                             <div class="text-muted">Total Paid</div>
-                                            <div class="fw-bold">{{ $credit ?? 0 }}</div>
+                                            <div class="fw-bold" id="summary_total_paid">{{ $credit ?? 0 }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -499,7 +532,7 @@
                                     <div class="card mb-0">
                                         <div class="card-body p-2">
                                             <div class="text-muted">Balance</div>
-                                            <div class="fw-bold">{{ $balance ?? 0 }}</div>
+                                            <div class="fw-bold" id="summary_balance">{{ $balance ?? 0 }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -517,19 +550,40 @@
                                             <th>Date Paid</th>
                                             <th>Method</th>
                                             <th>Reference</th>
-                                            <th>Receipt</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($fees as $k => $fee)
-                                            <tr>
+                                            <tr data-fee-id="{{ $fee->id }}">
                                                 <td>{{ $k + 1 }}</td>
                                                 <td>{{ $fee->amount_paid }}</td>
                                                 <td>{{ $fee->date_paid }}</td>
                                                 <td>{{ $fee->payment_method }}</td>
                                                 <td>{{ $fee->payment_ref_no }}</td>
-                                                <td>
-                                                    <a class="btn btn-sm btn-secondary" href="{{ route('admindownloadReceipt', $fee->id) }}">Download</a>
+                                                <td style="white-space:nowrap;">
+                                                    <a class="btn btn-secondary" href="{{ route('admindownloadReceipt', $fee->id) }}" title="Download receipt" style="padding:3px 7px;font-size:0.75rem;line-height:1;"><i class="mdi mdi-download"></i></a>
+                                                    <button type="button"
+                                                        class="btn btn-warning btn-edit-fee"
+                                                        style="padding:3px 7px;font-size:0.75rem;line-height:1;"
+                                                        title="Edit payment"
+                                                        data-id="{{ $fee->id }}"
+                                                        data-amount="{{ $fee->amount_paid }}"
+                                                        data-date="{{ $fee->date_paid }}"
+                                                        data-method="{{ $fee->payment_method }}"
+                                                        data-ref="{{ $fee->payment_ref_no }}"
+                                                        data-bs-toggle="modal" data-bs-target="#editPaymentModal">
+                                                        <i class="mdi mdi-pencil"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-delete-fee"
+                                                        style="padding:3px 7px;font-size:0.75rem;line-height:1;"
+                                                        title="Delete payment"
+                                                        data-id="{{ $fee->id }}"
+                                                        data-amount="{{ $fee->amount_paid }}"
+                                                        data-bs-toggle="modal" data-bs-target="#deletePaymentModal">
+                                                        <i class="mdi mdi-trash-can-outline"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -545,37 +599,108 @@
                                         <h4 class="modal-title" id="addPaymentModalLabel">Add Fee Payment</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                                     </div>
-                                    <form method="POST" action="{{ route('addFees') }}">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <input type="hidden" name="user_id" value="{{ $student->id }}">
-
-                                            <div class="mb-3">
-                                                <label class="form-label">Amount Paid</label>
-                                                <input type="number" name="amount_paid" class="form-control" required>
+                                    <div class="modal-body">
+                                        <div id="addProgressWrap" style="display:none;margin-bottom:12px;">
+                                            <div class="progress" style="height:6px;border-radius:4px;">
+                                                <div id="addProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                    role="progressbar" style="width:0%"></div>
                                             </div>
-
-                                            <div class="mb-3">
-                                                <label class="form-label">Date Paid</label>
-                                                <input type="date" name="date_paid" class="form-control" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label class="form-label">Payment Method</label>
-                                                <input type="text" name="payment_method" class="form-control" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label class="form-label">Payment Reference No</label>
-                                                <input type="text" name="payment_ref_no" class="form-control" required>
-                                            </div>
+                                            <small class="text-muted">Saving payment…</small>
                                         </div>
 
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success">Save</button>
+                                        <div class="mb-3">
+                                            <label class="form-label">Amount Paid</label>
+                                            <input type="number" id="add_amount_paid" class="form-control" placeholder="e.g. 5000">
                                         </div>
-                                    </form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Date Paid</label>
+                                            <input type="date" id="add_date_paid" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Payment Method</label>
+                                            <input type="text" id="add_payment_method" class="form-control" placeholder="e.g. Mpesa">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Payment Reference No</label>
+                                            <input type="text" id="add_payment_ref_no" class="form-control" placeholder="e.g. TH21LCKHC9">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" id="btnSaveAddFee">Save Payment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Edit Fee Payment Modal --}}
+                        <div id="editPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Fee Payment</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{-- Progress bar --}}
+                                        <div id="editProgressWrap" style="display:none;margin-bottom:12px;">
+                                            <div class="progress" style="height:6px;border-radius:4px;">
+                                                <div id="editProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                    role="progressbar" style="width:0%"></div>
+                                            </div>
+                                            <small class="text-muted" id="editProgressLabel">Saving…</small>
+                                        </div>
+                                        <input type="hidden" id="edit_fee_id">
+                                        <div class="mb-3">
+                                            <label class="form-label">Amount Paid</label>
+                                            <input type="number" id="edit_amount_paid" class="form-control" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Date Paid</label>
+                                            <input type="date" id="edit_date_paid" class="form-control" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Payment Method</label>
+                                            <input type="text" id="edit_payment_method" class="form-control" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Payment Reference No</label>
+                                            <input type="text" id="edit_payment_ref_no" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-warning" id="btnSaveEditFee">Update Payment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Delete Fee Payment Modal --}}
+                        <div id="deletePaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title text-danger">Delete Payment</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        {{-- Progress bar --}}
+                                        <div id="deleteProgressWrap" style="display:none;margin-bottom:12px;">
+                                            <div class="progress" style="height:6px;border-radius:4px;">
+                                                <div id="deleteProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                    role="progressbar" style="width:0%"></div>
+                                            </div>
+                                            <small class="text-muted">Deleting…</small>
+                                        </div>
+                                        <input type="hidden" id="delete_fee_id">
+                                        <p class="mb-1">Are you sure you want to delete this payment?</p>
+                                        <p class="fw-bold text-danger fs-5 mb-0">Ksh <span id="delete_fee_amount"></span></p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger" id="btnConfirmDeleteFee">Yes, Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -634,7 +759,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($examSummaries as $k => $summary)
+                                        @forelse($examSummaries as $k => $summary)
                                             <tr>
                                                 <td>{{ $k + 1 }}</td>
                                                 <td>{{ $summary['exam']->exam_name ?? 'NA' }}</td>
@@ -642,7 +767,9 @@
                                                 <td>{{ $summary['questions'] }}</td>
                                                 <td>{{ $summary['total_score'] }}</td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr><td colspan="5" class="text-center text-muted">No assessments attempted.</td></tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -714,8 +841,14 @@
                             <input type="file" class="form-control" name="student_answer" required>
                         </div>
 
-                        <div class="progress mt-2" style="height: 18px; display:none;" id="updateTraineeAnswerProgressWrap">
-                            <div class="progress-bar" id="updateTraineeAnswerProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <div id="updateTraineeAnswerProgressWrap" style="display:none;margin-top:10px;">
+                            <div class="progress" style="height:8px;border-radius:6px;">
+                                <div id="updateTraineeAnswerProgress"
+                                    class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                    role="progressbar" style="width:0%;transition:width 0.2s ease;">
+                                </div>
+                            </div>
+                            <small class="text-muted mt-1 d-block" id="updateTraineeAnswerProgressLabel">Uploading…</small>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -749,8 +882,14 @@
                             <input type="text" class="form-control" name="comment" id="update_trainee_marks_comment" required>
                         </div>
 
-                        <div class="progress mt-2" style="height: 18px; display:none;" id="updateTraineeMarksProgressWrap">
-                            <div class="progress-bar" id="updateTraineeMarksProgress" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <div id="updateTraineeMarksProgressWrap" style="display:none;margin-top:10px;">
+                            <div class="progress" style="height:8px;border-radius:6px;">
+                                <div id="updateTraineeMarksProgress"
+                                    class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                    role="progressbar" style="width:0%;transition:width 0.2s ease;">
+                                </div>
+                            </div>
+                            <small class="text-muted mt-1 d-block">Saving marks…</small>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -774,7 +913,7 @@
             const practicalBaseUrl = "{{ asset('practicals') }}";
 
             const buttons = root.querySelectorAll('.updateTraineeAnswerBtn');
-            const input = root.querySelector('#update_trainee_answer_id');
+            const input = document.getElementById('update_trainee_answer_id');
 
             const messageContainer = root.querySelector('#message-container');
 
@@ -814,19 +953,19 @@
             }
 
             const marksButtons = root.querySelectorAll('.updateTraineeMarksBtn, .addTraineeMarksBtn');
-            const marksIdInput = root.querySelector('#update_trainee_marks_answer_id');
-            const marksScoreInput = root.querySelector('#update_trainee_marks_score');
-            const marksCommentInput = root.querySelector('#update_trainee_marks_comment');
-            const marksForm = root.querySelector('#updateTraineeMarksForm');
-            const marksModalTitle = root.querySelector('#updateTraineeMarksModalLabel');
-            const answerForm = root.querySelector('#updateTraineeAnswerForm');
+            const marksIdInput = document.getElementById('update_trainee_marks_answer_id');
+            const marksScoreInput = document.getElementById('update_trainee_marks_score');
+            const marksCommentInput = document.getElementById('update_trainee_marks_comment');
+            const marksForm = document.getElementById('updateTraineeMarksForm');
+            const marksModalTitle = document.getElementById('updateTraineeMarksModalLabel');
+            const answerForm = document.getElementById('updateTraineeAnswerForm');
 
             const submitButtons = root.querySelectorAll('.submitTraineeAnswerBtn');
-            const submitForm = root.querySelector('#submitTraineeAnswerForm');
-            const submitPracticalInput = root.querySelector('#submit_trainee_practical_id');
-            const submitUserInput = root.querySelector('#submit_trainee_user_id');
-            const submitScoreInput = root.querySelector('#submit_trainee_student_score');
-            const submitCommentInput = root.querySelector('#submit_trainee_comment');
+            const submitForm = document.getElementById('submitTraineeAnswerForm');
+            const submitPracticalInput = document.getElementById('submit_trainee_practical_id');
+            const submitUserInput = document.getElementById('submit_trainee_user_id');
+            const submitScoreInput = document.getElementById('submit_trainee_student_score');
+            const submitCommentInput = document.getElementById('submit_trainee_comment');
 
             const quickNavInput = root.querySelector('#quickNavInput');
             const quickNavDropdown = root.querySelector('#quickNavDropdown');
@@ -1210,32 +1349,32 @@
                 answerForm.addEventListener('submit', function (e) {
                     e.preventDefault();
 
-                    const actionUrl = answerForm.getAttribute('action');
-                    const progressWrap = document.getElementById('updateTraineeAnswerProgressWrap');
-                    const progressBar = document.getElementById('updateTraineeAnswerProgress');
+                    const actionUrl  = answerForm.getAttribute('action');
+                    const progressWrap  = document.getElementById('updateTraineeAnswerProgressWrap');
+                    const progressBar   = document.getElementById('updateTraineeAnswerProgress');
+                    const progressLabel = document.getElementById('updateTraineeAnswerProgressLabel');
+                    const uploadBtn     = answerForm.querySelector('button[type="submit"]');
 
-                    if (progressBar) {
-                        progressBar.style.width = '0%';
-                        progressBar.setAttribute('aria-valuenow', '0');
-                        progressBar.textContent = '0%';
-                    }
-                    if (progressWrap) progressWrap.style.display = 'block';
+                    if (progressBar)   progressBar.style.width = '0%';
+                    if (progressWrap)  progressWrap.style.display = 'block';
+                    if (progressLabel) progressLabel.textContent = 'Uploading…';
+                    if (uploadBtn)     uploadBtn.disabled = true;
 
-                    const xhr = new XMLHttpRequest();
+                    const xhr      = new XMLHttpRequest();
                     const formData = new FormData(answerForm);
 
                     xhr.open('POST', actionUrl, true);
                     xhr.setRequestHeader('Accept', 'application/json');
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
+                    /* real upload progress for file uploads */
                     xhr.upload.onprogress = function (event) {
                         if (!progressBar) return;
-                        if (event.lengthComputable) {
-                            const percent = Math.round((event.loaded / event.total) * 100);
-                            progressBar.style.width = percent + '%';
-                            progressBar.setAttribute('aria-valuenow', String(percent));
-                            progressBar.textContent = percent + '%';
-                        }
+                        var percent = event.lengthComputable
+                            ? Math.min(Math.round((event.loaded / event.total) * 90), 90)
+                            : 50;
+                        progressBar.style.width = percent + '%';
+                        if (progressLabel) progressLabel.textContent = 'Uploading… ' + percent + '%';
                     };
 
                     xhr.onreadystatechange = function () {
@@ -1249,11 +1388,8 @@
                         }
 
                         if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
-                            if (progressBar) {
-                                progressBar.style.width = '100%';
-                                progressBar.setAttribute('aria-valuenow', '100');
-                                progressBar.textContent = '100%';
-                            }
+                            if (progressBar)   progressBar.style.width    = '100%';
+                            if (progressLabel) progressLabel.textContent  = 'Upload complete!';
 
                             const modalEl = document.getElementById('updateTraineeAnswerModal');
                             if (modalEl && window.bootstrap) {
@@ -1273,14 +1409,27 @@
                                         ensureUpdateAnswerButton(practicalId, answerId);
                                     }
                                 }
+                                /* flash updated row */
+                                const tr = (function () {
+                                    var sc = root.querySelector('.js-practical-answer[data-answer-id="' + answerId + '"]');
+                                    return sc ? sc.closest('tr') : null;
+                                })();
+                                if (tr) {
+                                    tr.style.transition = 'background 0.3s';
+                                    tr.style.background = '#d1fae5';
+                                    setTimeout(function () { tr.style.background = ''; }, 1200);
+                                }
                             }
                         } else {
                             displayMessage('error', extractErrorMessage(payload));
                         }
 
                         setTimeout(function () {
-                            if (progressWrap) progressWrap.style.display = 'none';
-                        }, 700);
+                            if (progressWrap)  progressWrap.style.display = 'none';
+                            if (progressBar)   progressBar.style.width    = '0%';
+                            if (progressLabel) progressLabel.textContent  = 'Uploading…';
+                        }, 800);
+                        if (uploadBtn) uploadBtn.disabled = false;
                     };
 
                     xhr.send(formData);
@@ -1293,90 +1442,92 @@
 
                     const actionUrl = marksForm.getAttribute('action');
                     const progressWrap = document.getElementById('updateTraineeMarksProgressWrap');
-                    const progressBar = document.getElementById('updateTraineeMarksProgress');
+                    const progressBar  = document.getElementById('updateTraineeMarksProgress');
+                    const saveBtn      = marksForm.querySelector('button[type="submit"]');
 
-                    if (progressBar) {
-                        progressBar.style.width = '0%';
-                        progressBar.setAttribute('aria-valuenow', '0');
-                        progressBar.textContent = '0%';
+                    /* ── smooth RAF progress 0 → 80 % while in-flight ── */
+                    function rafAnimate(bar, from, to, durationMs, done) {
+                        if (!bar) { if (done) done(); return; }
+                        var start = null;
+                        function step(ts) {
+                            if (!start) start = ts;
+                            var p = Math.min((ts - start) / durationMs, 1);
+                            bar.style.width = (from + (to - from) * p) + '%';
+                            if (p < 1) { requestAnimationFrame(step); } else { if (done) done(); }
+                        }
+                        requestAnimationFrame(step);
                     }
+
+                    if (progressBar) progressBar.style.width = '0%';
                     if (progressWrap) progressWrap.style.display = 'block';
+                    if (saveBtn) saveBtn.disabled = true;
+
+                    /* start smooth 0→80 animation while waiting for server */
+                    rafAnimate(progressBar, 0, 80, 600, null);
 
                     const xhr = new XMLHttpRequest();
                     const formData = new FormData(marksForm);
-
                     xhr.open('POST', actionUrl, true);
                     xhr.setRequestHeader('Accept', 'application/json');
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-                    xhr.upload.onprogress = function (event) {
-                        if (!progressBar) return;
-                        if (event.lengthComputable) {
-                            const percent = Math.round((event.loaded / event.total) * 100);
-                            progressBar.style.width = percent + '%';
-                            progressBar.setAttribute('aria-valuenow', String(percent));
-                            progressBar.textContent = percent + '%';
-                        } else {
-                            progressBar.style.width = '60%';
-                            progressBar.setAttribute('aria-valuenow', '60');
-                            progressBar.textContent = '60%';
-                        }
-                    };
-
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState !== 4) return;
 
-                        let payload = null;
-                        try {
-                            payload = JSON.parse(xhr.responseText);
-                        } catch (err) {
-                            payload = null;
-                        }
+                        /* complete 80 → 100 on response */
+                        rafAnimate(progressBar, 80, 100, 250, function () {
+                            let payload = null;
+                            try { payload = JSON.parse(xhr.responseText); } catch (_) {}
 
-                        if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
-                            if (progressBar) {
-                                progressBar.style.width = '100%';
-                                progressBar.setAttribute('aria-valuenow', '100');
-                                progressBar.textContent = '100%';
-                            }
-
-                            const modalEl = document.getElementById('updateTraineeMarksModal');
-                            if (modalEl && window.bootstrap) {
-                                const inst = window.bootstrap.Modal.getInstance(modalEl);
-                                if (inst) inst.hide();
-                            }
-
-                            displayMessage('success', payload.message || 'Marks updated successfully');
-
-                            const answerId = (marksIdInput && marksIdInput.value) ? String(marksIdInput.value) : '';
-                            if (answerId) {
-                                const scoreCell = root.querySelector('.js-practical-score[data-answer-id="' + answerId + '"]');
-                                const commentCell = root.querySelector('.js-practical-comment[data-answer-id="' + answerId + '"]');
-                                if (scoreCell && marksScoreInput) {
-                                    scoreCell.textContent = marksScoreInput.value;
-                                }
-                                if (commentCell && marksCommentInput) {
-                                    commentCell.textContent = marksCommentInput.value;
+                            if (xhr.status >= 200 && xhr.status < 300 && payload && payload.success) {
+                                const modalEl = document.getElementById('updateTraineeMarksModal');
+                                if (modalEl && window.bootstrap) {
+                                    const inst = window.bootstrap.Modal.getInstance(modalEl);
+                                    if (inst) inst.hide();
                                 }
 
-                                const btn = root.querySelector('.updateTraineeMarksBtn[data-id="' + answerId + '"], .addTraineeMarksBtn[data-id="' + answerId + '"]');
-                                if (btn && marksScoreInput && marksCommentInput) {
-                                    btn.classList.remove('addTraineeMarksBtn');
-                                    btn.classList.add('updateTraineeMarksBtn');
-                                    btn.classList.remove('bg-success');
-                                    btn.classList.add('bg-primary');
-                                    btn.textContent = 'Marks';
-                                    btn.setAttribute('data-score', marksScoreInput.value);
-                                    btn.setAttribute('data-comment', marksCommentInput.value);
-                                }
-                            }
-                        } else {
-                            displayMessage('error', extractErrorMessage(payload));
-                        }
+                                displayMessage('success', payload.message || 'Marks updated successfully');
 
-                        setTimeout(function () {
-                            if (progressWrap) progressWrap.style.display = 'none';
-                        }, 700);
+                                const answerId = (marksIdInput && marksIdInput.value) ? String(marksIdInput.value) : '';
+                                if (answerId) {
+                                    const scoreCell   = root.querySelector('.js-practical-score[data-answer-id="'   + answerId + '"]');
+                                    const commentCell = root.querySelector('.js-practical-comment[data-answer-id="' + answerId + '"]');
+                                    if (scoreCell   && marksScoreInput)   scoreCell.textContent   = marksScoreInput.value;
+                                    if (commentCell && marksCommentInput) commentCell.textContent = marksCommentInput.value;
+
+                                    /* flash the updated row */
+                                    const tr = root.querySelector('tr[data-practical-id]') &&
+                                        (function () {
+                                            var sc = root.querySelector('.js-practical-score[data-answer-id="' + answerId + '"]');
+                                            return sc ? sc.closest('tr') : null;
+                                        })();
+                                    if (tr) {
+                                        tr.style.transition = 'background 0.3s';
+                                        tr.style.background = '#dbeafe';
+                                        setTimeout(function () { tr.style.background = ''; }, 1200);
+                                    }
+
+                                    const btn = root.querySelector('.updateTraineeMarksBtn[data-id="' + answerId + '"], .addTraineeMarksBtn[data-id="' + answerId + '"]');
+                                    if (btn && marksScoreInput && marksCommentInput) {
+                                        btn.classList.remove('addTraineeMarksBtn');
+                                        btn.classList.add('updateTraineeMarksBtn');
+                                        btn.classList.remove('bg-success');
+                                        btn.classList.add('bg-primary');
+                                        btn.textContent = 'Marks';
+                                        btn.setAttribute('data-score',   marksScoreInput.value);
+                                        btn.setAttribute('data-comment', marksCommentInput.value);
+                                    }
+                                }
+                            } else {
+                                displayMessage('error', extractErrorMessage(payload));
+                            }
+
+                            setTimeout(function () {
+                                if (progressWrap) progressWrap.style.display = 'none';
+                                if (progressBar)  progressBar.style.width    = '0%';
+                            }, 700);
+                            if (saveBtn) saveBtn.disabled = false;
+                        });
                     };
 
                     xhr.send(formData);
@@ -1396,5 +1547,300 @@
         document.addEventListener('DOMContentLoaded', function () {
             initTraineeProfilePage();
         });
+    </script>
+
+    <script>
+    (function () {
+        var csrfToken = '{{ csrf_token() }}';
+
+        /* ── recalculate summary cards from the live table ─── */
+        function recalcSummary() {
+            var totalFee  = parseFloat(document.getElementById('summary_total_fee').textContent) || 0;
+            var totalPaid = 0;
+            document.querySelectorAll('tr[data-fee-id]').forEach(function (row) {
+                var amt = parseFloat(row.querySelectorAll('td')[1].textContent) || 0;
+                totalPaid += amt;
+            });
+            var balance = totalFee - totalPaid;
+            document.getElementById('summary_total_paid').textContent = totalPaid;
+            document.getElementById('summary_balance').textContent    = balance;
+
+            /* flash the two updated cards */
+            ['summary_total_paid', 'summary_balance'].forEach(function (id) {
+                var el = document.getElementById(id);
+                el.style.transition = 'color 0.2s';
+                el.style.color = '#0d6efd';
+                setTimeout(function () { el.style.color = ''; }, 1000);
+            });
+        }
+
+        /* ── helpers ─────────────────────────────────────────── */
+        function animateProgress(barId, wrapId, fromPct, toPct, durationMs, cb) {
+            var bar  = document.getElementById(barId);
+            var wrap = document.getElementById(wrapId);
+            if (!bar || !wrap) { if (cb) cb(); return; }
+            wrap.style.display = 'block';
+            var start = null, startPct = fromPct;
+            function step(ts) {
+                if (!start) start = ts;
+                var prog = Math.min((ts - start) / durationMs, 1);
+                bar.style.width = (startPct + (toPct - startPct) * prog) + '%';
+                if (prog < 1) { requestAnimationFrame(step); } else { if (cb) cb(); }
+            }
+            requestAnimationFrame(step);
+        }
+
+        function hideProgress(barId, wrapId) {
+            var bar  = document.getElementById(barId);
+            var wrap = document.getElementById(wrapId);
+            if (bar)  { bar.style.width = '0%'; }
+            if (wrap) { wrap.style.display = 'none'; }
+        }
+
+        function showToast(message, type) {
+            var existing = document.getElementById('feeAjaxToast');
+            if (existing) existing.remove();
+            var bg = type === 'success' ? '#198754' : '#dc3545';
+            var toast = document.createElement('div');
+            toast.id = 'feeAjaxToast';
+            toast.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;color:#fff;font-weight:600;font-size:0.9rem;box-shadow:0 4px 16px rgba(0,0,0,0.18);background:' + bg + ';transition:opacity 0.4s;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(function () { toast.style.opacity = '0'; setTimeout(function () { toast.remove(); }, 400); }, 3000);
+        }
+
+        function getModal(id) {
+            return bootstrap.Modal.getInstance(document.getElementById(id));
+        }
+
+        /* ── clear add form when modal opens ────────────────── */
+        document.getElementById('addPaymentModal').addEventListener('show.bs.modal', function () {
+            ['add_amount_paid','add_date_paid','add_payment_method','add_payment_ref_no'].forEach(function (id) {
+                document.getElementById(id).value = '';
+            });
+            hideProgress('addProgressBar', 'addProgressWrap');
+        });
+
+        /* ── AJAX add payment ────────────────────────────────── */
+        document.getElementById('btnSaveAddFee').addEventListener('click', function () {
+            var amount = document.getElementById('add_amount_paid').value.trim();
+            var date   = document.getElementById('add_date_paid').value;
+            var method = document.getElementById('add_payment_method').value.trim();
+            var ref    = document.getElementById('add_payment_ref_no').value.trim();
+
+            if (!amount || !date || !method || !ref) {
+                showToast('Please fill in all fields.', 'error'); return;
+            }
+
+            var btn = this;
+            btn.disabled = true;
+            animateProgress('addProgressBar', 'addProgressWrap', 0, 80, 500, null);
+
+            $.ajax({
+                url: '{{ route("addFees") }}',
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+                data: {
+                    user_id:        '{{ $student->id }}',
+                    amount_paid:    amount,
+                    date_paid:      date,
+                    payment_method: method,
+                    payment_ref_no: ref
+                },
+                success: function (res) {
+                    animateProgress('addProgressBar', 'addProgressWrap', 80, 100, 200, function () {
+                        if (res.success && res.fee) {
+                            var tbody    = document.querySelector('#payments table tbody');
+                            var rowCount = tbody.querySelectorAll('tr').length + 1;
+                            var feeId    = res.fee.id;
+                            var downloadUrl = '{{ url("fees/admindownloadReceipt") }}/' + feeId;
+
+                            var tr = document.createElement('tr');
+                            tr.setAttribute('data-fee-id', feeId);
+                            tr.style.opacity = '0';
+                            tr.style.transition = 'opacity 0.4s';
+                            tr.innerHTML =
+                                '<td>' + rowCount + '</td>' +
+                                '<td>' + amount + '</td>' +
+                                '<td>' + date + '</td>' +
+                                '<td>' + method + '</td>' +
+                                '<td>' + ref + '</td>' +
+                                '<td style="white-space:nowrap;">' +
+                                    '<a class="btn btn-secondary" href="' + downloadUrl + '" title="Download receipt" style="padding:3px 7px;font-size:0.75rem;line-height:1;"><i class="mdi mdi-download"></i></a> ' +
+                                    '<button type="button" class="btn btn-warning btn-edit-fee" style="padding:3px 7px;font-size:0.75rem;line-height:1;" title="Edit payment"' +
+                                        ' data-id="' + feeId + '" data-amount="' + amount + '" data-date="' + date + '" data-method="' + method + '" data-ref="' + ref + '"' +
+                                        ' data-bs-toggle="modal" data-bs-target="#editPaymentModal"><i class="mdi mdi-pencil"></i></button> ' +
+                                    '<button type="button" class="btn btn-danger btn-delete-fee" style="padding:3px 7px;font-size:0.75rem;line-height:1;" title="Delete payment"' +
+                                        ' data-id="' + feeId + '" data-amount="' + amount + '"' +
+                                        ' data-bs-toggle="modal" data-bs-target="#deletePaymentModal"><i class="mdi mdi-trash-can-outline"></i></button>' +
+                                '</td>';
+
+                            tbody.appendChild(tr);
+                            /* fade row in */
+                            requestAnimationFrame(function () {
+                                requestAnimationFrame(function () { tr.style.opacity = '1'; });
+                            });
+
+                            /* wire up the new row's edit/delete buttons */
+                            tr.querySelector('.btn-edit-fee').addEventListener('click', function () {
+                                document.getElementById('edit_fee_id').value         = this.dataset.id;
+                                document.getElementById('edit_amount_paid').value    = this.dataset.amount;
+                                document.getElementById('edit_date_paid').value      = this.dataset.date;
+                                document.getElementById('edit_payment_method').value = this.dataset.method;
+                                document.getElementById('edit_payment_ref_no').value = this.dataset.ref;
+                                hideProgress('editProgressBar', 'editProgressWrap');
+                            });
+                            tr.querySelector('.btn-delete-fee').addEventListener('click', function () {
+                                document.getElementById('delete_fee_id').value           = this.dataset.id;
+                                document.getElementById('delete_fee_amount').textContent = this.dataset.amount;
+                                hideProgress('deleteProgressBar', 'deleteProgressWrap');
+                            });
+
+                            recalcSummary();
+                            getModal('addPaymentModal').hide();
+                            showToast('Payment added successfully.', 'success');
+                        } else {
+                            showToast('Could not save payment. Please try again.', 'error');
+                        }
+                        hideProgress('addProgressBar', 'addProgressWrap');
+                        btn.disabled = false;
+                    });
+                },
+                error: function () {
+                    hideProgress('addProgressBar', 'addProgressWrap');
+                    showToast('An error occurred. Please try again.', 'error');
+                    btn.disabled = false;
+                }
+            });
+        });
+
+        /* ── populate edit modal ─────────────────────────────── */
+        document.querySelectorAll('.btn-edit-fee').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.getElementById('edit_fee_id').value         = this.dataset.id;
+                document.getElementById('edit_amount_paid').value    = this.dataset.amount;
+                document.getElementById('edit_date_paid').value      = this.dataset.date;
+                document.getElementById('edit_payment_method').value = this.dataset.method;
+                document.getElementById('edit_payment_ref_no').value = this.dataset.ref;
+                hideProgress('editProgressBar', 'editProgressWrap');
+            });
+        });
+
+        /* ── populate delete modal ───────────────────────────── */
+        document.querySelectorAll('.btn-delete-fee').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.getElementById('delete_fee_id').value           = this.dataset.id;
+                document.getElementById('delete_fee_amount').textContent = this.dataset.amount;
+                hideProgress('deleteProgressBar', 'deleteProgressWrap');
+            });
+        });
+
+        /* ── AJAX update ─────────────────────────────────────── */
+        document.getElementById('btnSaveEditFee').addEventListener('click', function () {
+            var id     = document.getElementById('edit_fee_id').value;
+            var amount = document.getElementById('edit_amount_paid').value;
+            var date   = document.getElementById('edit_date_paid').value;
+            var method = document.getElementById('edit_payment_method').value;
+            var ref    = document.getElementById('edit_payment_ref_no').value;
+
+            if (!amount || !date || !method || !ref) {
+                showToast('Please fill in all fields.', 'error'); return;
+            }
+
+            var btn = this;
+            btn.disabled = true;
+
+            /* animate 0 → 80% while request is in flight */
+            animateProgress('editProgressBar', 'editProgressWrap', 0, 80, 500, null);
+
+            $.ajax({
+                url: '{{ route("updateFees") }}',
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+                data: { id: id, amount_paid: amount, date_paid: date, payment_method: method, payment_ref_no: ref },
+                success: function (res) {
+                    /* animate remaining 80 → 100% */
+                    animateProgress('editProgressBar', 'editProgressWrap', 80, 100, 200, function () {
+                        if (res.success) {
+                            /* update the matching table row in-place */
+                            var row = document.querySelector('tr[data-fee-id="' + id + '"]');
+                            if (row) {
+                                var cells = row.querySelectorAll('td');
+                                cells[1].textContent = amount;
+                                cells[2].textContent = date;
+                                cells[3].textContent = method;
+                                cells[4].textContent = ref;
+                                /* update data-* on the edit button so re-opening shows fresh values */
+                                var editBtn = row.querySelector('.btn-edit-fee');
+                                if (editBtn) {
+                                    editBtn.dataset.amount = amount;
+                                    editBtn.dataset.date   = date;
+                                    editBtn.dataset.method = method;
+                                    editBtn.dataset.ref    = ref;
+                                }
+                                /* flash row highlight */
+                                row.style.transition = 'background 0.3s';
+                                row.style.background = '#d1fae5';
+                                setTimeout(function () { row.style.background = ''; }, 1200);
+                            }
+                            recalcSummary();
+                            getModal('editPaymentModal').hide();
+                            showToast('Payment updated successfully.', 'success');
+                        } else {
+                            showToast('Update failed. Please try again.', 'error');
+                        }
+                        hideProgress('editProgressBar', 'editProgressWrap');
+                        btn.disabled = false;
+                    });
+                },
+                error: function () {
+                    hideProgress('editProgressBar', 'editProgressWrap');
+                    showToast('An error occurred. Please try again.', 'error');
+                    btn.disabled = false;
+                }
+            });
+        });
+
+        /* ── AJAX delete ─────────────────────────────────────── */
+        document.getElementById('btnConfirmDeleteFee').addEventListener('click', function () {
+            var id  = document.getElementById('delete_fee_id').value;
+            var btn = this;
+            btn.disabled = true;
+
+            /* animate 0 → 80% while request is in flight */
+            animateProgress('deleteProgressBar', 'deleteProgressWrap', 0, 80, 400, null);
+
+            $.ajax({
+                url: '{{ route("deleteFees") }}',
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+                data: { id: id },
+                success: function (res) {
+                    animateProgress('deleteProgressBar', 'deleteProgressWrap', 80, 100, 200, function () {
+                        if (res.success) {
+                            var row = document.querySelector('tr[data-fee-id="' + id + '"]');
+                            if (row) {
+                                row.style.transition = 'opacity 0.4s, transform 0.4s';
+                                row.style.opacity    = '0';
+                                row.style.transform  = 'translateX(40px)';
+                                setTimeout(function () { row.remove(); recalcSummary(); }, 420);
+                            }
+                            getModal('deletePaymentModal').hide();
+                            showToast('Payment deleted successfully.', 'success');
+                        } else {
+                            showToast('Delete failed. Please try again.', 'error');
+                        }
+                        hideProgress('deleteProgressBar', 'deleteProgressWrap');
+                        btn.disabled = false;
+                    });
+                },
+                error: function () {
+                    hideProgress('deleteProgressBar', 'deleteProgressWrap');
+                    showToast('An error occurred. Please try again.', 'error');
+                    btn.disabled = false;
+                }
+            });
+        });
+    })();
     </script>
 @endsection
