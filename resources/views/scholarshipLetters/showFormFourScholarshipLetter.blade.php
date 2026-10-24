@@ -15,7 +15,7 @@
                      <p style="font-size:20px; border-bottom:4px solid #07294d">
                         View Park Towers 17th Floor, University way | P. O. Box 1334-00618, Nairobi<br>
                         Web:   <b style="color:blue;"><u>https://www.techsphereinstitute.co.ke</u></b>   |Email: <b style="color:blue;"><u>Info@techsphereinstitute.co.ke </u></b>|<br>
-                        Phone: <b style="color:#33d6ff">+254768919307</b>
+                        Phone: <b style="color:#33d6ff">+254115665719</b>
 
                      </p>
                 </center>
@@ -46,14 +46,14 @@
                     
                         <tr>
                             <td colspan="2">
-                                <center><h3><b><u>RE: Partial Scholarship Award – Techsphere 2025 Skill Pathfinding Program {{$lowerFormsLetter->letter_id}}<u></b></h3></center>
+                                <center><h3><b><u>RE: Partial Scholarship Award – Techsphere 2026 Skill Pathfinding Program {{$lowerFormsLetter->letter_id}}<u></b></h3></center>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                
                                 <p>
-                                     Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                                     Techsphere Training Institute is pleased to award you a partial scholarship for the 2026 Annual Skill 
                                      Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
                                      in-demand ICT skills through specialized training, mentorship, and project-based learning.
                                 </p>

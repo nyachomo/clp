@@ -60,8 +60,7 @@
                                             <label>Intake</label>
                                             <select class="form-control" name="intake" required>
                                                 <option value="">Select Intake</option>
-                                                <option value="January">January</option>
-                                                <option value="February">February</option>
+                                                <option value="Nov-Dec 2026">Nov-Dec 2026</option>
                                             </select>   
                                         </div>
                                     </div>

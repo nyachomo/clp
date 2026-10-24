@@ -34,7 +34,7 @@
                      <p style="font-size:17px; border-bottom:4px solid #07294d">
                         View Park Towers 17th Floor, University way | P. O. Box 1334-00618, Nairobi<br>
                         Web:   <b style="color:blue;"><u>https://www.techsphereinstitute.co.ke</u></b>   |Email: <b style="color:blue;"><u>Info@techsphereinstitute.co.ke </u></b>|<br>
-                        Phone: <b style="color:#33d6ff">+254768919307</b>
+                        Phone: <b style="color:#33d6ff">+254115665719</b>
 
                      </p>
                 </center>
@@ -60,13 +60,13 @@
                   </tr>
                   <tr>
                      <td colspan="2">
-                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2025 Skill Pathfinding Program  - {{$formFourLetter->letter_id ?? ''}}<u></b></h4>
+                         <h4><b><u>RE: Partial Scholarship Award - Techsphere 2026 Skill Pathfinding Program  - {{$formFourLetter->letter_id ?? ''}}<u></b></h4>
                      </td>
                   </tr>
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                              Techsphere Training Institute is pleased to award you a partial scholarship for the 2025 Annual Skill 
+                              Techsphere Training Institute is pleased to award you a partial scholarship for the 2026 Annual Skill 
                               Pathfinding Training Program. This initiative nurtures young talent by equipping them with globally 
                               in-demand ICT skills through specialized training, mentorship, and project-based learning.
                          </p>
@@ -89,7 +89,7 @@
                       <td colspan="2" style="text-align: justify;">
                          <p>
                             Having qualified for the program, you will receive training, mentorship, and project-based learning to build 
-                            industry-recognized skills and gain guidance into the tech industry. The 2025/2026 program features high-demand, 
+                            industry-recognized skills and gain guidance into the tech industry. The 2026/2027 program features high-demand, 
                             up-to-date courses designed to give you a competitive edge, with fees reduced by nearly 60% to make this 
                             opportunity more accessible.Attached below is the payable fee structure.
                          </p>
@@ -112,50 +112,32 @@
                   <tr style="border:1px solid black !important">
                        <td><b>CIT 101</b></td>
                        <td>FULL-STACK SOFTWARE ENGINEERING</td>
-                       <td>7 WEEKS</td>
+                       <td>8 WEEKS</td>
                        <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
+                       <td>20,000</td>
+                       <td><b>10,500</b></td>
                   </tr>
 
                   <tr style="border:1px solid black !important">
                       <td><b>CIT 102</b></td>
                        <td>CYBERSECURITY AND ETHICAL HACKING</td>
-                       <td>7 WEEKS</td>
+                       <td>8 WEEKS</td>
                        <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
+                       <td>20,000</td>
+                       <td><b>10,500</b></td>
                   </tr>
 
                  
                   <tr>
                       <td><b>CIT 103</b></td>
                        <td>DATASCIENCE MACHINE LEARNING AND AI</td>
-                       <td>7 WEEKS</td>
+                       <td>8 WEEKS</td>
                        <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
-                  </tr>
-                  <tr>
-                      <td><b>CIT 104</b></td>
-                       <td>ROBOTICS AND IOT</td>
-                       <td>7 WEEKS</td>
-                       <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
-                  </tr>
-
-                   <tr>
-                      <td><b>CIT 105</b></td>
-                       <td>DIGITAL MARKETING</td>
-                       <td>7 WEEKS</td>
-                       <td>30,500</td>
-                       <td>22,000</td>
-                       <td><b>8,500</b></td>
+                       <td>20,000</td>
+                       <td><b>10,500</b></td>
                   </tr>
 
                   
-
                </table>
 
                    <center><h3>Time-table</h3></center>
@@ -187,19 +169,9 @@
                             <td>12:00pm-2:00pm</td>
                             
                         </tr>
-                        <tr>
-                            <td>CIT 104</td>
-                            <td>ROBOTICS AND IOT</td>
-                            <td>9:00am-11:00am</td>
-                            
-                        </tr>
+                       
 
-                        <tr>
-                            <td>CIT 105</td>
-                            <td>DIGITAL MARKETING</td>
-                            <td>4:00pm-5:30pm</td>
-                            
-                        </tr>
+                       
 
                     </table>
 
@@ -212,7 +184,7 @@
                   <tr>
                      <td colspan="2" style="text-align: justify;">
                          <p>
-                              For this program, select one course from the list above. The program will run for a period of 7 weeks, 
+                              For this program, select two courses from the list above. The program will run for a period of 8 weeks, 
                               2hrs per day (MON-FRI) and a certificate will be issued upon completion. To accept this partial scholarship,
                                you are required to visit <a href="https://techsphereinstitute.co.ke">https://techsphereinstitute.co.ke </a> and select <b>Enroll</b> to register before the 
                                deadline <b>{{$formFourLetter->registration_deadline ?? 'NA'}}</b> . A non-refundable registration fee of KES. 1000 is required to secure a spot on 
@@ -229,19 +201,19 @@
                           <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
-                                    <li> <b>Orientation:</b> Scheduled for November 3rd , 2025, at 10:00 a.m. (attendance is highly 
+                                    <li> <b>Orientation:</b> Scheduled for November 2nd , 2026, at 10:00 a.m. (attendance is highly 
                                             encouraged to get familiar with course logistics and expectations).
                                     </li>
-                                    <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;">https://meet.google.com/ajy-wnoe-hbo</span></a></li>
+                                    <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;">https://meet.google.com/dqd-ezxa-poi</span></a></li>
 
-                                    <li><b>Classes Begin:</b> November 04, 2025. </li>
+                                    <li><b>Classes Begin:</b> November 02, 2026. </li>
                                 </ul>
                             </p>
 
                             <p><b>Class Link</b></p>
                             <ul>
                                 <li>
-                                        <a href="https://meet.google.com/ajy-wnoe-hbo"><span style="color:blue;font-size:27px;">https://meet.google.com/ajy-wnoe-hbo</span></a>
+                                        <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;font-size:27px;">https://meet.google.com/dqd-ezxa-poi</span></a>
                                 </li>
                             </ul>
 
@@ -271,15 +243,15 @@
                                     <li>
                                         <b>Two Installments:</b>
                                         <ul>
-                                              <li><b>First installment:</b> 50% (Ksh 4,250)</li>
-                                              <li><b>Second installment:</b> 50% (Ksh 4,250)</li>
+                                              <li><b>First installment:</b> 50% (Ksh 5,250)</li>
+                                              <li><b>Second installment:</b> 50% (Ksh 5,250)</li>
                                         </ul>
                                     </li>
 
                                     <li>
                                         <b>Weekly Payment Option:</b>
                                         <ul>
-                                            <li>Ksh 1,215 per week for 7 weeks</li>
+                                            <li>Ksh 1,313 per week for 8 weeks</li>
                                         </ul>
                                     </li>
                                  </ol>
@@ -320,7 +292,7 @@
                   <tr>
                      <td colspan="2">
                             <p>
-                                    Kindly call <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
+                                    Kindly call <b>+254115665719</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to having you join us
                             </p>
                      </td>
                   </tr>

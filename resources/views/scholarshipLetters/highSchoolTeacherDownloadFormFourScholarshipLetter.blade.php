@@ -34,7 +34,7 @@
                      <p style="font-size:17px; border-bottom:4px solid #07294d">
                         View Park Towers 17th Floor, University way | P. O. Box 1334-00618, Nairobi<br>
                         Web:   <b style="color:blue;"><u>https://www.techsphereinstitute.co.ke</u></b>   |Email: <b style="color:blue;"><u>Info@techsphereinstitute.co.ke </u></b>|<br>
-                        Phone: <b style="color:#33d6ff">+254768919307</b>
+                        Phone: <b style="color:#33d6ff">+254115665719</b>
 
                      </p>
                 </center>

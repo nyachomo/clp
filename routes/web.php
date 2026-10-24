@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TraineeController;
@@ -30,7 +31,8 @@ use App\Http\Controllers\BackendController;
 use App\Http\Controllers\JitsiMeetingController;
 use App\Http\Controllers\PracticalController;
 use App\Http\Controllers\CourseNoteController;
-
+use App\Http\Controllers\HolydayTutionController;
+use App\Http\Controllers\ContactController;
 /*
 Route::get('/', function () {
     return view('welcome');
@@ -472,7 +474,7 @@ Route::get('/ict-hub',[App\Http\Controllers\WebsiteController::class, 'ictHub'])
 
 Route::get('/enrol',[App\Http\Controllers\WebsiteController::class, 'enrol'])->name('enrol');
 
-Route::post('/contact-us/create',[App\Http\Controllers\ContactController::class, 'create'])->name('contact.create');
+//Route::post('/contact-us/create',[ContactController::class, 'create'])->name('contact.create');
 
 
 
@@ -537,6 +539,8 @@ Route::get('get-course-modules/{course_id}',[ClasController::class,'getCourseMod
 
 
 
+//HOLYDAY-TUTION
+Route::get('/holyday-tution/register',[HolydayTutionController::class,'showRegisterForm'])->name('showRegisterForm');
 
 
 Route::get('/create-meeting', [GoogleMeetController::class, 'createMeeting']);

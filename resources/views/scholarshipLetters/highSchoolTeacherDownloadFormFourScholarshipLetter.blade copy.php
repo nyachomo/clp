@@ -34,7 +34,7 @@
                      <p style="font-size:17px; border-bottom:4px solid #07294d">
                         View Park Towers 17th Floor, University way | P. O. Box 1334-00618, Nairobi<br>
                         Web:   <b style="color:blue;"><u>https://www.techsphereinstitute.co.ke</u></b>   |Email: <b style="color:blue;"><u>Info@techsphereinstitute.co.ke </u></b>|<br>
-                        Phone: <b style="color:#33d6ff">+254768919307</b>
+                        Phone: <b style="color:#33d6ff">+254115665719</b>
 
                      </p>
                 </center>
@@ -75,7 +75,7 @@
                 </p>
 
                
-                In recognition of your excellent performance in the internal examinations, Techsphere Training Institute is pleased to award you a partial scholarship for the 2025/2026 training.
+                In recognition of your excellent performance in the internal examinations, Techsphere Training Institute is pleased to award you a partial scholarship for the 2026/2027 training.
                 You will be taken through a series of trainings, mentorship programs, and project-based learning,
                 equiping you with hands-on skills and the confidence to develop digital solutions using Artificial Intelligence (AI) tools.
                 
@@ -303,7 +303,7 @@
                   <tr>
                       <td colspan="2" style="text-align: justify;">
                             <p>
-                              Call us <b>+254768919307</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to welcoming you to Techsphere and supporting you as you advance your digital skills and career goals.
+                              Call us <b>+254115665719</b> or send an email to <b style="color:blue">info@techsphereinstitute.co.ke</b> for any queries or clarifications regarding the program. We look forward to welcoming you to Techsphere and supporting you as you advance your digital skills and career goals.
                              </p>   
                       </td>
                   </tr>

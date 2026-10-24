@@ -684,7 +684,9 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
     <div class="welcome-card">
         <div class="card-content">
             <h1>Welcome back, {{Auth::user()->firstname}} 👋</h1>
-            <p>Techsphere wishes to congratulate you on your 2025 KCSE results and thanks you for expressing interest in learning with us. We wish you a great learning experience with us.</p>
+                 <!--<p>Techsphere wishes to congratulate you on your 2025 KCSE results and thanks you for expressing interest in learning with us. We wish you a great learning experience with us.</p>-->
+                 <p>We wish you a great learning experience with us.</p>
+
 
             <div class="info-row">
                 @php
@@ -813,7 +815,7 @@ $uniqueQuestions = StudentAnswer::where('user_id', $user_id)
 
            
             <strong> <h3>How to pay registration Fee (Ksh 1000)</strong></h3>
-            <p>Pay Ksh 1000 to techsphere training institute and send the payment details to : +254768919307. Choose one payment option</p>
+            <p>Pay Ksh 1000 to techsphere training institute and send the payment details to : +254115665719. Choose one payment option</p>
             
             <p><b>Mpesa</b></p>
             <ul>

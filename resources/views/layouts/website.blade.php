@@ -743,24 +743,33 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                         <a href="{{route('showAllCourses')}}">COURSES</a>
                                     </li>
 
+                                    <!--
                                     <li class="nav-item">
                                         <a href="{{route('digitalHustle')}}">DIGITAL HUSTLE </a>
-                                    </li>
+                                    </li>-->
 
+                                    
                                     <li class="nav-item">
                                         <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP </a>
                                     </li>
+                                    
+
                                     <li class="nav-item">
                                         <a href="{{route('contactUs')}}">CONTACT US</a>
+                                    </li>
+
+                                     <li class="nav-item">
+                                        <a href="{{route('showRegisterForm')}}">April Holyday Tution</a>
                                     </li>
 
                                     <li class="nav-item">
                                         <a href="{{route('login')}}">My Account (Login)</a>
                                     </li>
 
+                                    <!--
                                     <li class="nav-item">
                                         <a href="{{route('login')}}">E-learning</a>
-                                    </li>
+                                    </li>-->
 
                                     <li class="nav-item">
                                         <a href="{{route('apply')}}">Enrol</a>

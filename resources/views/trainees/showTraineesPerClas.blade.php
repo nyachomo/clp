@@ -390,8 +390,7 @@
                             <label>Which Class Does this student belongs <span class="labelSpan"></span></label>
                             <select class="form-control" name="clas_category">
                                <option value="">Select Class</option>
-                               <option value="Form One">Form One</option>
-                               <option value="Form Two">Form Two</option>
+                               <option value="Grade 10">Grade 10</option>
                                <option value="Form Three">Form Three</option>
                                <option value="Form Four">Form Four</option>
                             </select>
@@ -574,8 +573,7 @@
                                     <label>Which Class Does this student belongs <span class="labelSpan"></span></label>
                                     <select class="form-control" name="clas_category" id="clas_category">
                                     <option value="">Select Class</option>
-                                    <option value="Form One">Form One</option>
-                                    <option value="Form Two">Form Two</option>
+                                    <option value="Grade 10">Grade 10</option>
                                     <option value="Form Three">Form Three</option>
                                     <option value="Form Four">Form Four</option>
                                     </select>

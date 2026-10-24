@@ -15,7 +15,7 @@
                      <p style="font-size:20px; border-bottom:4px solid #07294d">
                         View Park Towers 17th Floor, University way | P. O. Box 1334-00618, Nairobi<br>
                         Web:   <b style="color:blue;"><u>https://www.techsphereinstitute.co.ke</u></b>   |Email: <b style="color:blue;"><u>Info@techsphereinstitute.co.ke </u></b>|<br>
-                        Phone: <b style="color:#33d6ff">+254768919307</b>
+                        Phone: <b style="color:#33d6ff">+254115665719</b>
 
                      </p>
                 </center>
@@ -64,21 +64,21 @@
                     <tr>
                         <td colspan="2">
                             <p>
-                            Congratulations on being awarded a scholarship to join Techsphere Training Institute and  
+                            Congratulations on being a warded partial scholarship to join Techsphere Training Institute and  
                             For expressing interest in our  <b style="text-transform: uppercase;">{{ Auth::user()->course->course_name }} COURSE ! </b> . 
                             We are excited about the possibility of having you in our learning community and commend  
                             your enthusiasm to gain valuable programming  skills.
                             </p>
                             <p><b>Action Required: Complete Your Enrollment (Only those who have not enrolled)</b> </p>
                             <p>
-                                To secure your place in this course, please complete your enrollment by the end of ,February 9, 
+                                To secure your place in this course, please complete your enrollment by the end of ,November 2, 
                                 2026. This will ensure that you are ready to start along with your classmates. 
                             </p>
                             <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
                                    <li> 
-                                        <b>Orientation:</b>Scheduled for February 9 <sup>th</sup> 2026, at 10:00 a.m (attendance is highly 
+                                        <b>Orientation:</b>Scheduled for November 2 <sup>nd</sup> 2026, at 10:00 a.m (attendance is highly 
                                          encouraged to get familiar with course logistics and expectations).
                                     </li>
 
@@ -87,7 +87,7 @@
 
                                     </li>
 
-                                    <li><b>Classes Begin:</b>February 9 <sup>th</sup> 2026,</li>
+                                    <li><b>Classes Begin:</b>November 2 <sup>nd</sup> 2026,</li>
                                 </ul>
                             </p>
 
@@ -110,7 +110,7 @@
                             <p><b>Course Duration</b></p>
                                 <ul>
                                     <li>
-                                          <b>Weeks: </b>16 Weeks 
+                                          <b>Weeks: </b>8 Weeks 
                                     </li>
                                    
                                 </ul>
@@ -118,7 +118,7 @@
                             <p><b>Class Schedule</b></p>
                                 <ul>
                                     <li>
-                                          Monday-Friday 
+                                          Monday-Friday(2hrs per day)
                                     </li>
                                 </ul>
                            <!-- <p><b>Fee Payment</b></p>-->

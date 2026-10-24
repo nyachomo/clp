@@ -88,7 +88,7 @@
     </div>
 
     
-   <section id="contact-page" class="pt-20 pb-120 gray-bg">
+    <section id="contact-page" class="pt-20 pb-120 gray-bg">
         <div class="container-fliud">
             <div class="row">
                  <div class="col-sm-12">
