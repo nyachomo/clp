@@ -652,7 +652,7 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                 </div>
                                 <div class="cont">
                                     <p class="blueColor" style="font-size:15px"><b>Need Help? call us free</b></p>
-                                    <span class="yellowColor">+254768919307</span>
+                                    <span class="yellowColor">+254115665719</span>
                                 </div>
                             </div>
                            <div class="button float-left">
@@ -749,18 +749,18 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                                     </li>-->
 
                                     
-                                    <li class="nav-item">
+                                    <!--<li class="nav-item">
                                         <a href="{{route('enrol_for_scholarship_test')}}">SCHOLARSHIP </a>
-                                    </li>
+                                    </li>-->
                                     
 
                                     <li class="nav-item">
                                         <a href="{{route('contactUs')}}">CONTACT US</a>
                                     </li>
 
-                                     <li class="nav-item">
+                                     <!--<li class="nav-item">
                                         <a href="{{route('showRegisterForm')}}">April Holyday Tution</a>
-                                    </li>
+                                    </li>-->
 
                                     <li class="nav-item">
                                         <a href="{{route('login')}}">My Account (Login)</a>
