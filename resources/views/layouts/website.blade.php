@@ -718,9 +718,9 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
 
 
         <div class="navigation" style="background-color:#ffc600 !important">
-            <div class="container-fliud">
+            <div class="container">
                 <div class="row">
-                   <div class="col-lg-10 col-md-10 col-sm-9 col-8">
+                   <div class="col-lg-11 col-md-11 col-sm-10 col-9">
                         <nav class="navbar navbar-expand-lg">
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="icon-bar"></span>
@@ -781,13 +781,13 @@ $courses=Course::where('course_status','Active')->select('id','course_name')->ge
                         </nav> <!-- nav -->
                     </div>
 
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-4">
-                        <div class="right-icon text-right">
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-3">
+                       <!--<div class="right-icon text-right">
                             <ul>
                                 <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
-                                <!--<li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>-->
+                                <li><a href="#"><i class="fa fa-shopping-bag"></i><span>0</span></a></li>
                             </ul>
-                        </div> <!-- right icon -->
+                        </div>--> 
                     </div>
                    
                 </div> <!-- row -->
