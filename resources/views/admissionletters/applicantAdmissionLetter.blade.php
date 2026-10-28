@@ -71,14 +71,14 @@
                             </p>
                             <p><b>Action Required: Complete Your Enrollment (Only those who have not enrolled)</b> </p>
                             <p>
-                                To secure your place in this course, please complete your enrollment by the end of ,November 2, 
+                                To secure your place in this course, please complete your enrollment by the end of ,November 10, 
                                 2026. This will ensure that you are ready to start along with your classmates. 
                             </p>
                             <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
                                    <li> 
-                                        <b>Orientation:</b>Scheduled for November 2 <sup>nd</sup> 2026, at 10:00 a.m (attendance is highly 
+                                        <b>Orientation:</b>Scheduled for November 10 <sup>th</sup> 2026, at 10:00 a.m (attendance is highly 
                                          encouraged to get familiar with course logistics and expectations).
                                     </li>
 
@@ -87,7 +87,7 @@
 
                                     </li>
 
-                                    <li><b>Classes Begin:</b>November 2 <sup>nd</sup> 2026,</li>
+                                    <li><b>Classes Begin:</b>November 10 <sup>th</sup> 2026,</li>
                                 </ul>
                             </p>
 
@@ -110,7 +110,7 @@
                             <p><b>Course Duration</b></p>
                                 <ul>
                                     <li>
-                                          <b>Weeks: </b>8 Weeks 
+                                          <b>Weeks: </b>7 Weeks 
                                     </li>
                                    
                                 </ul>

@@ -201,12 +201,12 @@
                           <p><b>Orientation and Class Start Dates</b></p>
                             <p>
                                 <ul>
-                                    <li> <b>Orientation:</b> Scheduled for November 2nd , 2026, at 10:00 a.m. (attendance is highly 
+                                    <li> <b>Orientation:</b> Scheduled for <b>{{$formFourLetter->start_date ?? 'NA'}}</b>, at 10:00 a.m. (attendance is highly 
                                             encouraged to get familiar with course logistics and expectations).
                                     </li>
                                     <li> <b>Orientation Link:</b>  <a href="https://meet.google.com/dqd-ezxa-poi"><span style="color:blue;">https://meet.google.com/dqd-ezxa-poi</span></a></li>
 
-                                    <li><b>Classes Begin:</b> November 02, 2026. </li>
+                                    <li><b>Classes Begin:</b> <b>{{$formFourLetter->start_date ?? 'NA'}}</b>. </li>
                                 </ul>
                             </p>
 
