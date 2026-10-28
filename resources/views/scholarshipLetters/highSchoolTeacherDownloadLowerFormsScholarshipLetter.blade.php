@@ -236,7 +236,7 @@
                            
                              <p>
                              <b>For payment :</b> 
-                                 This scholarship covers part of the training fee, leaving <b>a student contribution of Ksh 8,500</b> for the entire <b>7-week training program.</b>
+                                 This scholarship covers part of the training fee, leaving <b>a student contribution of Ksh 10,500</b> for the entire <b>7-weeks training program.</b>
                                  <br>
                                  To make it flexible and affordable, students may choose from the following <b>payment options:</b>
                                  <ol>
@@ -251,7 +251,7 @@
                                     <li>
                                         <b>Weekly Payment Option:</b>
                                         <ul>
-                                            <li>Ksh 1,313 per week for 8 weeks</li>
+                                            <li>Ksh 1,500 per week for 7 weeks</li>
                                         </ul>
                                     </li>
                                  </ol>
